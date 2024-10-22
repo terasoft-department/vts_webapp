@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\DailyWeeklyReport;
 use Illuminate\Http\Request;
 
@@ -8,20 +9,22 @@ class DailyWeeklyReportController extends Controller
 {
     public function index()
     {
+        $customers = Customer::all();
         $reports = DailyWeeklyReport::all();
-        return view('daily_weekly_reports.index', compact('reports'));
+        return view('daily_weekly_reports.index', compact('customers','reports'));
     }
 
     public function create()
     {
-        return view('daily_weekly_reports.create');
+        $customers = Customer::all(); // Retrieve all customers
+        return view('daily_weekly_reports.create', compact('customers'));
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'reported_date' => 'required|date',
-            'customer_name' => 'required|string|max:255',
+            'customername' => 'required|string|max:255',
             'bus_plate_number' => 'required|string|max:255',
             'contact' => 'required|string|max:255',
             'reported_by' => 'required|string|max:255',
@@ -34,19 +37,20 @@ class DailyWeeklyReportController extends Controller
 
         DailyWeeklyReport::create($validatedData);
 
-        return redirect()->route('daily_weekly_reports.index')->with('success', 'Report created successfully.');
+        return redirect()->route('daily_weekly_reports.index','customers')->with('success', 'Report created successfully.');
     }
 
     public function edit(DailyWeeklyReport $dailyWeeklyReport)
     {
-        return view('daily_weekly_reports.edit', compact('dailyWeeklyReport'));
+        $customers = Customer::all(); // Retrieve all customers
+        return view('daily_weekly_reports.edit', compact('dailyWeeklyReport', 'customers'));
     }
 
     public function update(Request $request, DailyWeeklyReport $dailyWeeklyReport)
     {
         $validatedData = $request->validate([
             'reported_date' => 'required|date',
-            'customer_name' => 'required|string|max:255',
+            'customername' => 'required|string|max:255',
             'bus_plate_number' => 'required|string|max:255',
             'contact' => 'required|string|max:255',
             'reported_by' => 'required|string|max:255',
@@ -59,7 +63,7 @@ class DailyWeeklyReportController extends Controller
 
         $dailyWeeklyReport->update($validatedData);
 
-        return redirect()->route('daily_weekly_reports.index')->with('success', 'Report updated successfully.');
+        return redirect()->route('daily_weekly_reports.index','customers')->with('success', 'Report updated successfully.');
     }
 
     public function destroy(DailyWeeklyReport $dailyWeeklyReport)

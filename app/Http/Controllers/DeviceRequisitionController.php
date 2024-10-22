@@ -13,6 +13,41 @@ class DeviceRequisitionController extends Controller
         return view('device_requisitions.index', compact('requisitions'));
     }
 
+    public function create()
+    {
+        // Return the form view to create a new requisition
+        return view('device_requisitions.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'user_id'        => 'required|exists:users,id',  // Ensure the user exists
+            'descriptions'   => 'required|string|max:255',
+            'status'         => 'required|string',
+            'dateofProvision'=> 'nullable|date',
+            'master'         => 'required|boolean',
+            'I_button'       => 'required|boolean',
+            'buzzer'         => 'required|boolean',
+            'panick_button'  => 'required|boolean',
+        ]);
+
+        // Create a new DeviceRequisition using the validated data
+        DeviceRequisition::create([
+            'user_id'         => $request->user_id,
+            'descriptions'    => $request->descriptions,
+            'status'          => $request->status,
+            'dateofProvision' => $request->dateofProvision,
+            'master'          => $request->master,
+            'I_button'        => $request->I_button,
+            'buzzer'          => $request->buzzer,
+            'panick_button'   => $request->panick_button,
+        ]);
+
+        return redirect()->route('device_requisitions.index')->with('success', 'Requisition created successfully.');
+    }
+
     public function edit($id)
     {
         $requisition = DeviceRequisition::findOrFail($id);

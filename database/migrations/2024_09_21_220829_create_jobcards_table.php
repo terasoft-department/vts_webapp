@@ -12,22 +12,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jobcards', function (Blueprint $table) {
-            $table->id('jobcard_id');
-            $table->integer('user_id');
-            $table->string('customername');
-            $table->string('contact_person');
-            $table->string('title')->nullable();
-            $table->string('mobile_number')->nullable();
-            $table->string('physical_location');
-            $table->integer('device_id')->nullable();
-            $table->string('problem_reported');
-            $table->date('date_attended');
-            $table->enum('natureOf_ProblemAt_site', ['sim card problem', 'wiring problem', 'loose connection','tampering by using ignition system','tampering by using switch','tampering by using ground','tampering by using earth wire','device location','device is worn out','Car electrical system','Swollen Battery','Eaten wires', 'others']);
-            $table->enum('service_type', ['new installation', 'skipping', 'noTransmission', 'others']);
-            $table->text('work_done');
-            $table->string('vehicle_regno');
-            $table->text('client_comment')->nullable();
-            $table->timestamps();
+            $table->id('jobcard_id'); // Primary key
+            $table->foreignId('customer_id')->nullable(); // Customer ID (nullable)
+            $table->foreignId('user_id')->nullable(); // User ID (nullable)
+            $table->foreignId('assignment_id')->nullable();
+            $table->string('contact_person')->nullable(); // Contact person (nullable)
+            $table->string('title')->nullable(); // Title (nullable)
+            $table->string('mobile_number')->nullable(); // Mobile number (nullable)
+            $table->string('physical_location')->nullable(); // Physical location (nullable)
+            $table->text('problem_reported')->nullable(); // Problem reported (nullable)
+            $table->text('natureOf_ProblemAt_site')->nullable(); // Nature of problem at site (nullable)
+            $table->string('service_type')->nullable(); // Service type (nullable)
+            $table->date('date_attended')->nullable(); // Date attended (nullable)
+            $table->string('plate_number')->nullable();
+            $table->string('imei_number')->nullable(); // IMEI number (nullable)
+            $table->text('work_done')->nullable(); // Work done (nullable)
+            $table->text('client_comment')->nullable(); // Client comment (nullable)
+            $table->string('pre_workdone_picture')->nullable(); // Pre work done picture URL (nullable)
+            $table->string('post_workdone_picture')->nullable(); // Post work done picture URL (nullable)
+            $table->string('carPlateNumber_picture')->nullable(); // Car plate number picture URL (nullable)
+            $table->string('tampering_evidence_picture')->nullable(); // Tampering evidence picture URL (nullable)
+            $table->timestamps(); // Created and updated timestamps
+
         });
     }
 

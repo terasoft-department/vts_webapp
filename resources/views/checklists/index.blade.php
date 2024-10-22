@@ -3,93 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>CheckList Search</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <style>
         body {
-            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
         }
-        .card {
-            border: none;
+        .container {
+            background-color: white;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
         }
         .btn {
-            border-radius: 20px;
+            background-color: #4177fd;
+            color: white;
+        }
+        .text-danger {
+            font-size: 0.9em;
+        }
+        .card-header {
+            background-color: #4177fd;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .table th, .table td {
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
+
     <div class="container mt-5">
-        <div class="d-flex justify-content-between mb-3">
-            <!-- Home Button -->
-            <a href="\project_manager" class="btn btn-primary">
-                <i class="fas fa-home"></i> Home
-            </a>
-        </div>
-
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h1 class="m-0">Search CheckLists</h1>
+        <h4 class="mb-4 text-center">Search CheckLists</h4>
+        <form action="{{ route('checklists.search') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <input type="text" class="form-control" name="query" placeholder="Search by Vehicle No, Customer Name" required>
             </div>
-            <div class="card-body">
-                <form action="{{ route('checklists.search') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="query" placeholder="Search by Vehicle Name, Category, or Plate Number" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
+        </form>
 
-                @if(isset($results))
-                    <table class="table table-striped mt-3">
-                        <thead>
+        @if(isset($results))
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>UserID</th>
+                            <th>Vehicle Name</th>
+                            <th>Customer Name</th>
+                            <th>Plate Number</th>
+                            <th>RBT Status</th>
+                            <th>Battery Status</th>
+                            <th>Check Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($results->isEmpty())
                             <tr>
-                                <th>Vehicle Name</th>
-                                <th>Category</th>
-                                <th>Customer Name</th>
-                                <th>Plate Number</th>
-                                <th>RBT Status</th>
-                                <th>Battery Status</th>
-                                <th>Check Date</th>
+                                <td colspan="7" class="text-center">No CheckLists found</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @if($results->isEmpty())
+                        @else
+                            @foreach($results as $checklist)
                                 <tr>
-                                    <td colspan="7" class="text-center">No CheckLists found</td>
+                                    <td>{{ $checklist->user_id}}</td>
+                                    <td>{{ $checklist->vehicle->vehicle_name ?? 'N/A' }}</td>
+                                    <td>{{ $checklist->customer->customername ?? 'N/A' }}</td>
+                                    <td>{{ $checklist->plate_number }}</td>
+                                    <td>{{ $checklist->rbt_status }}</td>
+                                    <td>{{ $checklist->batt_status }}</td>
+                                    <td>{{ $checklist->check_date }}</td>
                                 </tr>
-                            @else
-                                @foreach($results as $checklist)
-                                    <tr>
-                                        <td>{{ $checklist->vehicle_name }}</td>
-                                        <td>{{ $checklist->category }}</td>
-                                        <td>{{ $checklist->customername }}</td>
-                                        <td>{{ $checklist->plate_number }}</td>
-                                        <td>{{ $checklist->rbt_status }}</td>
-                                        <td>{{ $checklist->batt_status }}</td>
-                                        <td>{{ $checklist->check_date }}</td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                @endif
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
             </div>
-        </div>
+        @endif
     </div>
 
-    <script>
-        function clearSearchTables() {
-            // Clear input field and refresh the page to reset the table
-            document.querySelector('input[name="query"]').value = '';
-            location.reload(); // Refresh the page to clear the results
-        }
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

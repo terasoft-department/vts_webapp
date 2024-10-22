@@ -7,38 +7,39 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
 {
+   
     use HasFactory;
 
-    // Set the primary key
-    protected $primaryKey = 'assignment_id';
-
-    // Allow mass assignment on the following attributes
-    protected $fillable = [
-        'customer_id',
-        'plate_number',
-        'customer_phone',
-        'location',
-        'user_id', // Link to users table using 'user_id'
-        'report_id',
-        'status',
-    ];
-
-    // Specify the table name if it's different from the plural of the model name
     protected $table = 'assignments';
+    protected $primaryKey = 'assignment_id'; // Set the primary key to assignment_id
+    public $incrementing = true; // Ensure auto-incrementing is enabled
+    protected $keyType = 'int'; // The key type is integer
 
-    /**
-     * Get the customer that owns the assignment.
-     */
+    protected $fillable = [
+        'plate_number',
+        'customer_id',
+        'customer_phone',
+        'customer_debt',
+        'location',
+        'user_id',
+        'case_reported',
+        'attachment',
+
+    ];
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    /**
-     * Get the user that owns the assignment.
-     */
+    // Define the relationship with the User model
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id'); // Link 'user_id' to 'id'
+        return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class, 'plate_number');
+    }
+
 }

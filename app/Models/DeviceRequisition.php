@@ -15,11 +15,13 @@ class DeviceRequisition extends Model
     // Allow mass assignment on the following attributes
     protected $fillable = [
         'user_id',
-        'category',
-        'quantity',
         'descriptions',
         'status',
         'dateofProvision',
+        'master',
+        'I_button',
+        'buzzer',
+        'panick_button',
     ];
 
     // Specify the table name if it's different from the plural of the model name

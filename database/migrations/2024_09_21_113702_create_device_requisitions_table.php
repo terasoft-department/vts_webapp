@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('device_requisitions', function (Blueprint $table) {
             $table->id('requisition_id'); // Primary key
-            $table->unsignedBigInteger('user_id'); // Foreign key
-            $table->string('category'); // Category of the device
-            $table->integer('quantity'); // Quantity of devices
+            $table->integer('user_id')->nullable(); // Foreign key
             $table->text('descriptions')->nullable(); // Additional descriptions
             $table->string('status')->nullable(); // Status of the requisition
             $table->date('dateofProvision')->nullable(); // Date of provision
+            $table->integer('master')->default(0); // Master attribute as integer
+            $table->integer('I_button')->default(0); // I_button attribute as integer
+            $table->integer('buzzer')->default(0); // Buzzer attribute as integer
+            $table->integer('panick_button')->default(0); // Panick_button attribute as integer
             $table->timestamps();
         });
     }

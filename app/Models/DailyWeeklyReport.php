@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class DailyWeeklyReport extends Model
 {
     use HasFactory;
-
+protected $primarykey ='daily_id';
     protected $fillable = [
         'reported_date',
-        'customer_name',
+        'customername',
         'bus_plate_number',
         'contact',
         'reported_by',
@@ -21,5 +21,15 @@ class DailyWeeklyReport extends Model
         'response_status',
         'response_date',
     ];
+
+    // Query Scope for Date Filtering
+    public function scopeFilterByDate($query, $startDate, $endDate)
+    {
+        return $query->whereBetween('reported_date', [$startDate, $endDate]);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }
 

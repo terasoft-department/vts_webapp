@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
+        'is_active',
     ];
 
     /**
@@ -53,4 +54,8 @@ class User extends Authenticatable
 
     // Disable auto-incrementing if you're using a non-incrementing key
     public $incrementing = true;
+    public function checklists()
+{
+    return $this->hasMany(CheckList::class);
+}
 }

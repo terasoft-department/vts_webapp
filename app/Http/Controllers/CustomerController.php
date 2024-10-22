@@ -4,24 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
     public function index()
     {
+        // Fetch all customers
         $customers = Customer::all();
         return view('customers.index', compact('customers'));
     }
 
     public function store(Request $request)
     {
-        Log::info($request->all()); // Log all incoming request data
+        // Validate and create a new customer
         $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'customer_phone' => 'required|string|max:20',
-            'tin_number' => 'required|string|max:30',
+            'customername' => 'required|string',
+            'address' => 'required|string',
+            'customer_phone' => 'required|string',
+            'tin_number' => 'required|string',
+            'email' => 'required|email|unique:customers',
             'start_date' => 'required|date',
         ]);
 
@@ -29,14 +30,24 @@ class CustomerController extends Controller
 
         return redirect()->route('customers.index')->with('success', 'Customer added successfully.');
     }
+    public function create()
+    {
+        // Retrieve all customers from the database
+        $customers = Customer::all();
+
+        // Pass customers to the create view
+        return view('invoices.create', compact('customers'));
+    }
 
     public function update(Request $request, $id)
     {
+        // Validate and update customer
         $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'customer_phone' => 'required|string|max:20',
-            'tin_number' => 'required|string|max:30',
+            'customername' => 'required|string',
+            'address' => 'required|string',
+            'customer_phone' => 'required|string',
+            'tin_number' => 'required|string',
+            'email' => 'required|email',
             'start_date' => 'required|date',
         ]);
 
@@ -48,6 +59,7 @@ class CustomerController extends Controller
 
     public function destroy($id)
     {
+        // Delete customer
         $customer = Customer::findOrFail($id);
         $customer->delete();
 

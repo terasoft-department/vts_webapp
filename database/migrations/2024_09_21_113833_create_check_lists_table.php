@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('check_lists', function (Blueprint $table) {
             $table->id('check_id'); // Primary key
-            $table->integer('user_id');
-           $table->string('vehicle_name')->nullable();
-           $table->string('category')->nullable();
-           $table->string('customername')->nullable(); // Foreign key
-           $table->string('plate_number')->nullable(); // Vehicle plate number
-            $table->string('rbt_status')->nullable();
-            $table->string('batt_status')->nullable();
-             $table->string('check_date')->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger('user_id'); // Foreign key to users table
+            $table->unsignedBigInteger('vehicle_id')->nullable(); // Foreign key to vehicles table
+            $table->unsignedBigInteger('customer_id')->nullable(); // Foreign key to customers table
+            $table->string('plate_number')->nullable(); // Vehicle plate number
+            $table->string('rbt_status')->nullable(); // RBT status
+            $table->string('batt_status')->nullable(); // BATT status
+            $table->date('check_date')->nullable(); // Date of the check
+            $table->timestamps(); // Adds created_at and updated_at columns
+
         });
     }
 

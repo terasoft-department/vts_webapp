@@ -2,353 +2,402 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TeraVTS</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="assets1/img/kaiadmin/logo.png" type="image/x-icon" />
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Fonts and icons -->
-    <script src="assets1/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["assets1/css/fonts.min.css"],
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
+  <title>teravts</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="assets1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets1/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets1/css/kaiadmin.min.css" />
+  <!-- Favicons -->
+  <link href="assets/img/apple-touch-icon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets1/css/demo.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
-
 <body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <div class="sidebar" data-background-color="white">
-            <div class="sidebar-logo">
-                <!-- Logo Header -->
-                <div class="logo-header" data-background-color="dark">
-                    <a href="index.html" class="logo">
-                        <img src="assets1/img/kaiadmin/logo.png" alt="navbar brand" class="navbar-brand"
-                            height="60" />
-                    </a>
-                    <div class="nav-toggle">
-                        <button class="btn btn-toggle toggle-sidebar">
-                            <i class="gg-menu-right"></i>
-                        </button>
-                        <button class="btn btn-toggle sidenav-toggler">
-                            <i class="gg-menu-left"></i>
-                        </button>
-                    </div>
-                    <button class="topbar-toggler more">
-                        <i class="gg-more-vertical-alt"></i>
-                    </button>
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="#" class="logo d-flex align-items-center">
+        <img src="assets/img/apple-touch-icon.png" alt="">
+        <span class="d-none d-lg-block"> TERAVTS</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
 
+
+
+      <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+          <li class="nav-item d-block d-lg-none">
+            <a class="nav-link nav-icon search-bar-toggle " href="#">
+              <i class="bi bi-search"></i>
+            </a>
+          </li><!-- End Search Icon-->
+
+          <li class="nav-item dropdown">
+
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-bell"></i>
+              <span class="badge bg-primary badge-number">4</span>
+            </a><!-- End Notification Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+              <li class="dropdown-header">
+                You have 4 new notifications
+                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li class="notification-item">
+                <i class="bi bi-exclamation-circle text-warning"></i>
+                <div>
+                  <h4>Latra</h4>
+                  <p>check out Procedures</p>
                 </div>
-                <!-- End Logo Header -->
-            </div>
-            <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                <div class="sidebar-content">
-                    <ul class="nav nav-secondary">
-                        <li class="nav-item active">
-                            <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>TeraVTS</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="dashboard">
-                                <ul class="nav nav-collapse">
+              </li>
 
-                                </ul>
-                            </div>
-                        </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li class="dropdown-footer">
+                <a href="#">Show all notifications</a>
+              </li>
 
+            </ul><!-- End Notification Dropdown Items -->
 
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Components</h4>
-                        </li>
+          </li><!-- End Notification Nav -->
 
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#forms">
-                                <i class="fas fa-pen-square"></i>
-                                <p>Monitoring Officer</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="forms">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="assignments">
-                                            <span class="sub-item">Assignment</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="jobcards2">
-                                            <span class="sub-item">Job card</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="jobcard_attachments">
-                                            <span class="sub-item">Attachments</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="customer_debts">
-                                            <span class="sub-item">Customer debt</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="checklists">
-                                            <span class="sub-item">Track Vehicle</span>
-                                        </a>
-                                    </li>
+          <li class="nav-item dropdown">
 
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                                <i class="fas fa-chart-line"></i>
-                                <p>Reports</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="sidebarLayouts">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="payment_reports">
-                                            <span class="sub-item">Payment</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="daily_weekly_reports">
-                                            <span class="sub-item">Daily</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="invoices">
-                                            <span class="sub-item">Invoice</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <span class="sub-item">Incident</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <span class="sub-item">Tampering</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-chat-left-text"></i>
+              <span class="badge bg-success badge-number">3</span>
+            </a><!-- End Messages Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+              <li class="dropdown-header">
+                You have 3 new messages
+                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              </li>
+
+            </ul><!-- End Messages Dropdown Items -->
+
+          </li><!-- End Messages Nav -->
+
+          <li class="nav-item dropdown pe-3">
+
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="assets/img/apple-touch-icon.png" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2"></i> Welcome, {{ auth()->user()->name }}</span>
+            </a><!-- End Profile Iamge Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6></i> Welcome, {{ auth()->user()->name }}</h6>
+
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <i class="bi bi-gear"></i>
+                  <span>Account Settings</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
 
 
-                        <li class="nav-item">
-                            <a href="#">
-                                <i class="fas fa-file"></i>
-                                <p>Notifications</p>
-                                <span class="badge badge-secondary">1</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt"></i> <p>Logout</p>
-                            </a>
-                        </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
 
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/auth/login">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+
+
+          </ul><!-- End Messages Dropdown Items -->
+
+        </li><!-- End Messages Nav -->
+
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="#">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Monitoring Officer</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="assignments">
+                <i class="bi bi-circle"></i><span>Assignment</span>
+              </a>
+            </li>
+            <li>
+              <a href="jobcards2">
+                <i class="bi bi-circle"></i><span>JobCard</span>
+              </a>
+            </li>
+            <li>
+              <a href="checklists">
+                <i class="bi bi-circle"></i><span>Routing Checkup List</span>
+              </a>
+            </li>
+            <li>
+              <a href="trackvehicle">
+                <i class="bi bi-circle"></i><span>Track Vehicle</span>
+              </a>
+            </li>
+            <li>
+              <a href="cdebts">
+                <i class="bi bi-circle"></i><span>Customer Debts</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End Charts Nav -->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-journal-text"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="daily_weekly_reports">
+                <i class="bi bi-circle"></i><span>Daily</span>
+              </a>
+            </li>
+            <li>
+              <a href="reports">
+                <i class="bi bi-circle"></i><span>Monthly</span>
+              </a>
+            </li>
+            <li>
+              <a href="tampering">
+                <i class="bi bi-circle"></i><span>Tampering</span>
+              </a>
+            </li>
+          </ul>
+      </li><!-- End Icons Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="\auth/login">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Logout</span>
+        </a>
+      </li><!-- End Login Page Nav -->
+
+  </aside><!-- End Sidebar-->
+  <!-- Main Content -->
+<main id="main" class="main">
+    <div class="container my-4">
+      <div class="row">
+        <div class="container mt-2">
+            <b>
+                <p class="card text-center">OPERATION SUMMARY</p>
+            </b>
+            <div class="row">
+        <!-- Card 1: Assignments -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card card-custom border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Assignments</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="6">0</div>
                 </div>
+                <div class="col-auto">
+                  <i class="bi bi-list-task fa-2x text-gray-300"></i>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <!-- End Sidebar -->
 
-        <div class="main-panel">
-            <div class="main-header">
-                <div class="main-header-logo">
-                    <!-- Logo Header -->
-                    <div class="logo-header" data-background-color="dark">
-                        <a href="index.html" class="logo">
-                            <img src="assets1/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
-                                height="20" />
-                        </a>
-                        <div class="nav-toggle">
-                            <button class="btn btn-toggle toggle-sidebar">
-                                <i class="gg-menu-right"></i>
-                            </button>
-                            <button class="btn btn-toggle sidenav-toggler">
-                                <i class="gg-menu-left"></i>
-                            </button>
-                        </div>
-                        <button class="topbar-toggler more">
-                            <i class="gg-more-vertical-alt"></i>
-                        </button>
-                    </div>
-                    <!-- End Logo Header -->
+        <!-- Card 2: Job Cards -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card card-custom border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Job Cards</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="6">0</div>
                 </div>
-                <div class="container">
-                    <div class="page-inner">
-                        <div class="d-flex align-items-right align-items-md-center flex-column flex-md-row pt-2 pb-4">
-
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-md-3">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                                    <i class="fas fa-user"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ms-0 ms-sm-0">
-                                                <p class="card-category">  <i class=""> </i> Welcome, {{ auth()->user()-> name }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-3">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-info bubble-shadow-small">
-                                                    <i class="fas fa-user-check"></i>
-                                                </div>
-                                            </div><div class="col col-stats ms-3 ms-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Customer Debt</p>
-                                                    <h4 class="fa fa-money-bill-wave"></h4>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                    </div>
+                <div class="col-auto">
+                  <i class="bi bi-card-checklist fa-2x text-gray-300"></i>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
 
-    <footer class="footer">
-        <div class="container-fluid d-flex justify-content-between">
-            <nav class="pull-right">
-                <ul class="nav">
-                </ul>
-            </nav>
-            <div class="copyright">
-                Handcrafted by
-                <a href="http://www.Teratech.co.tz">Teratech</a>
+        <!-- Card 3: Routine Checkup -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card card-custom border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Routine Checkup</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="3">0</div>
+                </div>
+                <div class="col-auto">
+                  <i class="bi bi-clipboard-pulse fa-2x text-gray-300"></i>
+                </div>
+              </div>
             </div>
-    </footer>
-    </div>
+          </div>
+        </div>
 
-    <!-- Custom template | don't include it in your project! -->
-    <div class="custom-template">
-        <div class="title">Settings</div>
-        <div class="custom-content">
-            <div class="switcher">
-                <div class="switch-block">
-                    <div class="btnSwitch">
-                    </div>
+        <!-- Card 4: Customer Debts -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card card-custom border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Customer Debts</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="3">0</div>
                 </div>
-                <div class="switch-block">
-                    <div class="btnSwitch">
-                    </div>
+                <div class="col-auto">
+                  <i class="bi bi-currency-dollar fa-2x text-gray-300"></i>
                 </div>
-                <div class="switch-block">
-                    <h4>Sidebar</h4>
-                    <div class="btnSwitch">
-                        <button type="button" class="changeSideBarColor" data-color="white"></button>
-                        <button type="button" class="selected changeSideBarColor" data-color="dark"></button>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="custom-toggle">
-            <i class="icon-settings"></i>
-        </div>
-    </div>
-    <!-- End Custom template -->
-    </div>
-    <!--   Core JS Files   -->
-    <script src="assets1/js/core/jquery-3.7.1.min.js"></script>
-    <script src="assets1/js/core/popper.min.js"></script>
-    <script src="assets1/js/core/bootstrap.min.js"></script>
 
-    <!-- jQuery Scrollbar -->
-    <script src="assets1/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+      </div> <!-- End Row -->
+    </div> <!-- End Container -->
+  </main>
 
-    <!-- Chart JS -->
-    <script src="assets1/js/plugin/chart.js/chart.min.js"></script>
+  <!-- CSS for animations and hover effects -->
+  <style>
+    .card-custom {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-    <!-- jQuery Sparkline -->
-    <script src="assets1/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    .card-custom:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
 
-    <!-- Chart Circle -->
-    <script src="assets1/js/plugin/chart-circle/circles.min.js"></script>
+    .count-up {
+      font-size: 2.5rem;
+      color: #2a2a2a;
+    }
 
-    <!-- Datatables -->
-    <script src="assets1/js/plugin/datatables/datatables.min.js"></script>
+    .border-left-primary {
+      border-left: 5px solid #4e73df;
+    }
 
-    <!-- Bootstrap Notify -->
-    <script src="assets1/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    .border-left-success {
+      border-left: 5px solid #1cc88a;
+    }
 
-    <!-- jQuery Vector Maps -->
-    <script src="assets1/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="assets1/js/plugin/jsvectormap/world.js"></script>
+    .border-left-info {
+      border-left: 5px solid #36b9cc;
+    }
 
-    <!-- Sweet Alert -->
-    <script src="assets1/js/plugin/sweetalert/sweetalert.min.js"></script>
+    .border-left-warning {
+      border-left: 5px solid #f6c23e;
+    }
+  </style>
 
-    <!-- Kaiadmin JS -->
-    <script src="assets1/js/kaiadmin.min.js"></script>
+  <!-- JavaScript for count-up animation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const counters = document.querySelectorAll('.count-up');
+      counters.forEach(counter => {
+        const updateCount = () => {
+          const target = +counter.getAttribute('data-target');
+          const count = +counter.innerText;
 
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="assets1/js/setting-demo.js"></script>
-    {{-- <script src="assets1/js/demo.js"></script> --}}
+          const increment = target / 200; // Speed of count-up
+
+          if (count < target) {
+            counter.innerText = Math.ceil(count + increment);
+            setTimeout(updateCount, 10); // Adjust for speed
+          } else {
+            counter.innerText = target;
+          }
+        };
+
+        updateCount();
+      });
+    });
+  </script>
+
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
 
 </body>
 

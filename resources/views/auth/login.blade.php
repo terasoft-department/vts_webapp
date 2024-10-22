@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
      <!-- Favicons -->
-   <link href="assets/img/home-img.png" rel="icon">
-     <link href="assets/img/home-img.png" rel="apple-touch-icon">
+
+     <link href="assets1/img/team/about.png" rel="icon">
+     <link href="assets1/img/home-img.png" rel="apple-touch-icon">
 <head>
 
     <meta charset="UTF-8">

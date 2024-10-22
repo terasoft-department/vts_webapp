@@ -2,276 +2,267 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TeraVTS</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="assets1/img/kaiadmin/logo.png" type="image/x-icon" />
-    <!-- Fonts and icons -->
-    <script src="assets1/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["assets1/css/fonts.min.css"],
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="assets1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets1/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets1/css/kaiadmin.min.css" />
-    <link rel="stylesheet" href="assets1/css/demo.css" />
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>TERAVTS - Tera Vehicle Tracking System</title>
+    <meta content="Vehicle tracking system management" name="description">
+    <meta content="vehicle tracking, management, teravts" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/apple-touch-icon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Nunito:300,400,600,700|Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome.min.css">
 </head>
 
 <body>
 
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <div class="sidebar" data-background-color="white">
-            <div class="sidebar-logo">
-                <div class="logo-header" data-background-color="dark">
-                    <a href="index.html" class="logo">
-                        <img src="assets1/img/kaiadmin/logo.png" alt="navbar brand" class="navbar-brand" height="70" />
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="#" class="logo d-flex align-items-center">
+                <img src="assets/img/apple-touch-icon.png" alt="">
+                <span class="d-none d-lg-block">TERAVTS</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="assets/img/apple-touch-icon.png" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Welcome, {{ auth()->user()->name }}</span>
                     </a>
-                    <div class="nav-toggle">
-                        <button class="btn btn-toggle toggle-sidebar">
-                            <i class="gg-menu-right"></i>
-                        </button>
-                        <button class="btn btn-toggle sidenav-toggler">
-                            <i class="gg-menu-left"></i>
-                        </button>
-                    </div>
-                    <button class="topbar-toggler more">
-                        <i class="gg-more-vertical-alt"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                <div class="sidebar-content">
-                    <ul class="nav nav-secondary">
-                        <li class="nav-item active">
-                            <a data-bs-toggle="collapse"  onclick="window.location.href='/admnDashboard';" class="collapsed" aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>Home</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="collapse" id="base">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a href="users" data-bs-toggle="modal" data-bs-target="#userModal">
-                                            <b><span class="sub-item">Manage Users</span></b>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <p>Logout</p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- End Sidebar -->
+                    <!-- Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+            </ul>
+        </nav><!-- End Icons Navigation -->
+    </header><!-- End Header -->
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item"><a class="nav-link" href="admnDashboard"><i class="bi bi-grid"></i><span>Dashboard</span></a></li>
+        <li class="nav-heading">Control Panel</li>
+        <li class="nav-item"><a class="nav-link collapsed" href="users"><i class="bi bi-person"></i><span>User Management</span></a></li>
+        <li class="nav-heading">Reports</li>
+        <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i> Invoice</i>
+        <li class="nav-item"><a class="nav-link collapsed" href="Apayment_reports"><i class="fas fa-credit-card"></i></i><span>Payments</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Aassignments"><i class="fas fa-file-alt"></i></i><span>Assignments</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="fas fa-file-invoice"></i></i><span>Customers</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
+    </ul>
+</aside>
+<!-- End Sidebar -->
+<!-- Main Content -->
+<main id="main" class="main">
+        <div class="main-content">
+            <div class="container-fluid">
+                <h4 class="text-center" style="color:#035add;">TERA VEHICLE TRACKING SYSTEM</h4>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
 
-        <div class="main-panel">
-            <div class="main-header">
-                <div class="main-header-logo">
-                    <div class="logo-header" data-background-color="dark">
-                        <a href="index.html" class="logo">
-                            <img src="assets1/img/kaiadmin/logo.png" alt="navbar brand" class="navbar-brand" height="20" />
-                        </a>
-                        <div class="nav-toggle">
-                            <button class="btn btn-toggle toggle-sidebar">
-                                <i class="gg-menu-right"></i>
-                            </button>
-                            <button class="btn btn-toggle sidenav-toggler">
-                                <i class="gg-menu-left"></i>
-                            </button>
-                        </div>
-                        <button class="topbar-toggler more">
-                            <i class="gg-more-vertical-alt"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="page-inner">
-                        <div class="d-flex align-items-right align-items-md-center flex-column flex-md-row pt-2 pb-4">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal" style="background-color:#4E77B4C1; color:white;">Add User</button>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="entriesPerPage">Show entries:</label>
-                                <select id="entriesPerPage" class="form-control form-control-sm" style="width: auto; display: inline-block;">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="searchUser">Search:</label>
-                                <input type="text" id="searchUser" class="form-control form-control-sm" placeholder="Search by name or email" style="width: auto; display: inline-block;">
-                            </div>
-                        </div>
-
-
-                        <!-- User Management Table -->
-                        <div class="row">
-                            <div class="col">
-                                <table class="table table-bordered table-striped">
-                                    <thead style="color:white;background-color:#4E77B4C1">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($users as $index => $user)
-                                        <tr>
-                                            <td data-label="No">{{ $index + 1 }}</td>
-                                            <td data-label="Name">{{ $user->name }}</td>
-                                            <td data-label="Email">{{ $user->email }}</td>
-                                            <td data-label="Role">{{ $user->role }}</td>
-                                            <td data-label="Action" class="text-center">
-                                                <a href="{{ route('users.edit', $user->user_id) }}" class="btn btn-edit">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <form action="{{ route('users.destroy', $user->user_id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this item?');">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- End User Management Table -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- User Registration Modal -->
-    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">Register User</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="POST" action="{{ route('users.register') }}">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ old('name') }}" required>
-                            @error('name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ old('email') }}" required>
-                            @error('email')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-                            @error('password')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="role">Role</label>
-                            <select class="form-control" id="role" name="role" required>
-                                <option value="">Select Role</option>
-                                <option value="project_manager" {{ old('role') == 'project_manager' ? 'selected' : '' }}>Project Manager</option>
-                                <option value="monitoring_officer" {{ old('role') == 'monitoring_officer' ? 'selected' : '' }}>Monitoring Officer</option>
-                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="accounting_officer" {{ old('role') == 'accounting_officer' ? 'selected' : '' }}>Accounting Officer</option>
-                            </select>
-                            @error('role')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Register User</button>
+                <!-- Search Form -->
+                <form class="mb-5" style="margin-top: 5px;">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search users..." aria-label="Search users">
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
+
+                <table class="table table-bordered table-striped">
+                    <thead style="color:white;background-color:#035add;">
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $index => $user)
+                        <tr>
+                            <td data-label="No">{{ $index + 1 }}</td>
+                            <td data-label="Name">{{ $user->name }}</td>
+                            <td data-label="Email">{{ $user->email }}</td>
+                            <td data-label="Role">{{ $user->role }}</td>
+                            <td data-label="Action" class="text-center">
+                                <button type="button" class="btn btn-" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user='@json($user)'>
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+
+                                <form action="{{ route('users.toggleStatus', $user->user_id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('PUT')
+                                        @if(auth()->user()->role !== 'admin') disabled @endif
+
+                                        @if($user->is_active)
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-user-check"></i> Enable
+                                    </button>
+                                        @else
+                                         <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-user-slash"></i> Disable
+                                         </button>
+                                        @endif
+
+                                </form>
+                            </td>
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <!-- Add User Modal -->
+                <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="color:white;background-color:#035add;">
+                                <h5 class="modal-title" id="addUserModalLabel">Register User</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form method="POST" action="{{ route('users.register') }}">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" required placeholder="Enter Name" value="{{ old('name') }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required placeholder="Enter Email" value="{{ old('email') }}">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                                        @error('password')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-select" id="role" name="role" required>
+                                            <option value="">Select Role</option>
+                                            <option value="project_manager" {{ old('role') == 'project_manager' ? 'selected' : '' }}>Project Manager</option>
+                                            <option value="monitoring_officer" {{ old('role') == 'monitoring_officer' ? 'selected' : '' }}>Monitoring Officer</option>
+                                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                            <option value="accounting_officer" {{ old('role') == 'accounting_officer' ? 'selected' : '' }}>Accounting Officer</option>
+                                            <option value="technician" {{ old('role') == 'technician' ? 'selected' : '' }}>Technician</option>
+                                        </select>
+                                        @error('role')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                                </form>
+                        </div>
+                    </div>
+                </div><!-- End Add User Modal -->
+
+                <!-- Edit User Modal -->
+                <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="color:white;background-color:#035add;">
+                                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="editUserForm" method="POST" action="">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="mb-3">
+                                        <label for="edit-name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="edit-name" name="name" required placeholder="Enter Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="edit-email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="edit-email" name="email" required placeholder="Enter Email">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                                        @error('password')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="edit-role" class="form-label">Role</label>
+                                        <select class="form-select" id="edit-role" name="role" required>
+                                            <option value="">Select Role</option>
+                                            <option value="project_manager">Project Manager</option>
+                                            <option value="monitoring_officer">Monitoring Officer</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="accounting_officer">Accounting Officer</option>
+                                            <option value="technician">Technician</option>
+                                        </select>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                                </form>
+                        </div>
+                    </div>
+                </div><!-- End Edit User Modal -->
+
+            </div><!-- End Container -->
+        </div><!-- End Main Content -->
+    </main><!-- End Main -->
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
     <script>
-        $(document).ready(function () {
-            // Search Functionality
-            $("#searchUser").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#userTable tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-            });
+        // Populate Edit User Modal with User Data
+        var editUserModal = document.getElementById('editUserModal');
+        editUserModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; // Button that triggered the modal
+            var user = button.getAttribute('data-user'); // Extract info from data-* attributes
+            var userData = JSON.parse(user); // Parse the JSON string
 
-            // Entries per page functionality
-            var entriesPerPage = parseInt($("#entriesPerPage").val());
-            var rows = $("#userTable tbody tr");
-            rows.hide(); // Initially hide all rows
-            rows.slice(0, entriesPerPage).show(); // Show the initial set
-
-            $("#entriesPerPage").on("change", function () {
-                entriesPerPage = parseInt($(this).val());
-                paginateTable();
-            });
-
-            function paginateTable() {
-                rows.hide(); // Hide all rows again
-                rows.slice(0, entriesPerPage).show(); // Show rows based on selected entries per page
-            }
+            // Populate the modal fields with user data
+            var form = editUserModal.querySelector('#editUserForm');
+            form.action = '/users/' + userData.user_id; // Update form action with user_id
+            form.querySelector('#edit-name').value = userData.name;
+            form.querySelector('#edit-email').value = userData.email;
+            form.querySelector('#password').value = ''; // Clear password field to prevent accidental updates
+            form.querySelector('#edit-role').value = userData.role;
         });
     </script>
-
-    <!-- JS Files -->
-    <script src="assets1/js/core/jquery.min.js"></script>
-    <script src="assets1/js/core/popper.min.js"></script>
-    <script src="assets1/js/core/bootstrap.min.js"></script>
-    <script src="assets1/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    <script src="assets1/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-    <script src="assets1/js/ready.min.js"></script>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('daily_weekly_reports', function (Blueprint $table) {
             $table->id();
             $table->date('reported_date');
-            $table->string('customer_name');
+            $table->string('customername');
             $table->string('bus_plate_number');
             $table->string('contact');
             $table->string('reported_by');

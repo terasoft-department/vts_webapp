@@ -14,13 +14,12 @@ class ReturnDevice extends Model
     // Allow mass assignment on the following attributes
     protected $fillable = [
         'user_id',
-        'customername',
-        'device_category',
-        'device_category',
-        'devicenumber',
-        'vehiclenumber',
-        'reason', // Add to fillable attributes
-        'status', // Add to fillable attributes
+        'plate_number',
+        'vehicle_id',
+        'imei_number',  // Add imei_number to fillable attributes
+        'reason',
+        'status',
+        'customer_id',
     ];
 
     protected $table = 'return_devices';
@@ -31,5 +30,28 @@ class ReturnDevice extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
+    }
+
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class, 'vehicle_id', 'vehicle_id');
+    }
+
+    public function jobcard()
+    {
+        return $this->belongsTo(JobCard::class, 'jobcard_id', 'jobcard_id');
+    }
+
+    /**
+     * Get the IMEI number based on plate number matching with jobcard
+     */
+    public function imeiNumber()
+    {
+        return $this->hasOne(JobCard::class, 'plate_number', 'plate_number')->select('imei_number');
     }
 }

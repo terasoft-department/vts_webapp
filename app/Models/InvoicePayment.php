@@ -2,38 +2,23 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\VehicleController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoicePayment extends Model
 {
     use HasFactory;
-
+     protected $table="invoice_payments";
+    protected $primarykey="invoice_id";
     protected $fillable = [
-        'customer_name',
-        'invoice_id',
-        'due_date',
-        'prepared_by',
-        'plate_number',
-        'tin_number',
-        'descriptions',
-        'num_cars',
-        'periods',
-        'payment_type',
-        'unit_price',
-        'gross_value',
-        'vat_value',
-        'total_value',
+        'invoice_number','status', 'customer_id', 'due_date', 'prepared_by', 'plate_number',
+        'tin_number', 'descriptions', 'num_cars', 'periods', 'from', 'to',
+        'payment_type','debt', 'unit_price', 'gross_value', 'vat_value','vat_Inclusive', 'total_value'
     ];
-    // public function customer()
-    // {
-    //     return $this->belongsTo(CustomerController::class, 'customer_name');
-    // }
 
-    // public function vehicle()
-    // {
-    //     return $this->belongsTo(VehicleController::class, 'plate_number');
-    // }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
+    }
 }
+

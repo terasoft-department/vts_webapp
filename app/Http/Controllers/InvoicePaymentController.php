@@ -1,82 +1,122 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\InvoicePayment;
-use App\Models\User;
-use App\Http\Controllers\Controller;
+use App\Models\Customer; // Import the Customer model
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class InvoicePaymentController extends Controller
 {
-    public function create()
-    {
-        return view('invoices.create'); // Assuming you have a view for the form
+    public function index(Request $request)
+{
+    $invoicePayments = InvoicePayment::query();
+
+    // Apply filtering if necessary
+    if ($request->filter_customer) {
+        $invoicePayments->where('customer_id', $request->filter_customer);
     }
-    /**
-     * Handle form submission and store the data in the database.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
+    if ($request->filter_due_date) {
+        $invoicePayments->whereDate('due_date', $request->filter_due_date);
+    }
+
+    // Use paginate instead of get() for pagination
+    $invoicePayments = $invoicePayments->paginate(10);
+
+    // Fetch customers for the filter dropdown
+    $customers = Customer::all();
+
+    return view('invoice_payments.index', compact('invoicePayments', 'customers'));
+}
+
+
+public function create()
+{
+    // Generate the next invoice number
+    $currentYear = Carbon::now()->year; // Get the current year
+    $lastInvoice = InvoicePayment::latest()->first();
+    $nextInvoiceNumber = $lastInvoice ? ((int) substr($lastInvoice->invoice_number, -3)) + 1 : 1; // Get the last 3 digits of the last invoice
+
+    // Format the new invoice number as TTEL/YYYY/NNN
+    $nextInvoiceNumberFormatted = 'TTEL/' . $currentYear . '/' . str_pad($nextInvoiceNumber, 3, '0', STR_PAD_LEFT);
+
+    // Fetch all customers for the dropdown
+    $customers = Customer::all();
+
+    return view('invoice_payments.create', compact('nextInvoiceNumberFormatted', 'customers'));
+}
+public function show($id)
+{
+    $invoice = InvoicePayment::findOrFail($id);
+    return response()->json($invoice); // Return the invoice as JSON
+}
+
+    public function edit($id)
+    {
+        $invoicePayment = InvoicePayment::findOrFail($id);
+        $customers = Customer::all(); // Fetch all customers
+        return response()->json($invoicePayment); // Return the invoice data for editing
+        // return view('invoice_payments.edit', compact('invoicePayment', 'customers'));
+    }
+
     public function store(Request $request)
     {
-        // Validate the form data
+        // Validate incoming request data
         $request->validate([
-            'customer_name' => 'required|string|max:255',
-           'invoice_id' => [
-                'required',
-                'string',
-                'regex:/^TTEL\/\d{4}\/\d{3}$/'
-            ],
+            'status'=>'required',
+            'customer_id' => 'required', // Ensure customer_id is provided
             'due_date' => 'required|date',
-           'prepared_by' => 'required|string|max:255',
-           'plate_number' => [
-            'required',
-            'string',
-            'regex:/^T-\d{3}-[A-Z]{3}$/'
-        ],
-        'tin_number' => [
-            'required',
-            'string',
-            'regex:/^\d{3}-\d{3}-\d{3}$/'
-        ],
-        'descriptions'=>'required|string|max:255',
-            'num_cars' => 'required|integer',
-            'periods' => 'required|integer',
-            'payment_type' => 'required|in:lease,purchase',
+            'prepared_by' => 'required',
+            'plate_number' => 'required',
+            'tin_number' => 'required',
+            'descriptions' => 'required',
+            'num_cars' => 'required|integer|min:1',
+            'periods' => 'required|integer|min:1',
+            'from' => 'required|date',
+            'to' => 'required|date',
+            'payment_type' => 'required',
+            'debt' => 'required|numeric',
             'unit_price' => 'required|numeric',
-            'gross_value' => 'required|numeric',
-            'vat_value' => 'required|numeric',
-            'total_value' => 'required|numeric',
         ]);
 
-        // // Calculate Gross Value, VAT, and Total Value
-        // $grossValue = $request->num_cars * $request->periods * $request->unit_price;
-        // $vatValue = $grossValue * 0.18; // 18% VAT
-        // $totalValue = $grossValue + $vatValue;
+        // Generate the next invoice number
+        $currentYear = Carbon::now()->year; // Get the current year
+        $lastInvoice = InvoicePayment::latest()->first();
+        $nextInvoiceNumber = $lastInvoice ? ((int) substr($lastInvoice->invoice_number, -3)) + 1 : 1; // Increment last invoice number
+        $nextInvoiceNumberFormatted = 'TTEL/' . $currentYear . '/' . str_pad($nextInvoiceNumber, 3, '0', STR_PAD_LEFT);
 
-        // Store the data in the database
-        // InvoicePayment::create([
-        //     'customer_name' => $request->customer_name,
-        //     'invoice_id' => $request->invoice_id,
-        //     'due_date' => $request->due_date,
-        //     'prepared_by' => $request->prepared_by,
-        //     'plate_number'=> $request->plate_number,
-        //     'tin_number' => $request->tin_number,
-        //     'descriptions'=> $request->descriptions,
-        //     'num_cars' => $request->num_cars,
-        //     'periods' => $request->periods,
-        //     'unit_price' => $request->unit_price,
-        //     'gross_value' => $grossValue,
-        //     'vat_value' => $vatValue,
-        //     'total_value' => $totalValue,
-        // ]);
+        // Calculate gross value, VAT value, and total value
+        $numCars = $request->num_cars;
+        $periods = $request->periods;
+        $unitPrice = $request->unit_price;
+        $debt = $request->debt;
 
-        // Redirect to a success page or back to the form
-        // return redirect()->back()->with('success', 'invoice recorded successfully!');
 
-        InvoicePayment::create($request->all());
+        $grossValue = $numCars * $unitPrice * $periods;
+        $vatValue = $grossValue * 0.18;
+        $vat_Inclusive = $vatValue + $grossValue;
+        $totalValue = $debt + $vat_Inclusive ;
 
-        return redirect()->route('invoices.index')->with('success', 'Invoice payment saved successfully.');
+        // Create the invoice payment entry
+        InvoicePayment::create(array_merge($request->all(), [
+          'invoice_number' => $nextInvoiceNumberFormatted, // Set the generated invoice number
+        'gross_value' => $grossValue, // Total before VAT
+        'vat_value' => $vatValue, // VAT amount
+        'vat_Inclusive' => $vat_Inclusive, // Gross + VAT
+        'total_value' => $totalValue, // Total value with debt included
+        ]));
+
+        return redirect()->route('invoice_payments.index')->with('success', 'Invoice Payment created successfully.');
     }
+    public function destroy($id)
+{
+    $invoice = InvoicePayment::findOrFail($id);
+    $invoice->delete();
+
+    return response()->json(['success' => 'Invoice deleted successfully.']);
 }
+
+}
+

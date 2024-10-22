@@ -2,269 +2,272 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TeraVTS</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="assets1/img/kaiadmin/logo.png" type="image/x-icon" />
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Fonts and icons -->
-    <script src="assets1/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["assets1/css/fonts.min.css"],
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
+    <title>TERAVTS</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="assets1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets1/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets1/css/kaiadmin.min.css" />
-    <link rel="stylesheet" href="assets1/css/demo.css" />
+    <!-- Favicons -->
+    <link href="assets/img/apple-touch-icon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <div class="sidebar" data-background-color="white">
-            <div class="sidebar-logo">
-                <div class="logo-header" data-background-color="dark">
-                    <a href="index.html" class="logo">
-                        <img src="assets1/img/kaiadmin/logo.png" alt="navbar brand" class="navbar-brand" height="60"/>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="#" class="logo d-flex align-items-center">
+                <img src="assets/img/apple-touch-icon.png" alt="">
+                <span class="d-none d-lg-block">TERAVTS</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+                <li class="nav-item d-block d-lg-none">
+                    <a class="nav-link nav-icon search-bar-toggle" href="#">
+                        <i class="bi bi-search"></i>
                     </a>
-                    <div class="nav-toggle">
-                        <button class="btn btn-toggle toggle-sidebar">
-                            <i class="gg-menu-right"></i>
-                        </button>
-                        <button class="btn btn-toggle sidenav-toggler">
-                            <i class="gg-menu-left"></i>
-                        </button>
-                    </div>
-                    <button class="topbar-toggler more">
-                        <i class="gg-more-vertical-alt"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                <div class="sidebar-content">
-                    <ul class="nav nav-secondary">
-                        <li class="nav-item active">
-                            <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>TeraVTS</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="dashboard">
-                                <ul class="nav nav-collapse"></ul>
-                            </div>
-                        </li>
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Components</h4>
-                        </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#base">
-                                <i class="fas fa-layer-group"></i>
-                                <p>Account & Finance</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="base">
-                                <ul class="nav nav-collapse">
-                                    <li><a href="customers"><span class="sub-item">Customer</span></a></li>
-                                    <li><a href="vehicles"><span class="sub-item">Vehicle</span></a></li>
-                                    <li><a href="invoices"><span class="sub-item">Invoice</span></a></li>
-                                    <li><a href="payment_reports"><span class="sub-item">Payments</span></a></li>
-                                    <li><a href="invoices"><span class="sub-item">Track Debts</span></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                                <i class="fas fa-chart-line"></i>
-                                <p>Reports</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="sidebarLayouts">
-                                <ul class="nav nav-collapse">
-                                    <li><a href="payment_reports"><span class="sub-item">Payment</span></a></li>
-                                    <li><a href="daily_weekly_reports"><span class="sub-item">Daily</span></a></li>
-                                    <li><a href="invoices"><span class="sub-item">Invoice</span></a></li>
-                                    <li><a href=""><span class="sub-item">Incident</span></a></li>
-                                    <li><a href=""><span class="sub-item">Tampering</span></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <p>Logout</p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- End Sidebar -->
+                </li><!-- End Search Icon-->
 
-        <div class="main-panel">
-            <div class="main-header">
-                <div class="main-header-logo">
-                    <div class="logo-header" data-background-color="dark">
-                        <a href="index.html" class="logo">
-                            <img src="assets1/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20" />
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-primary badge-number">4</span>
+                    </a><!-- End Notification Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                        <li class="dropdown-header">
+                            You have 4 new notifications
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li class="notification-item">
+                            <i class="bi bi-exclamation-circle text-warning"></i>
+                            <div>
+                                <h4>Latra</h4>
+                                <p>Check out Procedures</p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-footer">
+                            <a href="#">Show all notifications</a>
+                        </li>
+                    </ul><!-- End Notification Dropdown Items -->
+                </li><!-- End Notification Nav -->
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-chat-left-text"></i>
+                        <span class="badge bg-success badge-number">3</span>
+                    </a><!-- End Messages Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+                        <li class="dropdown-header">
+                            You have 3 new messages
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li>
+                    </ul><!-- End Messages Dropdown Items -->
+                </li><!-- End Messages Nav -->
+
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="assets/img/apple-touch-icon.png" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Welcome, {{ auth()->user()->name }}</span>
+                    </a><!-- End Profile Image Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>Welcome, {{ auth()->user()->name }}</h6>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-gear"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="/auth/login">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+            </ul>
+        </nav><!-- End Icons Navigation -->
+    </header><!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-layout-text-window-reverse"></i><span>Accounting & Finance</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="vehicles">
+                            <i class="bi bi-circle"></i><span>Vehicle</span>
                         </a>
-                        <div class="nav-toggle">
-                            <button class="btn btn-toggle toggle-sidebar">
-                                <i class="gg-menu-right"></i>
-                            </button>
-                            <button class="btn btn-toggle sidenav-toggler">
-                                <i class="gg-menu-left"></i>
-                            </button>
-                        </div>
-                        <button class="topbar-toggler more">
-                            <i class="gg-more-vertical-alt"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="page-inner">
-                        <div class="d-flex align-items-right align-items-md-center flex-column flex-md-row pt-2 pb-4">
-                            <!-- Additional Content -->
-                        </div>
+                    </li>
+                    <li>
+                        <a href="Acustomers">
+                            <i class="bi bi-circle"></i><span>Customers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="invoices">
+                            <i class="bi bi-circle"></i><span>Payments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tdebts">
+                            <i class="bi bi-circle"></i><span>Track Debts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="invoice_payments">
+                            <i class="bi bi-circle"></i><span>Create Invoice</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="invoice_payments2">
+                            <i class="bi bi-circle"></i><span>Generate Invoice</span>
+                        </a>
+                    </li>
 
-                        <div class="row">
-                            <!-- Welcome Card -->
-                            <div class="col-sm-6 col-md-3">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                                    <i class="fas fa-user"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ms-0 ms-sm-0">
-                                                <p class="card-category">Welcome, {{ auth()->user()->name }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                </ul>
+            </li><!-- End Accounting & Finance Nav -->
 
-                            <!-- Vehicles Card -->
-                            <div class="col-sm-6 col-md-3">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-success bubble-shadow-small">
-                                                    <i class="fas fa-car"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ms-3 ms-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Vehicles</p>
-                                                    <h4 class="card-title">50 Active</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/auth/login">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Logout</span>
+                </a>
+            </li><!-- End Logout Nav -->
 
-                            <!-- Payments Card -->
-                            <div class="col-sm-6 col-md-3">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-warning bubble-shadow-small">
-                                                    <i class="fas fa-money-bill-wave"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ms-3 ms-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Payments</p>
-                                                    <h4 class="card-title">12 Pending</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        </ul>
+    </aside><!-- End Sidebar -->
 
-                            <!-- Reports Card -->
-                            <div class="col-sm-6 col-md-3">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-danger bubble-shadow-small">
-                                                    <i class="fas fa-chart-line"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ms-3 ms-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Reports</p>
-                                                    <h4 class="card-title">5 New</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+        <main id="main" class="main">
+            <div class="container mt-4">
+                <div class="row" id="card-container"></div>
             </div>
-            <!-- End Main Header -->
+        </main>
 
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav>
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    TeraVTS
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </footer>
-            <!-- End Footer -->
-        </div>
-        <!-- End Main Panel -->
-    </div>
+        <!-- JS to dynamically generate cards based on sidebar -->
+        <script>
+            // Grab all sidebar links
+            const sidebarLinks = document.querySelectorAll('#sidebar-nav li ul li a');
+            const cardContainer = document.getElementById('card-container');
 
-    <!--   Core JS Files   -->
-    <script src="assets1/js/core/jquery.min.js"></script>
-    <script src="assets1/js/core/popper.min.js"></script>
-    <script src="assets1/js/core/bootstrap.min.js"></script>
-    <script src="assets1/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-    <script src="assets1/js/plugins/chartjs.min.js"></script>
-    <script src="assets1/js/plugins/bootstrap-notify.js"></script>
-    <script src="assets1/js/kaia.min.js"></script>
+            // Loop through each sidebar link and create corresponding card
+            sidebarLinks.forEach((link, index) => {
+                const card = document.createElement('div');
+                card.classList.add('col-md-3', 'mb-4');
+
+                // Create card HTML
+                card.innerHTML = `
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h5>${link.textContent}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Description for ${link.textContent}.</p>
+                            <a href="${link.getAttribute('href')}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                `;
+
+                // Append card to the container
+                cardContainer.appendChild(card);
+            });
+        </script>
+
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+
+    </main>
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
 </body>
 
 </html>

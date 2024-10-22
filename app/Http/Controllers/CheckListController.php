@@ -18,8 +18,8 @@ class CheckListController extends Controller
         $query = $request->input('query');
 
         // Search checklists by vehicle name, category, or plate number
-        $results = CheckList::where('vehicle_name', 'like', "%{$query}%")
-            ->orWhere('category', 'like', "%{$query}%")
+        $results = CheckList::where('vehicle_id', 'like', "%{$query}%")
+            ->orWhere('user_id', 'like', "%{$query}%")
             ->orWhere('plate_number', 'like', "%{$query}%")
             ->get();
 

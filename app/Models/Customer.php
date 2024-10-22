@@ -7,13 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
+    public function index()
+{
+    $customers = Customer::all();
+
+    // Pass the $customers data to the view
+    return view('invoice_payments.index', compact('customers'));
+}
+
 
     // Set the primary key
-    protected $primaryKey = 'customer_id';
+    protected $table = 'customers'; // Specify the table name if it's different
+    protected $primaryKey = 'customer_id'; // Specify the primary key if it's different
+
+    public function checkLists()
+    {
+        return $this->hasMany(CheckList::class, 'customer_id'); // Define the inverse relationship
+    }
 
     // Allow mass assignment on the following attributes
     protected $fillable = [
-        'customer_name',
+        'customername',
         'address',
         'customer_phone',
         'tin_number',
@@ -22,5 +36,17 @@ class Customer extends Model
     ];
 
     // Specify the table name if it's different from the plural of the model name
-    protected $table = 'customers';
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'customer_id');
+    }
+    public function invoices()
+    {
+        return $this->hasMany(InvoicePayment::class, 'customer_id');
+    }
+    public function dailyWeeklyReports()
+    {
+        return $this->hasMany(DailyWeeklyReport::class);
+    }
+
 }

@@ -50,7 +50,8 @@ public function update(Request $request, $user_id)
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user_id . ',user_id',
             'password' => 'nullable|string|min:8',
-            'role' => 'required|string|in:project_manager,monitoring_officer,admin,store_keeper,accounting_officer,technician',
+            'role' => 'required|string|in:project_manager,monitoring_officer,admin,accounting_officer,technician',
+
         ]);
 
         if ($validator->fails()) {
@@ -85,6 +86,14 @@ public function destroy($user_id)
         return redirect()->route('users.index')->with('error', 'An error occurred during deletion.');
     }
 }
+public function toggleStatus($id)
+{
+    $user = User::findOrFail($id);
+    $user->is_active = !$user->is_active; // Toggle the status
+    $user->save();
+
+    return redirect()->back()->with('success', 'User status updated successfully!');
+}
 
 
    public function register(Request $request)
@@ -95,6 +104,7 @@ public function destroy($user_id)
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'role' => 'required|string|in:project_manager,monitoring_officer,admin,store_keeper,accounting_officer,technician',
+
         ]);
 
         if ($validator->fails()) {
@@ -106,6 +116,7 @@ public function destroy($user_id)
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+
         ]);
 
         return redirect()->route('users.index')->with('success', 'User registered successfully.');
@@ -122,6 +133,17 @@ public function destroy($user_id)
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+
+        $user = User::where('email', $request->email)->first();
+        // Check if the user exists and if they are active
+    if ($user && !$user->is_active) {
+        return redirect()->back()->withErrors(['email' => 'Your account is inactive. Please contact admin.']);
+    }
+
+    // if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+    //     // Authentication passed...
+    //     return redirect()->intended('dashboard');
+    // }
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

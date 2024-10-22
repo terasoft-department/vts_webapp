@@ -2,134 +2,480 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily and Weekly Reports - TeraVTS</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- External CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets1/css/kaiadmin.min.css"> <!-- Adjust path as needed -->
-    <link rel="stylesheet" href="assets1/css/demo.css"> <!-- Adjust path as needed -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+  <title>teravts</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 1rem;
-        }
+  <!-- Favicons -->
+  <link href="assets/img/apple-touch-icon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-        .container {
-            background-color: white;
-            padding: 1px;
-            border-radius: 12px; /* Rounded corners */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 1800px; /* Adjust max width */
-            margin: 20px auto; /* Center container with margin */
-        }
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-        h1 {
-            color: #406daf;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-        .btn-group {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            margin: 5px;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Reduce font size for the table and its contents */
-        table {
-            font-size: 12px; /* Adjust the font size for the table */
-        }
-
-        th, td {
-            padding: 8px; /* Add some padding for readability */
-        }
-
-        th {
-            font-weight: bold;
-        }
-
-        .btn-sm {
-            font-size: 10px; /* Smaller font size for buttons */
-        }
-    </style>
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
-    <div class="container mt-3">
-        <h1>Daily and Weekly Reports</h1>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
-        <div class="btn-group">
-            <a href="{{ route('daily_weekly_reports.create') }}" class="btn btn-primary">Create New Report</a>
-            <a href="\project_manager" class="btn btn-primary">
-                <i class="fas fa-home"></i> Back
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="#" class="logo d-flex align-items-center">
+        <img src="assets/img/apple-touch-icon.png" alt="">
+        <span class="d-none d-lg-block"> TERAVTS</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+
+      <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+          <li class="nav-item d-block d-lg-none">
+            <a class="nav-link nav-icon search-bar-toggle " href="#">
+              <i class="bi bi-search"></i>
             </a>
-        </div>
+          </li><!-- End Search Icon-->
 
-        <table id="dailyWeeklyReports" class="table table-bordered table-striped">
-            <thead class="thead-light">
-                <tr>
-                    <th>R.Date</th>
-                    <th>CustName</th>
-                    <th>PlateNumber</th>
-                    <th>Contact</th>
-                    <th>Reported By</th>
-                    <th>Reported Case</th>
-                    <th>Assigned Techn</th>
-                    <th>Findings</th>
-                    <th>Response Status</th>
-                    <th>Response Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($reports as $report)
-                <tr>
-                    <td>{{ $report->reported_date }}</td>
-                    <td>{{ $report->customer_name }}</td>
-                    <td>{{ $report->bus_plate_number }}</td>
-                    <td>{{ $report->contact }}</td>
-                    <td>{{ $report->reported_by }}</td>
-                    <td>{{ $report->reported_case }}</td>
-                    <td>{{ $report->assigned_technician }}</td>
-                    <td>{{ $report->findings }}</td>
-                    <td>{{ $report->response_status }}</td>
-                    <td>{{ $report->response_date }}</td>
-                    <td>
-                        <a href="{{ route('daily_weekly_reports.edit', $report->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('daily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Report">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+          <li class="nav-item dropdown">
+
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-bell"></i>
+              <span class="badge bg-primary badge-number">4</span>
+            </a><!-- End Notification Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+              <li class="dropdown-header">
+                You have 4 new notifications
+                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li class="notification-item">
+                <i class="bi bi-exclamation-circle text-warning"></i>
+                <div>
+                  <h4>Latra</h4>
+                  <p>check out Procedures</p>
+                </div>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li class="dropdown-footer">
+                <a href="#">Show all notifications</a>
+              </li>
+
+            </ul><!-- End Notification Dropdown Items -->
+
+          </li><!-- End Notification Nav -->
+
+          <li class="nav-item dropdown">
+
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-chat-left-text"></i>
+              <span class="badge bg-success badge-number">3</span>
+            </a><!-- End Messages Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+              <li class="dropdown-header">
+                You have 3 new messages
+                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              </li>
+
+            </ul><!-- End Messages Dropdown Items -->
+
+          </li><!-- End Messages Nav -->
+
+          <li class="nav-item dropdown pe-3">
+
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="assets/img/apple-touch-icon.png" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2"></i> Welcome, {{ auth()->user()->name }}</span>
+            </a><!-- End Profile Iamge Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6></i> Welcome, {{ auth()->user()->name }}</h6>
+
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <i class="bi bi-gear"></i>
+                  <span>Account Settings</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/auth/login">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+
+
+          </ul><!-- End Messages Dropdown Items -->
+
+        </li><!-- End Messages Nav -->
+
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="#">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Monitoring Officer</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="assignments">
+              <i class="bi bi-circle"></i><span>Assignment</span>
+            </a>
+          </li>
+          <li>
+            <a href="jobcards2">
+              <i class="bi bi-circle"></i><span>JobCard</span>
+            </a>
+          </li>
+          <li>
+            <a href="checklists">
+              <i class="bi bi-circle"></i><span>Routing Checkup List</span>
+            </a>
+          </li>
+          <li>
+            <a href="trackvehicle">
+              <i class="bi bi-circle"></i><span>Track Vehicle</span>
+            </a>
+          </li>
+          <li>
+            <a href="cdebts">
+              <i class="bi bi-circle"></i><span>Customer Debts</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Charts Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="daily_weekly_reports">
+              <i class="bi bi-circle"></i><span>Daily</span>
+            </a>
+          </li>
+          <li>
+            <a href="reports">
+              <i class="bi bi-circle"></i><span>Monthly</span>
+            </a>
+          </li>
+          <li>
+            <a href="tampering">
+              <i class="bi bi-circle"></i><span>Tampering</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Icons Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="\auth/login">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Logout</span>
+        </a>
+      </li><!-- End Login Page Nav -->
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+    <div class="text-left">
+        <h5>Daily and Weekly Reports</h5>
+        <br>
+        <div class="btn-group">
+
+            <!-- Trigger modal for creating a new report -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#createReportModal">
+                <i class="fas fa-plus-circle"></i> Create
+            </button>
+
+        </div>
+        <br>
+
+        <div class="table-container">
+            <br>
+            <table id="dailyWeeklyReports" class="table table-bordered table-striped">
+                <thead>
+                    <tr><th>S/N</th>
+                        <th>R.Date</th>
+                        <th>CustName</th>
+                        <th>PlateNumber</th>
+                        <th>Contact</th>
+                        <th>Reported By</th>
+                        <th>Reported Case</th>
+                        <th>Assigned Techn</th>
+                        <th>Findings</th>
+                        <th>Response Status</th>
+                        <th>Response Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($reports as $report)
+                    <tr><td>{{ $report->id }}</td>
+                        <td>{{ $report->reported_date }}</td>
+                        <td>{{ $report->customername }}</td>
+                        <td>{{ $report->bus_plate_number }}</td>
+                        <td>{{ $report->contact }}</td>
+                        <td>{{ $report->reported_by }}</td>
+                        <td>{{ $report->reported_case }}</td>
+                        <td>{{ $report->assigned_technician }}</td>
+                        <td>{{ $report->findings }}</td>
+                        <td>{{ $report->response_status }}</td>
+                        <td>{{ $report->response_date }}</td>
+                        <td class="action-icons">
+                            <!-- Trigger modal for editing -->
+                            <span class="icon" data-toggle="modal" data-target="#editReportModal{{ $report->id }}">
+                                <i class="fas fa-edit"></i>
+                            </span>
+
+                            <!-- Delete form -->
+                            <form action="{{ route('daily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <span class="icon" onclick="if(confirm('Are you sure you want to delete this report?')) { this.closest('form').submit(); }">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editReportModal{{ $report->id }}" tabindex="-1" role="dialog" aria-labelledby="editReportModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Report</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('daily_weekly_reports.update', $report->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="form-group">
+                                            <label for="reported_date">Reported Date</label>
+                                            <input type="text" class="form-control" id="reported_date" name="reported_date" value="{{ old('reported_date', $report->reported_date) }}" required>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="customername">Customer Name</label>
+                                            <input type="text" class="form-control" id="customername" name="customername" value="{{ old('customername', $report->customername) }}" required>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="bus_plate_number">Bus Plate Number</label>
+                                            <input type="text" class="form-control" id="bus_plate_number" name="bus_plate_number" value="{{ old('bus_plate_number', $report->bus_plate_number) }}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="contact">Contact</label>
+                                            <input type="text" class="form-control" id="contact" name="contact" value="{{ old('contact', $report->contact) }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reported_by">Reported By</label>
+                                            <input type="text" class="form-control" id="reported_by" name="reported_by" value="{{ old('reported_by', $report->reported_by) }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reported_case">Reported Case</label>
+                                            <input type="text" class="form-control" id="reported_case" name="reported_case" value="{{ old('reported_case', $report->reported_case) }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="assigned_technician">Assigned  Technician</label>
+                                            <input type="text" class="form-control" id="assigned_technician" name="assigned_technician" value="{{ old('assigned_technician', $report->assigned_technician) }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="findings">Findings</label>
+                                            <input type="text" class="form-control" id="findings" name="findings" value="{{ old('findings', $report->findings) }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="response_status">Response Status</label>
+                                            <input type="text" class="form-control" id="response_status" name="response_status" value="{{ old('response_status', $report->response_status) }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="response_date">Response Date</label>
+                                            <input type="text" class="form-control" id="response_date" name="response_date" value="{{ old('response_date', $report->response_date) }}" required>
+                                        </div>
+
+                                        <!-- Add other fields as needed -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- External JS -->
+
+    <!-- Create Report Modal -->
+<div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="trackDebtsForm" method="POST" enctype="multipart/form-data" action="{{ route('daily_weekly_reports.store') }}">
+                    @csrf
+                    <div class="container">
+                        <div class="row">
+                            <!-- Row 1: Reported Date, Customer Name, Bus Plate Number, Contact -->
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="reported_date">Reported Date</label>
+                                    <input type="date" name="reported_date" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="customername">Customer Name</label>
+                                    <input type="text" name="customername" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="bus_plate_number">Bus Plate Number</label>
+                                    <input type="text" name="bus_plate_number" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="contact">Contact</label>
+                                    <input type="text" name="contact" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Row 2: Reported By, Reported Case, Assigned Technician, Findings -->
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="reported_by">Reported By</label>
+                                    <input type="text" name="reported_by" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="reported_case">Reported Case</label>
+                                    <input type="text" name="reported_case" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="assigned_technician">Assigned Technician</label>
+                                    <input type="text" name="assigned_technician" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="findings">Findings</label>
+                                    <textarea name="findings" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Row 3: Response Status, Response Date (and more fields if needed) -->
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="response_status">Response Status</label>
+                                    <input type="text" name="response_status" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="response_date">Response Date</label>
+                                    <input type="date" name="response_date" class="form-control" required>
+                                </div>
+                            </div>
+                            <!-- Additional fields can go here if needed -->
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- JS and dependencies -->
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
@@ -138,16 +484,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-
+<br>
     <script>
+
         $(document).ready(function() {
             $('#dailyWeeklyReports').DataTable({
                 dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                buttons: ['copy', 'csv', 'excel', 'print'],
                 responsive: true
             });
         });
     </script>
-</body>
 
+    <br>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+
+</body>
 </html>

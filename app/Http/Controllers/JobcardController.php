@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JobCardShared;
 use App\Models\JobCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class JobcardController extends Controller
 {
@@ -20,12 +22,24 @@ class JobcardController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
+    {     $request->validate([
+        'share_email' => 'required|email',
+        // Other validations...
+    ]);
         $jobcard = JobCard::findOrFail($id);
         $jobcard->status = $request->input('status');
         $jobcard->save();
 
+         // Send email logic (using Laravel's Mail facade)
+
         return redirect()->route('jobcards.index')->with('success', 'Job card updated successfully.');
     }
+    public function sendTestEmail()
+{
+    $jobcard = JobCard::find(1); // Retrieve a sample job card (adjust as necessary)
+
+
+    return 'Test email sent!';
+}
 
 }
