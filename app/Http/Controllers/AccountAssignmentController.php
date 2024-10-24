@@ -43,6 +43,7 @@ class AccountAssignmentController extends Controller
                 'case_reported' => 'required|string',
                 'attachment' => 'nullable|file|mimes:pdf|max:2048',
                 'assigned_by'=> 'required|string',
+                'status'=> 'required|string',
 
             ]);
 
@@ -55,6 +56,7 @@ class AccountAssignmentController extends Controller
             $assignment->user_id = $request->user_id;
             $assignment->case_reported = $request->case_reported;
             $assignment->assigned_by = $request->assigned_by;
+            $assignment->status = $request->status;
 
             if ($request->hasFile('attachment')) {
                 $file = $request->file('attachment');
@@ -111,6 +113,7 @@ class AccountAssignmentController extends Controller
         'case_reported'=>'required|string',
         'attachment'=>'required|string|max:15',
         'assigned_by'=> 'required|string',
+        'status'=> 'required|string',
         ]);
 
         try {
@@ -127,6 +130,7 @@ class AccountAssignmentController extends Controller
                 'case_reported',
                 'attachment',
                 'assigned_by',
+                'status',
             ]);
 
             // Update the assignment

@@ -25,6 +25,7 @@ class Assignment extends Model
         'case_reported',
         'attachment',
         'assigned_by',
+        'status',
 
     ];
     public function customer()

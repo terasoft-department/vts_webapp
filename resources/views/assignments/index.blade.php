@@ -283,6 +283,7 @@
                         <th>Incident Reported</th>
                         <th>Attachment</th>
                         <th>Assigned By</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -305,6 +306,7 @@
                             @endif
                         </td>
                         <td>{{ $assignment->assigned_by }}</td>
+                        <td>{{ $assignment->status }}</td>
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
@@ -418,6 +420,10 @@
                                     <label for="assigned_by">Assigned By</label>
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <input type="text" class="form-control" id="status" name="status" required>
+                                </div>
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
                             </form>
@@ -460,7 +466,7 @@
                 $('#user_id').val(assignment.user_id);
                 $('#case_reported').val(assignment.case_reported);
                 $('#assigned_by').val(assignment.assigned_by);
-
+                $('#status').val(assignment.status);
                 $('#assignmentModal').modal('show');
             }
         </script>
