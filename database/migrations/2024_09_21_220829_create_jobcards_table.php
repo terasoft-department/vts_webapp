@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jobcards', function (Blueprint $table) {
-            $table->id('jobcard_id'); // Primary key
+            $table->id('jobcard_id')->nullable(); // Primary key
             $table->foreignId('customer_id')->nullable(); // Customer ID (nullable)
             $table->foreignId('user_id')->nullable(); // User ID (nullable)
             $table->foreignId('assignment_id')->nullable();

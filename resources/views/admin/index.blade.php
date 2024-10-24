@@ -92,161 +92,210 @@
         <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i> Invoice</i>
         <li class="nav-item"><a class="nav-link collapsed" href="Apayment_reports"><i class="fas fa-credit-card"></i></i><span>Payments</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Aassignments"><i class="fas fa-file-alt"></i></i><span>Assignments</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="fas fa-file-invoice"></i></i><span>Customers</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fas fa-file-invoice"></i></i><span>Daily&Weekly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fas fa-file-invoice"></i></i><span>Weekly&Yearly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-tasks"></i></i><span>JobCards</span></a></li>
+
         <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
     </ul>
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
-    <main id="main" class="main">
-        <div class="container mt-2">
-            <b>
-                <p class="card text-center">REVENUE SUMMARY</p>
-            </b>
-            <div class="row">
-                <!-- Weekly Revenue Card -->
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-header bg-success text-white">
-                            <h5>Weekly Revenue</h5>
-                        </div>
-                        <div class="card-body">
-                            <h2 class="count-up" id="weeklyRevenue" data-target="0">0</h2>
-                            <p>Total revenue generated this week.</p>
-                        </div>
+<main id="main" class="main">
+    <div class="container mt-2">
+        <b>
+            <p class="card text-center">SUMMARY OVERVIEW</p>
+        </b>
+        <div class="row">
+            <!-- Payments Cost Card -->
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header bg-success text-white">
+                        <h5>Total Payments</h5>
                     </div>
-                </div>
-
-                <!-- Monthly Revenue Card -->
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-header bg-info text-white">
-                            <h5>Monthly Revenue</h5>
-                        </div>
-                        <div class="card-body">
-                            <h2 class="count-up" id="monthlyRevenue" data-target="0">0</h2>
-                            <p>Total revenue generated this month.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Yearly Revenue Card -->
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-header bg-warning text-white">
-                            <h5>Yearly Revenue</h5>
-                        </div>
-                        <div class="card-body">
-                            <h2 class="count-up" id="yearlyRevenue" data-target="0">0</h2>
-                            <p>Total revenue generated this year.</p>
-                        </div>
+                    <div class="card-body">
+                        <h2 class="count-up" id="totalPayments" data-target="0">16,000,000</h2>
+                        <p>Total cost in payments.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Analytics and Charts Section -->
-            <div class="row mt-4">
-                <!-- Revenue Distribution Chart -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5>Revenue Distribution</h5>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="revenueDistributionChart"></canvas>
-                        </div>
+            <!-- Customer Debts Card (Daily) -->
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header bg-info text-white">
+                        <h5>Daily Customer Debts</h5>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="count-up" id="dailyCustomerDebts" data-target="0">900000</h2>
+                        <p>Total customer debts for today.</p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Payment Status Breakdown -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-danger text-white">
-                            <h5>Payment Status Breakdown</h5>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="paymentStatusChart"></canvas>
-                        </div>
+            <!-- Customer Debts Card (Weekly) -->
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Weekly Customer Debts</h5>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="count-up" id="weeklyCustomerDebts" data-target="0">3490000</h2>
+                        <p>Total customer debts this week.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- Scripts for Charts and Count-Up Animation -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Revenue Distribution Chart
-            var ctx = document.getElementById('revenueDistributionChart').getContext('2d');
-            var revenueDistributionChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Weekly Revenue', 'Monthly Revenue', 'Yearly Revenue'],
-                    datasets: [{
-                        data: [0, 0, 0], // Fetch this data dynamically
-                        backgroundColor: ['#28a745', '#17a2b8', '#ffc107'],
-                        hoverBackgroundColor: ['#218838', '#138496', '#e0a800']
-                    }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
+        <div class="row mt-4">
+            <!-- Customer Debts Card (Monthly) -->
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header bg-warning text-white">
+                        <h5>Monthly Customer Debts</h5>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="count-up" id="monthlyCustomerDebts" data-target="0">450000</h2>
+                        <p>Total customer debts this month.</p>
+                    </div>
+                </div>
+            </div>
 
-            // Payment Status Breakdown Chart
-            var ctx2 = document.getElementById('paymentStatusChart').getContext('2d');
-            var paymentStatusChart = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['Paid', 'Not Paid'],
-                    datasets: [{
-                        label: 'Payment Status',
-                        data: [0, 0], // Fetch this data dynamically
-                        backgroundColor: ['#28a745', '#dc3545'],
-                        hoverBackgroundColor: ['#218838', '#c82333']
-                    }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
+            <!-- Customer Debts Card (Yearly) -->
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header bg-danger text-white">
+                        <h5>Yearly Customer Debts</h5>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="count-up" id="yearlyCustomerDebts" data-target="0">10,000,000</h2>
+                        <p>Total customer debts this year.</p>
+                    </div>
+                </div>
+            </div>
 
-            // Fetch revenue data from API
-            fetch('/api/revenue-summary')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('weeklyRevenue').setAttribute('data-target', data.weeklyRevenue);
-                    document.getElementById('monthlyRevenue').setAttribute('data-target', data.monthlyRevenue);
-                    document.getElementById('yearlyRevenue').setAttribute('data-target', data.yearlyRevenue);
+            <!-- Job Cards Summary -->
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header bg-dark text-white">
+                        <h5>Total Job Cards</h5>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="count-up" id="totalJobCards" data-target="0">25450</h2>
+                        <p>Total number of job cards issued.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    revenueDistributionChart.data.datasets[0].data = [data.weeklyRevenue, data.monthlyRevenue, data.yearlyRevenue];
-                    revenueDistributionChart.update();
+        <!-- Analytics and Charts Section -->
+        <div class="row mt-4">
+            <!-- Payment Breakdown Histogram -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5>Payment Breakdown</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="paymentBreakdownChart"></canvas>
+                    </div>
+                </div>
+            </div>
 
-                    paymentStatusChart.data.datasets[0].data = [data.paidInvoices, data.unpaidInvoices];
-                    paymentStatusChart.update();
+            <!-- Job Card Statistics -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5>Job Cards Overview</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="jobCardChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
-                    // Trigger the count-up animations
-                    const counters = document.querySelectorAll('.count-up');
-                    counters.forEach(counter => {
-                        const updateCount = () => {
-                            const target = +counter.getAttribute('data-target');
-                            const count = +counter.innerText;
-                            const speed = 200;
-                            const increment = target / speed;
-
-                            if (count < target) {
-                                counter.innerText = Math.ceil(count + increment);
-                                setTimeout(updateCount, 50);
-                            } else {
-                                counter.innerText = target;
-                            }
-                        };
-                        updateCount();
-                    });
-                });
+<!-- Scripts for Charts and Count-Up Animation -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Payment Breakdown Histogram (Bar Chart)
+        var ctx1 = document.getElementById('paymentBreakdownChart').getContext('2d');
+        var paymentBreakdownChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Paid', 'Pending', 'Overdue'],
+                datasets: [{
+                    label: 'Payment Breakdown',
+                    data: [45, 100, 30], // Dynamic data
+                    backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+                    hoverBackgroundColor: ['#218838', '#e0a800', '#c82333']
+                }]
+            },
+            options: {
+                responsive: true
+            }
         });
-    </script>
 
+        // Job Cards Overview (Pie Chart)
+        var ctx2 = document.getElementById('jobCardChart').getContext('2d');
+        var jobCardChart = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ['Active Job Cards', 'Completed Job Cards'],
+                datasets: [{
+                    data: [50, 100], // Dynamic data
+                    backgroundColor: ['#007bff', '#28a745'],
+                    hoverBackgroundColor: ['#0056b3', '#218838']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Fetch data from API for the dashboard
+        fetch('/api/summary-overview')
+            .then(response => response.json())
+            .then(data => {
+                // Update the revenue and debt summary
+                document.getElementById('totalPayments').setAttribute('data-target', data.totalPayments);
+                document.getElementById('dailyCustomerDebts').setAttribute('data-target', data.dailyCustomerDebts);
+                document.getElementById('weeklyCustomerDebts').setAttribute('data-target', data.weeklyCustomerDebts);
+                document.getElementById('monthlyCustomerDebts').setAttribute('data-target', data.monthlyCustomerDebts);
+                document.getElementById('yearlyCustomerDebts').setAttribute('data-target', data.yearlyCustomerDebts);
+                document.getElementById('totalJobCards').setAttribute('data-target', data.totalJobCards);
+
+                // Update charts with fetched data
+                paymentBreakdownChart.data.datasets[0].data = [data.paidPayments, data.pendingPayments, data.overduePayments];
+                paymentBreakdownChart.update();
+
+                jobCardChart.data.datasets[0].data = [data.activeJobCards, data.completedJobCards];
+                jobCardChart.update();
+
+                // Trigger the count-up animations
+                const counters = document.querySelectorAll('.count-up');
+                counters.forEach(counter => {
+                    const updateCount = () => {
+                        const target = +counter.getAttribute('data-target');
+                        const count = +counter.innerText;
+                        const speed = 200;
+                        const increment = target / speed;
+
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + increment);
+                            setTimeout(updateCount, 50);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                });
+            });
+    });
+</script>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

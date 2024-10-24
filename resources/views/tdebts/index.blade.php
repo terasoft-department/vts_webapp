@@ -260,6 +260,7 @@
                         <a href="{{ route('invoices.pay', $invoice->id) }}" class="btn btn-primary">Pay</a>
                     </td> --}}
                 </tr>
+
                 @endforeach
             </tbody>
         </table>

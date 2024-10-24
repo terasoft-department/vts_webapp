@@ -82,20 +82,27 @@
             </ul>
         </nav><!-- End Icons Navigation -->
     </header><!-- End Header -->
+   <!-- ======= Sidebar ======= -->
+   <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item"><a class="nav-link" href="admnDashboard"><i class="bi bi-grid"></i><span>Dashboard</span></a></li>
+        <li class="nav-heading">Control Panel</li>
+        <li class="nav-item"><a class="nav-link collapsed" href="users"><i class="bi bi-person"></i><span>User Management</span></a></li>
+        <li class="nav-heading">Reports</li>
+        <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i> Invoice</i>
+        <li class="nav-item"><a class="nav-link collapsed" href="Apayment_reports"><i class="fas fa-credit-card"></i></i><span>Payments</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Aassignments"><i class="fas fa-file-alt"></i></i><span>Assignments</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fas fa-file-invoice"></i></i><span>Daily&Weekly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fas fa-file-invoice"></i></i><span>Weekly&Yearly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-tasks"></i></i><span>JobCards</span></a></li>
 
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-        <ul class="sidebar-nav" id="sidebar-nav">
-            <li class="nav-item"><a class="nav-link" href="admnDashboard"><i class="bi bi-grid"></i><span>Dashboard</span></a></li>
-            <li class="nav-heading">Control Panel</li>
-            <li class="nav-item"><a class="nav-link collapsed" href="users"><i class="bi bi-person"></i><span>User Management</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i></i><span>Invoice</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
-        </ul>
-    </aside><!-- End Sidebar -->
+        <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
+    </ul>
+</aside><!-- End Sidebar -->
 <!-- Main Content -->
-<body>
-    <main id="main" class="main">
+   <!-- Main Content -->
+<main id="main" class="main">
     <div class="container mt-2">
         <!-- Success/Error Messages -->
         @if(session('success'))
@@ -212,6 +219,7 @@
             </table>
             <footer style="text-align: right; margin-top: 20px;">
                 <p>Signature & Official Stamp</p>
+        <img src="/images/stamp.jpg" alt="Logo" class="logo" style="width: 150px;">
             </footer>
             <footer style="text-align: left; margin-top: 10px;">
                 <p>Prepared By: <b>{{ $invoice->prepared_by }}</b></p>

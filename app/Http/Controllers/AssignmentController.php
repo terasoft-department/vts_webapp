@@ -14,15 +14,31 @@ use Illuminate\Support\Facades\Storage;
 class AssignmentController extends Controller
  {
 
-public function index()
+public function index(Request $request)
 {
-    $vehicles = Vehicle::all(); // Fetch all vehicles
-    $users = User::where('role', 'technician')->get(); // Fetch only users with role 'technician'
-    $customers = Customer::all(); // Fetch all customers
-    $assignments = Assignment::all(); // Fetch all assignments
-    $assignments = Assignment::paginate(10); // Adjust the number as needed
-    return view('assignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
+    // $vehicles = Vehicle::all(); // Fetch all vehicles
+    // $users = User::where('role', 'technician')->get(); // Fetch only users with role 'technician'
+    // $customers = Customer::all(); // Fetch all customers
+    // $assignments = Assignment::all(); // Fetch all assignments
+    // $assignments = Assignment::paginate(10); // Adjust the number as needed
+    // return view('assignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
 
+    $search = $request->get('search');
+
+    // Fetching assignments with pagination and search functionality
+    $assignments = Assignment::when($search, function ($query) use ($search) {
+            $query->where('case_reported', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%");
+        })
+        ->paginate(10); // Change the number to whatever suits your needs
+
+    // Fetching related customers and users
+    $customers = Customer::all();
+    $users = User::all();
+    $vehicles = Vehicle::all();
+
+    return view('assignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
 }
 
 
@@ -40,6 +56,8 @@ public function index()
             'user_id' => 'required|string',
             'case_reported' => 'required|string',
             'attachment' => 'nullable|file|mimes:pdf|max:2048',
+            'assigned_by'=> 'required|string',
+
         ]);
 
         $assignment = new Assignment();
@@ -50,6 +68,7 @@ public function index()
         $assignment->location = $request->location;
         $assignment->user_id = $request->user_id;
         $assignment->case_reported = $request->case_reported;
+        $assignment->assigned_by = $request->assigned_by;
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
@@ -100,10 +119,11 @@ public function index()
         'customer_id' => 'required|exists:customers,customer_id',
         'customer_phone'=> 'required|string|max:15',
         'customer_debt'=> 'required|numeric',
-        'location'=> 'requed|string|max:255',
+        'location'=> 'required|string|max:255',
         'user_id'=>'required|string|max:15',
-        'case_reported'=>'required|string|max:15',
+        'case_reported'=>'required|string',
         'attachment'=>'required|string|max:15',
+        'assigned_by'=> 'required|string',
     ]);
 
     try {
@@ -119,6 +139,7 @@ public function index()
             'user_id',
             'case_reported',
             'attachment',
+            'assigned_by',
         ]);
 
         // Update the assignment

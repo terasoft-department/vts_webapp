@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
         $table->id();
-        $table->string('invoice_number');
-        $table->date('invoice_date');
-        $table->integer('grand_total');
-        $table->string('customername');
-        $table->enum('status', ['Paid', 'Not Paid'])->default('Not Paid');
+        $table->string('invoice_number')->nullable();
+        $table->date('invoice_date')->nullable();
+        $table->integer('grand_total')->nullable();
+        $table->string('customername')->nullable();
+        $table->enum('status', ['Paid', 'Not Paid'])->default('Not Paid')->nullable();
         $table->timestamps();
         });
     }

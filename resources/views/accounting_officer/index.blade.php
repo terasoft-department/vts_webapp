@@ -174,6 +174,7 @@
                             <i class="bi bi-circle"></i><span>Payments</span>
                         </a>
                     </li>
+                    </li>
                     <li>
                         <a href="tdebts">
                             <i class="bi bi-circle"></i><span>Track Debts</span>

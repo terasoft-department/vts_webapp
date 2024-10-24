@@ -165,6 +165,7 @@
                             <i class="bi bi-circle"></i><span>Vehicle</span>
                         </a>
                     </li>
+
                     <li>
                         <a href="Acustomers">
                             <i class="bi bi-circle"></i><span>Customers</span>
@@ -205,9 +206,14 @@
     </aside><!-- End Sidebar -->
 <body>
     <main id="main" class="main">
-      <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h4 class="m-0">Vehicles</h4>
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="m-0 text-center">Vehicles</h4>
+                <form action="{{ route('vehicles.index') }}" method="GET" class="form-inline">
+                    <input type="text" name="search" class="form-control" placeholder="Search vehicles..." value="{{ request()->query('search') }}">
+                    <br>
+                    <button type="submit" class="btn btn-light ml-2"><i class="fas fa-search"></i></button>
+                </form>
             </div>
             <div class="card-body">
                 <button class="btn btn-light mb-3" data-toggle="modal" data-target="#createVehicleModal">
@@ -338,6 +344,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

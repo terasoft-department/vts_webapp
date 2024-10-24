@@ -189,6 +189,12 @@
             </a>
           </li>
           <li>
+            <a href="AccountAssignment">
+              <i class="fas fa-file-alt"></i><span>Assignments</span>
+            </a>
+          </li>
+
+          <li>
             <a href="device_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>

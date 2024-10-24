@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('vehicles_id');
             $table->string('vehicle_name')->nullable();
             $table->string('category')->nullable();
-            $table->integer('customer_id');
+            $table->integer('customer_id')->nullable();
             $table->string('plate_number')->nullable();
             $table->timestamps();
         });

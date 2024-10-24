@@ -12,7 +12,6 @@
   <!-- Favicons -->
   <link href="assets/img/apple-touch-icon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -29,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 <body>
@@ -163,12 +163,13 @@
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a class="nav-link " href="project_manager">
-              <i class="bi bi-grid"></i>
-              <span>Dashboard</span>
-            </a>
-          </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link " href="project_manager">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
 
 
       </li><!-- End Components Nav -->
@@ -188,6 +189,12 @@
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
           </li>
+          <li>
+            <a href="AccountAssignment">
+              <i class="fas fa-file-alt"></i><span>Assignments</span>
+            </a>
+          </li>
+
           <li>
             <a href="device_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
@@ -216,14 +223,18 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-
-    <!-- Main Content -->
+ <!-- Main Content -->
     <main id="main" class="text-center">
         <h4 class="page-title mb-2">Job Cards List</h4>
 
         @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+
+         <!-- Search Input -->
+         <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by Contact Person, Mobile Number, or IMEI Number">
+        </div>
 
         <!-- Job Cards Table -->
         <div class="card">
@@ -254,7 +265,7 @@
                             <th>Show</th>
                         </tr>
                     </thead>
-                    <tbody>
+                        <tbody id="jobCardTableBody">
                         @foreach ($jobcards as $jobcard)
                         <tr>
                             {{-- <td>{{ $jobcard->jobcard_id }}</td>
@@ -396,14 +407,28 @@
                 document.getElementById('modalImage').src = imageUrl;
             });
         });
-    </script>
-    <!-- Footer -->
 
-    <style>
-        h5.page-title {
-            font-size: 5px; /* Adjust size as needed */
-        }
-    </style>
+        // Search and filter functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#jobCardTableBody tr');
+
+            rows.forEach(row => {
+                const contactPerson = row.cells[0].textContent.toLowerCase();
+                const mobileNumber = row.cells[1].textContent.toLowerCase();
+                const imeiNumber = row.cells[2].textContent.toLowerCase();
+
+                if (contactPerson.includes(searchTerm) ||
+                    mobileNumber.includes(searchTerm) ||
+                    imeiNumber.includes(searchTerm)) {
+                    row.style.display = ''; // Show the row
+                } else {
+                    row.style.display = 'none'; // Hide the row
+                }
+            });
+        });
+    </script>
+
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

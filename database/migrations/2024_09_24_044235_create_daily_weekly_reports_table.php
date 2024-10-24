@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('daily_weekly_reports', function (Blueprint $table) {
             $table->id();
-            $table->date('reported_date');
-            $table->string('customername');
-            $table->string('bus_plate_number');
-            $table->string('contact');
-            $table->string('reported_by');
-            $table->string('reported_case');
-            $table->string('assigned_technician');
-            $table->text('findings');
-            $table->string('response_status');
-            $table->date('response_date');
+            $table->date('reported_date')->nullable();
+            $table->string('customername')->nullable();
+            $table->string('bus_plate_number')->nullable();
+            $table->string('contact')->nullable();
+            $table->string('reported_by')->nullable();
+            $table->string('reported_case')->nullable();
+            $table->string('assigned_technician')->nullable();
+            $table->text('findings')->nullable();
+            $table->string('response_status')->nullable();
+            $table->date('response_date')->nullable();
             $table->timestamps();
         });
     }

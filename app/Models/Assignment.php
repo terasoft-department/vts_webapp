@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
 {
-   
+
     use HasFactory;
 
     protected $table = 'assignments';
@@ -24,6 +24,7 @@ class Assignment extends Model
         'user_id',
         'case_reported',
         'attachment',
+        'assigned_by',
 
     ];
     public function customer()
@@ -41,5 +42,10 @@ class Assignment extends Model
     {
         return $this->belongsTo(Vehicle::class, 'plate_number');
     }
+
+    public function assignments()
+{
+    return $this->hasMany(Assignment::class);
+}
 
 }

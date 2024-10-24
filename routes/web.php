@@ -1,18 +1,23 @@
 <?php
 
 use App\Http\Controllers\AAssignmentsController;
+use App\Http\Controllers\AccountAssignmentController;
 use App\Http\Controllers\AccountingOfficerController;
 use App\Http\Controllers\ACustomerController;
+use App\Http\Controllers\ADailyWeeklyReportController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminInvoice2Controller;
 use App\Http\Controllers\AdminInvoiceController;
+use App\Http\Controllers\AJobCardController;
 use App\Http\Controllers\APaymentController;
+use App\Http\Controllers\AReportController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CDebtsController;
 use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DailyWeeklyReportController;
+use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\DeviceRequisitionController;
 use App\Http\Controllers\InvoiceController;
@@ -85,6 +90,13 @@ Route::resource('vehicles', VehicleController::class);
 });
 
 //assignments for admin
+    Route::middleware(['auth'])->group(function () {
+    Route::resource('AccountAssignment', AccountAssignmentController::class);
+    Route::get('AccountAssignmentv1', [AccountAssignmentController::class, 'index1'])->name('AccountAssignmentv1.index1');
+    Route::resource('AccountAssignment', AccountAssignmentController::class);
+    Route::get('AccountAssignmentv2', [AccountAssignmentController::class, 'index2'])->name('AccountAssignmentv2.index2');
+    });
+
 Route::middleware(['auth'])->group(function () {
     Route::resource('Aassignments', AAssignmentsController::class);
     Route::get('assignmentsv1', [AAssignmentsController::class, 'index1'])->name('assignmentsv1.index1');
@@ -120,7 +132,9 @@ Route::get('project_manager/customers', [CustomerController::class, 'countCustom
 Route::get('accounting_officer', [AccountingOfficerController::class, 'showAccountingOfficerDashboard'])->name('accounting_officer.index');
 
 
-//device dispatch
+//deduction
+Route::resource('deductions', DeductionController::class);
+
 
 Route::resource('device_requisitions', DeviceRequisitionController::class);
 
@@ -141,8 +155,11 @@ Route::get('/checklists', [CheckListController::class, 'index'])->name('checklis
 Route::post('/checklists/search', [CheckListController::class, 'search'])->name('checklists.search');
 Route::post('/checklists/store', [ChecklistController::class, 'store'])->name('checklists.store');
 
-
-
+  // Define routes for daily report FOR Admin
+  Route::resource('Adaily_weekly_reports', ADailyWeeklyReportController::class);
+  Route::get('/Adaily_weekly_reports/{id}', [ADailyWeeklyReportController::class, 'show'])->name('daily_weekly_reports.show');
+//admin Monthy Report
+Route::get('Adminreports', [AReportController::class, 'index'])->name('Adminreports.index');
 
 
 
@@ -202,6 +219,15 @@ Route::prefix('jobcards')->group(function () {
     Route::get('/{id}/approve', [JobCardController::class, 'approve'])->name('jobcards.approve');
     Route::put('/{id}', [JobCardController::class, 'update'])->name('jobcards.update');
 });
+//jobcards for Admin
+Route::prefix('Ajobcards')->group(function () {
+    Route::get('/', [AJobCardController::class, 'index'])->name('Ajobcards.index');
+    Route::get('/{id}/approve', [AJobCardController::class, 'approve'])->name('Ajobcards.approve');
+    Route::put('/{id}', [AJobCardController::class, 'update'])->name('Ajobcards.update');
+});
+
+
+
 //TDebts for AccountingOfficer
 Route::get('/tdebts', [TDebtsController::class, 'index'])->name('tdebts.index');
 Route::resource('tdebts', TDebtsController::class);

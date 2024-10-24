@@ -89,7 +89,8 @@ public function destroy($user_id)
 public function toggleStatus($id)
 {
     $user = User::findOrFail($id);
-    $user->is_active = !$user->is_active; // Toggle the status
+    // $user->is_active = !$user->is_active; // Toggle the status
+    $user->status = ($user->status === 'is_active') ? 'inactive' : 'is_active';
     $user->save();
 
     return redirect()->back()->with('success', 'User status updated successfully!');
@@ -103,7 +104,7 @@ public function toggleStatus($id)
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|string|in:project_manager,monitoring_officer,admin,store_keeper,accounting_officer,technician',
+            'role' => 'required|string|in:project_manager,monitoring_officer,admin,accounting_officer,technician',
 
         ]);
 
@@ -126,27 +127,25 @@ public function toggleStatus($id)
 }
 
 
- public function login(Request $request)
+public function login(Request $request)
 {
     try {
+        // Validate email and password input
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $request->email)->first();
-        // Check if the user exists and if they are active
-    if ($user && !$user->is_active) {
-        return redirect()->back()->withErrors(['email' => 'Your account is inactive. Please contact admin.']);
-    }
-
-    // if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-    //     // Authentication passed...
-    //     return redirect()->intended('dashboard');
-    // }
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Attempt to find the user by email
+        $user = User::where('email', $request->email)->first();
+
+        // Check if the user exists and if their status is 'is_active'
+        if ($user && $user->status !== 'is_active') {
+            return redirect()->back()->withErrors(['email' => 'Your account is inactive. Please contact the admin.']);
         }
 
         // Attempt to authenticate the user
@@ -155,10 +154,10 @@ public function toggleStatus($id)
             return redirect()->back()->with('error', 'Unauthorized! Invalid email or password');
         }
 
-        $user = Auth::user();
+        $user = Auth::user(); // Get the authenticated user
 
         // Log the user ID and role for debugging
-        Log::info('Authenticated user ID: ' . $user->user_id);
+        Log::info('Authenticated user ID: ' . $user->id);
         Log::info('Authenticated user role: ' . $user->role);
 
         // Redirect based on user role
@@ -167,8 +166,8 @@ public function toggleStatus($id)
                 return redirect()->route('project_manager.index')->with('success', 'Login successful');
             case 'monitoring_officer':
                 return redirect()->route('monitoring_officer.index')->with('success', 'Login successful');
-              case 'admin':
-               return redirect()->route('admin.index')->with('success', 'Login successful');
+            case 'admin':
+                return redirect()->route('admin.index')->with('success', 'Login successful');
             case 'accounting_officer':
                 return redirect()->route('accounting_officer.index')->with('success', 'Login successful');
             default:

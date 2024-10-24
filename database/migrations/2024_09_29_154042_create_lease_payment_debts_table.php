@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('lease_payment_debts', function (Blueprint $table) {
             $table->id();
-            $table->string('customername');
-            $table->string('category');
-            $table->string('device_name');
-            $table->string('amount');
-            $table->date('from_date');
-            $table->date('up_todate');
-            $table->string('status');
-             $table->string('debt');
+            $table->string('customername')->nullable();
+            $table->string('category')->nullable();
+            $table->string('device_name')->nullable();
+            $table->string('amount')->nullable();
+            $table->date('from_date')->nullable();
+            $table->date('up_todate')->nullable();
+            $table->string('status')->nullable();
+             $table->string('debt')->nullable();
             $table->timestamps();
         });
     }

@@ -65,7 +65,6 @@ public function show($id)
     {
         // Validate incoming request data
         $request->validate([
-            'status'=>'required',
             'customer_id' => 'required', // Ensure customer_id is provided
             'due_date' => 'required|date',
             'prepared_by' => 'required',
@@ -110,6 +109,8 @@ public function show($id)
 
         return redirect()->route('invoice_payments.index')->with('success', 'Invoice Payment created successfully.');
     }
+
+
     public function destroy($id)
 {
     $invoice = InvoicePayment::findOrFail($id);

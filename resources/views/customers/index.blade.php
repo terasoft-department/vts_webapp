@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +41,6 @@
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
-
 
       <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -165,12 +163,12 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-        <li class="nav-item">
-            <a class="nav-link " href="project_manager">
-              <i class="bi bi-grid"></i>
-              <span>Dashboard</span>
-            </a>
-          </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="project_manager">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
 
 
       </li><!-- End Components Nav -->
@@ -191,6 +189,12 @@
             </a>
           </li>
           <li>
+            <a href="AccountAssignment">
+              <i class="fas fa-file-alt"></i><span>Assignments</span>
+            </a>
+          </li>
+
+          <li>
             <a href="device_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
@@ -200,6 +204,7 @@
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
           </li>
+
           <li>
             <a href="jobcards">
               <i class="bi bi-circle"></i><span>Jobcard</span>
@@ -207,6 +212,8 @@
           </li>
         </ul>
       </li><!-- End Forms Nav -->
+
+      </li><!-- End Icons Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="\auth/login">
           <i class="bi bi-box-arrow-in-right"></i>
@@ -215,8 +222,8 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-
-  <main id="main" class="main">
+ <!-- Main Content -->
+<main id="main" class="main">
 
         <div class="container mt-2">
             <h4 class="text-center">Customer Management</h4>

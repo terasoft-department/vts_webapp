@@ -4,31 +4,34 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateReturnDevicesTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('return_devices', function (Blueprint $table) {
             $table->id('return_id'); // Primary key
-            $table->integer('user_id')->nullable(); // Foreign key
-              $table->string('customername'); // Device number
-            $table->string('device_category'); // Device number
-            $table->string('devicenumber'); // Device number
-            $table->string('vehiclenumber'); // Vehicle number
-            $table->text('reason'); // Reason for return
-            $table->enum('status', ['approved', 'not approved'])->nullable(); // Status of the return
-            $table->timestamps();
+            $table->foreignId('user_id')->nullable(); // Foreign key to users table
+            $table->string('plate_number', 255)->nullable(); // Vehicle plate number
+             $table->foreignId('imei_number')->nullable(); // Foreign key to vehicles table
+            $table->foreignId('customer_id')->nullable(); // Foreign key to customers table
+            $table->text('reason')->nullable(); // Reason for return
+            $table->string('status')->default('pending')->nullable(); // Status of the return
+            $table->timestamps(); // Created at and Updated at timestamps
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('return_devices');
     }
-};
+}

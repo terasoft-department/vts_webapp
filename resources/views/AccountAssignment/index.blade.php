@@ -29,7 +29,6 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -42,8 +41,6 @@
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
-
-
 
       <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -161,14 +158,13 @@
 
 
   </header><!-- End Header -->
-
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="project_manager">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -178,61 +174,46 @@
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Monitoring Officer</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
-              <a href="assignments">
-                <i class="bi bi-circle"></i><span>Assignment</span>
-              </a>
-            </li>
-            <li>
-              <a href="jobcards2">
-                <i class="bi bi-circle"></i><span>JobCard</span>
-              </a>
-            </li>
-            <li>
-              <a href="checklists">
-                <i class="bi bi-circle"></i><span>Routing Checkup List</span>
-              </a>
-            </li>
-            <li>
-              <a href="trackvehicle">
-                <i class="bi bi-circle"></i><span>Track Vehicle</span>
-              </a>
-            </li>
-            <li>
-              <a href="cdebts">
-                <i class="bi bi-circle"></i><span>Customer Debts</span>
-              </a>
-            </li>
-          </ul>
-        </li><!-- End Charts Nav -->
+                <a href="customers">
+                  <i class="bi bi-circle"></i><span>Customer</span>
+                </a>
+              </li>
+          <li>
+            <a href="devices">
+              <i class="bi bi-circle"></i><span>Device</span>
+            </a>
+          </li>
+          <li>
+            <a href="AccountAssignment">
+              <i class="fas fa-file-alt"></i><span>Assignments</span>
+            </a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-journal-text"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
-          </a>
-          <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="daily_weekly_reports">
-                <i class="bi bi-circle"></i><span>Daily</span>
-              </a>
-            </li>
-            <li>
-              <a href="reports">
-                <i class="bi bi-circle"></i><span>Monthly</span>
-              </a>
-            </li>
-            <li>
-              <a href="tampering">
-                <i class="bi bi-circle"></i><span>Tampering</span>
-              </a>
-            </li>
-          </ul>
+          <li>
+            <a href="device_requisitions">
+              <i class="bi bi-circle"></i><span>Device dispatch</span>
+            </a>
+          </li>
+          <li>
+            <a href="return_device">
+              <i class="bi bi-circle"></i><span>DeviceReturn</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="jobcards">
+              <i class="bi bi-circle"></i><span>Jobcard</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Forms Nav -->
+
       </li><!-- End Icons Nav -->
-
       <li class="nav-item">
         <a class="nav-link collapsed" href="\auth/login">
           <i class="bi bi-box-arrow-in-right"></i>
@@ -241,7 +222,8 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-  <main id="main" class="main">
+ <!-- Main Content -->
+<main id="main" class="main">
     <div class="main-content">
         <div class="container mt-2" style="margin-top:50px">
             <h4 class="text-center" style="color:#4177fd;">Assignments</h4><br>
@@ -257,18 +239,20 @@
                 </button>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-md-8">
-                    <form method="GET" action="{{ route('assignments.index') }}">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Search by customer or plate number..." aria-label="Search assignments" value="{{ request()->query('search') }}">
-                            <button class="btn btn-primary" type="submit" style="background-color:#4177fd;">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <!-- Search Form -->
+<div class="row mb-3">
+    <div class="col-md-8">
+        <form method="GET" action="{{ route('Aassignments.index') }}">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by customer or plate number..." aria-label="Search assignments" value="{{ request()->query('search') }}">
+                <button class="btn btn-primary" type="submit" style="background-color:#4177fd;">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
+        </form>
+    </div>
+</div>
+
             <!-- Assignments Table -->
             <table class="table table-bordered table-striped mt-2 text-left">
                 <thead style="background-color: #4177fd; color: white;">
@@ -468,20 +452,21 @@
 </main>
 
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <!-- Scroll to Top -->
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+            <i class="bi bi-arrow-up-short"></i>
+        </a>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+        <!-- Vendor JS Files -->
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="assets/vendor/echarts/echarts.min.js"></script>
+        <script src="assets/vendor/quill/quill.min.js"></script>
+        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
+    </div>
 </main>
 </body>
 </html>

@@ -165,7 +165,7 @@
 
             // RBT Status Data
             const rbtStatuses = ['Very Good', 'Good', 'Bad'];
-            const rbtCounts = { 'Very Good': 0, 'Good': 0, 'Bad': 0 };
+            const rbtCounts = { 'Very Good': 10, 'Good': 10, 'Bad': 10 };
 
             @if(isset($results))
                 @foreach($results as $checklist)
@@ -177,7 +177,7 @@
 
             // Battery Status Data
             const batteryStatuses = ['Good', 'Bad', 'Very Good'];
-            const batteryCounts = { 'Good': 0, 'Bad': 0, 'Very Good': 0 };
+            const batteryCounts = { 'Good': 12, 'Bad': 5, 'Very Good': 10 };
 
             @if(isset($results))
                 @foreach($results as $checklist)

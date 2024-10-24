@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>TERAVTS - Tera Vehicle Tracking System</title>
-    <meta content="Vehicle tracking system management" name="description">
-    <meta content="vehicle tracking, management, teravts" name="keywords">
+    <title>teravts</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
 
     <!-- Favicons -->
     <link href="assets/img/apple-touch-icon.png" rel="icon">
@@ -15,7 +15,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Nunito:300,400,600,700|Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,6 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome.min.css">
 </head>
 
 <body>
@@ -39,25 +38,52 @@
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
                 <img src="assets/img/apple-touch-icon.png" alt="">
-                <span class="d-none d-lg-block">TERAVTS</span>
+                <span class="d-none d-lg-block"> TERAVTS</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
+                <!-- Notifications and Profile Dropdowns -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-primary badge-number">4</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                        <li class="dropdown-header">You have 4 new notifications</li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="notification-item">
+                            <i class="bi bi-exclamation-circle text-warning"></i>
+                            <div>
+                                <h4>Latra</h4>
+                                <p>Check out Procedures</p>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="dropdown-footer"><a href="#">Show all notifications</a></li>
+                    </ul>
+                </li>
+
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/apple-touch-icon.png" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">Welcome, {{ auth()->user()->name }}</span>
                     </a>
-                    <!-- Profile Dropdown Items -->
-                </li><!-- End Profile Nav -->
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header"><h6>Welcome, {{ auth()->user()->name }}</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person"></i><span>My Profile</span></a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="/auth/login"><i class="bi bi-box-arrow-right"></i><span>Sign Out</span></a></li>
+                    </ul>
+                </li>
             </ul>
         </nav><!-- End Icons Navigation -->
     </header><!-- End Header -->
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+   <!-- ======= Sidebar ======= -->
+   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item"><a class="nav-link" href="admnDashboard"><i class="bi bi-grid"></i><span>Dashboard</span></a></li>
         <li class="nav-heading">Control Panel</li>
@@ -66,12 +92,16 @@
         <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i> Invoice</i>
         <li class="nav-item"><a class="nav-link collapsed" href="Apayment_reports"><i class="fas fa-credit-card"></i></i><span>Payments</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Aassignments"><i class="fas fa-file-alt"></i></i><span>Assignments</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="fas fa-file-invoice"></i></i><span>Customers</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fas fa-file-invoice"></i></i><span>Daily&Weekly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fas fa-file-invoice"></i></i><span>Weekly&Yearly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-tasks"></i></i><span>JobCards</span></a></li>
+
         <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
     </ul>
-</aside>
-<!-- End Sidebar -->
+</aside><!-- End Sidebar -->
 <!-- Main Content -->
+   <!-- Main Content -->
 <main id="main" class="main">
         <div class="main-content">
             <div class="container-fluid">
@@ -106,23 +136,26 @@
                                 <button type="button" class="btn btn-" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user='@json($user)'>
                                     <i class="bi bi-pencil"></i>
                                 </button>
-
                                 <form action="{{ route('users.toggleStatus', $user->user_id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('PUT')
-                                        @if(auth()->user()->role !== 'admin') disabled @endif
 
-                                        @if($user->is_active)
+                                    {{-- Disable the button for non-admin users --}}
+                                    @if(auth()->user()->role !== 'admin') disabled @endif
+
+                                    {{-- Check the user's status field --}}
+                                    @if($user->status === 'is_active')
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-user-check"></i> Enable
                                     </button>
-                                        @else
-                                         <button type="submit" class="btn btn-danger">
-                                        <i class="fas fa-user-slash"></i> Disable
-                                         </button>
-                                        @endif
+                                    @else
 
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-user-slash"></i> Disable
+                                        </button>
+                                    @endif
                                 </form>
+
                             </td>
 
                         </tr>

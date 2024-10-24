@@ -268,7 +268,7 @@
             <thead style="background-color: #175ec1e1; color: white;">
                 <tr>
                     <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">Item</th>
-                    <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">Description</th>
+                    <th style="padding: 1px; border: 1px solid #000 font-size: 10px;;">Description</th>
                     <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">No. of Cars</th>
                     <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">Period (Months)</th>
                     <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">UOM</th>
@@ -279,7 +279,7 @@
             <tbody>
                 <tr>
                     <td style="border: 1px solid #000; padding: 10px;">1</td>
-                    <td style="border: 1px solid #000; padding: 10px;">{{ $invoice->descriptions }}</td>
+                    <td style="border: 1px solid #000; padding: 30px;">{{ $invoice->descriptions }}</td>
                     <td style="border: 1px solid #000; padding: 10px;">{{ $invoice->num_cars }}</td>
                     <td style="border: 1px solid #000; padding: 10px;">12</td>
                     <td style="border: 1px solid #000; padding: 10px;">Each</td>
@@ -288,16 +288,14 @@
                 </tr>
             </tbody>
         </table>
-
-        <section class="bank-details" style="margin-bottom: 20px;">
-            <h5 style="font-weight: bold;">BANK ACCOUNT DETAILS</h5>
+        {{-- <section class="bank-details" style="margin-bottom: 10px;"> --}}
+            <h6 style="font-weight: bold;">BANK ACCOUNT DETAILS</h6>
             <p style="margin: 0; font-size: 13px;">Account Name: TERA TECHNOLOGIES AND ENGINEERING LIMITED</p>
             <p style="margin: 0; font-size: 13px;">Bank Name: CRDB BANK PLC</p>
             <p style="margin: 0; font-size: 13px;">Account Number: 015029553801</p>
             <p style="margin: 0; font-size: 13px;">Branch: Mlimani City</p>
             <p style="margin: 0; font-size: 13px;">Swift Code: CORUTZTZ</p>
-        </section>
-
+        {{-- </section> --}}
         <table class="invoice-summary" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <tbody>
                 <tr>
@@ -322,10 +320,11 @@
                 </tr>
             </tbody>
         </table>
-        <footer style="text-align: right; margin-top: 20px;">
+        <footer style="text-align: right; margin-top: 5px;">
             <p>Signature & Official Stamp</p>
+        <img src="/images/stamp.jpg" alt="Logo" class="logo" style="width: 150px;">
         </footer>
-        <footer style="text-align: left; margin-top: 10px;">
+        <footer style="text-align: left; margin-top: 5px;">
             <p>Prepared By: <b>{{ $invoice->prepared_by }}</b></p>
             <p>For: TTEL</p>
         </footer>

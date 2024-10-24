@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('check_lists', function (Blueprint $table) {
-            $table->id('check_id'); // Primary key
-            $table->unsignedBigInteger('user_id'); // Foreign key to users table
+            $table->id('check_id')->nullable(); // Primary key
+            $table->unsignedBigInteger('user_id')->nullable(); // Foreign key to users table
             $table->unsignedBigInteger('vehicle_id')->nullable(); // Foreign key to vehicles table
             $table->unsignedBigInteger('customer_id')->nullable(); // Foreign key to customers table
             $table->string('plate_number')->nullable(); // Vehicle plate number

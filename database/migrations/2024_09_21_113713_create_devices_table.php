@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id('device_id'); // Primary key
-            $table->string('imei_number'); // IMEI number eg:T540DRM
-            $table->enum('category', ['master','I_button', 'buzzer', 'panick_button']);
-            $table->integer('total'); // Total quantity
+            $table->string('imei_number')->nullable(); // IMEI number eg:T540DRM
+            $table->enum('category', ['master','I_button', 'buzzer', 'panick_button'])->nullable();
+            $table->integer('total')->nullable(); // Total quantity
             $table->timestamps();
         });
     }

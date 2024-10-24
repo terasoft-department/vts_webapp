@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id( 'customer_id'); // Auto-incrementing primary key
-            $table->string('customername');// Should be string
-            $table->string('address');
-            $table->string('customer_phone');// Should be string if it can contain characters like '+'
-            $table->string('tin_number');// Should be string
+            $table->id( 'customer_id');// Auto-incrementing primary key
+            $table->string('customername')->nullable();// Should be string
+            $table->string('address')->nullable();
+            $table->string('customer_phone')->nullable();// Should be string if it can contain characters like '+'
+            $table->string('tin_number')->nullable();// Should be string
             $table->string('email')->unique();// Customer email, must be unique
-            $table->date('start_date');// Use date for date columns
+            $table->date('start_date')->nullable();// Use date for date columns
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -51,6 +52,16 @@ class InvoiceController extends Controller
 
         return redirect()->route('invoices.index')->with('success', 'Invoice created successfully.');
     }
+
+
+    public function dashboard()
+    {
+        $weeklyRevenue = Invoice::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                                ->sum('grand_total');
+
+        return view('dashboard', compact('weeklyRevenue'));
+    }
+
 
     // Display a specific invoice
     public function show($id)
