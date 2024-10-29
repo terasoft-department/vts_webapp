@@ -245,11 +245,11 @@
                                 <td>{{ $vehicle->customer->customername }}</td>
                                 <td>{{ $vehicle->plate_number }}</td>
                                 <td>
-                                    <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicles_id }}">
+                                    <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}">
                                         <i class="bi bi-pencil"></i>
                                     </button>
 
-                                    <form action="{{ route('vehicles.destroy', $vehicle->vehicles_id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('vehicles.destroy', $vehicle->vehicle_id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
@@ -258,7 +258,7 @@
                             </tr>
 
                             <!-- Edit Vehicle Modal -->
-                            <div class="modal fade" id="editVehicleModal{{ $vehicle->vehicles_id }}" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="editVehicleModal{{ $vehicle->vehicle_id }}" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -268,7 +268,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('vehicles.update', $vehicle->vehicles_id) }}" method="POST">
+                                            <form action="{{ route('vehicles.update', $vehicle->vehicle_id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="form-group">

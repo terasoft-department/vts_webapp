@@ -305,8 +305,8 @@
                                                         <div class="form-group">
                                                             <label for="status">Status</label>
                                                             <select id="status" name="status" class="form-control">
-                                                                <option value="Approved">Approve</option>
-                                                                <option value="Rejected">Reject</option>
+                                                                <option value="approve">approve</option>
+                                                                <option value="reject">reject</option>
                                                             </select>
                                                         </div>
 

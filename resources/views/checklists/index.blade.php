@@ -61,7 +61,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>UserID</th>
+                            <th>User</th>
                             <th>Vehicle Name</th>
                             <th>Customer Name</th>
                             <th>Plate Number</th>

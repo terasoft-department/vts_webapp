@@ -9,7 +9,7 @@ class Vehicle extends Model
 {
     use HasFactory;
     // Set the primary key
-    protected $primaryKey = 'vehicles_id';
+    protected $primaryKey = 'vehicle_id';
 
     // Allow mass assignment on the following attributes
     protected $fillable = [

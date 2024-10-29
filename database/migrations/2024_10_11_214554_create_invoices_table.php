@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoices', function (Blueprint $table) {
-        $table->id();
+        $table->id('invoice_id')->nullable();
         $table->string('invoice_number')->nullable();
         $table->date('invoice_date')->nullable();
         $table->integer('grand_total')->nullable();
