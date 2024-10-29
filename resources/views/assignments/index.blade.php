@@ -281,8 +281,8 @@
                         <th>Location</th>
                         <th>Reporter</th>
                         <th>Incident Reported</th>
-                        <th>Attachment</th>
-                        {{-- <th>Assigned By</th> --}}
+                        {{-- <th>Attachment</th> --}}
+                        <th>Assigned By</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
