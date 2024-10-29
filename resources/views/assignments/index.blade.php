@@ -422,10 +422,10 @@
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="status">Status</label>
                                     <input type="text" class="form-control" id="status" name="status" required>
-                                </div>
+                                </div> --}}
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
                             </form>

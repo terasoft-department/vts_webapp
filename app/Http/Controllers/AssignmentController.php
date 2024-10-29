@@ -51,7 +51,7 @@ public function index(Request $request)
             'case_reported' => 'required|string',
             'attachment' => 'nullable|file|mimes:pdf|max:2048',
             'assigned_by'=> 'required|string',
-            'status'=> 'required|string',
+            // 'status'=> 'required|string',
 
         ]);
 
@@ -64,7 +64,7 @@ public function index(Request $request)
         $assignment->user_id = $request->user_id;
         $assignment->case_reported = $request->case_reported;
         $assignment->assigned_by = $request->assigned_by;
-        $assignment->status = $request->status;
+        // $assignment->status = $request->status;
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
@@ -120,7 +120,7 @@ public function index(Request $request)
         'case_reported'=>'required|string',
         'attachment' => 'nullable|file|mimes:pdf|max:2048',
         'assigned_by'=> 'required|string',
-         'status'=> 'required|string',
+        //  'status'=> 'required|string',
     ]);
 
     try {
@@ -137,7 +137,7 @@ public function index(Request $request)
             'case_reported',
             'attachment',
             'assigned_by',
-             'status',
+            //  'status',
         ]);
 
         // Update the assignment
