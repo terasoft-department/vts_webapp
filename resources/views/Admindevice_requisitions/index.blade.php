@@ -105,156 +105,105 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container mt-2">
-        {{-- <h3 class="text-center mb-2">Welcome to Dashboard</h3> --}}
-        <div class="row">
-            <!-- Accounts & Finance Summary Card -->
-            <div class="col-md-4 mb-2">
-                <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-black">
-                        Accounts & Finance Summary
-                    </div>
-                    <div class="card-body bg-white">
-                        <p class="card-text">Total Revenue (TZS): {{ $totalRevenue ?? 0 }}</p>
-                        <p class="card-text">Paid Invoice: {{ $paidInvoiceCount ?? 0 }}</p>
-                        <p class="card-text">Unpaid Invoice: {{ $unpaidInvoiceCount ?? 0 }}</p>
-                    </div>
+        <div class="container mt-2">
+            <div class="card">
+                <div class="card-header bg text-blue text-center">
+                    <h4 class="m-0">Device Dispatch</h4>
                 </div>
-            </div>
-             <!-- Devices Card -->
-             <div class="col-md-4 mb-2">
-                <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-black">
-                        Devices
-                    </div>
-                    <div class="card-body bg-white">
-                        <p class="card-text">Total Device: {{ $devicenoSum ?? 0 }}</p>
-                        <p class="card-text">Device Number: {{ $deviceCount ?? 0 }}</p>
-                        <p class="card-text">Return Device: {{ $deviceReturnCount ?? 0 }}</p>
-                        <p class="card-text">Device Dispatch: {{ $devicedispatchCount ?? 0 }}</p>
-                    </div>
-                </div>
-            </div>
 
-             <!-- Operation Summary Card -->
-             <div class="col-md-4 mb-2">
-                <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-black">
-                        Operation Summary
-                    </div>
-                    <div class="card-body bg-white">
-                        <p class="card-text">Assignments: {{ $assignmentCount ?? 0 }}</p>
-                        <p class="card-text">Checkuplists: {{ $CheckuplistCount ?? 0 }}</p>
-                        <p class="card-text">Customers: {{ $CustomersCount ?? 0 }}</p>
-                        <p class="card-text">Jobcards: {{ $JobcardsCount ?? 0 }}</p>
-                        <p class="card-text">Customers Debts: {{ $DebtsCount ?? 0 }}</p>
-                        <p class="card-text">Vehicles: {{ $VehiclesCount ?? 0 }}</p>
-                        <p class="card-text">System Users: {{ $userCount ?? 0 }}</p>
-                    </div>
+                <div class="card-body">
+                    @if (session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User ID</th>
+                                <th>Descriptions</th>
+                                <th>Status</th>
+                                <th>Master</th>
+                                <th>I-Button</th>
+                                <th>Buzzer</th>
+                                <th>Panic Button</th>
+                                <th>Approve</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($requisitions as $requisition)
+                            <tr>
+                                <td>{{ $requisition->requisition_id }}</td>
+                                <td>{{ $requisition->user_id }}</td>
+                                <td>{{ $requisition->descriptions }}</td>
+                                <td>{{ $requisition->status }}</td>
+                                <td>{{ $requisition->master }}</td>
+                                <td>{{ $requisition->I_button }}</td>
+                                <td>{{ $requisition->buzzer }}</td>
+                                <td>{{ $requisition->panick_button }}</td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
+                                        <i class="bi bi-check-circle"></i>
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="mb-3">
+                                                            <label for="descriptions" class="form-label">Descriptions</label>
+                                                            <input type="text" class="form-control" id="descriptions" name="descriptions" value="{{ $requisition->descriptions }}" @readonly(true)>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="status" class="form-label">Status</label>
+                                                            <select class="form-select" id="status" name="status" required>
+                                                                <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                                <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
+                                                                <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="master" class="form-label">Master</label>
+                                                            <input type="text" class="form-control" id="master" name="master" value="{{ $requisition->master }}"@readonly(true)>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="I_button" class="form-label">I-Button</label>
+                                                            <input type="text" class="form-control" id="I_button" name="I_button" value="{{ $requisition->I_button }}"@readonly(true)>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="buzzer" class="form-label">Buzzer</label>
+                                                            <input type="text" class="form-control" id="buzzer" name="buzzer" value="{{ $requisition->buzzer }}"@readonly(true)>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="panick_button" class="form-label">Panic Button</label>
+                                                            <input type="text" class="form-control" id="panick_button" name="panick_button" value="{{ $requisition->panick_button }}"@readonly(true)>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">submit</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </div>
-
-        <!-- Charts Section -->
-        <div class="mt-2">
-
-               <!-- Chart for Operation Summary -->
-            <canvas id="operationSummaryChart" width="600" height="200"></canvas>
-
-             <!-- Chart for Accounts & Finance Summary -->
-             <canvas id="accountsFinanceChart" width="600" height="200"></canvas>
-
-            <!-- Chart for Devices -->
-            <canvas id="devicesChart" width="600" height="200"></canvas>
-
-
-        </div>
-    </div>
-
-    <!-- JavaScript for Data Visualization -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Devices Chart
-            new Chart(document.getElementById("devicesChart"), {
-                type: 'bar',
-                data: {
-                    labels: ["Total Device", "Device Number", "Return Device", "Device Dispatch"],
-                    datasets: [{
-                        label: 'Devices Data',
-                        data: [{{ $devicenoSum ?? 0}}, {{ $deviceCount ?? 0}}, {{ $deviceReturnCount ?? 0 }}, {{ $devicedispatchCount ?? 0}}],
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: { y: { beginAtZero: true } },
-                    responsive: true
-                }
-            });
-
-            // Operation Summary Chart
-            new Chart(document.getElementById("operationSummaryChart"), {
-                type: 'bar',
-                data: {
-                    labels: ["Assignments", "Checkuplists", "Customers", "Jobcards", "Customers Debts", "Vehicles", "System Users"],
-                    datasets: [{
-                        label: 'Operation Summary',
-                        data: [{{ $assignmentCount ?? 0 }}, {{ $CheckuplistCount ?? 0}}, {{ $CustomersCount ?? 0}}, {{ $JobcardsCount ?? 0}}, {{ $DebtsCount ?? 0}}, {{ $VehiclesCount ?? 0}}, {{ $userCount ?? 0 }}],
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: { y: { beginAtZero: true } },
-                    responsive: true
-                }
-            });
-
-            // Accounts & Finance Chart
-            new Chart(document.getElementById("accountsFinanceChart"), {
-                type: 'bar',
-                data: {
-                    labels: ["Total Revenue", "Paid Invoice", "Unpaid Invoice"],
-                    datasets: [{
-                        label: 'Accounts & Finance',
-                        data: [{{ $totalRevenue ?? 0}}, {{ $paidInvoiceCount ?? 0}}, {{ $unpaidInvoiceCount ?? 0}}],
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: { y: { beginAtZero: true } },
-                    responsive: true
-                }
-            });
-        });
-    </script>
-
-    <!-- Styles -->
-    <style>
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        .border-primary {
-            border-left: 5px solid #007bff;
-        }
-        .card-header {
-            font-weight: bold;
-        }
-        .bg-primary {
-            background-color: #FFFFFF !important;
-        }
-    </style>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </main><!-- End #main -->
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -268,6 +217,6 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-
 </body>
+
 </html>

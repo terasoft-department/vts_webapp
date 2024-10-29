@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +28,6 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -150,11 +148,12 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="accounting_officer">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li><!-- End Dashboard Nav -->
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-layout-text-window-reverse"></i><span>Accounting & Finance</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -175,6 +174,7 @@
                             <i class="bi bi-circle"></i><span>Payments</span>
                         </a>
                     </li>
+                    </li>
                     <li>
                         <a href="tdebts">
                             <i class="bi bi-circle"></i><span>Track Debts</span>
@@ -194,8 +194,6 @@
                 </ul>
             </li><!-- End Accounting & Finance Nav -->
 
-
-
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/auth/login">
                     <i class="bi bi-box-arrow-in-right"></i>
@@ -206,7 +204,7 @@
         </ul>
     </aside><!-- End Sidebar -->
 <body>
-    <main id="main" class="main">
+        <main id="main" class="main">
 <div class="container mt-5">
     <!-- Success/Error Messages -->
     @if(session('success'))

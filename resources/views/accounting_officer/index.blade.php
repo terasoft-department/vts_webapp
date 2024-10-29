@@ -148,7 +148,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="accounting_officer">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>

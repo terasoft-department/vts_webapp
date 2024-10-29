@@ -110,7 +110,7 @@ class AAssignmentsController extends Controller
         'location'=> 'required|string|max:255',
         'user_id'=>'required|string|max:15',
         'case_reported'=>'required|string',
-        'attachment'=>'required|string|max:15',
+        'attachment' => 'nullable|file|mimes:pdf|max:2048',
         'assigned_by'=> 'required|string',
         'status'=>  'required|string',
         ]);

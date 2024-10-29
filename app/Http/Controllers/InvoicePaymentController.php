@@ -57,8 +57,8 @@ public function show($id)
     {
         $invoicePayment = InvoicePayment::findOrFail($id);
         $customers = Customer::all(); // Fetch all customers
-        return response()->json($invoicePayment); // Return the invoice data for editing
-        // return view('invoice_payments.edit', compact('invoicePayment', 'customers'));
+        // return response()->json($invoicePayment); // Return the invoice data for editing
+         return view('invoice_payments.edit', compact('invoicePayment', 'customers'));
     }
 
     public function store(Request $request)

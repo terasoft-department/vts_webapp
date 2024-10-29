@@ -6,8 +6,11 @@ use App\Http\Controllers\AccountingOfficerController;
 use App\Http\Controllers\ACustomerController;
 use App\Http\Controllers\ADailyWeeklyReportController;
 use App\Http\Controllers\AdminCustomerController;
+use App\Http\Controllers\AdminDispatchController;
 use App\Http\Controllers\AdminInvoice2Controller;
 use App\Http\Controllers\AdminInvoiceController;
+use App\Http\Controllers\AdminTrackDebtsController;
+use App\Http\Controllers\AdminTrackvehicleController;
 use App\Http\Controllers\AJobCardController;
 use App\Http\Controllers\APaymentController;
 use App\Http\Controllers\AReportController;
@@ -16,7 +19,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CDebtsController;
 use App\Http\Controllers\CheckListController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DailyChecklist;
 use App\Http\Controllers\DailyWeeklyReportController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\DeviceRequisitionController;
@@ -29,6 +34,7 @@ use App\Http\Controllers\MjobcardsController;
 use App\Http\Controllers\MonitoringOfficerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentReportController;
+use App\Http\Controllers\PDashboardController;
 use App\Http\Controllers\ProjectManagerController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReturnDeviceController;
@@ -88,6 +94,30 @@ Route::middleware('auth')->group(function () {
 Route::resource('vehicles', VehicleController::class);
 
 });
+//dashboard for admin
+Route::get('admin', [DashboardController::class, 'index'])->name('admin.index');
+
+//trackvehicle for admin
+
+Route::get('/Admintrackvehicle', [AdminTrackvehicleController::class, 'index'])->name('Admintrackvehicle.index');
+Route::post('/Admintrackvehicle/search', [AdminTrackvehicleController::class, 'search'])->name('Admintrackvehicle.search');
+Route::post('/Admintrackvehicle/store', [AdminTrackvehicleController::class, 'store'])->name('Admintrackvehicle.store');
+
+
+
+
+//daily checklist for admin
+
+Route::get('/Adminchecklists', [DailyChecklist::class, 'index'])->name('Adminchecklists.index');
+Route::post('/Adminchecklists/search', [DailyChecklist::class, 'search'])->name('Adminchecklists.search');
+Route::post('/Adminchecklists/store', [DailyChecklist::class, 'store'])->name('Adminchecklists.store');
+//trackvehicle for admin
+
+Route::get('/Admintdebts', [AdminTrackDebtsController::class, 'index'])->name('Admintdebts.index');
+Route::post('/Admintdebts/search', [AdminTrackDebtsController::class, 'search'])->name('Admintdebts.search');
+Route::post('/Admintdebts/store', [AdminTrackDebtsController::class, 'store'])->name('Admintdebts.store');
+
+
 
 //assignments for admin
     Route::middleware(['auth'])->group(function () {
@@ -116,7 +146,6 @@ Route::resource('return_device', ReturnDeviceController::class);
 Route::get('/return_device/{id}/approve', [ReturnDeviceController::class, 'show'])->name('return_device.show');
 Route::put('/return_device/{id}', [ReturnDeviceController::class, 'update'])->name('return_device.update');
 
-//Tampering routes
 
 // Project Manager Officer routes
 Route::get('project_manager', [ProjectManagerController::class, 'dashboard'])->name('project_manager.index');
@@ -200,6 +229,13 @@ Route::resource('invoices', InvoiceController::class);
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 Route::get('/invoices/pay/{id}', [InvoiceController::class, 'pay'])->name('invoices.pay');
 
+//Dispatch for admin
+
+Route::get('/Admindevice_requisitions', [AdminDispatchController::class, 'index'])->name('Admindevice_requisitions.index');
+Route::get('/Admindevice_requisitions/create', [AdminDispatchController::class, 'create'])->name('Admindevice_requisitions.create');
+Route::post('/Admindevice_requisitions', [AdminDispatchController::class, 'store'])->name('Admindevice_requisitions.store');
+Route::get('/Admindevice_requisitions/{id}/edit', [AdminDispatchController::class, 'edit'])->name('Admindevice_requisitions.edit');
+Route::put('/Admindevice_requisitions/{id}', [AdminDispatchController::class, 'update'])->name('Admindevice_requisitions.update');
 
 
 // payment report for admin

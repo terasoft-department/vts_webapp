@@ -1,5 +1,3 @@
-<!-- resources/views/reports/index.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,12 +167,11 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="monitoring_officer">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
 
       </li><!-- End Components Nav -->
 
@@ -242,11 +239,10 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-
-  <main id="main" class="main">
+  <!-- Main Content -->
+<main id="main" class="main">
 <div  class="text-center">
     <h4>Monthly & Yearly Reports</h4>
-
     <!-- Filter Form -->
     <form method="GET" action="{{ route('reports.index') }}">
         <div class="row mb-3">

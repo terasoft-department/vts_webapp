@@ -234,16 +234,16 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <!-- Search and Date Filters -->
-        <form class="row g-3 mb-4">
-            <div class="col-md-3">
-                <label for="search-input" class="form-label">IMEI Number</label>
-                <input type="text" class="form-control" placeholder="Search by IMEI Number" id="search-input">
-            </div>
-            <div class="col-md-3 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-30"><i class="bi bi-filter"></i> Filter</button>
-            </div>
-        </form>
+       <!-- Search and Date Filters -->
+    <form method="GET" action="{{ route('devices.index') }}" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label for="search-input" class="form-label">IMEI Number</label>
+            <input type="text" name="search" class="form-control" placeholder="Search by IMEI Number" id="search-input" value="{{ request()->input('search') }}">
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-30"><i class="bi bi-filter"></i> Filter</button>
+        </div>
+    </form>
 
         <!-- Add New Device Button -->
         <div class="text-left mb-2">
@@ -256,7 +256,7 @@
         <table class="table table-bordered mt-2 text-left">
             <thead>
                 <tr>
-                    <th>IMEI Number</th>
+                    <th>Device Number</th>
                     <th>Category</th>
                     <th>Total</th>
                     <th>Actions</th>

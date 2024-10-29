@@ -249,7 +249,7 @@
                         Customer
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-title count-up" data-target="5">0</h5>
+                        <h5 class="card-title count-up" data-target="{{ $CustomersCount ?? 0 }}">{{ $CustomersCount ?? 0 }}</h5>
                         <p class="card-text">Number of Customers</p>
                     </div>
                 </div>
@@ -262,7 +262,7 @@
                         Device
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-title count-up" data-target="60">0</h5>
+                        <h5 class="card-title count-up" data-target="{{ $devicenoSum ?? 0 }}">{{ $devicenoSum ?? 0 }}</h5>
                         <p class="card-text">Number of Devices</p>
                     </div>
                 </div>
@@ -275,7 +275,7 @@
                         Device Dispatch
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-title count-up" data-target="75">0</h5>
+                        <h5 class="card-title count-up" data-target="{{ $devicedispatchCount ?? 0 }}">{{ $devicedispatchCount ?? 0 }}</h5>
                         <p class="card-text">Number of Dispatches</p>
                     </div>
                 </div>
@@ -288,7 +288,7 @@
                         Device Return
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-title count-up" data-target="40">0</h5>
+                        <h5 class="card-title count-up" data-target="{{ $deviceReturnCount ?? 0 }}">{{ $deviceReturnCount ?? 0 }}</h5>
                         <p class="card-text">Number of Returns</p>
                     </div>
                 </div>
@@ -301,12 +301,11 @@
                         Jobcard
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-title count-up" data-target="60">0</h5>
+                        <h5 class="card-title count-up" data-target="{{ $JobcardsCount ?? 0 }}">{{ $JobcardsCount ?? 0 }}</h5>
                         <p class="card-text">Number of Jobcards</p>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </main>

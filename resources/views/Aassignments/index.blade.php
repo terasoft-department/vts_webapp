@@ -81,27 +81,34 @@
                 </li>
             </ul>
         </nav><!-- End Icons Navigation -->
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
     </header><!-- End Header -->
    <!-- ======= Sidebar ======= -->
    <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item"><a class="nav-link" href="admnDashboard"><i class="bi bi-grid"></i><span>Dashboard</span></a></li>
-        <li class="nav-heading">Control Panel</li>
+        <li class="nav-item"><a class="nav-link" href="admin"><i class="bi bi-grid"></i><span>Dashboard</span></a></li>
+        {{-- <li class="nav-heading">Control Panel</li> --}}
         <li class="nav-item"><a class="nav-link collapsed" href="users"><i class="bi bi-person"></i><span>User Management</span></a></li>
         <li class="nav-heading">Reports</li>
         <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i> Invoice</i>
         <li class="nav-item"><a class="nav-link collapsed" href="Apayment_reports"><i class="fas fa-credit-card"></i></i><span>Payments</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Aassignments"><i class="fas fa-file-alt"></i></i><span>Assignments</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fas fa-file-invoice"></i></i><span>Daily&Weekly</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fas fa-file-invoice"></i></i><span>Weekly&Yearly</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-tasks"></i></i><span>JobCards</span></a></li>
-
+        <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fa fa-chart-line"></i></i><span>Daily&Weekly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fa fa-calendar-alt"></i></i><span>Monthly&Yearly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-id-badge"></i></i><span>JobCards</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adminchecklists"><i class="fa fa-check-square"></i></i><span>Checklists</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admindevice_requisitions"><i class="fa fa-share"></i></i><span>Dispatch</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admintdebts"><i class="fa fa-file-invoice-dollar"></i></i><span>Debts</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admintrackvehicle"><i class="fas fa-car"></i></i><span>Trackvehicle</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
     </ul>
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
-   <!-- Main Content -->
 <main id="main" class="main">
     <div class="main-content">
         <div class="container mt-2" style="margin-top:50px">
@@ -169,7 +176,7 @@
                                 @endif
                             </td>
                             <td>{{ $assignment->assigned_by }}</td>
-                            <td>{{ $assignment->status }}</td>
+                            <td>{{ucfirst($assignment->status) }}</td>
                             <td class="text-center">
                                 <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                     <i class="fas fa-edit"></i>
@@ -285,7 +292,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>
-                                        <input type="text" class="form-control" id="status" name="status" required>
+                                        <select id="status" name="status" class="form-control">
+                                            <option value="Approved">Approved</option>
+                                            <option value="Rejected">Rejected</option>
+                                            <option value="Pending">Pending</option>
+                                        </select>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>

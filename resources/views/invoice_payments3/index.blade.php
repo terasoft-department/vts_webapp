@@ -243,7 +243,7 @@
 
         </header>
 
-        <hr style="border: 1px solid #000; margin: 20px 0;">
+        <hr style="border: 1px solid #000; margin: 10px 0;">
 
         <h5 style="text-align: center; margin-bottom: 20px; font-weight: bold; text-decoration: underline;">TAX INVOICE FOR VEHICLE TRACKER INSTALLATION</h5>
 

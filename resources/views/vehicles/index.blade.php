@@ -28,7 +28,10 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <!-- Template Main CSS File -->
+      <link href="assets/css/style.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 
 <body>
@@ -149,7 +152,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="accounting_officer">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
@@ -165,7 +168,6 @@
                             <i class="bi bi-circle"></i><span>Vehicle</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="Acustomers">
                             <i class="bi bi-circle"></i><span>Customers</span>
@@ -175,6 +177,7 @@
                         <a href="invoices">
                             <i class="bi bi-circle"></i><span>Payments</span>
                         </a>
+                    </li>
                     </li>
                     <li>
                         <a href="tdebts">
@@ -204,8 +207,8 @@
 
         </ul>
     </aside><!-- End Sidebar -->
-<body>
-    <main id="main" class="main">
+
+        <main id="main" class="main">
         <div class="card">
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h4 class="m-0 text-center">Vehicles</h4>

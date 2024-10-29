@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $devices = Device::all();
+        $search = $request->input('search');
+
+        $devices = Device::query()
+            ->when($search, function ($query, $search) {
+                $query->where('imei_number', 'like', "%{$search}%");
+            })
+            ->paginate(10); // Adjust pagination as needed
+
+        // $devices = Device::all();
         return view('devices.index', compact('devices'));
     }
 

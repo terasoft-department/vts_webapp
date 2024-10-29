@@ -16,12 +16,6 @@ class AssignmentController extends Controller
 
 public function index(Request $request)
 {
-    // $vehicles = Vehicle::all(); // Fetch all vehicles
-    // $users = User::where('role', 'technician')->get(); // Fetch only users with role 'technician'
-    // $customers = Customer::all(); // Fetch all customers
-    // $assignments = Assignment::all(); // Fetch all assignments
-    // $assignments = Assignment::paginate(10); // Adjust the number as needed
-    // return view('assignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
 
     $search = $request->get('search');
 
@@ -124,9 +118,9 @@ public function index(Request $request)
         'location'=> 'required|string|max:255',
         'user_id'=>'required|string|max:15',
         'case_reported'=>'required|string',
-        'attachment'=>'required|string|max:15',
+        'attachment' => 'nullable|file|mimes:pdf|max:2048',
         'assigned_by'=> 'required|string',
-        'status'=> 'required|string',
+         'status'=> 'required|string',
     ]);
 
     try {
@@ -143,7 +137,7 @@ public function index(Request $request)
             'case_reported',
             'attachment',
             'assigned_by',
-            'status',
+             'status',
         ]);
 
         // Update the assignment

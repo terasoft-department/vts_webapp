@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\CheckList;
 use Illuminate\Http\Request;
 
-class TrackVehicleController extends Controller
+class AdminTrackvehicleController extends Controller
 {
+
     public function index()
     {
         // Return the view without search results
-        return view('trackvehicle.index');
+        return view('Admintrackvehicle.index');
     }
 
     public function search(Request $request)
@@ -24,6 +25,6 @@ class TrackVehicleController extends Controller
             ->get();
 
         // Return the search results to the view
-        return view('trackvehicle.index', compact('results'));
+        return view('Admintrackvehicle.index', compact('results'));
     }
 }

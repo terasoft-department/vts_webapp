@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -167,12 +167,11 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="monitoring_officer">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
 
       </li><!-- End Components Nav -->
 
@@ -181,55 +180,55 @@
           <i class="bi bi-bar-chart"></i><span>Monitoring Officer</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="assignments">
-              <i class="bi bi-circle"></i><span>Assignment</span>
-            </a>
-          </li>
-          <li>
-            <a href="jobcards2">
-              <i class="bi bi-circle"></i><span>JobCard</span>
-            </a>
-          </li>
-          <li>
-            <a href="checklists">
-              <i class="bi bi-circle"></i><span>Routing Checkup List</span>
-            </a>
-          </li>
-          <li>
-            <a href="trackvehicle">
-              <i class="bi bi-circle"></i><span>Track Vehicle</span>
-            </a>
-          </li>
-          <li>
-            <a href="cdebts">
-              <i class="bi bi-circle"></i><span>Customer Debts</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Charts Nav -->
+            <li>
+              <a href="assignments">
+                <i class="bi bi-circle"></i><span>Assignment</span>
+              </a>
+            </li>
+            <li>
+              <a href="jobcards2">
+                <i class="bi bi-circle"></i><span>JobCard</span>
+              </a>
+            </li>
+            <li>
+              <a href="checklists">
+                <i class="bi bi-circle"></i><span>Routing Checkup List</span>
+              </a>
+            </li>
+            <li>
+              <a href="trackvehicle">
+                <i class="bi bi-circle"></i><span>Track Vehicle</span>
+              </a>
+            </li>
+            <li>
+              <a href="cdebts">
+                <i class="bi bi-circle"></i><span>Customer Debts</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End Charts Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="daily_weekly_reports">
-              <i class="bi bi-circle"></i><span>Daily</span>
-            </a>
-          </li>
-          <li>
-            <a href="reports">
-              <i class="bi bi-circle"></i><span>Monthly</span>
-            </a>
-          </li>
-          <li>
-            <a href="tampering">
-              <i class="bi bi-circle"></i><span>Tampering</span>
-            </a>
-          </li>
-        </ul>
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-journal-text"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="daily_weekly_reports">
+                <i class="bi bi-circle"></i><span>Daily</span>
+              </a>
+            </li>
+            <li>
+              <a href="reports">
+                <i class="bi bi-circle"></i><span>Monthly</span>
+              </a>
+            </li>
+            <li>
+              <a href="tampering">
+                <i class="bi bi-circle"></i><span>Tampering</span>
+              </a>
+            </li>
+          </ul>
       </li><!-- End Icons Nav -->
 
       <li class="nav-item">
@@ -240,8 +239,8 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-
-  <main id="main" class="main">
+  <!-- Main Content -->
+<main id="main" class="main">
     <div class="text-left">
         <h5>Daily and Weekly Reports</h5>
         <br>

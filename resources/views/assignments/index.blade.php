@@ -28,8 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -168,12 +167,11 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="monitoring_officer">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
 
       </li><!-- End Components Nav -->
 
@@ -241,7 +239,8 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-  <main id="main" class="main">
+  <!-- Main Content -->
+<main id="main" class="main">
     <div class="main-content">
         <div class="container mt-2" style="margin-top:50px">
             <h4 class="text-center" style="color:#4177fd;">Assignments</h4><br>
@@ -306,7 +305,8 @@
                             @endif
                         </td>
                         <td>{{ $assignment->assigned_by }}</td>
-                        <td>{{ $assignment->status }}</td>
+
+                        <td>{{ucfirst($assignment->status) }}</td>
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
@@ -420,9 +420,14 @@
                                     <label for="assigned_by">Assigned By</label>
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="status">Status</label>
-                                    <input type="text" class="form-control" id="status" name="status" required>
+                                    <select id="status" name="status" class="form-control">
+                                        <option value="Approved">Approved</option>
+                                        <option value="Rejected">Rejected</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>

@@ -167,12 +167,11 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="monitoring_officer">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
 
       </li><!-- End Components Nav -->
 
@@ -249,6 +248,7 @@
                 <p class="card text-center">OPERATION SUMMARY</p>
             </b>
             <div class="row">
+
         <!-- Card 1: Assignments -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="card card-custom border-left-primary shadow h-100 py-2">
@@ -256,7 +256,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Assignments</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="6">0</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $assignmentCount ?? 0 }}">{{ $assignmentCount ?? 0 }}</div>
                 </div>
                 <div class="col-auto">
                   <i class="bi bi-list-task fa-2x text-gray-300"></i>
@@ -273,7 +273,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Job Cards</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="6">0</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $JobcardsCount ?? 0 }}">{{ $JobcardsCount ?? 0 }}</div>
                 </div>
                 <div class="col-auto">
                   <i class="bi bi-card-checklist fa-2x text-gray-300"></i>
@@ -290,7 +290,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Routine Checkup</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="3">0</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $CheckuplistCount ?? 0 }}">{{ $CheckuplistCount ?? 0 }}</div>
                 </div>
                 <div class="col-auto">
                   <i class="bi bi-clipboard-pulse fa-2x text-gray-300"></i>
@@ -307,7 +307,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Customer Debts</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="3">0</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $DebtsCount ?? 0 }}">{{ $DebtsCount ?? 0 }}</div>
                 </div>
                 <div class="col-auto">
                   <i class="bi bi-currency-dollar fa-2x text-gray-300"></i>
