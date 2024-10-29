@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -267,7 +267,7 @@
                     <th>Location</th>
                     <th>Reporter</th>
                     <th>Incident Reported</th>
-                    <th>Attachment</th>
+                    {{-- <th>Attachment</th> --}}
                     <th>Assigned By</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -284,13 +284,13 @@
                     <td>{{ $assignment->location }}</td>
                     <td>{{ optional($users->find($assignment->user_id))->name ?? 'Unknown' }}</td>
                     <td>{{ $assignment->case_reported }}</td>
-                    <td>
+                    {{-- <td>
                         @if ($assignment->attachment)
                             <a href="{{ asset('uploads/' . $assignment->attachment) }}" target="_blank">
                                 <i class="fas fa-file-pdf text-danger"></i>
                             </a>
                         @endif
-                    </td>
+                    </td> --}}
                     <td>{{ $assignment->assigned_by }}</td>
                     <td>{{ucfirst($assignment->status) }}</td>
                     <td class="text-center">
@@ -409,11 +409,7 @@
 
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <select id="status" name="status" class="form-control">
-                                    <option value="Approved">Approved</option>
-                                    <option value="Rejected">Rejected</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
+                                <input type="text" class="form-control" id="status" name="status" required>
                             </div>
 
 

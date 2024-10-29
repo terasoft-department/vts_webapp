@@ -151,7 +151,7 @@
                             <th>Location</th>
                             <th>Reporter</th>
                             <th>Incident Reported</th>
-                            <th>Attachment</th>
+                            {{-- <th>Attachment</th> --}}
                             <th>Assigned By</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -168,13 +168,13 @@
                             <td>{{ $assignment->location }}</td>
                             <td>{{ optional($users->find($assignment->user_id))->name ?? 'Unknown' }}</td>
                             <td>{{ $assignment->case_reported }}</td>
-                            <td>
+                            {{-- <td>
                                 @if ($assignment->attachment)
                                     <a href="{{ asset('uploads/' . $assignment->attachment) }}" target="_blank">
                                         <i class="fas fa-file-pdf text-danger"></i>
                                     </a>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>{{ $assignment->assigned_by }}</td>
                             <td>{{ucfirst($assignment->status) }}</td>
                             <td class="text-center">
@@ -282,21 +282,17 @@
                                             <option value="non_transmission">Non Transmission</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="attachment">Attachment (PDF)</label>
                                         <input type="file" class="form-control-file" id="attachment" name="attachment" accept=".pdf">
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group">
                                         <label for="assigned_by">Assigned By</label>
                                         <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>
-                                        <select id="status" name="status" class="form-control">
-                                            <option value="Approved">Approved</option>
-                                            <option value="Rejected">Rejected</option>
-                                            <option value="Pending">Pending</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="status" name="status" required>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
