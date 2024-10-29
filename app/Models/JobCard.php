@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class JobCard extends Model
 {use HasFactory;
 
-    protected $table = 'jobcards'; // Ensure this matches the migration
+    protected $table = 'job_cards'; // Ensure this matches the migration
     protected $primaryKey = 'jobcard_id';
     public $timestamps = true;
 
