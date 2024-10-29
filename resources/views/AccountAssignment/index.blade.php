@@ -269,7 +269,7 @@
                     <th>Incident Reported</th>
                     {{-- <th>Attachment</th> --}}
                     <th>Assigned By</th>
-                    {{-- <th>Status</th> --}}
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -292,7 +292,7 @@
                         @endif
                     </td> --}}
                     <td>{{ $assignment->assigned_by }}</td>
-                    {{-- <td>{{ucfirst($assignment->status) }}</td> --}}
+                    <td>{{ucfirst($assignment->status) }}</td>
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                             <i class="fas fa-edit"></i>

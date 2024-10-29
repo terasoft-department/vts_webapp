@@ -165,9 +165,9 @@
                                                         <div class="mb-3">
                                                             <label for="status" class="form-label">Status</label>
                                                             <select class="form-select" id="status" name="status" required>
-                                                                <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                                <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                                <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                                                <option value="pending" {{ $requisition->status == 'pending' ? 'selected' : '' }}>pending</option>
+                                                                <option value="approved" {{ $requisition->status == 'approved' ? 'selected' : '' }}>approved</option>
+                                                                <option value="rejected" {{ $requisition->status == 'rejected' ? 'selected' : '' }}>rejected</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">

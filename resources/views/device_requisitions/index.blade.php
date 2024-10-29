@@ -252,7 +252,7 @@
                             @foreach($requisitions as $requisition)
                             <tr>
                                 <td>{{ $requisition->requisition_id }}</td>
-                                <td>{{ $requisition->user_id }}</td>
+                                <td>{{ $requisition->user_id ?? 'N/A' }}</td>
                                 <td>{{ $requisition->descriptions }}</td>
                                 <td>{{ $requisition->status }}</td>
                                 <td>{{ $requisition->master }}</td>
@@ -277,6 +277,23 @@
                                                     <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
+
+                                                        {{-- <div class="form-group">
+                                                            <label for="user">Technician</label>
+                                                            <input type="text" id="user" name="user" class="form-control" value="{{ $requisition->user->name ?? 'N/A' }}" readonly>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="user_id">Technician</label>
+                                                            <select id="user_id" name="user_id" class="form-control">
+                                                                @foreach($users as $user)
+                                                                    <option value="{{ $user->id }}" {{ (isset($requisition) && $requisition->user_id == $user->id) ? 'selected' : '' }}>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div> --}}
+
+
                                                         <div class="mb-3">
                                                             <label for="descriptions" class="form-label">Descriptions</label>
                                                             <input type="text" class="form-control" id="descriptions" name="descriptions" value="{{ $requisition->descriptions }}" @readonly(true)>
@@ -284,9 +301,9 @@
                                                         <div class="mb-3">
                                                             <label for="status" class="form-label">Status</label>
                                                             <select class="form-select" id="status" name="status" required>
-                                                                <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                                <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                                <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                                                <option value="pending" {{ $requisition->status == 'pending' ? 'selected' : '' }}>pending</option>
+                                                                <option value="approved" {{ $requisition->status == 'approved' ? 'selected' : '' }}>approved</option>
+                                                                <option value="rejected" {{ $requisition->status == 'rejected' ? 'selected' : '' }}>rejected</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
