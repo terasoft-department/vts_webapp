@@ -106,7 +106,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>UserID</th>
+                            <th>User</th>
                             <th>Vehicle Name</th>
                             <th>Customer Name</th>
                             <th>Plate Number</th>
@@ -123,7 +123,7 @@
                         @else
                             @foreach($results as $checklist)
                                 <tr>
-                                    <td>{{ $checklist->user_id }}</td>
+                                    <td>{{ $checklist->user->name ?? 'N/A' }}</td>
                                     <td>{{ $checklist->vehicle->vehicle_name ?? 'N/A' }}</td>
                                     <td>{{ $checklist->customer->customername ?? 'N/A' }}</td>
                                     <td>{{ $checklist->plate_number }}</td>

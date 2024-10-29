@@ -10,7 +10,8 @@ class AJobCardController extends Controller
 
     public function index()
     {
-        $jobcards = JobCard::all();
+        $jobcards = JobCard::with(['customer', 'user'])->get();
+        // $jobcards = JobCard::all();
         return view('Ajobcards.index', compact('jobcards'));
     }
 
@@ -33,12 +34,6 @@ class AJobCardController extends Controller
 
         return redirect()->route('Ajobcards.index')->with('success', 'Job card updated successfully.');
     }
-    public function sendTestEmail()
-{
-    $jobcard = JobCard::find(1); // Retrieve a sample job card (adjust as necessary)
 
-
-    return 'Test email sent!';
-}
 
 }

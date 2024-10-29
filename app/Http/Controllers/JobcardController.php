@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\JobCardShared;
+
 use App\Models\JobCard;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+
 
 class JobcardController extends Controller
 {
     public function index()
     {
-        $jobcards = JobCard::all();
+        $jobcards = JobCard::with('user')->get();
+        // $jobcards = JobCard::all();
         return view('jobcards.index', compact('jobcards'));
     }
 
@@ -34,12 +35,5 @@ class JobcardController extends Controller
 
         return redirect()->route('jobcards.index')->with('success', 'Job card updated successfully.');
     }
-    public function sendTestEmail()
-{
-    $jobcard = JobCard::find(1); // Retrieve a sample job card (adjust as necessary)
-
-
-    return 'Test email sent!';
-}
 
 }

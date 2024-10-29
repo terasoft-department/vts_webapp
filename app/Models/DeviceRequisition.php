@@ -31,7 +31,8 @@ class DeviceRequisition extends Model
      * Get the user that made the requisition.
      */
     public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
+{
+    return $this->belongsTo(User::class, 'user_id'); // Ensure 'user_id' is the actual foreign key column name in `requisition`
+}
+
 }

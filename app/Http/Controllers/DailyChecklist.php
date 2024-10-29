@@ -9,6 +9,7 @@ class DailyChecklist extends Controller
 {
     public function index()
     {
+        $check_lists = CheckList::with('user')->get();
         // Return the view without search results
         return view('Adminchecklists.index');
     }

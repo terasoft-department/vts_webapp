@@ -224,121 +224,117 @@
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
 <main id="main" class="main">
-        <div class="container mt-2">
-            <div class="card">
-                <div class="card-header bg text-blue text-center">
-                    <h4 class="m-0">Device Dispatch</h4>
-                </div>
+    <div class="container mt-2">
+        <div class="card">
+            <div class="card-header bg text-blue text-center">
+                <h4 class="m-0">Device Dispatch</h4>
+            </div>
 
-                <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>User ID</th>
-                                <th>Descriptions</th>
-                                <th>Status</th>
-                                <th>Master</th>
-                                <th>I-Button</th>
-                                <th>Buzzer</th>
-                                <th>Panic Button</th>
-                                <th>Approve</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($requisitions as $requisition)
-                            <tr>
-                                <td>{{ $requisition->requisition_id }}</td>
-                                <td>{{ $requisition->user_id ?? 'N/A' }}</td>
-                                <td>{{ $requisition->descriptions }}</td>
-                                <td>{{ $requisition->status }}</td>
-                                <td>{{ $requisition->master }}</td>
-                                <td>{{ $requisition->I_button }}</td>
-                                <td>{{ $requisition->buzzer }}</td>
-                                <td>{{ $requisition->panick_button }}</td>
-                                <td>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                                        <i class="bi bi-check-circle"></i>
-                                    </button>
+            <div class="card-body">
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User Name</th>
+                            <th>Descriptions</th>
+                            <th>Status</th>
+                            <th>Master</th>
+                            <th>I-Button</th>
+                            <th>Buzzer</th>
+                            <th>Panic Button</th>
+                            <th>Approve</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($requisitions as $requisition)
+                        <tr>
+                            <td>{{ $requisition->requisition_id }}</td>
+                            <td>{{ $requisition->user->name ?? 'N/A' }}</td>
+                            <td>{{ $requisition->descriptions }}</td>
+                            <td>{{ $requisition->status }}</td>
+                            <td>{{ $requisition->master }}</td>
+                            <td>{{ $requisition->I_button }}</td>
+                            <td>{{ $requisition->buzzer }}</td>
+                            <td>{{ $requisition->panick_button }}</td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
+                                    <i class="bi bi-check-circle"></i>
+                                </button>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
-                                                        @csrf
-                                                        @method('PUT')
+                                <!-- Modal -->
+                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
 
-                                                        {{-- <div class="form-group">
-                                                            <label for="user">Technician</label>
-                                                            <input type="text" id="user" name="user" class="form-control" value="{{ $requisition->user->name ?? 'N/A' }}" readonly>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="user_id">Technician</label>
-                                                            <select id="user_id" name="user_id" class="form-control">
-                                                                @foreach($users as $user)
-                                                                    <option value="{{ $user->id }}" {{ (isset($requisition) && $requisition->user_id == $user->id) ? 'selected' : '' }}>
-                                                                        {{ $user->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div> --}}
+                                                    <div class="mb-3">
+                                                        <label for="user" class="form-label">Technician</label>
+                                                        <input type="text" id="user" name="user" class="form-control" value="{{ $requisition->user->name ?? 'N/A' }}" readonly>
+                                                    </div>
 
+                                                    <div class="mb-3">
+                                                        <label for="descriptions" class="form-label">Descriptions</label>
+                                                        <input type="text" class="form-control" id="descriptions" name="descriptions" value="{{ $requisition->descriptions }}" readonly>
+                                                    </div>
 
-                                                        <div class="mb-3">
-                                                            <label for="descriptions" class="form-label">Descriptions</label>
-                                                            <input type="text" class="form-control" id="descriptions" name="descriptions" value="{{ $requisition->descriptions }}" @readonly(true)>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="status" class="form-label">Status</label>
-                                                            <select class="form-select" id="status" name="status" required>
-                                                                <option value="pending" {{ $requisition->status == 'pending' ? 'selected' : '' }}>pending</option>
-                                                                <option value="approved" {{ $requisition->status == 'approved' ? 'selected' : '' }}>approved</option>
-                                                                <option value="rejected" {{ $requisition->status == 'rejected' ? 'selected' : '' }}>rejected</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="master" class="form-label">Master</label>
-                                                            <input type="text" class="form-control" id="master" name="master" value="{{ $requisition->master }}"@readonly(true)>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="I_button" class="form-label">I-Button</label>
-                                                            <input type="text" class="form-control" id="I_button" name="I_button" value="{{ $requisition->I_button }}"@readonly(true)>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="buzzer" class="form-label">Buzzer</label>
-                                                            <input type="text" class="form-control" id="buzzer" name="buzzer" value="{{ $requisition->buzzer }}"@readonly(true)>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="panick_button" class="form-label">Panic Button</label>
-                                                            <input type="text" class="form-control" id="panick_button" name="panick_button" value="{{ $requisition->panick_button }}"@readonly(true)>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">submit</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                    <div class="mb-3">
+                                                        <label for="status" class="form-label">Status</label>
+                                                        <select class="form-select" id="status" name="status" required>
+                                                            <option value="pending" {{ $requisition->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                            <option value="approved" {{ $requisition->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                                            <option value="rejected" {{ $requisition->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="master" class="form-label">Master</label>
+                                                        <input type="text" class="form-control" id="master" name="master" value="{{ $requisition->master }}" readonly>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="I_button" class="form-label">I-Button</label>
+                                                        <input type="text" class="form-control" id="I_button" name="I_button" value="{{ $requisition->I_button }}" readonly>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="buzzer" class="form-label">Buzzer</label>
+                                                        <input type="text" class="form-control" id="buzzer" name="buzzer" value="{{ $requisition->buzzer }}" readonly>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="panick_button" class="form-label">Panic Button</label>
+                                                        <input type="text" class="form-control" id="panick_button" name="panick_button" value="{{ $requisition->panick_button }}" readonly>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
+
     </main><!-- End #main -->
 
     <!-- Vendor JS Files -->

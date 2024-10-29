@@ -133,7 +133,7 @@
                             @foreach($requisitions as $requisition)
                             <tr>
                                 <td>{{ $requisition->requisition_id }}</td>
-                                <td>{{ $requisition->user_id }}</td>
+                                <td>{{ $requisition->user->name ?? 'N/A' }}</td>
                                 <td>{{ $requisition->descriptions }}</td>
                                 <td>{{ $requisition->status }}</td>
                                 <td>{{ $requisition->master }}</td>
@@ -158,6 +158,11 @@
                                                     <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
+
+                                                        <div class="mb-3">
+                                                            <label for="user" class="form-label">Technician</label>
+                                                            <input type="text" id="user" name="user" class="form-control" value="{{ $requisition->user->name ?? 'N/A' }}" readonly>
+                                                        </div>
                                                         <div class="mb-3">
                                                             <label for="descriptions" class="form-label">Descriptions</label>
                                                             <input type="text" class="form-control" id="descriptions" name="descriptions" value="{{ $requisition->descriptions }}" @readonly(true)>

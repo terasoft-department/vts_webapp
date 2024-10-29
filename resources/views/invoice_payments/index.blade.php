@@ -228,15 +228,15 @@
                         <th>Invoice Number</th>
                         <th>Customer</th>
                         <th>Invoice Date</th>
-                        {{-- <th>Prepared By</th>
+                        <th>Prepared By</th>
                         <th>Plate Number</th>
-                        <th>TIN Number</th> --}}
+                        <th>TIN Number</th>
                         <th>Description</th>
                         <th>Number of Cars</th>
                         <th>Periods</th>
                         <th>From</th>
                         <th>To</th>
-                        {{-- <th>Payment Type</th> --}}
+                        <th>Payment Type</th>
                         <th>Debt</th>
                         <th>Unit Price</th>
                         <th>Gross Value</th>
@@ -252,15 +252,15 @@
                         <td>{{ $invoice->invoice_number }}</td>
                         <td>{{ $invoice->customer->customername }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->due_date)->format('Y-m-d') }}</td>
-                        {{-- <td>{{ $invoice->prepared_by }}</td>
+                        <td>{{ $invoice->prepared_by }}</td>
                         <td>{{ $invoice->plate_number }}</td>
-                        <td>{{ $invoice->tin_number }}</td> --}}
+                        <td>{{ $invoice->tin_number }}</td>
                         <td>{{ $invoice->descriptions }}</td>
                         <td>{{ $invoice->num_cars }}</td>
                         <td>{{ $invoice->periods }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->from)->format('Y-m-d') }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->to)->format('Y-m-d') }}</td>
-                        {{-- <td>{{ $invoice->payment_type }}</td> --}}
+                        <td>{{ $invoice->payment_type }}</td>
                         <td>{{ number_format($invoice->debt, 2) }}</td>
                         <td>{{ number_format($invoice->unit_price, 2) }}</td>
                         <td>{{ number_format($invoice->gross_value, 2) }}</td>

@@ -10,7 +10,8 @@ class MjobcardsController extends Controller
 
     public function index()
     {
-        $jobcards = JobCard::all();
+        $jobcards = JobCard::with('user')->get();
+        // $jobcards = JobCard::all();
         return view('jobcards2.index', compact('jobcards'));
     }
 

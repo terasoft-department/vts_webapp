@@ -79,7 +79,7 @@
                         @else
                             @foreach($results as $checklist)
                                 <tr>
-                                    <td>{{ $checklist->user_id}}</td>
+                                    <td>{{ $checklist->user->name ?? 'N/A' }}</td>
                                     <td>{{ $checklist->vehicle->vehicle_name ?? 'N/A' }}</td>
                                     <td>{{ $checklist->customer->customername ?? 'N/A' }}</td>
                                     <td>{{ $checklist->plate_number }}</td>

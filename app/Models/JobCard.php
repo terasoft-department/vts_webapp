@@ -13,25 +13,36 @@ class JobCard extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'customer_id',
-        'user_id',
-        'assignment_id',
+       'customer_id',
         'contact_person',
-        'title',
         'mobile_number',
+        'vehicle_regNo',
+        'title',
         'physical_location',
+        'plate_number',
         'problem_reported',
         'natureOf_ProblemAt_site',
         'service_type',
         'date_attended',
-        'plate_number',
-        'imei_number',
         'work_done',
+        'imei_number',
         'client_comment',
+        'user_id',
         'pre_workdone_picture',
         'post_workdone_picture',
         'carPlateNumber_picture',
-        'tampering_evidence_picture',
+        'tampering_evidence_picture'
    ];
 
+// Define relationships if applicable (e.g., belongsTo for customer or user)
+public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    // Relationship with User model
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

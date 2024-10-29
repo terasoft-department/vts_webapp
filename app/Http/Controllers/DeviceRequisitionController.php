@@ -10,9 +10,9 @@ class DeviceRequisitionController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        // $requisitions = DeviceRequisition::with('user')->get();
-        $requisitions = DeviceRequisition::all();
+        // $users = User::all();
+        $requisitions = DeviceRequisition::with('user')->get();
+        // $requisitions = DeviceRequisition::all();
         return view('device_requisitions.index', compact('requisitions'));
     }
 

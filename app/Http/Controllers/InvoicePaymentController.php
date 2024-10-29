@@ -60,6 +60,7 @@ public function show($id)
         // return response()->json($invoicePayment); // Return the invoice data for editing
          return view('invoice_payments.edit', compact('invoicePayment', 'customers'));
     }
+    
 
     public function store(Request $request)
     {
@@ -109,6 +110,7 @@ public function show($id)
 
         return redirect()->route('invoice_payments.index')->with('success', 'Invoice Payment created successfully.');
     }
+
 
 
     public function destroy($id)
