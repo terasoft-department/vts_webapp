@@ -123,9 +123,9 @@
                         @else
                             @foreach($results as $checklist)
                                 <tr>
-                                    <td>{{ $checklist->user->name ?? 'N/A' }}</td>
-                                    <td>{{ $checklist->vehicle->vehicle_name ?? 'N/A' }}</td>
-                                    <td>{{ $checklist->customer->customername ?? 'N/A' }}</td>
+                                    <td>{{ $checklist->user ? $checklist->user->name : 'N/A' }}</td>
+                                    <td>{{ $checklist->vehicle ? $checklist->vehicle->vehicle_name : 'N/A' }}</td>
+                                    <td>{{ $checklist->customer ? $checklist->customer->customername : 'N/A' }}</td>
                                     <td>{{ $checklist->plate_number }}</td>
                                     <td>{{ $checklist->rbt_status }}</td>
                                     <td>{{ $checklist->batt_status }}</td>

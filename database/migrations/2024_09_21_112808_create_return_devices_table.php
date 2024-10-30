@@ -22,7 +22,7 @@ class CreateReturnDevicesTable extends Migration
             $table->text('reason')->nullable(); // Reason for return
             $table->string('status')->nullable(); // Status of the return
             $table->timestamps(); // Created at and Updated at timestamps
-        });
+        }); 
     }
 
     /**

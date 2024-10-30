@@ -11,7 +11,7 @@ class CheckListController extends Controller
     {
         $check_lists = CheckList::with('user')->get();
         // Return the view without search results
-        return view('checklists.index');
+        return view('checklists.index', compact('check_lists'));
     }
 
     public function search(Request $request)

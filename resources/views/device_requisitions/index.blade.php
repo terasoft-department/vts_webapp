@@ -254,7 +254,7 @@
                             <td>{{ $requisition->requisition_id }}</td>
                             <td>{{ $requisition->user->name ?? 'N/A' }}</td>
                             <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ $requisition->status }}</td>
+                            <td>{{ucfirst($requisition->status) }}</td>
                             <td>{{ $requisition->master }}</td>
                             <td>{{ $requisition->I_button }}</td>
                             <td>{{ $requisition->buzzer }}</td>
@@ -291,7 +291,7 @@
                                                     <div class="mb-3">
                                                         <label for="status" class="form-label">Status</label>
                                                         <select class="form-select" id="status" name="status" required>
-                                                            <option value="pending" {{ $requisition->status == 'pending' ? 'selected' : '' }}>pending</option>
+
                                                             <option value="approved" {{ $requisition->status == 'approved' ? 'selected' : '' }}>approved</option>
                                                             <option value="rejected" {{ $requisition->status == 'rejected' ? 'selected' : '' }}>rejected</option>
                                                         </select>

@@ -12,7 +12,7 @@ class AdminTrackvehicleController extends Controller
     {
         $check_lists = CheckList::with('user')->get();
         // Return the view without search results
-        return view('Admintrackvehicle.index');
+        return view('Admintrackvehicle.index' , compact('check_lists'));
     }
 
     public function search(Request $request)

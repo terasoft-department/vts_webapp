@@ -28,6 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 <body>
@@ -242,174 +243,210 @@
   <!-- Main Content -->
 <main id="main" class="main">
     <h4 class="page-title mb-2">Tampering Reports</h4>
+        @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-    @if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+        <!-- Search Input -->
+        <div class="mb-1">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by Contact Person, Mobile Number, or IMEI Number">
+        </div>
 
-   <!-- Date Filter Form -->
-   <div class="mb-4">
-       <form method="GET" action="{{ route('tampering.index') }}" class="d-flex justify-content-between align-items-center">
-           <div class="d-flex align-items-center me-auto">
-               <div class="me-2">
-                   <label for="from_date" class="form-label">Start Date:</label>
-                   <input type="date" name="from_date" id="from_date" class="form-control" value="{{ request('from_date') }}">
-               </div>
-               <div class="me-2">
-                   <label for="to_date" class="form-label">End Date:</label>
-                   <input type="date" name="to_date" id="to_date" class="form-control" value="{{ request('to_date') }}">
-               </div>
-           </div>
-           <div class="mx-3 text-center">
-               <button type="submit" class="btn btn-primary">
-                   <i class="fas fa-filter"></i> Filter
-               </button>
-           </div>
-       </form>
-   </div>
+        <!-- Job Cards Table -->
+        <div class="card">
+            {{-- <div class="card-body"> --}}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Contact Person</th>
+                            <th>Mobile Number</th>
+                            <th>Vehicle Reg No</th>
+                            <th>Title</th>
+                            <th>Physical Location</th>
+                            <th>Plate Number</th>
+                            <th>Problem Reported</th>
+                            <th>Nature of Problem at Site</th>
+                            <th>Service Type</th>
+                            <th>Date Attended</th>
+                            <th>Work Done</th>
+                            <th>IMEI Number</th>
+                            {{-- <th>Client Comment</th> --}}
+                            <th>User Name</th>
+                            {{-- <th>Pre-Work Picture</th>
+                            <th>Post-Work Picture</th>
+                            <th>Car Plate Picture</th> --}}
+                            <th>Tampering Evidence</th>
+                            <th>Show</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobCardTableBody">
+                        @foreach ($jobcards as $jobcard)
+                        <tr>
+                            <td>{{ $jobcard->jobcard_id }}</td>
+                            <td>{{ $jobcard->customer ? $jobcard->customer->customername : 'N/A' }}</td>
+                            <td>{{ $jobcard->contact_person }}</td>
+                            <td>{{ $jobcard->mobile_number }}</td>
+                            <td>{{ $jobcard->vehicle_regNo }}</td>
+                            <td>{{ $jobcard->title }}</td>
+                            <td>{{ $jobcard->physical_location }}</td>
+                            <td>{{ $jobcard->plate_number }}</td>
+                            <td>{{ $jobcard->problem_reported }}</td>
+                            <td>{{ $jobcard->natureOf_ProblemAt_site }}</td>
+                            <td>{{ $jobcard->service_type }}</td>
+                            <td>{{ $jobcard->date_attended }}</td>
+                            <td>{{ $jobcard->work_done }}</td>
+                            <td>{{ $jobcard->imei_number }}</td>
+                            {{-- <td>{{ $jobcard->client_comment }}</td> --}}
+                            <td>{{ $jobcard->user ? $jobcard->user->name : 'N/A' }}</td>
 
-   <!-- Job Cards Table -->
-   <div class="card">
-       <table class="table table-striped table-bordered">
-           <thead>
-               <tr>
-                   <th>S/N</th>
-                   <th>Customer ID</th>
-                   <th>Assignment ID</th>
-                   <th>C.Person</th>
-                   <th>Problem Reported</th>
-                   <th>Nature of Problem at Site</th>
-                   <th>Service Type</th>
-                   <th>Tampering Date</th>
-                   <th>Pre.Picture</th>
-                   <th>Post.Picture</th>
-                   <th>Car.Picture</th>
-                   <th>Tampering Evidence Picture</th>
-                   <th>Show</th>
-               </tr>
-           </thead>
-           <tbody>
-               @foreach ($jobcards as $jobcard)
-               <tr>
-                   <td>{{ $jobcard->jobcard_id }}</td>
-                   <td>{{ $jobcard->customer_id }}</td>
-                   <td>{{ $jobcard->assignment_id }}</td>
-                   <td>{{ $jobcard->contact_person }}</td>
-                   <td>{{ $jobcard->problem_reported }}</td>
-                   <td>{{ $jobcard->natureOf_ProblemAt_site }}</td>
-                   <td>{{ $jobcard->service_type }}</td>
-                   <td>{{ $jobcard->date_attended }}</td>
-                   <td>
-                       @if($jobcard->pre_workdone_picture)
-                       <a href="#" class="view-image" data-image="{{ asset($jobcard->pre_workdone_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                       @else N/A @endif
-                   </td>
-                   <td>
-                       @if($jobcard->post_workdone_picture)
-                       <a href="#" class="view-image" data-image="{{ asset($jobcard->post_workdone_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                       @else N/A @endif
-                   </td>
-                   <td>
-                       @if($jobcard->carPlateNumber_picture)
-                       <a href="#" class="view-image" data-image="{{ asset($jobcard->carPlateNumber_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                       @else N/A @endif
-                   </td>
-                   <td>
-                       @if($jobcard->tampering_evidence_picture)
-                       <a href="#" class="view-image" data-image="{{ asset($jobcard->tampering_evidence_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                       @else N/A @endif
-                   </td>
-                   <td>
-                       <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#jobCardModal{{ $jobcard->jobcard_id }}">
-                           <i class="fas fa-eye"></i>
-                       </button>
-                   </td>
-               </tr>
+                            {{-- <td>
+                                @if($jobcard->pre_workdone_picture)
+                                <a href="#" class="view-image" data-image="{{ asset($jobcard->pre_workdone_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
+                                @else N/A @endif
+                            </td>
+                            <td>
+                                @if($jobcard->post_workdone_picture)
+                                <a href="#" class="view-image" data-image="{{ asset($jobcard->post_workdone_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
+                                @else N/A @endif
+                            </td>
+                            <td>
+                                @if($jobcard->carPlateNumber_picture)
+                                <a href="#" class="view-image" data-image="{{ asset($jobcard->carPlateNumber_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
+                                @else N/A @endif
+                            </td> --}}
+                            <td>
+                                @if($jobcard->tampering_evidence_picture)
+                                <a href="#" class="view-image" data-image="{{ asset($jobcard->tampering_evidence_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
+                                @else N/A @endif
+                            </td>
+                            <td>
+                                <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#jobCardModal{{ $jobcard->jobcard_id }}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
 
-               <!-- Modal for Job Card Details -->
-               <div class="modal fade" id="jobCardModal{{ $jobcard->jobcard_id }}" tabindex="-1" aria-labelledby="jobCardModalLabel" aria-hidden="true">
-                   <div class="modal-dialog modal-lg">
-                       <div class="modal-content">
-                           <div class="modal-header">
-                               <h5 class="modal-title" id="jobCardModalLabel">Crosscheck to preview ID: {{ $jobcard->jobcard_id }}</h5>
-                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                           </div>
-                           <div class="modal-body">
-                               <form method="POST" action="/jobcards/{{ $jobcard->jobcard_id }}" onsubmit="return false;">
-                                   @csrf
-                                   @method('PUT')
+                        <!-- Modal for Job Card Details -->
+                        <div class="modal fade" id="jobCardModal{{ $jobcard->jobcard_id }}" tabindex="-1" aria-labelledby="jobCardModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="jobCardModalLabel">Crosscheck to Preview ID: {{ $jobcard->jobcard_id }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/jobcards/{{ $jobcard->jobcard_id }}" onsubmit="return false;"> <!-- Prevent submission -->
+                                            @csrf
+                                            @method('PUT')
 
-                                   <!-- Other fields here... -->
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                <label for="contact_person" class="form-label">Contact Person</label>
+                                                <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{ $jobcard->contact_person }}" required readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="title" class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="title" name="title" value="{{ $jobcard->title }}" required readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="mobile_number" class="form-label">Mobile Number</label>
+                                                <input type="text" class="form-control" id="mobile_number" name="mobile_number" value="{{ $jobcard->mobile_number }}" required readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="physical_location" class="form-label">Physical Location</label>
+                                                <input type="text" class="form-control" id="physical_location" name="physical_location" value="{{ $jobcard->physical_location }}" required readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="problem_reported" class="form-label">Problem Reported</label>
+                                                <textarea class="form-control" id="problem_reported" name="problem_reported" required readonly>{{ $jobcard->problem_reported }}</textarea>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="natureOf_ProblemAt_site" class="form-label">Nature of Problem at Site</label>
+                                                <textarea class="form-control" id="natureOf_ProblemAt_site" name="natureOf_ProblemAt_site" required readonly>{{ $jobcard->natureOf_ProblemAt_site }}</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="service_type" class="form-label">Service Type</label>
+                                                <input type="text" class="form-control" id="service_type" name="service_type" value="{{ $jobcard->service_type }}" required readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="date_attended" class="form-label">Date Attended</label>
+                                                <input type="date" class="form-control" id="date_attended" name="date_attended" value="{{ $jobcard->date_attended }}" required readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="plate_number" class="form-label">Plate Number</label>
+                                                <input type="text" class="form-control" id="plate_number" name="plate_number" value="{{ $jobcard->plate_number }}" required readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="imei_number" class="form-label">IMEI Number</label>
+                                                <input type="text" class="form-control" id="imei_number" name="imei_number" value="{{ $jobcard->imei_number }}" required readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="work_done" class="form-label">Work Done</label>
+                                                <textarea class="form-control" id="work_done" name="work_done" required readonly>{{ $jobcard->work_done }}</textarea>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="client_comment" class="form-label">Client Comment</label>
+                                                <textarea class="form-control" id="client_comment" name="client_comment" readonly>{{ $jobcard->client_comment }}</textarea>
+                                            </div>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> <!-- Added close button -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                               </form>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-               @endforeach
-           </tbody>
-       </table>
-   </div>
+        <!-- Modal for Image Preview -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modalImage" src="" alt="Image Preview" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-   <!-- Pagination -->
-   <nav aria-label="Page navigation example">
-       <ul class="pagination justify-content-center">
-           <li class="page-item">
-               <a class="page-link" href="#" aria-label="Previous">
-                   <span aria-hidden="true">&laquo;</span>
-               </a>
-           </li>
-           <li class="page-item"><a class="page-link" href="#">1</a></li>
-           <li class="page-item"><a class="page-link" href="#">2</a></li>
-           <li class="page-item"><a class="page-link" href="#">3</a></li>
-           <li class="page-item">
-               <a class="page-link" href="#" aria-label="Next">
-                   <span aria-hidden="true">&raquo;</span>
-               </a>
-           </li>
-       </ul>
-   </nav>
+    <script>
+        // Search Functionality
+        document.getElementById("searchInput").addEventListener("input", function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll("#jobCardTableBody tr");
 
-   <!-- Modal for Image Preview -->
-   <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-       <div class="modal-dialog modal-lg">
-           <div class="modal-content">
-               <div class="modal-header">
-                   <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                   <img id="modalImage" src="" alt="Image Preview" class="img-fluid">
-               </div>
-           </div>
-       </div>
-   </div>
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const rowVisible = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
+                row.style.display = rowVisible ? "" : "none";
+            });
+        });
 
-   <script>
-       // JavaScript to handle modal image display
-       document.querySelectorAll('.view-image').forEach(item => {
-           item.addEventListener('click', event => {
-               const imageUrl = item.getAttribute('data-image');
-               document.getElementById('modalImage').src = imageUrl;
-           });
-       });
-   </script>
+        // Image Preview Functionality
+        document.querySelectorAll('.view-image').forEach(image => {
+            image.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-image');
+                document.getElementById('modalImage').src = imgSrc;
+                new bootstrap.Modal(document.getElementById('imageModal')).show();
+            });
+        });
+    </script>
 
-   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-   <!-- Vendor JS Files -->
-   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-   <script src="assets/vendor/chart.js/chart.umd.js"></script>
-   <script src="assets/vendor/echarts/echarts.min.js"></script>
-   <script src="assets/vendor/quill/quill.js"></script>
-   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-   <script src="assets/vendor/php-email-form/validate.js"></script>
 
-   <!-- Template Main JS File -->
-   <script src="assets/js/main.js"></script>
-</main>
-</body>
-</html>
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/js/main.js"></script>
+    </body>
+
+    </html>
