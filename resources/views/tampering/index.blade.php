@@ -289,16 +289,16 @@
                             <td>{{ $jobcard->contact_person }}</td>
                             <td>{{ $jobcard->mobile_number }}</td>
                             {{-- <td>{{ $jobcard->vehicle_regNo }}</td>
-                            <td>{{ $jobcard->title }}</td>
+                            <td>{{ $jobcard->title }}</td> --}}
                             <td>{{ $jobcard->physical_location }}</td>
                             <td>{{ $jobcard->plate_number }}</td>
                             <td>{{ $jobcard->problem_reported }}</td>
-                            <td>{{ $jobcard->natureOf_ProblemAt_site }}</td>
+                            {{-- <td>{{ $jobcard->natureOf_ProblemAt_site }}</td>
                             <td>{{ $jobcard->service_type }}</td>
                             <td>{{ $jobcard->date_attended }}</td>
                             <td>{{ $jobcard->work_done }}</td>
                             <td>{{ $jobcard->imei_number }}</td>
-                             <td>{{ $jobcard->client_comment }}</td>--}}
+                             <td>{{ $jobcard->client_comment }}</td> --}}
                             <td>{{ $jobcard->user ? $jobcard->user->name : 'N/A' }}</td>
 
                             {{-- <td>
