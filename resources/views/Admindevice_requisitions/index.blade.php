@@ -155,7 +155,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
+                                                <form action="/Admindevice_requisitions/{{ $requisition->requisition_id }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
 

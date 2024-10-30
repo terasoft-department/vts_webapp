@@ -32,7 +32,7 @@ class ReturnDeviceController extends Controller
 
 // Validate only the status field, since other fields are read-only
        $request->validate([
-    'status' => 'required|in:approve,reject',
+        'status' => 'required|string',
 ]);
 
 
