@@ -32,7 +32,7 @@ class DeviceRequisition extends Model
      */
     public function user()
 {
-    return $this->belongsTo(User::class, 'user_id'); // Ensure 'user_id' is the actual foreign key column name in `requisition`
+    return $this->belongsTo(User::class, 'user_id' ,'id'); // Ensure 'user_id' is the actual foreign key column name in `requisition`
 }
 
 }
