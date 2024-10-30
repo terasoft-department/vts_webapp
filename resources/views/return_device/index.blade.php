@@ -224,7 +224,7 @@
   </aside><!-- End Sidebar-->
 
  <!-- Main Content -->
- <main id="main" class="main">
+<main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header text-center bg-primary text-white">
@@ -235,6 +235,7 @@
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -276,8 +277,8 @@
                                                     <div class="mb-3">
                                                         <label for="status" class="form-label">Status</label>
                                                         <select class="form-select" id="status" name="status" required>
-                                                            <option value="approved">Approved</option>
-                                                            <option value="rejected">Rejected</option>
+                                                            <option value="approved" {{ $return->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                                            <option value="rejected" {{ $return->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
                                                         </select>
                                                     </div>
                                                     <div class="modal-footer">

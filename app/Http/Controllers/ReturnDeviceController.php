@@ -9,25 +9,40 @@ class ReturnDeviceController extends Controller
 {
     public function index()
     {
-        // Fetch all return devices with the related user, customer, and job card information
+        // Fetch all return devices with the related user, customer, and vehicle information
         $returnDevices = ReturnDevice::with(['user', 'customer', 'vehicle'])->get();
 
         // Pass return devices to the view
         return view('return_device.index', compact('returnDevices'));
     }
 
-    public function update(Request $request, $id)
+    public function show($return_id)
     {
-        // Validate the status input
+        // Fetch a return device by return_id
+        $returnDevice = ReturnDevice::with(['user', 'customer', 'vehicle'])->findOrFail($return_id);
+
+        // Fetch all return devices for the index view
+        $returnDevices = ReturnDevice::with(['user', 'customer', 'vehicle'])->get();
+
+        // Return the index view with the specific return device and all return devices
+        return view('return_device.index', compact('returnDevices', 'returnDevice'));
+    }
+
+    public function updateStatus(Request $request, $return_id)
+    {
+        // Validate the incoming request
         $request->validate([
-            'status' => 'required|string|in:approved,rejected',
+            'status' => 'required|string|max:255', // Adjust validation as necessary
         ]);
 
-        // Update the status of the specified return device
-        $returnDevice = ReturnDevice::findOrFail($id);
-        $returnDevice->status = $request->input('status');
+        // Fetch the return device by return_id
+        $returnDevice = ReturnDevice::findOrFail($return_id);
+
+        // Update the status attribute
+        $returnDevice->status = $request->status;
         $returnDevice->save();
 
-        return redirect()->route('return_device.index')->with('success', 'Device return status updated successfully.');
+        // After updating, redirect back to the return_device index page with a success message
+        return redirect()->route('return_device.index')->with('success', 'Status updated successfully.');
     }
 }
