@@ -11,7 +11,7 @@ class ReturnDeviceController extends Controller
     {
         // Retrieve all return devices from the database
         $returnDevices = ReturnDevice::all();
-
+        $returnDevices = ReturnDevice::with('customer')->get();
         // Return a view and pass the list of return devices
         return view('return_device.index', compact('returnDevices'));
     }
@@ -27,10 +27,14 @@ class ReturnDeviceController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate only the status field, since other fields are read-only
-        $request->validate([
-            'status' => 'required|in:approved,not approved',
-        ]);
+        // Normalize status input to lowercase
+        $request->merge(['status' => strtolower($request->input('status'))]);
+
+// Validate only the status field, since other fields are read-only
+       $request->validate([
+    'status' => 'required|in:approve,reject',
+]);
+
 
         // Find the return device entry by ID
         $returnDevice = ReturnDevice::findOrFail($id);

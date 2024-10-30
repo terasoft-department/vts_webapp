@@ -302,13 +302,14 @@
                                                         <textarea id="reason" name="reason" class="form-control" readonly>{{ $returnDevice->reason }}</textarea>
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <label for="status">Status</label>
-                                                        <select id="status" name="status" class="form-control">
-                                                            <option value="approved">approve</option>
-                                                            <option value="rejected">reject</option>
-                                                        </select>
-                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label for="status">Status</label>
+                                                    <select id="status" name="status" class="form-control">
+                                                        <option value="approve">approve</option>
+                                                        <option value="reject">reject</option>
+                                                    </select>
+                                                </div>
 
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
