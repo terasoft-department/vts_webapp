@@ -20,7 +20,7 @@ class CreateReturnDevicesTable extends Migration
              $table->foreignId('imei_number')->nullable(); // Foreign key to vehicles table
             $table->foreignId('customer_id')->nullable(); // Foreign key to customers table
             $table->text('reason')->nullable(); // Reason for return
-            $table->string('status')->default('pending')->nullable(); // Status of the return
+            $table->string('status')->nullable(); // Status of the return
             $table->timestamps(); // Created at and Updated at timestamps
         });
     }

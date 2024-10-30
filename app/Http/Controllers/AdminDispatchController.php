@@ -9,7 +9,7 @@ class AdminDispatchController extends Controller
 {
     public function index()
     {
-        $requisitions = DeviceRequisition::with('user')->get();
+        // $requisitions = DeviceRequisition::with('user')->get();
         return view('Admindevice_requisitions.index', compact('requisitions'));
     }
 
