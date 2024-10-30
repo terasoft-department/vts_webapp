@@ -21,10 +21,7 @@ class ReturnDeviceController extends Controller
         // Fetch a return device by return_id
         $returnDevice = ReturnDevice::with(['user', 'customer', 'vehicle'])->findOrFail($return_id);
 
-        // Fetch all return devices for the index view
-        $returnDevices = ReturnDevice::with(['user', 'customer', 'vehicle'])->get();
-
-        // Return the index view with the specific return device and all return devices
+        // Return the index view with the specific return device
         return view('return_device.index', compact('returnDevices', 'returnDevice'));
     }
 

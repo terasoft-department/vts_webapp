@@ -145,6 +145,7 @@ Route::get('assignmentsv2', [AssignmentController::class, 'index2'])->name('assi
 Route::resource('return_device', ReturnDeviceController::class);
 Route::get('/return_device/{id}/approve', [ReturnDeviceController::class, 'show'])->name('return_device.show');
 Route::put('/return_device/{id}', [ReturnDeviceController::class, 'update'])->name('return_device.update');
+Route::post('/return_device/{return_id}/status', [ReturnDeviceController::class, 'updateStatus'])->name('return_device.updateStatus');
 
 
 // Project Manager Officer routes
