@@ -10,7 +10,7 @@ class ReturnDeviceController extends Controller
     public function index()
     {
         // Fetch all return devices with the related user, customer, and job card information
-        $returnDevices = ReturnDevice::with(['user', 'customer', 'jobcard'])->get();
+        $returnDevices = ReturnDevice::with(['user', 'customer', 'vehicle'])->get();
 
         // Pass return devices to the view
         return view('return_device.index', compact('returnDevices'));
