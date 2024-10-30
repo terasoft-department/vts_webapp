@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function index(Request $request)
+{
+    $search = $request->input('search');
+    $users = User::query()
+        ->where('name', 'like', "%{$search}%")
+        ->orWhere('email', 'like', "%{$search}%")
+        ->orWhere('role', 'like', "%{$search}%")
+        ->get();
+
+    return view('users.index', compact('users'));
+}
+
     public function showLoginForm()
     {
         return view('auth.login');

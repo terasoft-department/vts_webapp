@@ -111,11 +111,25 @@
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
 
                 <!-- Search Form -->
-                <form class="mb-5" style="margin-top: 5px;">
+                {{-- <form class="mb-5" style="margin-top: 5px;">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search users..." aria-label="Search users">
                     </div>
+                </form> --}}
+                <!-- Search Form -->
+<form class="mb-5" style="margin-top: 5px;">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search users..." aria-label="Search users" id="searchInput" onkeyup="filterUsers()">
+    </div>
+ </form>
+
+                <form class="mb-5" style="margin-top: 5px;" action="{{ route('users.index') }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search users..." aria-label="Search users" value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
                 </form>
+
 
                 <table class="table table-bordered table-striped">
                     <thead style="color:white;background-color:#035add;">
@@ -280,6 +294,24 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script>
+        function filterUsers() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+
+            rows.forEach(row => {
+                const name = row.querySelector('td[data-label="Name"]').textContent.toLowerCase();
+                const email = row.querySelector('td[data-label="Email"]').textContent.toLowerCase();
+                const role = row.querySelector('td[data-label="Role"]').textContent.toLowerCase();
+
+                if (name.includes(searchInput) || email.includes(searchInput) || role.includes(searchInput)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
     <script>
         // Populate Edit User Modal with User Data
