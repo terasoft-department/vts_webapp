@@ -262,16 +262,16 @@
                             <th>Customer Name</th>
                             <th>Contact Person</th>
                             <th>Mobile Number</th>
-                            <th>Vehicle Reg No</th>
-                            <th>Title</th>
+                            {{-- <th>Vehicle Reg No</th>
+                            <th>Title</th> --}}
                             <th>Physical Location</th>
                             <th>Plate Number</th>
                             <th>Problem Reported</th>
-                            <th>Nature of Problem at Site</th>
+                            {{-- <th>Nature of Problem at Site</th>
                             <th>Service Type</th>
                             <th>Date Attended</th>
                             <th>Work Done</th>
-                            <th>IMEI Number</th>
+                            <th>IMEI Number</th> --}}
                             {{-- <th>Client Comment</th> --}}
                             <th>User Name</th>
                             {{-- <th>Pre-Work Picture</th>
@@ -288,7 +288,7 @@
                             <td>{{ $jobcard->customer ? $jobcard->customer->customername : 'N/A' }}</td>
                             <td>{{ $jobcard->contact_person }}</td>
                             <td>{{ $jobcard->mobile_number }}</td>
-                            <td>{{ $jobcard->vehicle_regNo }}</td>
+                            {{-- <td>{{ $jobcard->vehicle_regNo }}</td>
                             <td>{{ $jobcard->title }}</td>
                             <td>{{ $jobcard->physical_location }}</td>
                             <td>{{ $jobcard->plate_number }}</td>
@@ -298,7 +298,7 @@
                             <td>{{ $jobcard->date_attended }}</td>
                             <td>{{ $jobcard->work_done }}</td>
                             <td>{{ $jobcard->imei_number }}</td>
-                            {{-- <td>{{ $jobcard->client_comment }}</td> --}}
+                             <td>{{ $jobcard->client_comment }}</td>--}}
                             <td>{{ $jobcard->user ? $jobcard->user->name : 'N/A' }}</td>
 
                             {{-- <td>
