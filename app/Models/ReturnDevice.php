@@ -11,12 +11,11 @@ class ReturnDevice extends Model
 
     protected $primaryKey = 'return_id';
 
-    // Allow mass assignment on the following attributes
     protected $fillable = [
         'user_id',
         'plate_number',
         'vehicle_id',
-        'imei_number',  // Add imei_number to fillable attributes
+        'imei_number',
         'reason',
         'status',
         'customer_id',
@@ -24,9 +23,6 @@ class ReturnDevice extends Model
 
     protected $table = 'return_devices';
 
-    /**
-     * Get the user that made the return.
-     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -44,14 +40,12 @@ class ReturnDevice extends Model
 
     public function jobcard()
     {
-        return $this->belongsTo(JobCard::class, 'jobcard_id', 'jobcard_id');
+        return $this->belongsTo(JobCard::class, 'plate_number', 'plate_number');
     }
 
-    /**
-     * Get the IMEI number based on plate number matching with jobcard
-     */
-    public function imeiNumber()
+    // Access the IMEI number from the related JobCard
+    public function getImeiNumberAttribute()
     {
-        return $this->hasOne(JobCard::class, 'plate_number', 'plate_number')->select('imei_number');
+        return $this->jobcard->imei_number ?? 'N/A';
     }
 }
