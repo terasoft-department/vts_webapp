@@ -224,112 +224,104 @@
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
  <main id="main" class="main">
-    <div class="card text-blue bg-light">
-        <div class="card-body">
-            <!-- Success Message -->
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+    <div class="container mt-2">
+        <div class="card">
+            <div class="card-header bg text-blue text-center">
+                <h4 class="m-0">Return Device List</h4>
+            </div>
+
+            <div class="card-body">
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer Name</th>
+                            <th>Plate Number</th>
+                            <th>IMEI Number</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Approve</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($returnDevices as $returnDevice)
+                        <tr>
+                            <td>{{ $returnDevice->return_id }}</td>
+                            <td>{{ $returnDevice->customer->customername ?? 'N/A' }}</td>
+                            <td>{{ $returnDevice->plate_number }}</td>
+                            <td>{{ $returnDevice->imei_number }}</td>
+                            <td>{{ $returnDevice->reason }}</td>
+                            <td>{{ ucfirst($returnDevice->status) }}</td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#approveRejectModal{{ $returnDevice->return_id }}">
+                                    <i class="bi bi-check-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- End Return Devices Table -->
+    </div>
+
+    <!-- Modals for Approve/Reject -->
+    @foreach ($returnDevices as $returnDevice)
+    <div class="modal fade" id="approveRejectModal{{ $returnDevice->return_id }}" tabindex="-1" aria-labelledby="approveRejectModalLabel{{ $returnDevice->return_id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="approveRejectModalLabel{{ $returnDevice->return_id }}">Crosscheck to Approve</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            @endif
+                <div class="modal-body">
+                    <form action="{{ route('return_device.update', $returnDevice->return_id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
 
-            <!-- Return Devices Table -->
-            <div class="container mt-2">
-                <div class="card-body text-center">
-                    <h4 class="page-title">Return Devices List</h4>
+                        <div class="form-group">
+                            <label for="customername">Customer Name</label>
+                            <input type="text" id="customername" name="customername" class="form-control" value="{{ $returnDevice->customer->customername ?? 'N/A' }}" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="plate_number">Plate Number</label>
+                            <input type="text" id="plate_number" name="plate_number" class="form-control" value="{{ $returnDevice->plate_number }}" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imei_number">IMEI Number</label>
+                            <input type="text" id="imei_number" name="imei_number" class="form-control" value="{{ $returnDevice->imei_number }}" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reason">Reason for Return</label>
+                            <textarea id="reason" name="reason" class="form-control" readonly>{{ $returnDevice->reason }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="approved" {{ $returnDevice->status == 'approved' ? 'selected' : '' }}>approved</option>
+                                <option value="rejected" {{ $returnDevice->status == 'rejected' ? 'selected' : '' }}>rejected</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Customer Name</th>
-                                    <th>Plate Number</th>
-                                    <th>IMEI Number</th>
-                                    <th>Reason</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($returnDevices as $returnDevice)
-                                <tr>
-                                    <td>{{ $returnDevice->return_id }}</td>
-                                    <td>{{ $returnDevice->customer->customername ?? 'N/A' }}</td> <!-- Assuming customer relationship -->
-                                    <td>{{ $returnDevice->plate_number }}</td>
-                                    <td>{{ $returnDevice->imei_number }}</td> <!-- Ensure this field is correctly referenced -->
-                                    <td>{{ $returnDevice->reason }}</td>
-                                    <td>{{ ucfirst($returnDevice->status) }}</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#approveRejectModal{{ $returnDevice->return_id }}">
-                                            Approve/Reject
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <!-- Modal for Approve/Reject -->
-                                <div class="modal fade" id="approveRejectModal{{ $returnDevice->return_id }}" tabindex="-1" aria-labelledby="approveRejectModalLabel{{ $returnDevice->return_id }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="approveRejectModalLabel{{ $returnDevice->return_id }}">Crosscheck to Approve</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('return_device.update', $returnDevice->return_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <div class="form-group">
-                                                        <label for="customername">Customer Name</label>
-                                                        <input type="text" id="customername" name="customername" class="form-control" value="{{ $returnDevice->customer->customername ?? 'N/A' }}" readonly>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="plate_number">Plate Number</label>
-                                                        <input type="text" id="plate_number" name="plate_number" class="form-control" value="{{ $returnDevice->plate_number }}" readonly>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="imei_number">IMEI Number</label>
-                                                        <input type="text" id="imei_number" name="imei_number" class="form-control" value="{{ $returnDevice->imei_number }}" readonly>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="reason">Reason for Return</label>
-                                                        <textarea id="reason" name="reason" class="form-control" readonly>{{ $returnDevice->reason }}</textarea>
-                                                    </div>
-
-
-                                                <div class="form-group">
-                                                    <label for="status">Status</label>
-                                                    <select id="status" name="status" class="form-control">
-                                                        <option value="approve">approve</option>
-                                                        <option value="reject">reject</option>
-                                                    </select>
-                                                </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div><!-- End Return Devices Table -->
             </div>
         </div>
     </div>
+    @endforeach
 </main><!-- End Main -->
-
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
