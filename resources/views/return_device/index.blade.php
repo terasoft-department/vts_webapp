@@ -223,7 +223,7 @@
 
   </aside><!-- End Sidebar-->
 
- <!-- Main Content -->
+<!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
@@ -271,9 +271,8 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="{{ route('return_device.updateStatus', $return->return_id) }}" method="PUT">
+                                                <form action="{{ route('return_device.updateStatus', $return->return_id) }}" method="POST">
                                                     @csrf
-                                                    @method('PUT')
                                                     <div class="mb-3">
                                                         <label for="status" class="form-label">Status</label>
                                                         <select class="form-select" id="status" name="status" required>
@@ -299,6 +298,7 @@
         </div>
     </div>
 </main>
+
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
