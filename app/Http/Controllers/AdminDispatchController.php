@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\DeviceRequisition;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminDispatchController extends Controller
-{
-    public function index()
+{    public function index()
     {
+        $users = User::all();
         $requisitions = DeviceRequisition::with('user')->get();
+        // $requisitions = DeviceRequisition::all();
         return view('Admindevice_requisitions.index', compact('requisitions'));
     }
 
     public function create()
     {
+        $users = User::all();
         // Return the form view to create a new requisition
         return view('Admindevice_requisitions.create');
     }
@@ -50,7 +53,9 @@ class AdminDispatchController extends Controller
 
     public function edit($id)
     {
-        $requisition = DeviceRequisition::findOrFail($id);
+        $requisition = DeviceRequisition::with('user')->findOrFail($id);
+        $users = User::all(); // Pass all users for editing
+        // $requisition = DeviceRequisition::findOrFail($id);
         return view('Admindevice_requisitions.edit', compact('requisition'));
     }
 
