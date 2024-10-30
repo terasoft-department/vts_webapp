@@ -110,27 +110,11 @@
                 <h4 class="text-center" style="color:#035add;">TERA VEHICLE TRACKING SYSTEM</h4>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
 
-                <!-- Search Form -->
-                {{-- <form class="mb-5" style="margin-top: 5px;">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search users..." aria-label="Search users">
-                    </div>
-                </form> --}}
-                <!-- Search Form -->
 <form class="mb-5" style="margin-top: 5px;">
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Search users..." aria-label="Search users" id="searchInput" onkeyup="filterUsers()">
     </div>
- </form>
-
-                <form class="mb-5" style="margin-top: 5px;" action="{{ route('users.index') }}" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search users..." aria-label="Search users" value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </form>
-
-
+</form>
                 <table class="table table-bordered table-striped">
                     <thead style="color:white;background-color:#035add;">
                         <tr>
