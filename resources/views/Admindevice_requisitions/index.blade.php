@@ -164,9 +164,14 @@
                                                 <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-
-                                                    <!-- Form fields for modal content -->
-                                                    <!-- Add fields here... -->
+                                                    <div class="mb-3">
+                                                        <label for="status" class="form-label">Status</label>
+                                                        <select class="form-select" id="status" name="status" required>
+                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>pending</option>
+                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>approved</option>
+                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>rejected</option>
+                                                        </select>
+                                                    </div>
 
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
