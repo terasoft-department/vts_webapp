@@ -252,7 +252,7 @@
                         @foreach($returnDevices as $return)
                         <tr>
                             <td>{{ $return->user->name ?? 'N/A' }}</td>
-                            <td>{{ $return->customer->name ?? 'N/A' }}</td>
+                            <td>{{ $return->customer->customername ?? 'N/A' }}</td>
                             <td>{{ $return->plate_number }}</td>
                             <td>{{ $return->imei_number }}</td>
                             <td>{{ $return->reason }}</td>
