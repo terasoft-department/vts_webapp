@@ -190,7 +190,7 @@
           </li>
           <li>
             <a href="AccountAssignment">
-              <i class="fas fa-file-alt"></i><span>Assignments</span>
+              <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
           </li>
 
