@@ -223,7 +223,7 @@
 
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
-<main id="main" class="main">
+ <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header bg text-blue text-center">
@@ -234,6 +234,12 @@
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
+
+                <!-- Search Bar -->
+                <div class="mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                </div>
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -248,13 +254,13 @@
                             <th>Approve</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="deviceTable">
                         @foreach($requisitions as $requisition)
                         <tr>
                             <td>{{ $requisition->requisition_id }}</td>
                             <td>{{ $requisition->user->name ?? 'N/A' }}</td>
                             <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ucfirst($requisition->status) }}</td>
+                            <td>{{ ucfirst($requisition->status) }}</td>
                             <td>{{ $requisition->master }}</td>
                             <td>{{ $requisition->I_button }}</td>
                             <td>{{ $requisition->buzzer }}</td>
@@ -278,44 +284,8 @@
                                                     @csrf
                                                     @method('PUT')
 
-                                                    <div class="mb-3">
-                                                        <label for="user" class="form-label">Technician</label>
-                                                        <input type="text" id="user" name="user" class="form-control" value="{{ $requisition->user->name ?? 'N/A' }}" readonly>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="descriptions" class="form-label">Descriptions</label>
-                                                        <input type="text" class="form-control" id="descriptions" name="descriptions" value="{{ $requisition->descriptions }}" readonly>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-
-                                                            <option value="approved" {{ $requisition->status == 'approved' ? 'selected' : '' }}>approved</option>
-                                                            <option value="rejected" {{ $requisition->status == 'rejected' ? 'selected' : '' }}>rejected</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="master" class="form-label">Master</label>
-                                                        <input type="text" class="form-control" id="master" name="master" value="{{ $requisition->master }}" readonly>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="I_button" class="form-label">I-Button</label>
-                                                        <input type="text" class="form-control" id="I_button" name="I_button" value="{{ $requisition->I_button }}" readonly>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="buzzer" class="form-label">Buzzer</label>
-                                                        <input type="text" class="form-control" id="buzzer" name="buzzer" value="{{ $requisition->buzzer }}" readonly>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="panick_button" class="form-label">Panic Button</label>
-                                                        <input type="text" class="form-control" id="panick_button" name="panick_button" value="{{ $requisition->panick_button }}" readonly>
-                                                    </div>
+                                                    <!-- Form fields for modal content -->
+                                                    <!-- Add fields here... -->
 
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -334,8 +304,20 @@
             </div>
         </div>
     </div>
+</main>
 
-    </main><!-- End #main -->
+<script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#deviceTable tr');
+
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(searchValue) ? '' : 'none';
+        });
+    });
+</script>
+
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
