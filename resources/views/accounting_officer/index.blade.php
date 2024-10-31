@@ -208,6 +208,7 @@
             <div class="container mt-4">
                 <div class="row" id="card-container"></div>
             </div>
+            
         </main>
 
         <!-- JS to dynamically generate cards based on sidebar -->

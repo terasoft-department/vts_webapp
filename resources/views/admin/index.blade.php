@@ -106,10 +106,6 @@
 <!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
-        <div class="row">
-            <!-- Operation Summary Header -->
-            <b><p class="card text-center bg-info text-black py-2">OPERATION SUMMARY</p></b>
-
         {{-- <h3 class="text-center mb-2">Welcome to Dashboard</h3> --}}
         <div class="row">
             <!-- Accounts & Finance Summary Card -->
