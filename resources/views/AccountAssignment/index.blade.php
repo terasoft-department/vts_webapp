@@ -244,7 +244,7 @@
             <!-- Search Form -->
 <div class="row mb-3">
     <div class="col-md-8">
-        <form method="GET" action="{{ route('Aassignments.index') }}">
+        <form method="GET" action="{{ route('AccountAssignment.index') }}">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search by customer or plate number..." aria-label="Search assignments" value="{{ request()->query('search') }}">
                 <button class="btn btn-primary" type="submit" style="background-color:#4177fd;">
