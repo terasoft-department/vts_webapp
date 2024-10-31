@@ -225,78 +225,100 @@
 
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container mt-2">
-        <div class="card">
-            <div class="card-header text-center bg-primary text-white">
-                <h4 class="m-0">Device Return Approval</h4>
-            </div>
+  <div class="container mt-2">
+      <div class="card">
+          <div class="card-header text-center bg-primary text-white">
+              <h4 class="m-0">Device Return Approval</h4>
+          </div>
 
-            <div class="card-body">
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
+          <div class="card-body">
+              <!-- Search Bar -->
+              <div class="row mb-3">
+                  <div class="col-md-4 offset-md-8">
+                      <input type="text" id="search" class="form-control" placeholder="Search...">
+                  </div>
+              </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Technician</th>
-                            <th>Customer</th>
-                            <th>Plate Number</th>
-                            <th>IMEI Number</th>
-                            <th>Reason</th>
-                            <th>Status</th>
-                            <th>Approve</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($returnDevices as $return)
-                        <tr>
-                            <td>{{ $return->user->name ?? 'N/A' }}</td>
-                            <td>{{ $return->customer->customername ?? 'N/A' }}</td>
-                            <td>{{ $return->plate_number }}</td>
-                            <td>{{ $return->imei_number }}</td>
-                            <td>{{ $return->reason }}</td>
-                            <td>{{ ucfirst($return->status) }}</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $return->return_id }}">
-                                    <i class="bi bi-check-circle"></i>
-                                </button>
+              @if (session('success'))
+                  <div class="alert alert-success">{{ session('success') }}</div>
+              @endif
 
-                                <!-- Modal for Approval -->
-                                <div class="modal fade" id="approveModal{{ $return->return_id }}" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Approve Device Return</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('return_device.updateStatus', $return->return_id) }}" method="POST">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-                                                            <option value="approved" {{ $return->status == 'approved' ? 'selected' : '' }}>Approved</option>
-                                                            <option value="rejected" {{ $return->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Approve Return</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+              <table class="table table-striped" id="returnTable">
+                  <thead>
+                      <tr>
+                          <th>Technician</th>
+                          <th>Customer</th>
+                          <th>Plate Number</th>
+                          <th>IMEI Number</th>
+                          <th>Reason</th>
+                          <th>Status</th>
+                          <th>Approve</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($returnDevices as $return)
+                      <tr>
+                          <td>{{ $return->user->name ?? 'N/A' }}</td>
+                          <td>{{ $return->customer->customername ?? 'N/A' }}</td>
+                          <td>{{ $return->plate_number }}</td>
+                          <td>{{ $return->imei_number }}</td>
+                          <td>{{ $return->reason }}</td>
+                          <td>{{ ucfirst($return->status) }}</td>
+                          <td>
+                              <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $return->return_id }}">
+                                  <i class="bi bi-check-circle"></i>
+                              </button>
+
+                              <!-- Modal for Approval -->
+                              <div class="modal fade" id="approveModal{{ $return->return_id }}" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-lg">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <h5 class="modal-title">Approve Device Return</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                              <form action="{{ route('return_device.updateStatus', $return->return_id) }}" method="POST">
+                                                  @csrf
+                                                  <div class="mb-3">
+                                                      <label for="status" class="form-label">Status</label>
+                                                      <select class="form-select" id="status" name="status" required>
+                                                          <option value="approved" {{ $return->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                                          <option value="rejected" {{ $return->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                                      </select>
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                      <button type="submit" class="btn btn-primary">Approve Return</button>
+                                                  </div>
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </td>
+                      </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</main>
+
+<script>
+  // JavaScript for live table search
+  document.getElementById('search').addEventListener('keyup', function() {
+      const searchValue = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#returnTable tbody tr');
+
+      rows.forEach(row => {
+          const rowText = row.textContent.toLowerCase();
+          row.style.display = rowText.includes(searchValue) ? '' : 'none';
+      });
+  });
+</script>
+
 </main>
 
 
