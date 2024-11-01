@@ -84,7 +84,8 @@
                                     <td>{{ $checklist->plate_number }}</td>
                                     <td>{{ $checklist->rbt_status }}</td>
                                     <td>{{ $checklist->batt_status }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($checklist->created_at)->format('Y-m-d') }}</td>
+                                    <td>{{ $checklist->created_at->format('F j, Y') }}</td>
+
 
                                 </tr>
                             @endforeach
