@@ -226,10 +226,10 @@
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
-
                 <table class="table table-bordered table-striped">
                     <thead>
-                        <tr><th>S/N<th>
+                        <tr>
+                            <th>S/N</th>
                             <th>Name</th>
                             <th>Installer</th>
                             <th>Customer</th>
@@ -290,7 +290,6 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label for="plate_number">Plate Number</label>
                                                     <input type="text" class="form-control" name="plate_number" value="{{ $vehicle->plate_number }}" required>
@@ -304,6 +303,7 @@
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
