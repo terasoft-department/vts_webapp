@@ -219,7 +219,7 @@
           <span>Logout</span>
         </a>
       </li><!-- End Login Page Nav -->
-      
+
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
 <main id="main" class="main">
@@ -259,6 +259,7 @@
             <table class="table table-bordered mt-2 text-left" id="customerTable">
                 <thead>
                     <tr>
+                        <th>S/No</th>
                         <th>Name</th>
                         <th>Address</th>
                         <th>Phone</th>
@@ -270,7 +271,7 @@
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
-                    <tr>
+                    <tr>  <td>{{ $loop->iteration }}</td>
                         <td>{{ $customer->customername }}</td>
                         <td>{{ $customer->address }}</td>
                         <td>{{ $customer->customer_phone }}</td>
