@@ -242,7 +242,7 @@
                             <tr>
                                 <td>{{ $vehicle->vehicle_name }}</td>
                                 <td>{{ $vehicle->category }}</td>
-                                <td>{{ $vehicle->customer->customername }}</td>
+                                <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
                                 <td>{{ $vehicle->plate_number }}</td>
                                 <td>
                                     <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}">
