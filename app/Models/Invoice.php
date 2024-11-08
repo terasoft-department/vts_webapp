@@ -22,4 +22,6 @@ class Invoice extends Model
         return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
     }
 
+    
+
 }

@@ -267,7 +267,7 @@
                     <td>{{ $invoice->customername }}</td>
                     <td>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"
-                            data-invoice_id="{{ $invoice->invoice_id }}"
+                            data-id="{{ $invoice->invoice_id }}"
                             data-invoice_number="{{ $invoice->invoice_number }}"
                             data-invoice_date="{{ $invoice->invoice_date }}"
                             data-grand_total="{{ $invoice->grand_total }}"
@@ -438,7 +438,7 @@
         const editInvoiceModal = document.getElementById('editInvoiceModal');
         editInvoiceModal.addEventListener('show.bs.modal', (event) => {
             const button = event.relatedTarget;
-            const invoiceId = button.getAttribute('data-id');
+            const invoiceId = button.getAttribute('data-invoice_id');
             const invoiceNumber = button.getAttribute('data-invoice_number');
             const invoiceDate = button.getAttribute('data-invoice_date');
             const grandTotal = button.getAttribute('data-grand_total');
