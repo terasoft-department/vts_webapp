@@ -234,6 +234,16 @@
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <!-- Search Bar -->
                 <div class="mb-3">
                     <input type="text" id="searchInput" class="form-control" placeholder="Search...">
@@ -279,16 +289,16 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
+                                                <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
 
                                                     <div class="mb-3">
                                                       <label for="status" class="form-label">Status</label>
                                                       <select class="form-select" id="status" name="status" required>
-                                                          <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>pending</option>
-                                                          <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>approved</option>
-                                                          <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>rejected</option>
+                                                          <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                          <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
+                                                          <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
                                                       </select>
                                                   </div>
 

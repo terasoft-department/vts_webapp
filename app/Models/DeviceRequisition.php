@@ -30,6 +30,11 @@ class DeviceRequisition extends Model
     /**
      * Get the user that made the requisition.
      */
+    public function device()
+    {
+        return $this->belongsTo(Device::class, 'device_id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

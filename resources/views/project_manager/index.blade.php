@@ -223,13 +223,13 @@
 
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
-<main id="main" class="main">
+ <main id="main" class="main">
     <div class="container mt-4">
-        <div class="row">
+        <div class="row justify-content-center">
             <!-- Operation Summary Header -->
-            <b><p class="card text-center bg-info text-black py-2">OPERATION SUMMARY</p></b>
+            <b><p class="card text-center bg-info text-black py-2 col-12">OPERATION SUMMARY</p></b>
 
-            <!-- User ID Card -->
+            <!-- Row 1: User ID, Customer, Device -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-primary text-black">
@@ -242,7 +242,6 @@
                 </div>
             </div>
 
-            <!-- Customer Card -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-primary text-black">
@@ -255,20 +254,22 @@
                 </div>
             </div>
 
-            <!-- Device Card -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-primary text-black">
-                        Device
+                        Devices
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-title count-up" data-target="{{ $devicenoSum ?? 0 }}">{{ $devicenoSum ?? 0 }}</h5>
-                        <p class="card-text">Number of Devices</p>
+                        <h5 class="card-text">Master Devices: {{ $deviceCounts['master'] ?? 0 }}</h5>
+                        <h5 class="card-text">I_Button Devices: {{ $deviceCounts['I_button'] ?? 0 }}</h5>
+                        <h5 class="card-text">Buzzer Devices: {{ $deviceCounts['buzzer'] ?? 0 }}</h5>
+                        <h5 class="card-text">Panic Button Devices: {{ $deviceCounts['panick_button'] ?? 0 }}</h5>
                     </div>
                 </div>
             </div>
 
-            <!-- Device Dispatch Card -->
+
+            <!-- Row 2: Device Dispatch, Device Return, Jobcard -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-primary text-black">
@@ -281,7 +282,6 @@
                 </div>
             </div>
 
-            <!-- Device Return Card -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-primary text-black">
@@ -294,7 +294,6 @@
                 </div>
             </div>
 
-            <!-- Jobcard Card -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-primary text-black">
@@ -309,6 +308,7 @@
         </div>
     </div>
 </main>
+
 
 <!-- Styles for animation and hover effects -->
 <style>

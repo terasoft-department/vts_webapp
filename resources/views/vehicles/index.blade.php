@@ -231,7 +231,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Category</th>
+                            <th>Installer</th>
                             <th>Customer</th>
                             <th>Plate Number</th>
                             <th>Actions</th>

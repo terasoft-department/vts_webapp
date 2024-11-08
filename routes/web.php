@@ -162,8 +162,6 @@ Route::get('project_manager/customers', [CustomerController::class, 'countCustom
 Route::get('accounting_officer', [AccountingOfficerController::class, 'showAccountingOfficerDashboard'])->name('accounting_officer.index');
 
 
-//deduction
-Route::resource('deductions', DeductionController::class);
 
 
 Route::resource('device_requisitions', DeviceRequisitionController::class);

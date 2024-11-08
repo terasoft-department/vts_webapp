@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DeviceController extends Controller
 {
@@ -16,9 +17,11 @@ class DeviceController extends Controller
                 $query->where('imei_number', 'like', "%{$search}%");
             })
             ->paginate(10); // Adjust pagination as needed
-
+            $deviceCounts = Device::select('category', DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->pluck('count', 'category');
         // $devices = Device::all();
-        return view('devices.index', compact('devices'));
+        return view('devices.index', compact('devices','deviceCounts'));
     }
 
     public function store(Request $request)
@@ -26,7 +29,7 @@ class DeviceController extends Controller
         $request->validate([
             'imei_number' => 'required|string',
             'category' => 'required|in:master,I_button,buzzer,panick_button',
-            'total' => 'required|integer',
+            // 'total' => 'required|integer',
         ]);
 
         Device::create($request->all());
@@ -40,17 +43,18 @@ class DeviceController extends Controller
         $request->validate([
             'imei_number' => 'required|string',
             'category' => 'required|in:master,I_button,buzzer,panick_button',
-            'total' => 'required|integer',
+            // 'total' => 'required|integer',
         ]);
 
         $device->update($request->all());
         return redirect()->route('devices.index')->with('success', 'Device updated successfully!');
     }
 
+
     public function destroy($id)
     {
         $device = Device::findOrFail($id);
         $device->delete();
-        return redirect()->route('devices.index')->with('success', 'Device deleted successfully!');
+        return redirect()->route('devices.index')->with('success', 'Device deducted successfully!');
     }
 }

@@ -106,110 +106,124 @@
 <!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
-        {{-- <h3 class="text-center mb-2">Welcome to Dashboard</h3> --}}
         <div class="row">
             <!-- Accounts & Finance Summary Card -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-black">
+                    <div class="card-header bg-primary text-dark">
                         Accounts & Finance Summary
                     </div>
                     <div class="card-body bg-white">
-                        <p class="card-text">Total Revenue (TZS): {{ $totalRevenue ?? 0 }}</p>
-                        <p class="card-text">Paid Invoice: {{ $paidInvoiceCount ?? 0 }}</p>
-                        <p class="card-text">Unpaid Invoice: {{ $unpaidInvoiceCount ?? 0 }}</p>
+                        <p class="card-text">Total Revenue (TZS): <strong>{{ $totalRevenue ?? 0 }}</strong></p>
+                        <p class="card-text">Paid Invoice: <strong>{{ $paidInvoiceCount ?? 0 }}</strong></p>
+                        <p class="card-text">Unpaid Invoice: <strong>{{ $unpaidInvoiceCount ?? 0 }}</strong></p>
                     </div>
                 </div>
             </div>
-             <!-- Devices Card -->
-             <div class="col-md-4 mb-2">
+
+            <!-- Devices Card -->
+            <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-black">
+                    <div class="card-header bg-primary text-dark">
                         Devices
                     </div>
                     <div class="card-body bg-white">
-                        <p class="card-text">Total Device: {{ $devicenoSum ?? 0 }}</p>
-                        <p class="card-text">Device Number: {{ $deviceCount ?? 0 }}</p>
-                        <p class="card-text">Return Device: {{ $deviceReturnCount ?? 0 }}</p>
-                        <p class="card-text">Device Dispatch: {{ $devicedispatchCount ?? 0 }}</p>
+                        <p class="card-text">Master Devices: <strong>{{ $deviceCounts['master'] ?? 0 }}</strong></p>
+                        <p class="card-text">I_Button Devices: <strong>{{ $deviceCounts['I_button'] ?? 0 }}</strong></p>
+                        <p class="card-text">Buzzer Devices: <strong>{{ $deviceCounts['buzzer'] ?? 0 }}</strong></p>
+                        <p class="card-text">Panic Button Devices: <strong>{{ $deviceCounts['panick_button'] ?? 0 }}</strong></p>
                     </div>
                 </div>
             </div>
 
-             <!-- Operation Summary Card -->
-             <div class="col-md-4 mb-2">
+            <!-- Operation Summary Card -->
+            <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-black">
+                    <div class="card-header bg-primary text-dark">
                         Operation Summary
                     </div>
                     <div class="card-body bg-white">
-                        <p class="card-text">Assignments: {{ $assignmentCount ?? 0 }}</p>
-                        <p class="card-text">Checkuplists: {{ $CheckuplistCount ?? 0 }}</p>
-                        <p class="card-text">Customers: {{ $CustomersCount ?? 0 }}</p>
-                        <p class="card-text">Jobcards: {{ $JobcardsCount ?? 0 }}</p>
-                        <p class="card-text">Customers Debts: {{ $DebtsCount ?? 0 }}</p>
-                        <p class="card-text">Vehicles: {{ $VehiclesCount ?? 0 }}</p>
-                        <p class="card-text">System Users: {{ $userCount ?? 0 }}</p>
+                        <p class="card-text">Assignments: <strong>{{ $assignmentCount ?? 0 }}</strong></p>
+                        <p class="card-text">Checkuplists: <strong>{{ $CheckuplistCount ?? 0 }}</strong></p>
+                        <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
+                        <p class="card-text">Jobcards: <strong>{{ $JobcardsCount ?? 0 }}</strong></p>
+                        <p class="card-text">Customer Debts: <strong>{{ $DebtsCount ?? 0 }}</strong></p>
+                        <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
+                        <p class="card-text">System Users: <strong>{{ $userCount ?? 0 }}</strong></p>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Charts Section -->
-        <div class="mt-2">
+        <div class="mt-4">
+            <h5 class="text-center mb-4">Data Visualization</h5>
 
-               <!-- Chart for Operation Summary -->
-            <canvas id="operationSummaryChart" width="600" height="200"></canvas>
+            <!-- Devices Chart -->
+            <canvas id="devicesChart" class="chart mt-2" width="1000" height="200"></canvas>
 
-             <!-- Chart for Accounts & Finance Summary -->
-             <canvas id="accountsFinanceChart" width="600" height="200"></canvas>
+            <!-- Operation Summary Chart -->
+            <canvas id="operationSummaryChart" class="chart mt-2" width="1000" height="200"></canvas>
 
-            <!-- Chart for Devices -->
-            <canvas id="devicesChart" width="600" height="200"></canvas>
-
-
+            <!-- Accounts & Finance Chart -->
+            <canvas id="accountsFinanceChart" class="chart mt-2" width="1000" height="200"></canvas>
         </div>
     </div>
 
     <!-- JavaScript for Data Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Devices Chart
             new Chart(document.getElementById("devicesChart"), {
-                type: 'bar',
-                data: {
-                    labels: ["Total Device", "Device Number", "Return Device", "Device Dispatch"],
-                    datasets: [{
-                        label: 'Devices Data',
-                        data: [{{ $devicenoSum ?? 0}}, {{ $deviceCount ?? 0}}, {{ $deviceReturnCount ?? 0 }}, {{ $devicedispatchCount ?? 0}}],
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: { y: { beginAtZero: true } },
-                    responsive: true
-                }
-            });
+    type: 'bar',
+    data: {
+        labels: ["Master Devices", "I_Button Devices", "Buzzer Devices", "Panic Button Devices"],
+        datasets: [{
+            label: 'Devices Data',
+            data: [
+                {{ $deviceCounts['master'] ?? 0 }},
+                {{ $deviceCounts['I_button'] ?? 0 }},
+                {{ $deviceCounts['buzzer'] ?? 0 }},
+                {{ $deviceCounts['panick_button'] ?? 0 }}
+            ],
+            backgroundColor: ['#36A2EB', '#FF6384', '#4BC0C0', '#FFCE56'],
+            borderColor: '#007bff',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { color: '#333' }
+            }
+        },
+        plugins: {
+            tooltip: { enabled: true }
+        },
+        responsive: true,
+    }
+});
+
 
             // Operation Summary Chart
             new Chart(document.getElementById("operationSummaryChart"), {
                 type: 'bar',
                 data: {
-                    labels: ["Assignments", "Checkuplists", "Customers", "Jobcards", "Customers Debts", "Vehicles", "System Users"],
+                    labels: ["Assignments", "Checkuplists", "Customers", "Jobcards", "Customer Debts", "Vehicles", "System Users"],
                     datasets: [{
                         label: 'Operation Summary',
                         data: [{{ $assignmentCount ?? 0 }}, {{ $CheckuplistCount ?? 0}}, {{ $CustomersCount ?? 0}}, {{ $JobcardsCount ?? 0}}, {{ $DebtsCount ?? 0}}, {{ $VehiclesCount ?? 0}}, {{ $userCount ?? 0 }}],
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#36A2EB'],
+                        borderColor: '#007bff',
                         borderWidth: 1
                     }]
                 },
                 options: {
-                    scales: { y: { beginAtZero: true } },
-                    responsive: true
+                    scales: { y: { beginAtZero: true, ticks: { color: '#333' } } },
+                    plugins: { tooltip: { enabled: true } },
+                    responsive: true,
                 }
             });
 
@@ -221,14 +235,15 @@
                     datasets: [{
                         label: 'Accounts & Finance',
                         data: [{{ $totalRevenue ?? 0}}, {{ $paidInvoiceCount ?? 0}}, {{ $unpaidInvoiceCount ?? 0}}],
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: ['#4BC0C0', '#FF9F40', '#FF6384'],
+                        borderColor: '#007bff',
                         borderWidth: 1
                     }]
                 },
                 options: {
-                    scales: { y: { beginAtZero: true } },
-                    responsive: true
+                    scales: { y: { beginAtZero: true, ticks: { color: '#333' } } },
+                    plugins: { tooltip: { enabled: true } },
+                    responsive: true,
                 }
             });
         });
@@ -248,13 +263,15 @@
         }
         .card-header {
             font-weight: bold;
+            background-color: #f0f0f0 !important;
+            color: #333;
         }
-        .bg-primary {
-            background-color: #FFFFFF !important;
+        .chart {
+            margin-top: 20px;
         }
     </style>
+</main>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

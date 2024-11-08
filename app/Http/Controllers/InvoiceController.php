@@ -36,20 +36,19 @@ class InvoiceController extends Controller
         $customers = Customer::all();
         $invoices = Invoice::all();
 
-
         $query = Customer::query();
-
 
         return view('invoices.index', compact('invoices'));
     }
 
     // Handle payment
-    public function pay($id)
+    public function pay($invoice_id)
     {
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::findOrFail($invoice_id);
         $invoice->update(['status' => 'Paid']);
         return redirect()->back()->with('success', 'Invoice marked as paid.');
     }
+
 
     // Display form for creating a new invoice
     public function create()
@@ -85,21 +84,21 @@ class InvoiceController extends Controller
 
 
     // Display a specific invoice
-    public function show($id)
+    public function show($invoice_id)
     {
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::findOrFail($invoice_id);
         return view('invoices.show', compact('invoice')); // Create a view to display the invoice details
     }
 
     // Display form for editing an existing invoice
-    public function edit($id)
+    public function edit($invoice_id)
     {
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::findOrFail($invoice_id);
         return view('invoices.edit', compact('invoice')); // Create a view for editing the invoice
     }
 
     // Update an existing invoice
-    public function update(Request $request, $id)
+    public function update(Request $request, $invoice_id)
     {
         // Validate the incoming request
         $request->validate([
@@ -110,7 +109,7 @@ class InvoiceController extends Controller
         ]);
 
         // Find the invoice and update it
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::findOrFail($invoice_id);
         $invoice->update($request->all());
 
         return redirect()->route('invoices.index')->with('success', 'Invoice updated successfully.');

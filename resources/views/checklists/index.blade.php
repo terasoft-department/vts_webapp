@@ -65,7 +65,7 @@
                             <th>Vehicle Name</th>
                             <th>Customer Name</th>
                             <th>Plate Number</th>
-                            <th>RBT Status</th>
+                            <th>RPT Status</th>
                             <th>Battery Status</th>
                             <th>Check Date</th>
                         </tr>

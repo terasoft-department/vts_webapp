@@ -8,6 +8,7 @@ use App\Models\DeviceRequisition;
 use App\Models\JobCard;
 use App\Models\ReturnDevice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectManagerController extends Controller
 {
@@ -18,7 +19,9 @@ class ProjectManagerController extends Controller
 
          public function dashboard()
         {
-            $devicenoSum = Device::sum('total'); // Sum of total devices
+            $deviceCounts = Device::select('category', DB::raw('count(*) as count'))
+        ->groupBy('category')
+        ->pluck('count', 'category');
             $deviceReturnCount = ReturnDevice::count();
             $devicedispatchCount = DeviceRequisition::count();
             $CustomersCount = Customer::count();
@@ -26,7 +29,7 @@ class ProjectManagerController extends Controller
 
 
                return view('project_manager.index', compact(
-                'devicenoSum',
+                'deviceCounts',
                 'deviceReturnCount',
                 'devicedispatchCount',
                 'CustomersCount',
@@ -38,7 +41,9 @@ class ProjectManagerController extends Controller
         {
             // Count and sum data for the dashboard
 
- $devicenoSum = Device::sum('total'); // Sum of total devices
+            $deviceCounts = Device::select('category', DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->pluck('count', 'category');
  $deviceReturnCount = ReturnDevice::count();
  $devicedispatchCount = DeviceRequisition::count();
  $CustomersCount = Customer::count();
@@ -46,7 +51,7 @@ class ProjectManagerController extends Controller
 
 
     return view('project_manager.index', compact(
-     'devicenoSum',
+     'deviceCounts',
      'deviceReturnCount',
      'devicedispatchCount',
      'CustomersCount',

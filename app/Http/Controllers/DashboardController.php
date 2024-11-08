@@ -12,6 +12,7 @@ use App\Models\CheckList;
 use App\Models\Customer;
 use App\Models\JobCard;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -20,7 +21,10 @@ class DashboardController extends Controller
         // Count and sum data for the dashboard
         $unpaidInvoiceCount = Invoice::where('status', 'Not Paid')->count();
         $paidInvoiceCount = Invoice::where('status', 'Paid')->count();
-        $deviceCount = Device::count();
+        $deviceCounts = Device::select('category', DB::raw('count(*) as count'))
+        ->groupBy('category')
+        ->pluck('count', 'category');
+
         $devicenoSum = Device::sum('total'); // Sum of total devices
         $deviceReturnCount = ReturnDevice::count();
         $devicedispatchCount = DeviceRequisition::count();
@@ -37,7 +41,7 @@ class DashboardController extends Controller
         return view('admin.index', compact(
             'unpaidInvoiceCount',
             'paidInvoiceCount',
-            'deviceCount',
+            'deviceCounts',
             'devicenoSum',
             'deviceReturnCount',
             'devicedispatchCount',

@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -219,30 +219,51 @@
           <span>Logout</span>
         </a>
       </li><!-- End Login Page Nav -->
-      
+
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
-<main id="main" class="main">
-<body>
-       <!-- resources/views/devices/index.blade.php -->
+ <main id="main" class="main">
     <div class="container mt-2">
-        <h4 class="text-center">Device Inventory</h4>
+        <h4 class="text-center">Device Stocks & Deductions</h4>
         <br>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-       <!-- Search and Date Filters -->
-    <form method="GET" action="{{ route('devices.index') }}" class="row g-3 mb-4">
-        <div class="col-md-3">
-            <label for="search-input" class="form-label">IMEI Number</label>
-            <input type="text" name="search" class="form-control" placeholder="Search by IMEI Number" id="search-input" value="{{ request()->input('search') }}">
+        <!-- 2x2 Grid Layout for Card and Bar Graph -->
+        <div class="row g-0 mb-2"> <!-- Use g-0 to remove gutters between columns -->
+            <!-- Device Count Card -->
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg- text-black">
+                        <b>List of Devices</b>
+                    </div>
+                    <div class="card-body bg-white">
+                        <h5 class="card-text">Master Devices: {{ $deviceCounts['master'] ?? 0 }}</h5>
+                        <h5 class="card-text">I_Button Devices: {{ $deviceCounts['I_button'] ?? 0 }}</h5>
+                        <h5 class="card-text">Buzzer Devices: {{ $deviceCounts['buzzer'] ?? 0 }}</h5>
+                        <h5 class="card-text">Panic Button Devices: {{ $deviceCounts['panick_button'] ?? 0 }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bar Graph Canvas -->
+            <div class="col-md-5 mb-2">
+                <canvas id="deviceBarChart"></canvas>
+            </div>
         </div>
-        <div class="col-md-3 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary w-30"><i class="bi bi-filter"></i> Filter</button>
-        </div>
-    </form>
+
+        <!-- Search and Date Filters -->
+        <form method="GET" action="{{ route('devices.index') }}" class="row g-2 mb-2">
+            <div class="col-md-2">
+                <label for="search-input" class="form-label">Device Number</label>
+                <input type="text" name="search" class="form-control" placeholder="Search. Number" id="search-input" value="{{ request()->input('search') }}">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-30"><i class="bi bi-filter"></i> Filter</button>
+            </div>
+        </form>
 
         <!-- Add New Device Button -->
         <div class="text-left mb-2">
@@ -256,8 +277,7 @@
             <thead>
                 <tr>
                     <th>Device Number</th>
-                    <th>Category</th>
-                    <th>Total</th>
+                    <th>Device Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -266,16 +286,24 @@
                 <tr>
                     <td>{{ $device->imei_number }}</td>
                     <td>{{ $device->category }}</td>
-                    <td>{{ $device->total }}</td>
                     <td>
+
                         <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editDeviceModal-{{ $device->device_id }}">
                             <i class="bi bi-pencil"></i>
+                            Edit
                         </button>
+
                         <form action="{{ route('devices.destroy', $device->device_id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
+                            <button type="submit" class="btn btn-">
+                           <i class="bi bi-box-arrow-up"></i> <!-- Change the icon here to represent dispatch -->
+                           Dispatch
+                        </button>
+
                         </form>
+
+
                     </td>
                 </tr>
 
@@ -292,21 +320,17 @@
                                 @method('PUT')
                                 <div class="modal-body">
                                     <div class="form-group mb-3">
-                                        <label for="imei_number">IMEI Number</label>
+                                        <label for="imei_number">Device Number</label>
                                         <input type="text" name="imei_number" class="form-control" value="{{ $device->imei_number }}" required>
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label for="category">Category</label>
+                                        <label for="category">Device Type</label>
                                         <select name="category" class="form-control" required>
                                             <option value="master" {{ $device->category === 'master' ? 'selected' : '' }}>Master</option>
                                             <option value="I_button" {{ $device->category === 'I_button' ? 'selected' : '' }}>I Button</option>
                                             <option value="buzzer" {{ $device->category === 'buzzer' ? 'selected' : '' }}>Buzzer</option>
                                             <option value="panick_button" {{ $device->category === 'panick_button' ? 'selected' : '' }}>Panic Button</option>
                                         </select>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="total">Total Quantity</label>
-                                        <input type="number" name="total" class="form-control" value="{{ $device->total }}" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -333,22 +357,18 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group mb-3">
-                                <label for="imei_number">IMEI Number</label>
+                                <label for="imei_number">Device Number</label>
                                 <input type="text" name="imei_number" class="form-control" required>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="category">Category</label>
+                                <label for="category">Device Type</label>
                                 <select name="category" class="form-control" required>
-                                    <option value="">Select Category</option>
+                                    <option value="">Select</option>
                                     <option value="master">Master</option>
                                     <option value="I_button">I Button</option>
                                     <option value="buzzer">Buzzer</option>
                                     <option value="panick_button">Panic Button</option>
                                 </select>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="total">Total Quantity</label>
-                                <input type="number" name="total" class="form-control" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -359,9 +379,57 @@
                 </div>
             </div>
         </div>
+
+        <!-- JavaScript for Bar Chart -->
+        <script>
+            const deviceCounts = {
+                master: {{ $deviceCounts['master'] ?? 0 }},
+                I_button: {{ $deviceCounts['I_button'] ?? 0 }},
+                buzzer: {{ $deviceCounts['buzzer'] ?? 0 }},
+                panick_button: {{ $deviceCounts['panick_button'] ?? 0 }},
+            };
+
+            const totalDevices = deviceCounts.master + deviceCounts.I_button + deviceCounts.buzzer + deviceCounts.panick_button;
+
+            const percentages = {
+                master: ((deviceCounts.master / totalDevices) * 100) || 0,
+                I_button: ((deviceCounts.I_button / totalDevices) * 100) || 0,
+                buzzer: ((deviceCounts.buzzer / totalDevices) * 100) || 0,
+                panick_button: ((deviceCounts.panick_button / totalDevices) * 100) || 0,
+            };
+
+            const ctx = document.getElementById('deviceBarChart').getContext('2d');
+            const deviceBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Master', 'I Button', 'Buzzer', 'Panic Button'],
+                    datasets: [{
+                        label: 'Device Distribution (%)',
+                        data: [percentages.master, percentages.I_button, percentages.buzzer, percentages.panick_button],
+                        backgroundColor: ['#007bff', '#28a745', '#dc3545', '#ffc107'],
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Percentage (%)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%'; // Add percentage sign to y-axis labels
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
     </div>
 </main>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

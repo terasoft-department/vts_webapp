@@ -164,7 +164,7 @@
                     <td>{{ $invoice->customername }}</td>
                     <td>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"
-                            data-id="{{ $invoice->id }}"
+                            data-invoice_id="{{ $invoice->invoice_id }}"
                             data-invoice_number="{{ $invoice->invoice_number }}"
                             data-invoice_date="{{ $invoice->invoice_date }}"
                             data-grand_total="{{ $invoice->grand_total }}"
@@ -172,7 +172,8 @@
                             Edit
                         </button>
                         @if ($invoice->status == 'Not Paid')
-                            <a href="{{ route('invoices.pay', $invoice->id) }}" class="btn btn-primary">Pay</a>
+                        <a href="{{ route('invoices.pay', $invoice->invoice_id) }}" class="btn btn-primary">Pay</a>
+
                         @else
                             <button class="btn btn-secondary" disabled>Paid</button>
                         @endif
@@ -267,7 +268,7 @@
         const editInvoiceModal = document.getElementById('editInvoiceModal');
         editInvoiceModal.addEventListener('show.bs.modal', (event) => {
             const button = event.relatedTarget; // Button that triggered the modal
-            const invoiceId = button.getAttribute('data-id'); // Extract info from data-* attributes
+            const invoiceId = button.getAttribute('data-invoice_id'); // Extract info from data-* attributes
             const invoiceNumber = button.getAttribute('data-invoice_number');
             const invoiceDate = button.getAttribute('data-invoice_date');
             const grandTotal = button.getAttribute('data-grand_total');
@@ -335,7 +336,7 @@
         const editInvoiceModal = document.getElementById('editInvoiceModal');
         editInvoiceModal.addEventListener('show.bs.modal', (event) => {
             const button = event.relatedTarget;
-            const invoiceId = button.getAttribute('data-id');
+            const invoiceId = button.getAttribute('data-invoice_id');
             const invoiceNumber = button.getAttribute('data-invoice_number');
             const invoiceDate = button.getAttribute('data-invoice_date');
             const grandTotal = button.getAttribute('data-grand_total');
