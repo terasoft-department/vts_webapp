@@ -238,25 +238,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Initialize the counter based on the pagination offset -->
-                        @php $cnt_vhls = ($vehicles->currentPage() - 1) * $vehicles->perPage() + 1; @endphp
-
                         @foreach ($vehicles as $vehicle)
                             <tr>
-                                <td>{{ $cnt_vhls++ }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $vehicle->vehicle_name }}</td>
                                 <td>{{ $vehicle->category }}</td>
                                 <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
                                 <td>{{ $vehicle->plate_number }}</td>
                                 <td>
-                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}">
+                                    <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}">
                                         <i class="bi bi-pencil"></i>
                                     </button>
 
                                     <form action="{{ route('vehicles.destroy', $vehicle->vehicle_id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                        <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -306,10 +303,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
-                <!-- Pagination links -->
-                {{ $vehicles->links() }}
-
 
             </div>
         </div>
