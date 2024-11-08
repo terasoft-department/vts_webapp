@@ -240,7 +240,7 @@
                     <tbody>
                         @foreach ($vehicles as $vehicle)
                             <tr>
-                                <td>{{ $vehicle->vehicle_id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $vehicle->vehicle_name }}</td>
                                 <td>{{ $vehicle->category }}</td>
                                 <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
