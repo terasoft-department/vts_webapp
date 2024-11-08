@@ -229,7 +229,7 @@
 
                 <table class="table table-bordered table-striped">
                     <thead>
-                        <tr>
+                        <tr><th>S/N<th>
                             <th>Name</th>
                             <th>Installer</th>
                             <th>Customer</th>
@@ -240,6 +240,7 @@
                     <tbody>
                         @foreach ($vehicles as $vehicle)
                             <tr>
+                                <td>{{ $vehicle->vehicle_id }}</td>
                                 <td>{{ $vehicle->vehicle_name }}</td>
                                 <td>{{ $vehicle->category }}</td>
                                 <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
