@@ -10,65 +10,45 @@ class VehicleController extends Controller
 {
      // Display a listing of the vehicles with search and filters
      public function index(Request $request)
-     {
+{
+    // Define base query with eager loading of related 'customer'
+    $vehicles = Vehicle::with('customer');
 
-         // Handle search and filtering logic here
-         $vehicles = Vehicle::with('customer')->get();
-         $customers = Customer::all(); // Ensure you have a Customer model and data
+    // Store search parameters in session
+    session([
+        'search' => $request->search,
+        'customer_id' => $request->customer_id,
+        'from_date' => $request->from_date,
+        'to_date' => $request->to_date
+    ]);
 
+    // Apply search filter
+    if ($request->filled('search')) {
+        $vehicles = $vehicles->where(function($query) use ($request) {
+            $query->where('vehicle_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('plate_number', 'like', '%' . $request->search . '%');
+        });
+    }
 
-         $query = Vehicle::query();
+    // Apply customer filter
+    if ($request->filled('customer_id')) {
+        $vehicles = $vehicles->where('customer_id', $request->customer_id);
+    }
 
-         session([
-             'search' => $request->search,
-             'customer_id' => $request->customer_id,
-             'from_date' => $request->from_date,
-             'to_date' => $request->to_date
-         ]);
+    // Apply date range filter
+    if ($request->filled('from_date') && $request->filled('to_date')) {
+        $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
+    }
 
-         if ($request->search) {
-             $query->where('vehicle_name', 'like', '%' . $request->search . '%')
-                   ->orWhere('plate_number', 'like', '%' . $request->search . '%');
-         }
+    // Paginate the results to get 10 per page
+    $vehicles = $vehicles->paginate(10);
 
-         if ($request->customer_id) {
-             $query->where('customer_id', $request->customer_id);
-         }
+    // Fetch customers for the filter dropdown
+    $customers = Customer::all();
 
-         if ($request->from_date && $request->to_date) {
-             $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
-         }
+    return view('vehicles.index', compact('vehicles', 'customers'));
+}
 
-         $vehicles = $query->get();
-         $customers = Customer::all();  // Fetching all customers here
-
-         // Fetch customers for the filter dropdown
-         $customers = Customer::all();
-
-         // Basic vehicle query
-         $vehicles = Vehicle::with('customer');
-
-         // Apply search filter
-         if ($request->filled('search')) {
-             $vehicles = $vehicles->where('vehicle_name', 'like', '%' . $request->search . '%')
-                                 ->orWhere('plate_number', 'like', '%' . $request->search . '%');
-         }
-
-         // Apply customer filter
-         if ($request->filled('customer_id')) {
-             $vehicles = $vehicles->where('customer_id', $request->customer_id);
-         }
-
-         // Apply date range filter
-         if ($request->filled('from_date') && $request->filled('to_date')) {
-             $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
-         }
-
-         // Paginate results
-         $vehicles = $vehicles->paginate(10);
-
-         return view('vehicles.index', compact('vehicles', 'customers'));
-     }
 
      // Show the form for creating a new vehicle
      public function create()
