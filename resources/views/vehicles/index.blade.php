@@ -238,9 +238,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php $cnt_vhls = 1; @endphp
                         @foreach ($vehicles as $vehicle)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <!-- Use $cnt_vhls for auto-incremented serial number -->
+                                <td>{{ $cnt_vhls }}</td>
                                 <td>{{ $vehicle->vehicle_name }}</td>
                                 <td>{{ $vehicle->category }}</td>
                                 <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
@@ -300,9 +302,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Increment the counter -->
+                            @php $cnt_vhls++; @endphp
                         @endforeach
                     </tbody>
                 </table>
+
 
             </div>
         </div>
