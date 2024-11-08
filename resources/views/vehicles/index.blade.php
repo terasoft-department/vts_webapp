@@ -238,26 +238,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Start the counter based on the pagination offset -->
+                        <!-- Initialize the counter based on the pagination offset -->
                         @php $cnt_vhls = ($vehicles->currentPage() - 1) * $vehicles->perPage() + 1; @endphp
 
                         @foreach ($vehicles as $vehicle)
                             <tr>
-                                <!-- Display the current counter and increment -->
                                 <td>{{ $cnt_vhls++ }}</td>
                                 <td>{{ $vehicle->vehicle_name }}</td>
                                 <td>{{ $vehicle->category }}</td>
                                 <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
                                 <td>{{ $vehicle->plate_number }}</td>
                                 <td>
-                                    <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}">
+                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}">
                                         <i class="bi bi-pencil"></i>
                                     </button>
 
                                     <form action="{{ route('vehicles.destroy', $vehicle->vehicle_id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
+                                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -358,12 +357,12 @@
     </div>
 
 
-    {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-arrow-up-short"></i>
-    </a> --}}
+    </a>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
