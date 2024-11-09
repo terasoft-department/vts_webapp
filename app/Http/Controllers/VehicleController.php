@@ -51,22 +51,30 @@ class VehicleController extends Controller
 
     public function create()
     {
+        // Fetch customers for the create form dropdown
         $customers = Customer::all();
         return view('vehicles.create', compact('customers'));
     }
 
     public function store(Request $request)
     {
+        // Validate and create a new vehicle
         $request->validate([
             'vehicle_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'customer_id' => 'required|exists:customers,customer_id',
+            'customer_id' => 'required|exists:customers,id',
             'plate_number' => 'required|string|max:255',
         ]);
 
-        Vehicle::create($request->all());
+        try {
+            Vehicle::create($request->only([
+                'vehicle_name', 'category', 'customer_id', 'plate_number'
+            ]));
 
-        return redirect()->route('vehicles.index')->with('success', 'Vehicle created successfully.');
+            return redirect()->route('vehicles.index')->with('success', 'Vehicle created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error creating vehicle: ' . $e->getMessage());
+        }
     }
 
     public function show(Vehicle $vehicle)
@@ -76,28 +84,41 @@ class VehicleController extends Controller
 
     public function edit(Vehicle $vehicle)
     {
+        // Fetch customers for the edit form dropdown
         $customers = Customer::all();
         return view('vehicles.edit', compact('vehicle', 'customers'));
     }
 
     public function update(Request $request, Vehicle $vehicle)
     {
+        // Validate and update vehicle
         $request->validate([
             'vehicle_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'customer_id' => 'required|exists:customers,customer_id',
+            'customer_id' => 'required|exists:customers,id',
             'plate_number' => 'required|string|max:255',
         ]);
 
-        $vehicle->update($request->all());
+        try {
+            $vehicle->update($request->only([
+                'vehicle_name', 'category', 'customer_id', 'plate_number'
+            ]));
 
-        return redirect()->route('vehicles.index')->with('success', 'Vehicle updated successfully.');
+            return redirect()->route('vehicles.index')->with('success', 'Vehicle updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error updating vehicle: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Vehicle $vehicle)
     {
-        $vehicle->delete();
-        return redirect()->route('vehicles.index')->with('success', 'Vehicle deleted successfully.');
+        try {
+            $vehicle->delete();
+            return redirect()->route('vehicles.index')->with('success', 'Vehicle deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error deleting vehicle: ' . $e->getMessage());
+        }
     }
 }
+
 
