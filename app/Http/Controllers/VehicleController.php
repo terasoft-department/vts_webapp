@@ -41,7 +41,7 @@ class VehicleController extends Controller
         }
 
         // Paginate the results to get 10 per page
-        $vehicles = $vehicles->paginate(10);
+        $vehicles = $vehicles->paginate(2000);
 
         // Fetch customers for the filter dropdown
         $customers = Customer::all();
