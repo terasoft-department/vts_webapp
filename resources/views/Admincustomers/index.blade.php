@@ -107,7 +107,7 @@
 <main id="main" class="main">
 
     <div class="container mt-2">
-        <h4 class="text-center">Customer Details</h4>
+        <h4 class="text-center">Customer details</h4>
         <br>
 
         @if (session('success'))
@@ -141,6 +141,7 @@
         <table class="table table-bordered mt-2 text-left" id="customerTable">
             <thead>
                 <tr>
+                    <th>S/No</th>
                     <th>Name</th>
                     <th>Address</th>
                     <th>Phone</th>
@@ -152,7 +153,7 @@
             </thead>
             <tbody>
                 @foreach ($customers as $customer)
-                <tr>
+                <tr>  <td>{{ $loop->iteration }}</td>
                     <td>{{ $customer->customername }}</td>
                     <td>{{ $customer->address }}</td>
                     <td>{{ $customer->customer_phone }}</td>
@@ -466,3 +467,4 @@ html2pdf(element, {
 
 </body>
 </html>
+
