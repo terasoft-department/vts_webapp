@@ -208,152 +208,176 @@
         </ul>
     </aside><!-- End Sidebar -->
     <main id="main" class="main">
-        <div class="container">
+        <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="m-0">Vehicles</h4>
+                <h4 class="m-0">Manage Vehicles</h4>
                 <form action="{{ route('vehicles.index') }}" method="GET" class="form-inline">
-                    <input type="text" name="search" class="form-control" placeholder="Search vehicles..." value="{{ request()->query('search') }}">
-                    <button type="submit" class="btn btn-light ml-2"><i class="fas fa-search"></i></button>
+                    <input type="text" name="search" class="form-control" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch">
+                    <button type="submit" class="btn btn-primary ml-2"><i class="fas fa-search"></i></button>
                 </form>
             </div>
 
-            <button class="btn btn-light mb-3" data-toggle="modal" data-target="#createVehicleModal">
-                <i class="fas fa-plus"></i> Add Vehicle
+            <!-- Add New Vehicle Button -->
+            <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#createVehicleModal">
+                <i class="fas fa-plus"></i> Add New Vehicle
             </button>
 
             @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>S/N</th>
-                        <th>Name</th>
-                        <th>Installer</th>
-                        <th>Customer</th>
-                        <th>Plate Number</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($vehicles as $vehicle)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $vehicle->vehicle_name }}</td>
-                            <td>{{ $vehicle->category }}</td>
-                            <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
-                            <td>{{ $vehicle->plate_number }}</td>
-                            <td>
-                                <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-
-                                <form action="{{ route('vehicles.destroy', $vehicle->vehicle_id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-
-                        <!-- Edit Vehicle Modal -->
-                        <div class="modal fade" id="editVehicleModal{{ $vehicle->vehicle_id }}" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Edit Vehicle</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('vehicles.update', $vehicle->vehicle_id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group">
-                                                <label for="vehicle_name">Vehicle Name</label>
-                                                <input type="text" class="form-control" name="vehicle_name" value="{{ $vehicle->vehicle_name }}" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="category">Category</label>
-                                                <input type="text" class="form-control" name="category" value="{{ $vehicle->category }}" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="customer_id">Customer</label>
-                                                <select class="form-control" name="customer_id" required>
-                                                    @foreach ($customers as $customer)
-                                                        <option value="{{ $customer->customer_id }}" {{ $vehicle->customer_id == $customer->customer_id ? 'selected' : '' }}>
-                                                            {{ $customer->customername }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="plate_number">Plate Number</label>
-                                                <input type="text" class="form-control" name="plate_number" value="{{ $vehicle->plate_number }}" required>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </main>
-
-    <!-- Create Vehicle Modal -->
-    <div class="modal fade" id="createVehicleModal" tabindex="-1" role="dialog" aria-labelledby="createVehicleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Vehicle</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ route('vehicles.store') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="vehicle_name">Vehicle Name</label>
-                            <input type="text" class="form-control" name="vehicle_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="category">Category</label>
-                            <input type="text" class="form-control" name="category" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_id">Customer</label>
-                            <select class="form-control" name="customer_id" required>
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="plate_number">Plate Number</label>
-                            <input type="text" class="form-control" name="plate_number" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Vehicle</button>
-                    </form>
+            @endif
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Vehicle Name</th>
+                            <th>Installer</th>
+                            <th>Customer</th>
+                            <th>Plate Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehicleTableBody">
+                        @foreach ($vehicles as $vehicle)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $vehicle->vehicle_name }}</td>
+                                <td>{{ $vehicle->category }}</td>
+                                <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
+                                <td>{{ $vehicle->plate_number }}</td>
+                                <td>
+                                    <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}"><i class="bi bi-pencil"></i></button>
+                                    <form action="{{ route('vehicles.destroy', $vehicle->vehicle_id) }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <!-- Edit Vehicle Modal -->
+                            <div class="modal fade" id="editVehicleModal{{ $vehicle->vehicle_id }}" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit Vehicle Details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('vehicles.update', $vehicle->vehicle_id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="form-group">
+                                                    <label for="vehicle_name">Vehicle Name</label>
+                                                    <input type="text" class="form-control" name="vehicle_name" value="{{ $vehicle->vehicle_name }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="category">Category</label>
+                                                    <input type="text" class="form-control" name="category" value="{{ $vehicle->category }}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="customer_id">Customer</label>
+                                                    <select class="form-control" name="customer_id" required>
+                                                        @foreach ($customers as $customer)
+                                                            <option value="{{ $customer->customer_id }}" {{ $vehicle->customer_id == $customer->customer_id ? 'selected' : '' }}>
+                                                                {{ $customer->customername }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="plate_number">Plate Number</label>
+                                                    <input type="text" class="form-control" name="plate_number" value="{{ $vehicle->plate_number }}" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add New Vehicle Modal -->
+        <div class="modal fade" id="createVehicleModal" tabindex="-1" role="dialog" aria-labelledby="createVehicleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Vehicle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('vehicles.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="vehicle_name">Vehicle Name</label>
+                                <input type="text" class="form-control" name="vehicle_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <input type="text" class="form-control" name="category" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_id">Customer</label>
+                                <select class="form-control" name="customer_id" required>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="plate_number">Plate Number</label>
+                                <input type="text" class="form-control" name="plate_number" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Back-to-top button -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
+        <!-- Vendor JS Files -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <!-- Template Main JS File -->
+        <script src="assets/js/main.js"></script>
+
+        <script>
+            // Dynamic Search Filtering
+            document.querySelector('#vehicleSearch').addEventListener('keyup', function () {
+                const searchInput = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#vehicleTableBody tr');
+
+                rows.forEach(row => {
+                    const vehicleName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const installer = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    const customer = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                    const plateNumber = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
+
+                    if (vehicleName.includes(searchInput) || installer.includes(searchInput) || customer.includes(searchInput) || plateNumber.includes(searchInput)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        </script>
+
+        <!-- Back-to-Top Button -->
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/chart.js/chart.umd.js"></script>
@@ -365,5 +389,12 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    </script>
+    </main>
+
+
+
+
     </body>
     </html>
