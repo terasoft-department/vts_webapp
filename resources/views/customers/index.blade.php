@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -221,7 +221,7 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
- <!-- Main Content --> --}}
+ <!-- Main Content -->
 <main id="main" class="main">
 
         <div class="container mt-2">
@@ -554,7 +554,7 @@ document.getElementById('customerForm').addEventListener('submit', function(even
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-{{-- <script>
+<script>
 document.getElementById('printPDF').addEventListener('click', function () {
     var element = document.getElementById('customerTable');
     html2pdf(element, {
@@ -584,4 +584,4 @@ document.getElementById('printPDF').addEventListener('click', function () {
 </script>
 
 </body>
-</html> --}}
+</html>
