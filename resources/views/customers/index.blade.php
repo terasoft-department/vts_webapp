@@ -259,7 +259,7 @@
             <table class="table table-bordered mt-2 text-left" id="customerTable">
                 <thead>
                     <tr>
-                        <th>S/No</th>
+                        {{-- <th>S/No</th> --}}
                         <th>Name</th>
                         <th>Address</th>
                         <th>Phone</th>
@@ -271,7 +271,8 @@
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
-                    <tr>  <td>{{ $loop->iteration }}</td>
+                    <tr>
+                        {{-- <td>{{ $loop->iteration }}</td> --}}
                         <td>{{ $customer->customername }}</td>
                         <td>{{ $customer->address }}</td>
                         <td>{{ $customer->customer_phone }}</td>
