@@ -272,7 +272,7 @@
                 <tbody>
                     @foreach ($customers as $customer)
                       <tr>    {{--  <td>{{ $loop->iteration }}</td> --}}
-                        <td data-label="No">{{ $index + 1 }}</td>
+                        <td data-label="No">{{ $customer + 1 }}</td>
                         <td>{{ $customer->customername }}</td>
                         <td>{{ $customer->address }}</td>
                         <td>{{ $customer->customer_phone }}</td>
