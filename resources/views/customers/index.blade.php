@@ -259,7 +259,7 @@
             <table class="table table-bordered mt-2 text-left" id="customerTable">
                 <thead>
                     <tr>
-                        {{-- <th>S/No</th> --}}
+                        <th>S/No</th>
                         <th>Name</th>
                         <th>Address</th>
                         <th>Phone</th>
@@ -272,7 +272,7 @@
                 <tbody>
                     @foreach ($customers as $customer)
                     <tr>
-                        {{-- <td>{{ $loop->iteration }}</td> --}}
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $customer->customername }}</td>
                         <td>{{ $customer->address }}</td>
                         <td>{{ $customer->customer_phone }}</td>
@@ -355,27 +355,27 @@
                             <div class="modal-body">
                                 <div class="form-group mb-3">
                                     <label for="customername">Customer Name</label>
-                                    <input type="text" name="customername" class="form-control" required>
+                                    <input type="text" name="customername" class="form-control" >
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="address">Address</label>
-                                    <input type="text" name="address" class="form-control" required>
+                                    <input type="text" name="address" class="form-control" >
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="customer_phone">Phone</label>
-                                    <input type="text" name="customer_phone" class="form-control" required>
+                                    <input type="text" name="customer_phone" class="form-control" >
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="tin_number">TIN Number</label>
-                                    <input type="text" name="tin_number" class="form-control" required>
+                                    <input type="text" name="tin_number" class="form-control" >
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="email">Email</label>
-                                    <input type="email" name="email" class="form-control" required>
+                                    <input type="email" name="email" class="form-control" >
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="start_date">Start Date</label>
-                                    <input type="date" name="start_date" class="form-control" required>
+                                    <input type="date" name="start_date" class="form-control" >
                                 </div>
                             </div>
                             <div class="modal-footer">

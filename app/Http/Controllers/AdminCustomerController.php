@@ -42,7 +42,7 @@ class AdminCustomerController extends Controller
 
     public function update(Request $request, $id)
     {
-        // // Validate and update customer
+        // Validate and update customer
         // $request->validate([
         //     'customername' => 'required|string',
         //     'address' => 'required|string',
