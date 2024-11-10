@@ -17,14 +17,14 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         // Validate and create a new customer
-        $request->validate([
-            'customername' => 'required|string',
-            'address' => 'required|string',
-            'customer_phone' => 'required|string',
-            'tin_number' => 'required|string',
-            'email' => 'required|email|unique:customers',
-            'start_date' => 'required|date',
-        ]);
+        // $request->validate([
+        //     'customername' => 'required|string',
+        //     'address' => 'required|string',
+        //     'customer_phone' => 'required|string',
+        //     'tin_number' => 'required|string',
+        //     'email' => 'required|email|unique:customers',
+        //     'start_date' => 'required|date',
+        // ]);
 
         Customer::create($request->all());
 
@@ -41,15 +41,15 @@ class CustomerController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate and update customer
-        $request->validate([
-            'customername' => 'required|string',
-            'address' => 'required|string',
-            'customer_phone' => 'required|string',
-            'tin_number' => 'required|string',
-            'email' => 'required|email',
-            'start_date' => 'required|date',
-        ]);
+        // // Validate and update customer
+        // $request->validate([
+        //     'customername' => 'required|string',
+        //     'address' => 'required|string',
+        //     'customer_phone' => 'required|string',
+        //     'tin_number' => 'required|string',
+        //     'email' => 'required|email',
+        //     'start_date' => 'required|date',
+        // ]);
 
         $customer = Customer::findOrFail($id);
         $customer->update($request->all());

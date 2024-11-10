@@ -59,12 +59,12 @@ class VehicleController extends Controller
     // Store a newly created vehicle in the database
     public function store(Request $request)
     {
-        $request->validate([
-            'vehicle_name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-            'customer_id' => 'required|exists:customers,customer_id',
-            'plate_number' => 'required|string|max:255',
-        ]);
+        // $request->validate([
+        //     'vehicle_name' => 'required|string',
+        //     'category' => 'required|string',
+        //     'customer_id' => 'required|exists:customers,customer_id',
+        //     'plate_number' => 'required|string',
+        // ]);
 
         Vehicle::create($request->all());
 
@@ -87,12 +87,12 @@ class VehicleController extends Controller
     // Update the specified vehicle
     public function update(Request $request, Vehicle $vehicle)
     {
-        $request->validate([
-            'vehicle_name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-            'customer_id' => 'required|exists:customers,customer_id',
-            'plate_number' => 'required|string|max:255',
-        ]);
+        // $request->validate([
+        //     'vehicle_name' => 'required|string',
+        //     'category' => 'required|string',
+        //     'customer_id' => 'required|exists:customers,customer_id',
+        //     'plate_number' => 'required|string',
+        // ]);
 
         $vehicle->update($request->all());
 
