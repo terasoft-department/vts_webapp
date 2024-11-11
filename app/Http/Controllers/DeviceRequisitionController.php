@@ -132,6 +132,8 @@ public function approveRequisition(Request $request, $requisition_id)
 
     return redirect()->back()->with('success', 'Requisition approved and stock updated successfully.');
 }
+
+
 public function update(Request $request, $id)
 {
     $requisition = DeviceRequisition::findOrFail($id);
@@ -140,31 +142,75 @@ public function update(Request $request, $id)
         'status' => 'required|string|in:Pending,Approved,Rejected',
     ]);
 
-    // Check if the status is Approved and deduct from inventory
+    $dispatchMessages = [];
+    $successMessages = [];
+
+    // Check if the status is Approved and mark devices as dispatched
     if ($request->status == 'Approved') {
-        // Assuming you have a method to deduct device quantities
-        $this->deductDevicesFromInventory($requisition);
+        list($dispatchMessages, $successMessages) = $this->markDevicesAsDispatched($requisition);
     }
 
     // Update the requisition status
     $requisition->status = $request->status;
     $requisition->save();
 
+    // Show success and danger alerts if there are issues or partial dispatches
+    if (!empty($dispatchMessages)) {
+        return redirect()->route('device_requisitions.index')
+            ->with('danger', implode('<br>', $dispatchMessages))
+            ->with('success', implode('<br>', $successMessages));
+    }
+
     return redirect()->route('device_requisitions.index')->with('success', 'Requisition updated successfully.');
 }
 
-private function deductDevicesFromInventory($requisition)
+/**
+ * Mark the exact quantity specified in the requisition as "dispatched" in dispatched_status.
+ */
+private function markDevicesAsDispatched(DeviceRequisition $requisition)
 {
-    // Example deduction logic
-    // Update your inventory here based on the requisition details
-    $master = Device::where('category', $requisition->master)->first();
-    if ($master) {
-        $master->quantity -= 1; // Adjust this logic as needed
-        $master->save();
+    // Map requisition attributes to device categories
+    $deviceMapping = [
+        'master' => 'master',
+        'I_button' => 'I_button',
+        'buzzer' => 'buzzer',
+        'panick_button' => 'panick_button',
+    ];
+
+    $dispatchMessages = [];
+    $successMessages = [];
+
+    foreach ($deviceMapping as $requisitionAttr => $category) {
+        $quantityNeeded = $requisition->$requisitionAttr;
+
+        if ($quantityNeeded > 0) {
+            // Get the number of non-dispatched devices available
+            $availableDevices = Device::where('category', $category)
+                ->where('dispatched_status', '!=', 'dispatched') // Only select devices that are not dispatched
+                ->orderBy('total', 'asc')
+                ->get();
+
+            // Check if there are enough available devices
+            if ($availableDevices->count() < $quantityNeeded) {
+                $dispatchMessages[] = "Not enough '$category' devices available for dispatch. Only {$availableDevices->count()} available.";
+            }
+
+            // If there are enough devices, mark them as dispatched
+            $devicesToDispatch = $availableDevices->take($quantityNeeded);
+
+            foreach ($devicesToDispatch as $device) {
+                $device->dispatched_status = 'dispatched';
+                $device->save();
+            }
+
+            // Add success message for the dispatched devices
+            $successMessages[] = "$category devices dispatched successfully. Dispatched: {$devicesToDispatch->count()} of $quantityNeeded.";
+        }
     }
 
-    // Repeat for I-Button, Buzzer, and Panic Button as necessary
+    return [$dispatchMessages, $successMessages];
 }
+
 
 
     public function edit($id)

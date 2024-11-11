@@ -206,7 +206,7 @@
         </ul>
     </aside><!-- End Sidebar -->
 
-        <main id="main" class="main">
+    <main id="main" class="main">
         <div class="container mt-5">
             <!-- Success/Error Messages -->
             @if(session('success'))
@@ -220,255 +220,255 @@
             <button class="btn btn-primary mb-3" onclick="createInvoice()">Create Invoice</button>
 
             <!-- Invoice Payments Table -->
-           <!-- Invoice Payments Table -->
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Invoice Number</th>
-                        <th>Customer</th>
-                        <th>Invoice Date</th>
-                        <th>Prepared By</th>
-                        <th>Plate Number</th>
-                        <th>TIN Number</th>
-                        <th>Description</th>
-                        <th>Number of Cars</th>
-                        <th>Periods</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Payment Type</th>
-                        <th>Debt</th>
-                        <th>Unit Price</th>
-                        <th>Gross Value</th>
-                        <th>VAT Value</th>
-                        <th>VAT Inclusive</th>
-                        <th>Total Value</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($invoicePayments as $invoice)
-                    <tr id="invoice-row-{{ $invoice->id }}">
-                        <td>{{ $invoice->invoice_number }}</td>
-                        <td>{{ $invoice->customer->customername }}</td>
-                        <td>{{ \Carbon\Carbon::parse($invoice->due_date)->format('Y-m-d') }}</td>
-                        <td>{{ $invoice->prepared_by }}</td>
-                        <td>{{ $invoice->plate_number }}</td>
-                        <td>{{ $invoice->tin_number }}</td>
-                        <td>{{ $invoice->descriptions }}</td>
-                        <td>{{ $invoice->num_cars }}</td>
-                        <td>{{ $invoice->periods }}</td>
-                        <td>{{ \Carbon\Carbon::parse($invoice->from)->format('Y-m-d') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($invoice->to)->format('Y-m-d') }}</td>
-                        <td>{{ $invoice->payment_type }}</td>
-                        <td>{{ number_format($invoice->debt, 2) }}</td>
-                        <td>{{ number_format($invoice->unit_price, 2) }}</td>
-                        <td>{{ number_format($invoice->gross_value, 2) }}</td>
-                        <td>{{ number_format($invoice->vat_value, 2) }}</td>
-                        <td>{{ number_format($invoice->vat_Inclusive, 2) }}</td>
-                        <td>{{ number_format($invoice->total_value, 2) }}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="editInvoice({{ $invoice->id }})"><i class="bi bi-pencil"></i></button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Customer</th>
+                            <th>Invoice Date</th>
+                            <th>Prepared By</th>
+                            <th>Plate Number</th>
+                            <th>TIN Number</th>
+                            <th>Description</th>
+                            <th>Number of Cars</th>
+                            <th>Periods</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Payment Type</th>
+                            <th>Debt</th>
+                            <th>Unit Price</th>
+                            <th>Gross Value</th>
+                            <th>VAT Value</th>
+                            <th>VAT Inclusive</th>
+                            <th>Total Value</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($invoicePayments as $invoice)
+                        <tr id="invoice-row-{{ $invoice->id }}">
+                            <td>{{ $invoice->invoice_number }}</td>
+                            <td>{{ $invoice->customer->customername }}</td>
+                            <td>{{ \Carbon\Carbon::parse($invoice->due_date)->format('Y-m-d') }}</td>
+                            <td>{{ $invoice->prepared_by }}</td>
+                            <td>{{ $invoice->plate_number }}</td>
+                            <td>{{ $invoice->tin_number }}</td>
+                            <td>{{ $invoice->descriptions }}</td>
+                            <td>{{ $invoice->num_cars }}</td>
+                            <td>{{ $invoice->periods }}</td>
+                            <td>{{ \Carbon\Carbon::parse($invoice->from)->format('Y-m-d') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($invoice->to)->format('Y-m-d') }}</td>
+                            <td>{{ $invoice->payment_type }}</td>
+                            <td>{{ number_format($invoice->debt, 2) }}</td>
+                            <td>{{ number_format($invoice->unit_price, 2) }}</td>
+                            <td>{{ number_format($invoice->gross_value, 2) }}</td>
+                            <td>{{ number_format($invoice->vat_value, 2) }}</td>
+                            <td>{{ number_format($invoice->vat_Inclusive, 2) }}</td>
+                            <td>{{ number_format($invoice->total_value, 2) }}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editInvoice({{ $invoice->id }})"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{ $invoicePayments->links() }} <!-- Pagination links -->
 
             <!-- Invoice Create/Edit Modal -->
-        <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <form id="invoiceForm" method="POST">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="invoiceModalLabel">Create/Edit Invoice</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- 4-row, 4-column grid layout -->
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="invoice_number">Invoice Number</label>
-                                    <input type="text" name="invoice_number" id="invoice_number" class="form-control" readonly>
+            <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <form id="invoiceForm" method="POST">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="invoiceModalLabel">Create/Edit Invoice</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Invoice Details -->
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label for="invoice_number">Invoice Number</label>
+                                        <input type="text" name="invoice_number" id="invoice_number" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="customer_id">Customer</label>
+                                        <select name="customer_id" id="customer_id" class="form-control" required>
+                                            <option value="">Select Customer</option>
+                                            @foreach($customers as $customer)
+                                                <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="due_date">Invoice Date</label>
+                                        <input type="date" name="due_date" id="due_date" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="prepared_by">Prepared By</label>
+                                        <input type="text" name="prepared_by" id="prepared_by" class="form-control" required>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
-                                    <label for="customer_id">Customer</label>
-                                    <select name="customer_id" id="customer_id" class="form-control" required>
-                                        <option value="">Select Customer</option>
-                                        @foreach($customers as $customer)
-                                            <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="due_date">Invoice Date</label>
-                                    <input type="date" name="due_date" id="due_date" class="form-control" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="prepared_by">Prepared By</label>
-                                    <input type="text" name="prepared_by" id="prepared_by" class="form-control" required>
-                                </div>
+                                <!-- Invoice Item Table -->
+                                <table class="table table-bordered" id="invoice-items-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Number of Cars</th>
+                                            <th>Period</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Payment Type</th>
+                                            <th>Debt</th>
+                                            <th>Unit Price</th>
+                                            <th>Gross Value</th>
+                                            <th>VAT Value</th>
+                                            <th>VAT Inclusive</th>
+                                            <th>Total Value</th>
+                                            <th><button type="button" class="btn btn-success btn-sm" onclick="addItemRow()">Add Item</button></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="items-body">
+                                        <!-- Item rows will be added here -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="11">Grand Total</th>
+                                            <th id="grandTotal">0.00</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="plate_number">Plate Number</label>
-                                    <input type="text" name="plate_number" id="plate_number" class="form-control" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="tin_number">TIN Number</label>
-                                    <input type="text" name="tin_number" id="tin_number" class="form-control" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="descriptions">Descriptions</label>
-                                    <textarea name="descriptions" id="descriptions" class="form-control" required></textarea>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="num_cars">Number of Cars</label>
-                                    <input type="number" name="num_cars" id="num_cars" class="form-control" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="periods">Periods</label>
-                                    <input type="number" name="periods" id="periods" class="form-control" required>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="from">From</label>
-                                    <input type="date" name="from" id="from" class="form-control" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="to">To</label>
-                                    <input type="date" name="to" id="to" class="form-control" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="payment_type">Payment Type</label>
-                                    <select name="payment_type" id="payment_type" class="form-control" required>
-                                        <option value="">Select</option>
-                                        <option value="Lease">Lease</option>
-                                        <option value="Purchase">Purchase</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="debt">Debts</label>
-                                    <input type="number" name="debt" id="debt" class="form-control" required step="0.01">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="unit_price">Unit Price</label>
-                                    <input type="number" name="unit_price" id="unit_price" class="form-control" required step="0.01">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="gross_value">Gross Value</label>
-                                    <input type="number" name="gross_value" id="gross_value" class="form-control" readonly>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="vat_value">VAT Value</label>
-                                    <input type="number" name="vat_value" id="vat_value" class="form-control" readonly>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="vat_Inclusive">VAT Inclusive</label>
-                                    <input type="number" name="vat_Inclusive" id="vat_Inclusive" class="form-control" readonly>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="total_value">Total Value</label>
-                                    <input type="number" name="total_value" id="total_value" class="form-control" readonly>
-                                </div>
-
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="saveInvoiceBtn">Save</button>
                             </div>
                         </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="saveInvoiceBtn">Save</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <script>
-            function createInvoice() {
-                $('#invoiceForm').trigger("reset");
-                $('#invoiceModalLabel').text("Create Invoice");
-                $('#invoiceModal').modal('show');
-                $('#invoiceForm').attr('action', '{{ route('invoice_payments.store') }}');
-            }
-
-            function editInvoice(id) {
-                $.get('/invoice_payments/' + id + '/edit', function(data) {
-                    $('#invoiceModalLabel').text("Edit Invoice");
-                    $('#invoice_number').val(data.invoice_number);
-                    $('#customer_id').val(data.customer_id);
-                    $('#due_date').val(data.due_date);
-                    $('#prepared_by').val(data.prepared_by);
-                    $('#plate_number').val(data.plate_number);
-                    $('#tin_number').val(data.tin_number);
-                    $('#descriptions').val(data.descriptions);
-                    $('#num_cars').val(data.num_cars);
-                    $('#periods').val(data.periods);
-                    $('#from').val(data.from);
-                    $('#to').val(data.to);
-                    $('#payment_type').val(data.payment_type);
-                    $('#debt').val(data.debt);
-                    $('#unit_price').val(data.unit_price);
-                    $('#gross_value').val(data.gross_value);
-                    $('#vat_value').val(data.vat_value);
-                    $('#vat_Inclusive').val(data.vat_Inclusive);
-                    $('#total_value').val(data.total_value);
+            <!-- JavaScript for handling form actions -->
+            <script>
+                function createInvoice() {
+                    $('#invoiceForm').trigger("reset");
+                    $('#invoiceModalLabel').text("Create Invoice");
                     $('#invoiceModal').modal('show');
-                    $('#invoiceForm').attr('action', '/invoice_payments/' + id);
-                });
-            }
+                    $('#invoiceForm').attr('action', '{{ route('invoice_payments.store') }}');
+                    clearItems();
+                    $('#due_date').val(getDefaultDueDate());
+                }
 
-            function showInvoice(id) {
-                $.get('/invoice_payments/' + id, function(data) {
-                    $('#invoiceModalLabel').text("View Invoice");
-                    $('#invoice_number').val(data.invoice_number).attr('readonly', true);
-                    $('#customer_id').val(data.customer_id).attr('disabled', true);
-                    $('#due_date').val(data.due_date).attr('readonly', true);
-                    $('#prepared_by').val(data.prepared_by).attr('readonly', true);
-                    $('#plate_number').val(data.plate_number).attr('readonly', true);
-                    $('#tin_number').val(data.tin_number).attr('readonly', true);
-                    $('#descriptions').val(data.descriptions).attr('readonly', true);
-                    $('#num_cars').val(data.num_cars).attr('readonly', true);
-                    $('#periods').val(data.periods).attr('readonly', true);
-                    $('#from').val(data.from).attr('readonly', true);
-                    $('#to').val(data.to).attr('readonly', true);
-                    $('#payment_type').val(data.payment_type).attr('disabled', true);
-                    $('#debt').val(data.debt).attr('readonly', true);
-                    $('#unit_price').val(data.unit_price).attr('readonly', true);
-                    $('#gross_value').val(data.gross_value).attr('readonly', true);
-                    $('#vat_value').val(data.vat_value).attr('readonly', true);
-                    $('#vat_inclusive').val(data.vat_inclusive).attr('readonly', true);
-                    $('#total_value').val(data.total_value).attr('readonly', true);
-                    $('#invoiceModal').modal('show');
-                });
-            }
-
-            function deleteInvoice(id) {
-                if (confirm('Are you sure you want to delete this invoice?')) {
-                    $.ajax({
-                        url: '/invoice_payments/' + id,
-                        type: 'DELETE',
-                        data: {_token: '{{ csrf_token() }}'},
-                        success: function(result) {
-                            $('#invoice-row-' + id).remove();
-                            alert("Invoice deleted successfully.");
+                function editInvoice(id) {
+                    $.get('/invoice_payments/' + id + '/edit', function(data) {
+                        if (data) {
+                            $('#invoiceModalLabel').text("Edit Invoice");
+                            $('#invoice_number').val(data.invoice_number);
+                            $('#customer_id').val(data.customer_id);
+                            $('#due_date').val(data.due_date);
+                            $('#prepared_by').val(data.prepared_by);
+                            $('#invoiceModal').modal('show');
+                            $('#invoiceForm').attr('action', '/invoice_payments/' + id);
+                            loadItems(data.items || []);
+                        } else {
+                            alert("Failed to load invoice details. Please try again.");
                         }
+                    }).fail(function() {
+                        alert("Error occurred while fetching invoice data.");
                     });
                 }
-            }
-        </script>
+
+                function addItemRow() {
+                    const row = `
+                        <tr>
+                            <td><input type="text" name="item_description[]" class="form-control" required></td>
+                            <td><input type="number" name="number_of_cars[]" class="form-control" required></td>
+                            <td><input type="text" name="period[]" class="form-control" required></td>
+                            <td><input type="date" name="from_date[]" class="form-control" required></td>
+                            <td><input type="date" name="to_date[]" class="form-control" required></td>
+                            <td>
+                                <select name="payment_type[]" class="form-control" required>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarterly">Quarterly</option>
+                                    <option value="Annually">Annually</option>
+                                </select>
+                            </td>
+                            <td><input type="number" name="debt[]" class="form-control" required step="0.01" oninput="calculateRowTotal(this)"></td>
+                            <td><input type="number" name="unit_price[]" class="form-control" required step="0.01" oninput="calculateRowTotal(this)"></td>
+                            <td><input type="text" name="gross_value[]" class="form-control" readonly></td>
+                            <td><input type="text" name="vat_value[]" class="form-control" readonly></td>
+                            <td><input type="text" name="vat_inclusive[]" class="form-control" readonly></td>
+                            <td><input type="text" name="total_value[]" class="form-control" readonly></td>
+                            <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
+                        </tr>`;
+                    $('#items-body').append(row);
+                }
+
+                function removeRow(button) {
+                    $(button).closest('tr').remove();
+                    updateGrandTotal();
+                }
+
+                function calculateRowTotal(input) {
+                    const row = $(input).closest('tr');
+                    const debt = parseFloat(row.find('input[name="debt[]"]').val()) || 0;
+                    const unitPrice = parseFloat(row.find('input[name="unit_price[]"]').val()) || 0;
+                    const grossValue = debt * unitPrice;
+                    const vatValue = grossValue * 0.18; // Assume 18% VAT rate
+                    const vatInclusive = grossValue + vatValue;
+                    const totalValue = grossValue + vatValue;
+
+                    row.find('input[name="gross_value[]"]').val(grossValue.toFixed(2));
+                    row.find('input[name="vat_value[]"]').val(vatValue.toFixed(2));
+                    row.find('input[name="vat_inclusive[]"]').val(vatInclusive.toFixed(2));
+                    row.find('input[name="total_value[]"]').val(totalValue.toFixed(2));
+
+                    updateGrandTotal();
+                }
+
+                function updateGrandTotal() {
+                    let grandTotal = 0;
+                    $('input[name="total_value[]"]').each(function() {
+                        const value = parseFloat($(this).val()) || 0;
+                        grandTotal += value;
+                    });
+                    $('#grandTotal').text(grandTotal.toFixed(2));
+                }
+
+                function getDefaultDueDate() {
+                    const today = new Date();
+                    today.setDate(today.getDate() + 30); // Default due date is 30 days from today
+                    return today.toISOString().split('T')[0];
+                }
+
+                function loadItems(items) {
+                    clearItems();
+                    items.forEach(item => {
+                        addItemRow();
+                        const row = $('#items-body tr:last-child');
+                        row.find('input[name="item_description[]"]').val(item.description);
+                        row.find('input[name="number_of_cars[]"]').val(item.number_of_cars);
+                        row.find('input[name="period[]"]').val(item.period);
+                        row.find('input[name="from_date[]"]').val(item.from_date);
+                        row.find('input[name="to_date[]"]').val(item.to_date);
+                        row.find('select[name="payment_type[]"]').val(item.payment_type);
+                        row.find('input[name="debt[]"]').val(item.debt);
+                        row.find('input[name="unit_price[]"]').val(item.unit_price);
+                        calculateRowTotal(row.find('input[name="debt[]"]')[0]);
+                    });
+                }
+
+                function clearItems() {
+                    $('#items-body').empty();
+                }
+            </script>
+        </div>
+    </main>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -221,8 +221,10 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
- <!-- Main Content -->
- <main id="main" class="main">
+
+
+  <!-- Main Content -->
+<main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header bg text-blue text-center">
@@ -230,8 +232,18 @@
             </div>
 
             <div class="card-body">
+                <!-- Display Success Messages -->
                 @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success">
+                        {!! session('success') !!}
+                    </div>
+                @endif
+
+                <!-- Display Danger Messages -->
+                @if (session('danger'))
+                    <div class="alert alert-danger">
+                        {!! session('danger') !!}
+                    </div>
                 @endif
 
                 @if ($errors->any())
@@ -294,13 +306,13 @@
                                                     @method('PUT')
 
                                                     <div class="mb-3">
-                                                      <label for="status" class="form-label">Status</label>
-                                                      <select class="form-select" id="status" name="status" required>
-                                                          <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                          <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                          <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                                      </select>
-                                                  </div>
+                                                        <label for="status" class="form-label">Status</label>
+                                                        <select class="form-select" id="status" name="status" required>
+                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
+                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                                        </select>
+                                                    </div>
 
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -320,6 +332,7 @@
         </div>
     </div>
 </main>
+
 
 <script>
     document.getElementById('searchInput').addEventListener('input', function () {

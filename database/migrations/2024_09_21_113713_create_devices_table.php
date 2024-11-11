@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('imei_number')->nullable(); // IMEI number eg:T540DRM
             $table->enum('category', ['master','I_button', 'buzzer', 'panick_button'])->nullable();
             $table->integer('total')->nullable(); // Total quantity
+            $table->string('dispatched_status')->nullable(); // Total quantity
             $table->timestamps();
         });
     }

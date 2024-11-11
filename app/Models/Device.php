@@ -16,7 +16,7 @@ class Device extends Model
         'imei_number',
         // 'device_model',
         'category',
-        // 'total',
+        'dispatched_status',
     ];
 
     // Specify the table name if it's different from the plural of the model name
