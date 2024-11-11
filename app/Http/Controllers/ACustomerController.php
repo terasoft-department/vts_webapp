@@ -7,11 +7,34 @@ use Illuminate\Http\Request;
 
 class ACustomerController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     // Fetch all customers
+    //     $customers = Customer::all();
+    //     return view('Acustomers.index', compact('customers'));
+    // }
+    public function index(Request $request)
     {
-        // Fetch all customers
-        $customers = Customer::all();
-        return view('Acustomers.index', compact('customers'));
+        $query = Customer::query();
+
+        // Apply search filter
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where('customername', 'like', '%' . $request->search . '%')
+                  ->orWhere('tin_number', 'like', '%' . $request->search . '%');
+        }
+
+        // Apply date filters
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('start_date', [$request->start_date, $request->end_date]);
+        }
+
+        $customers = $query->paginate(10); // Adjust pagination as needed
+
+        if ($request->ajax()) {
+            return view('customers.partials.customer_rows', compact('customers'))->render();
+        }
+
+        return view('customers.index', compact('customers'));
     }
 
     public function store(Request $request)
