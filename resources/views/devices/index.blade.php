@@ -311,27 +311,27 @@
                 <tr>
                     <td>{{ $device->imei_number }}</td>
                     <td>{{ $device->category }}</td>
-                    <td><button class="btn btn-success">{{$device->dispatched_status }}</button></td>
                     <td>
-
+                        <button class="btn {{ $device->dispatched_status == 'dispatched' ? 'btn-primary' : 'btn-warning' }}">
+                            {{ $device->dispatched_status }}
+                        </button>
+                    </td>
+                    <td>
                         <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editDeviceModal-{{ $device->device_id }}">
                             <i class="bi bi-pencil"></i>
                             Edit
                         </button>
-{{--
-                        <form action="{{ route('devices.destroy', $device->device_id) }}" method="POST" class="d-inline">
+                        {{-- <form action="{{ route('devices.destroy', $device->device_id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-">
-                           <i class="bi bi-box-arrow-up"></i> <!-- Change the icon here to represent dispatch -->
-                           Dispatch
-                        </button> --}}
-
-                        </form>
-
-
+                                <i class="bi bi-box-arrow-up"></i> <!-- Change the icon here to represent dispatch -->
+                                Dispatch
+                            </button>
+                        </form> --}}
                     </td>
                 </tr>
+
 
                 <!-- Edit Device Modal -->
                 <div class="modal fade" id="editDeviceModal-{{ $device->device_id }}" tabindex="-1" aria-labelledby="editDeviceLabel" aria-hidden="true">
