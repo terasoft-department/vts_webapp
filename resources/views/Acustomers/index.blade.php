@@ -205,13 +205,21 @@
     </aside><!-- End Sidebar -->
 
     <main id="main" class="main">
+
         <div class="container mt-2">
-            <h4 class="text-center">Customer Details</h4>
+            <h4 class="text-center">Customer details</h4>
             <br>
 
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
+
+            {{-- <!-- Add New Customer Button -->
+            <div class="text-left mb-2">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                    <i class="bi bi-plus-circle"></i> Add Customer
+                </button>
+            </div> --}}
 
             <!-- Search and Date Filter -->
             <div class="row mb-3">
@@ -240,61 +248,305 @@
                         <th>TIN</th>
                         <th>Email</th>
                         <th>Start Date</th>
+                        {{-- <th>Actions</th> --}}
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
+                    <tr>  <td>{{ $loop->iteration }}</td>
                         <td>{{ $customer->customername }}</td>
                         <td>{{ $customer->address }}</td>
                         <td>{{ $customer->customer_phone }}</td>
                         <td>{{ $customer->tin_number }}</td>
                         <td>{{ $customer->email }}</td>
                         <td>{{ $customer->start_date }}</td>
+                        {{-- <td>
+                            <!-- Edit Button -->
+                            <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <!-- Delete Form -->
+                            <form action="{{ route('customers.destroy', $customer->customer_id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td> --}}
                     </tr>
+
+                    <!-- Edit Customer Modal -->
+                    <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editCustomerLabel">Edit Customer</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="{{ route('customers.update', $customer->customer_id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body">
+                                        <div class="form-group mb-3">
+                                            <label for="customername">Customer Name</label>
+                                            <input type="text" name="customername" class="form-control" value="{{ $customer->customername }}" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="address">Address</label>
+                                            <input type="text" name="address" class="form-control" value="{{ $customer->address }}" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="customer_phone">Phone</label>
+                                            <input type="text" name="customer_phone" class="form-control" value="{{ $customer->customer_phone }}" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="tin_number">TIN Number</label>
+                                            <input type="text" name="tin_number" class="form-control" value="{{ $customer->tin_number }}" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="email">Email</label>
+                                            <input type="email" name="email" class="form-control" value="{{ $customer->email }}" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="start_date">Start Date</label>
+                                            <input type="date" name="start_date" class="form-control" value="{{ $customer->start_date }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Update Customer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>
 
-            <!-- Pagination Links -->
-            <div class="d-flex justify-content-center">
-                {{ $customers->links() }}
+            <!-- Add Customer Modal -->
+            <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addCustomerLabel">Add Customer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('customers.store') }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group mb-3">
+                                    <label for="customername">Customer Name</label>
+                                    <input type="text" name="customername" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="address">Address</label>
+                                    <input type="text" name="address" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="customer_phone">Phone</label>
+                                    <input type="text" name="customer_phone" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="tin_number">TIN Number</label>
+                                    <input type="text" name="tin_number" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="start_date">Start Date</label>
+                                    <input type="date" name="start_date" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add Customer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
-        let debounceTimeout;
-        document.getElementById('searchBar').addEventListener('input', function() {
-            clearTimeout(debounceTimeout);
-            debounceTimeout = setTimeout(filterTable, 300); // Debounce delay
-        });
-
         function filterTable() {
-            const searchInput = document.getElementById("searchBar").value;
-            const startDate = document.getElementById("startDate").value;
-            const endDate = document.getElementById("endDate").value;
+            const searchInput = document.getElementById("searchBar").value.toLowerCase();
+            const startDate = new Date(document.getElementById("startDate").value);
+            const endDate = new Date(document.getElementById("endDate").value);
+            const table = document.getElementById("customerTable");
+            const tr = table.getElementsByTagName("tr");
 
-            $.ajax({
-                url: "{{ route('customers.index') }}",
-                type: "GET",
-                data: {
-                    search: searchInput,
-                    start_date: startDate,
-                    end_date: endDate
-                },
-                success: function(response) {
-                    $('#customerTable tbody').html(response);
-                },
-                error: function(error) {
-                    console.error("Error fetching filtered data:", error);
+            for (let i = 1; i < tr.length; i++) { // start from 1 to skip the header
+                const tdName = tr[i].getElementsByTagName("td")[0]; // Name column
+                const tdStartDate = new Date(tr[i].getElementsByTagName("td")[5].innerText); // Start Date column
+
+                const nameMatch = tdName && tdName.textContent.toLowerCase().includes(searchInput);
+                const dateMatch = (!startDate || tdStartDate >= startDate) && (!endDate || tdStartDate <= endDate);
+
+                if (nameMatch && dateMatch) {
+                    tr[i].style.display = ""; // Show row
+                } else {
+                    tr[i].style.display = "none"; // Hide row
                 }
-            });
+            }
         }
     </script>
+
+
+    @guest
+        <div class="container">
+            <h1 class="mt-2">You need to be logged in to view this page</h1>
+        </div>
+    @endguest
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('mobileMenu').style.display = 'block';
+            document.getElementById('mobileMenuContent').classList.add('show');
+        });
+
+        document.getElementById('mobileMenuClose').addEventListener('click', function() {
+            document.getElementById('mobileMenu').style.display = 'none';
+            document.getElementById('mobileMenuContent').classList.remove('show');
+        });
+    </script>
+<script>
+    document.getElementById('customername').addEventListener('input', function() {
+        const query = this.value;
+
+        if (query.length > 2) { // Start searching after 3 characters
+            fetch(`/customer/details?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.name) {
+                        document.getElementById('plate_number').value = data.plate_number;
+                        document.getElementById('tin_number').value = data.tin_number;
+                        // Autofill other fields if needed
+                    }
+                })
+                .catch(error => console.error('Error fetching customer details:', error));
+        }
+    });
+    </script>
+
+
+   <script>
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('mobileMenu').style.display = 'block';
+            document.getElementById('mobileMenuContent').classList.add('show');
+        });
+
+        document.getElementById('mobileMenuClose').addEventListener('click', function() {
+            document.getElementById('mobileMenu').style.display = 'none';
+            document.getElementById('mobileMenuContent').classList.remove('show');
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.form-control');
+            const tableRows = document.querySelectorAll('tbody tr');
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    let found = false;
+
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                            found = true;
+                        }
+                    });
+
+                    if (found) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+document.getElementById('customerForm').addEventListener('submit', function(event) {
+    let valid = true;
+
+    // Clear previous errors
+    document.querySelectorAll('.text-danger').forEach(element => element.textContent = '');
+
+    // Validate Full Name
+    const customername = document.getElementById('customername').value;
+    if (customername.trim() === '') {
+        document.getElementById('customernameError').textContent = 'Full Name is required.';
+        valid = false;
+    }
+
+    // Validate Physical Address
+    const address = document.getElementById('address').value;
+    if (address.trim() === '') {
+        document.getElementById('addressError').textContent = 'Physical Address is required.';
+        valid = false;
+    }
+
+    // Validate Phone Number
+    const customer_phone = document.getElementById('customer_phone').value;
+    if (customer_phone.trim() === '') {
+        document.getElementById('customer_phoneError').textContent = 'Phone Number is required.';
+        valid = false;
+    }
+
+        // Validate TIN Number
+        const tinNumber = document.getElementById('tin_number').value;
+        if (tinNumber.trim() === '') {
+            document.getElementById('tinNumberError').textContent = 'TIN Number is required.';
+            valid = false;
+        }
+
+  // Validate Email
+  const email = document.getElementById('email').value;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email.trim() === '') {
+            document.getElementById('emailError').textContent = 'Email is required.';
+            valid = false;
+        } else if (!emailPattern.test(email)) {
+            document.getElementById('emailError').textContent = 'Invalid email format.';
+            valid = false;
+        }
+    // Validate Start Date
+    const startDate = document.getElementById('start_date').value;
+    if (startDate.trim() === '') {
+        document.getElementById('startDateError').textContent = 'Start Date is required.';
+        valid = false;
+    }
+
+    if (!valid) {
+        event.preventDefault();
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+document.getElementById('printPDF').addEventListener('click', function () {
+    var element = document.getElementById('customerTable');
+    html2pdf(element, {
+        margin: 10,
+        filename: 'customers_report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    });
+});
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
