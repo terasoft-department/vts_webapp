@@ -121,17 +121,36 @@
                 </div>
             </div>
 
-            <!-- Devices Card -->
+            <!-- Devices Count Card -->
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-dark">
-                        Devices
+                    <div class="card-header bg-text-black">
+                        <b>List of Devices</b>
                     </div>
                     <div class="card-body bg-white">
-                        <p class="card-text">Master Devices: <strong>{{ $deviceCounts['master'] ?? 0 }}</strong></p>
-                        <p class="card-text">I_Button Devices: <strong>{{ $deviceCounts['I_button'] ?? 0 }}</strong></p>
-                        <p class="card-text">Buzzer Devices: <strong>{{ $deviceCounts['buzzer'] ?? 0 }}</strong></p>
-                        <p class="card-text">Panic Button Devices: <strong>{{ $deviceCounts['panick_button'] ?? 0 }}</strong></p>
+                        <h5 class="card-text">Master Devices: {{ $mergedCounts['master']['total_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">I_Button Devices: {{ $mergedCounts['I_button']['total_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Buzzer Devices: {{ $mergedCounts['buzzer']['total_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Panic Button Devices: {{ $mergedCounts['panick_button']['total_count'] ?? 0 }}</h5>
+                        <hr>
+                        <h5 class="card-text">Total Devices: {{ $totalDevices }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dispatched Devices Card -->
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg-text-black">
+                        <b>Dispatched History</b>
+                    </div>
+                    <div class="card-body bg-white">
+                        <h5 class="card-text">Master Dispatched Devices: {{ $mergedCounts['master']['dispatched_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">I_Button Dispatched Devices: {{ $mergedCounts['I_button']['dispatched_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Buzzer Dispatched Devices: {{ $mergedCounts['buzzer']['dispatched_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Panic Button Dispatched Devices: {{ $mergedCounts['panick_button']['dispatched_count'] ?? 0 }}</h5>
+                        <hr>
+                        <h5 class="card-text">Total Dispatched Devices: {{ $totalDispatched }}</h5>
                     </div>
                 </div>
             </div>
@@ -176,36 +195,35 @@
         document.addEventListener("DOMContentLoaded", function () {
             // Devices Chart
             new Chart(document.getElementById("devicesChart"), {
-    type: 'bar',
-    data: {
-        labels: ["Master Devices", "I_Button Devices", "Buzzer Devices", "Panic Button Devices"],
-        datasets: [{
-            label: 'Devices Data',
-            data: [
-                {{ $deviceCounts['master'] ?? 0 }},
-                {{ $deviceCounts['I_button'] ?? 0 }},
-                {{ $deviceCounts['buzzer'] ?? 0 }},
-                {{ $deviceCounts['panick_button'] ?? 0 }}
-            ],
-            backgroundColor: ['#36A2EB', '#FF6384', '#4BC0C0', '#FFCE56'],
-            borderColor: '#007bff',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: { color: '#333' }
-            }
-        },
-        plugins: {
-            tooltip: { enabled: true }
-        },
-        responsive: true,
-    }
-});
-
+                type: 'bar',
+                data: {
+                    labels: ["Master Devices", "I_Button Devices", "Buzzer Devices", "Panic Button Devices"],
+                    datasets: [{
+                        label: 'Devices Data',
+                        data: [
+                            {{ $deviceCounts['master'] ?? 0 }},
+                            {{ $deviceCounts['I_button'] ?? 0 }},
+                            {{ $deviceCounts['buzzer'] ?? 0 }},
+                            {{ $deviceCounts['panick_button'] ?? 0 }}
+                        ],
+                        backgroundColor: ['#36A2EB', '#FF6384', '#4BC0C0', '#FFCE56'],
+                        borderColor: '#007bff',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#333' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: { enabled: true }
+                    },
+                    responsive: true,
+                }
+            });
 
             // Operation Summary Chart
             new Chart(document.getElementById("operationSummaryChart"), {

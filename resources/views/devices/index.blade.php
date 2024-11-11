@@ -234,17 +234,41 @@
         <!-- 2x2 Grid Layout for Card and Bar Graph -->
         <div class="row g-0 mb-2"> <!-- Use g-0 to remove gutters between columns -->
             <!-- Device Count Card -->
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg- text-black">
                         <b>List of Devices</b>
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-text">Master Devices: {{ $deviceCounts['master'] ?? 0 }}</h5>
-                        <h5 class="card-text">I_Button Devices: {{ $deviceCounts['I_button'] ?? 0 }}</h5>
-                        <h5 class="card-text">Buzzer Devices: {{ $deviceCounts['buzzer'] ?? 0 }}</h5>
-                        <h5 class="card-text">Panic Button Devices: {{ $deviceCounts['panick_button'] ?? 0 }}</h5>
+                        <h5 class="card-text">Master Devices: {{ $mergedCounts['master']['total_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">I_Button Devices: {{ $mergedCounts['I_button']['total_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Buzzer Devices: {{ $mergedCounts['buzzer']['total_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Panic Button Devices: {{ $mergedCounts['panick_button']['total_count'] ?? 0 }}</h5>
+                      <hr>
+                       <!-- Total counts -->
+                       <h5 class="card-text">Total Devices: {{ $totalDevices }}</h5>
                     </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg- text-black">
+                        <b>List of Dispatches</b>
+                    </div>
+                    <div class="card-body bg-white">
+
+                        <h5 class="card-text">Master Dispatched Devices: {{ $mergedCounts['master']['dispatched_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">I_Button Dispatched Devices: {{ $mergedCounts['I_button']['dispatched_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Buzzer Dispatched Devices: {{ $mergedCounts['buzzer']['dispatched_count'] ?? 0 }}</h5>
+                        <h5 class="card-text">Panic Button Dispatched Devices: {{ $mergedCounts['panick_button']['dispatched_count'] ?? 0 }}</h5>
+
+                          <hr>
+                        <h5 class="card-text">Total Dispatched Devices: {{ $totalDispatched }}</h5>
+                    </div>
+
                 </div>
             </div>
 
@@ -278,6 +302,7 @@
                 <tr>
                     <th>Device Number</th>
                     <th>Device Type</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -286,20 +311,21 @@
                 <tr>
                     <td>{{ $device->imei_number }}</td>
                     <td>{{ $device->category }}</td>
+                    <td><button class="btn btn-success">{{$device->dispatched_status }}</button></td>
                     <td>
 
                         <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editDeviceModal-{{ $device->device_id }}">
                             <i class="bi bi-pencil"></i>
                             Edit
                         </button>
-
+{{--
                         <form action="{{ route('devices.destroy', $device->device_id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-">
                            <i class="bi bi-box-arrow-up"></i> <!-- Change the icon here to represent dispatch -->
                            Dispatch
-                        </button>
+                        </button> --}}
 
                         </form>
 
