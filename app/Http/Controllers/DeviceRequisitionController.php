@@ -170,7 +170,7 @@ public function update(Request $request, $id)
 
                 // Get the number of non-dispatched devices available in this category
                 $availableDevices = Device::where('category', $category)
-                    ->where('dispatched_status', '!=', 'dispatched')
+                    ->whereIn('dispatched_status', ['available', NULL]) // Consider devices that are either available or unmarked
                     ->orderBy('device_id', 'asc') // Ensure correct order, use 'device_id' or another unique column
                     ->get();
 
@@ -204,7 +204,11 @@ public function update(Request $request, $id)
 
     // Update the requisition status
     $requisition->status = $request->status;
-    $requisition->save();
+    if ($requisition->save()) {
+        Log::info("Requisition ID {$requisition->requisition_id} status updated to {$requisition->status}.");
+    } else {
+        Log::error("Failed to update requisition ID {$requisition->requisition_id} status.");
+    }
 
     // Show success and danger alerts if there are issues or partial dispatches
     if (!empty($dispatchMessages)) {
@@ -215,12 +219,8 @@ public function update(Request $request, $id)
 
     // Redirect back with success message
     return redirect()->route('device_requisitions.index')
-    ->with('danger', implode('<br>', $dispatchMessages))
-    ->with('success', implode('<br>', $successMessages));
-
+        ->with('success', implode('<br>', $successMessages));
 }
-
-
 
 
     public function edit($id)
