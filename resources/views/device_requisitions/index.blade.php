@@ -229,8 +229,7 @@
 
   </aside><!-- End Sidebar-->
 
-
-  <!-- Main Content -->
+<!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
@@ -339,6 +338,7 @@
         </div>
     </div>
 </main>
+
 
 
 
