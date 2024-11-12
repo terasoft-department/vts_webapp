@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- ======= Header ======= -->
