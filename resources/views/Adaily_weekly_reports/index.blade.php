@@ -141,7 +141,7 @@
                         <th>Reported By</th>
                         <th>Reported Case</th>
                         <th>Assigned Techn</th>
-                        <th>Inspection report</th>
+                        <th>Inspection reports</th>
                         <th>Response Status</th>
                         <th>Response Date</th>
                         {{-- <th>Actions</th> --}}
