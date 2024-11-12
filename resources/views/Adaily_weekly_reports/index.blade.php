@@ -108,19 +108,31 @@
     <div class="text-left">
         <h5>Daily and Weekly Reports</h5>
         <br>
-        {{-- <div class="btn-group">
 
+        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+        {{-- <div class="btn-group">
             <!-- Trigger modal for creating a new report -->
             <button class="btn btn-primary" data-toggle="modal" data-target="#createReportModal">
                 <i class="fas fa-plus-circle"></i> Create
             </button>
+        </div>
+        <br> --}}
 
-        </div> --}}
         <div class="table-container">
             <br>
             <table id="dailyWeeklyReports" class="table table-bordered table-striped">
                 <thead>
-                    <tr><th>S/N</th>
+                    <tr>
+                        <th>S/N</th>
                         <th>R.Date</th>
                         <th>CustName</th>
                         <th>PlateNumber</th>
@@ -128,7 +140,7 @@
                         <th>Reported By</th>
                         <th>Reported Case</th>
                         <th>Assigned Techn</th>
-                        <th>Findings</th>
+                        <th>Inspection report</th>
                         <th>Response Status</th>
                         <th>Response Date</th>
                         {{-- <th>Actions</th> --}}
@@ -136,15 +148,26 @@
                 </thead>
                 <tbody>
                     @foreach($reports as $report)
-                    <tr><td>{{ $report->id }}</td>
+                    <tr>
+                        <td>{{ $report->id }}</td>
                         <td>{{ $report->reported_date }}</td>
-                        <td>{{ $report->customername }}</td>
+                        <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}</td>
+                        {{-- <td>{{ $report->customername }}</td> --}}
                         <td>{{ $report->bus_plate_number }}</td>
                         <td>{{ $report->contact }}</td>
                         <td>{{ $report->reported_by }}</td>
                         <td>{{ $report->reported_case }}</td>
                         <td>{{ $report->assigned_technician }}</td>
-                        <td>{{ $report->findings }}</td>
+                        <td>
+                            @if ($report->findings)
+                                <a href="{{ asset('uploads/' . $report->findings) }}" target="_blank">
+                                    <i class="fas fa-file-pdf text-danger"></i> View Inspection Report
+                                </a>
+                            @else
+                                N/A
+                            @endif
+                        </td>
+
                         <td>{{ $report->response_status }}</td>
                         <td>{{ $report->response_date }}</td>
                         {{-- <td class="action-icons">
@@ -173,19 +196,23 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('Adaily_weekly_reports.update', $report->id) }}" method="POST">
+                                    <form action="{{ route('daily_weekly_reports.update', $report->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
 
                                         <div class="form-group">
                                             <label for="reported_date">Reported Date</label>
-                                            <input type="text" class="form-control" id="reported_date" name="reported_date" value="{{ old('reported_date', $report->reported_date) }}" required>
+                                            <input type="date" class="form-control" id="reported_date" name="reported_date" value="{{ old('reported_date', $report->reported_date) }}" required>
                                         </div>
-                                         <div class="form-group">
-                                            <label for="customername">Customer Name</label>
-                                            <input type="text" class="form-control" id="customername" name="customername" value="{{ old('customername', $report->customername) }}" required>
+                                        <div class="form-group">
+                                            <label for="customer_id">Customer Name</label>
+                                            <select class="form-control" id="customer_id" name="customer_id" required>
+                                                <option value="">Select a customer</option>
+                                                @foreach($customers as $customer)
+                                                    <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-
 
                                         <div class="form-group">
                                             <label for="bus_plate_number">Bus Plate Number</label>
@@ -196,32 +223,37 @@
                                             <label for="contact">Contact</label>
                                             <input type="text" class="form-control" id="contact" name="contact" value="{{ old('contact', $report->contact) }}" required>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="reported_by">Reported By</label>
                                             <input type="text" class="form-control" id="reported_by" name="reported_by" value="{{ old('reported_by', $report->reported_by) }}" required>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="reported_case">Reported Case</label>
                                             <input type="text" class="form-control" id="reported_case" name="reported_case" value="{{ old('reported_case', $report->reported_case) }}" required>
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="assigned_technician">Assigned  Technician</label>
+                                            <label for="assigned_technician">Assigned Technician</label>
                                             <input type="text" class="form-control" id="assigned_technician" name="assigned_technician" value="{{ old('assigned_technician', $report->assigned_technician) }}" required>
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="findings">Findings</label>
-                                            <input type="text" class="form-control" id="findings" name="findings" value="{{ old('findings', $report->findings) }}" required>
+                                            <label for="findings">Inspection report (PDF, Word, Excel)</label>
+                                            <input type="file" name="findings" class="form-control-file" accept=".pdf, .docx, .xlsx" required>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="response_status">Response Status</label>
                                             <input type="text" class="form-control" id="response_status" name="response_status" value="{{ old('response_status', $report->response_status) }}" required>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="response_date">Response Date</label>
-                                            <input type="text" class="form-control" id="response_date" name="response_date" value="{{ old('response_date', $report->response_date) }}" required>
+                                            <input type="date" class="form-control" id="response_date" name="response_date" value="{{ old('response_date', $report->response_date) }}" required>
                                         </div>
 
-                                        <!-- Add other fields as needed -->
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -237,102 +269,130 @@
         </div>
     </div>
 
-
     <!-- Create Report Modal -->
-<div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">New Report</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <form id="trackDebtsForm" method="POST" enctype="multipart/form-data" action="{{ route('daily_weekly_reports.store') }}">
-                    @csrf
-                    <div class="container">
-                        <div class="row">
-                            <!-- Row 1: Reported Date, Customer Name, Bus Plate Number, Contact -->
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="reported_date">Reported Date</label>
-                                    <input type="date" name="reported_date" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="customername">Customer Name</label>
-                                    <input type="text" name="customername" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="bus_plate_number">Bus Plate Number</label>
-                                    <input type="text" name="bus_plate_number" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="contact">Contact</label>
-                                    <input type="text" name="contact" class="form-control" required>
-                                </div>
-                            </div>
+    <div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Report</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('daily_weekly_reports.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="container">
+
+                                    <div class="form-group">
+                            <label for="reported_date">Reported Date</label>
+                            <input type="date" name="reported_date" class="form-control" required>
                         </div>
 
-                        <div class="row">
-                            <!-- Row 2: Reported By, Reported Case, Assigned Technician, Findings -->
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="reported_by">Reported By</label>
-                                    <input type="text" name="reported_by" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="reported_case">Reported Case</label>
-                                    <input type="text" name="reported_case" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="assigned_technician">Assigned Technician</label>
-                                    <input type="text" name="assigned_technician" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="findings">Findings</label>
-                                    <textarea name="findings" class="form-control" required></textarea>
-                                </div>
-                            </div>
+
+                        <div class="form-group">
+                            <label for="customer_id">Customer Name</label>
+                            <select class="form-control" id="customer_id" name="customer_id" required>
+                                <option value="">Select a customer</option>
+                                @foreach($customers as $customer)
+                                    <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
-                        <div class="row">
-                            <!-- Row 3: Response Status, Response Date (and more fields if needed) -->
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="response_status">Response Status</label>
-                                    <input type="text" name="response_status" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="response_date">Response Date</label>
-                                    <input type="date" name="response_date" class="form-control" required>
-                                </div>
-                            </div>
-                            <!-- Additional fields can go here if needed -->
-                        </div>
-                    </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                        <div class="form-group">
+                            <label for="bus_plate_number">Bus Plate Number</label>
+                            <input type="text" name="bus_plate_number" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact">Contact</label>
+                            <input type="text" name="contact" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reported_by">Reported By</label>
+                            <input type="text" name="reported_by" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reported_case">Reported Case</label>
+                            <input type="text" name="reported_case" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="assigned_technician">Assigned Technician</label>
+                            <input type="text" name="assigned_technician" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="findings">Inspection report (PDF, Word, Excel)</label>
+                            <input type="file" name="findings" class="form-control-file" accept=".pdf, .docx, .xlsx" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="response_status">Response Status</label>
+                            <input type="text" name="response_status" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="response_date">Response Date</label>
+                            <input type="date" name="response_date" class="form-control" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Report</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</main>
+
+<script>
+    // Open the modal to create a new report
+    function openCreateReportModal() {
+        $('#trackDebtsForm').attr('action', '{{ route('daily_weekly_reports.store') }}');
+        $('#trackDebtsForm').attr('method', 'POST');
+        $('#createReportModal').modal('show');
+    }
+
+    // Open the modal to edit an existing report
+    function openEditReportModal(report) {
+        // Set form action for update with PUT method
+        $('#trackDebtsForm').attr('action', '/daily_weekly_reports/' + report.id);
+        $('#trackDebtsForm').append('<input type="hidden" name="_method" value="PUT">');
+        $('#createReportModal .modal-title').text('Edit Report');
+
+        // Populate the form fields with existing data
+        $('#reported_date').val(report.reported_date);
+        $('#customer_id').val(report.customer_id);
+        $('#bus_plate_number').val(report.bus_plate_number);
+        $('#contact').val(report.contact);
+        $('#reported_by').val(report.reported_by);
+        $('#reported_case').val(report.reported_case);
+        $('#assigned_technician').val(report.assigned_technician);
+        $('#response_status').val(report.response_status);
+        $('#response_date').val(report.response_date);
+        // If report findings PDF exists
+        if (report.findings) {
+            $('#findingsLink').html(`<a href="${report.findings}" target="_blank"><i class="fas fa-file-pdf text-danger"></i></a>`);
+        } else {
+            $('#findingsLink').html('No file');
+        }
+
+        $('#createReportModal').modal('show');
+    }
+
+    // Reset the modal form and title when closed
+    $('#createReportModal').on('hidden.bs.modal', function () {
+        $('#trackDebtsForm').trigger('reset'); // Reset the form
+        $('#createReportModal .modal-title').text('New Report');
+        $('#trackDebtsForm').find('input[name="_method"]').remove(); // Remove PUT method if exists
+        $('#findingsLink').html(''); // Clear findings link
+    });
+</script>
 
 
     <!-- JS and dependencies -->
@@ -345,6 +405,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
 <br>
     <script>
 
