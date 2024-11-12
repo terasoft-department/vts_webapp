@@ -11,7 +11,7 @@ class DailyWeeklyReport extends Model
 protected $primarykey ='daily_id';
     protected $fillable = [
         'reported_date',
-        'customername',
+        'customer_id',
         'bus_plate_number',
         'contact',
         'reported_by',
@@ -29,7 +29,7 @@ protected $primarykey ='daily_id';
     }
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 }
 

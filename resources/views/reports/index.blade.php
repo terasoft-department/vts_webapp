@@ -264,7 +264,8 @@
     <!-- Report Table -->
     <table class="table table-bordered">
         <thead>
-            <tr><th>S/N</th>
+            <tr>
+                <th>S/N</th>
                 <th>R.Date</th>
                 <th>CustName</th>
                 <th>PlateNumber</th>
@@ -272,7 +273,7 @@
                 <th>Reported By</th>
                 <th>Reported Case</th>
                 <th>Assigned Techn</th>
-                <th>Findings</th>
+                <th>Inspection report</th>
                 <th>Response Status</th>
                 <th>Response Date</th>
             </tr>
@@ -281,16 +282,27 @@
             @foreach($reports as $report)
                 <tr><td>{{ $report->id }}</td>
                     <td>{{ $report->reported_date }}</td>
-                    <td>{{ $report->customername }}</td>
+                    <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}</td>
+                    {{-- <td>{{ $report->customername }}</td> --}}
                     <td>{{ $report->bus_plate_number }}</td>
                     <td>{{ $report->contact }}</td>
                     <td>{{ $report->reported_by }}</td>
                     <td>{{ $report->reported_case }}</td>
                     <td>{{ $report->assigned_technician }}</td>
-                    <td>{{ $report->findings }}</td>
+                    <td>
+                        @if ($report->findings)
+                            <a href="{{ asset('uploads/' . $report->findings) }}" target="_blank">
+                                <i class="fas fa-file-pdf text-danger"></i> View Inspection Report
+                            </a>
+                        @else
+                            N/A
+                        @endif
+                    </td>
+
                     <td>{{ $report->response_status }}</td>
                     <td>{{ $report->response_date }}</td>
                 </tr>
+
             @endforeach
         </tbody>
     </table>

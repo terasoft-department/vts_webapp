@@ -227,8 +227,8 @@
 <main id="main" class="main">
   <div class="container mt-2">
       <div class="card">
-          <div class="card-header text-center bg-primary text-white">
-              <h4 class="m-0">Device Return Approval</h4>
+          <div class="card-header text-center bg- text-blue">
+              <h5 class="m-2"><strong>Device Return Approval</strong></h5>
           </div>
 
           <div class="card-body">

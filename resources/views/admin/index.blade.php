@@ -105,75 +105,77 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container mt-2">
-        <div class="row">
-            <!-- Accounts & Finance Summary Card -->
-            <div class="col-md-4 mb-2">
-                <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-dark">
-                        Accounts & Finance Summary
-                    </div>
-                    <div class="card-body bg-white">
-                        <p class="card-text">Total Revenue (TZS): <strong>{{ $totalRevenue ?? 0 }}</strong></p>
-                        <p class="card-text">Paid Invoice: <strong>{{ $paidInvoiceCount ?? 0 }}</strong></p>
-                        <p class="card-text">Unpaid Invoice: <strong>{{ $unpaidInvoiceCount ?? 0 }}</strong></p>
-                    </div>
+    {{-- <div class="container mt-2">
+        <div class="row"> --}}
+<!-- Operation Summary Card -->
+
+<div class="container mt-2">
+    <div class="row">
+         <!-- Accounts & Finance Summary Card -->
+         <div class="col-md-3 mb-2">
+            <div class="card text-center border-primary shadow card-hover">
+                <div class="card-header bg-primary text-dark">
+                    Accounts & Finance Summary
+                </div>
+                <div class="card-body bg-white">
+                    <p class="card-text">Total Revenue (TZS): <strong>{{ $totalRevenue ?? 0 }}</strong></p>
+                    <p class="card-text">Paid Invoice: <strong>{{ $paidInvoiceCount ?? 0 }}</strong></p>
+                    <p class="card-text">Unpaid Invoice: <strong>{{ $unpaidInvoiceCount ?? 0 }}</strong></p>
                 </div>
             </div>
-
+        </div>
             <!-- Devices Count Card -->
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-text-black">
-                        <b>List of Devices</b>
+                        <b> Devices History</b>
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-text">Master Devices: {{ $mergedCounts['master']['total_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">I_Button Devices: {{ $mergedCounts['I_button']['total_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Buzzer Devices: {{ $mergedCounts['buzzer']['total_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Panic Button Devices: {{ $mergedCounts['panick_button']['total_count'] ?? 0 }}</h5>
+                        <p class="card-text">Master Devices:<strong> {{ $mergedCounts['master']['total_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">I_Button Devices:<strong> {{ $mergedCounts['I_button']['total_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Buzzer Devices:<strong> {{ $mergedCounts['buzzer']['total_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Panic Button Devices:<strong> {{ $mergedCounts['panick_button']['total_count'] ?? 0 }}</strong></p>
                         <hr>
-                        <h5 class="card-text">Total Devices: {{ $totalDevices }}</h5>
+                        <p class="card-text">Total Devices:<strong> {{ $totalDevices }}</strong></p>
                     </div>
                 </div>
             </div>
 
             <!-- Dispatched Devices Card -->
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
                     <div class="card-header bg-text-black">
                         <b>Dispatched History</b>
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-text">Master Dispatched Devices: {{ $mergedCounts['master']['dispatched_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">I_Button Dispatched Devices: {{ $mergedCounts['I_button']['dispatched_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Buzzer Dispatched Devices: {{ $mergedCounts['buzzer']['dispatched_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Panic Button Dispatched Devices: {{ $mergedCounts['panick_button']['dispatched_count'] ?? 0 }}</h5>
+                        <p class="card-text">Master Dispatched Devices:<strong> {{ $mergedCounts['master']['dispatched_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">I_Button Dispatched Devices:<strong> {{ $mergedCounts['I_button']['dispatched_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Buzzer Dispatched Devices:<strong> {{ $mergedCounts['buzzer']['dispatched_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Panic Button Dispatched Devices:<strong> {{ $mergedCounts['panick_button']['dispatched_count'] ?? 0 }}</strong></p>
                         <hr>
-                        <h5 class="card-text">Total Dispatched Devices: {{ $totalDispatched }}</h5>
+                        <p class="card-text">Total Dispatched Devices:<strong> {{ $totalDispatched }}</strong></p>
                     </div>
                 </div>
             </div>
 
-            <!-- Operation Summary Card -->
-            <div class="col-md-4 mb-2">
-                <div class="card text-center border-primary shadow card-hover">
-                    <div class="card-header bg-primary text-dark">
-                        Operation Summary
-                    </div>
-                    <div class="card-body bg-white">
-                        <p class="card-text">Assignments: <strong>{{ $assignmentCount ?? 0 }}</strong></p>
-                        <p class="card-text">Checkuplists: <strong>{{ $CheckuplistCount ?? 0 }}</strong></p>
-                        <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
-                        <p class="card-text">Jobcards: <strong>{{ $JobcardsCount ?? 0 }}</strong></p>
-                        <p class="card-text">Customer Debts: <strong>{{ $DebtsCount ?? 0 }}</strong></p>
-                        <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
-                        <p class="card-text">System Users: <strong>{{ $userCount ?? 0 }}</strong></p>
-                    </div>
+
+        <div class="col-md-3 mb-2">
+            <div class="card text-center border-primary shadow card-hover">
+                <div class="card-header bg-primary text-dark">
+                    Operation Summary
+                </div>
+                <div class="card-body bg-white">
+                    <p class="card-text">Assignments: <strong>{{ $assignmentCount ?? 0 }}</strong></p>
+                    <p class="card-text">Checkuplists: <strong>{{ $CheckuplistCount ?? 0 }}</strong></p>
+                    <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
+                    <p class="card-text">Jobcards: <strong>{{ $JobcardsCount ?? 0 }}</strong></p>
+                    <p class="card-text">Customer Debts: <strong>{{ $DebtsCount ?? 0 }}</strong></p>
+                    <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
+                    <p class="card-text">System Users: <strong>{{ $userCount ?? 0 }}</strong></p>
                 </div>
             </div>
         </div>
-
+        {{-- </div> --}}
         <!-- Charts Section -->
         <div class="mt-4">
             <h5 class="text-center mb-4">Data Visualization</h5>

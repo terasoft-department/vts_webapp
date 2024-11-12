@@ -260,10 +260,10 @@
                         Devices
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-text">Master Devices: {{ $deviceCounts['master'] ?? 0 }}</h5>
-                        <h5 class="card-text">I_Button Devices: {{ $deviceCounts['I_button'] ?? 0 }}</h5>
-                        <h5 class="card-text">Buzzer Devices: {{ $deviceCounts['buzzer'] ?? 0 }}</h5>
-                        <h5 class="card-text">Panic Button Devices: {{ $deviceCounts['panick_button'] ?? 0 }}</h5>
+                        <p class="card-text">Master Devices:<strong> {{ $deviceCounts['master'] ?? 0 }}</strong></p>
+                        <p class="card-text">I_Button Devices:<strong> {{ $deviceCounts['I_button'] ?? 0 }}</strong></p>
+                        <p class="card-text">Buzzer Devices:<strong> {{ $deviceCounts['buzzer'] ?? 0 }}</strong></p>
+                        <p class="card-text">Panic Button Devices:<strong> {{ $deviceCounts['panick_button'] ?? 0 }}</strong></p>
                     </div>
                 </div>
             </div>

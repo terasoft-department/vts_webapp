@@ -224,7 +224,7 @@
  <!-- Main Content -->
  <main id="main" class="main">
     <div class="container mt-2">
-        <h4 class="text-center">Device Stocks & Deductions</h4>
+        <h5 class="text-center">Device Stocks & Deductions</h5>
         <br>
 
         @if (session('success'))
@@ -232,7 +232,7 @@
         @endif
 
         <!-- 2x2 Grid Layout for Card and Bar Graph -->
-        <div class="row g-0 mb-2"> <!-- Use g-0 to remove gutters between columns -->
+        <div class="row g-4 mb-2"> <!-- Use g-0 to remove gutters between columns -->
             <!-- Device Count Card -->
             <div class="col-md-3 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
@@ -240,18 +240,18 @@
                         <b>List of Devices</b>
                     </div>
                     <div class="card-body bg-white">
-                        <h5 class="card-text">Master Devices: {{ $mergedCounts['master']['total_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">I_Button Devices: {{ $mergedCounts['I_button']['total_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Buzzer Devices: {{ $mergedCounts['buzzer']['total_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Panic Button Devices: {{ $mergedCounts['panick_button']['total_count'] ?? 0 }}</h5>
+                        <p class="card-text">Master Devices:<strong> {{ $mergedCounts['master']['total_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">I_Button Devices:<strong> {{ $mergedCounts['I_button']['total_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Buzzer Devices:<strong> {{ $mergedCounts['buzzer']['total_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Panic Button Devices:<strong> {{ $mergedCounts['panick_button']['total_count'] ?? 0 }}</strong></p>
                       <hr>
                        <!-- Total counts -->
-                       <h5 class="card-text">Total Devices: {{ $totalDevices }}</h5>
+                       <p class="card-text">Total Devices:<strong> {{ $totalDevices }}</strong></p>
+
                     </div>
 
                 </div>
             </div>
-
 
             <div class="col-md-4 mb-2">
                 <div class="card text-center border-primary shadow card-hover">
@@ -260,13 +260,12 @@
                     </div>
                     <div class="card-body bg-white">
 
-                        <h5 class="card-text">Master Dispatched Devices: {{ $mergedCounts['master']['dispatched_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">I_Button Dispatched Devices: {{ $mergedCounts['I_button']['dispatched_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Buzzer Dispatched Devices: {{ $mergedCounts['buzzer']['dispatched_count'] ?? 0 }}</h5>
-                        <h5 class="card-text">Panic Button Dispatched Devices: {{ $mergedCounts['panick_button']['dispatched_count'] ?? 0 }}</h5>
-
+                        <p class="card-text">Master Dispatched Devices:<strong> {{ $mergedCounts['master']['dispatched_count'] ?? 0 }}</strong> </p>
+                        <p class="card-text">I_Button Dispatched Devices: <strong> {{ $mergedCounts['I_button']['dispatched_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Buzzer Dispatched Devices: <strong> {{ $mergedCounts['buzzer']['dispatched_count'] ?? 0 }}</strong></p>
+                        <p class="card-text">Panic Button Dispatched Devices:<strong>  {{ $mergedCounts['panick_button']['dispatched_count'] ?? 0 }}</strong></p>
                           <hr>
-                        <h5 class="card-text">Total Dispatched Devices: {{ $totalDispatched }}</h5>
+                        <p class="card-text">Total Dispatched Devices:<strong> {{ $totalDispatched }}</strong></p>
                     </div>
 
                 </div>
