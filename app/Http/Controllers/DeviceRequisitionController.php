@@ -6,6 +6,8 @@ use App\Models\Device;
 use App\Models\DeviceRequisition;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class DeviceRequisitionController extends Controller
 {
@@ -154,7 +156,7 @@ public function update(Request $request, $id)
     $requisition->status = $request->status;
     $requisition->save();
 
-    // Show success and danger alerts if there are issues or partial dispatches
+    // Display messages based on dispatch success or failure
     if (!empty($dispatchMessages)) {
         return redirect()->route('device_requisitions.index')
             ->with('danger', implode('<br>', $dispatchMessages))
@@ -164,12 +166,8 @@ public function update(Request $request, $id)
     return redirect()->route('device_requisitions.index')->with('success', 'Requisition updated successfully.');
 }
 
-/**
- * Mark the exact quantity specified in the requisition as "dispatched" in dispatched_status.
- */
 private function markDevicesAsDispatched(DeviceRequisition $requisition)
 {
-    // Map requisition attributes to device categories
     $deviceMapping = [
         'master' => 'master',
         'I_button' => 'I_button',
@@ -184,26 +182,27 @@ private function markDevicesAsDispatched(DeviceRequisition $requisition)
         $quantityNeeded = $requisition->$requisitionAttr;
 
         if ($quantityNeeded > 0) {
-            // Get the number of non-dispatched devices available
             $availableDevices = Device::where('category', $category)
-                ->where('dispatched_status', '!=', 'dispatched') // Only select devices that are not dispatched
+                ->where('dispatched_status', '!=', 'dispatched')
                 ->orderBy('total', 'asc')
                 ->get();
+
+            // Debugging statement to check available devices
+            Log::info("Available devices for category $category: ", $availableDevices->toArray());
 
             // Check if there are enough available devices
             if ($availableDevices->count() < $quantityNeeded) {
                 $dispatchMessages[] = "Not enough '$category' devices available for dispatch. Only {$availableDevices->count()} available.";
             }
 
-            // If there are enough devices, mark them as dispatched
             $devicesToDispatch = $availableDevices->take($quantityNeeded);
 
             foreach ($devicesToDispatch as $device) {
                 $device->dispatched_status = 'dispatched';
                 $device->save();
+                Log::info("Dispatched device ID: {$device->id} in category: {$device->category}");
             }
 
-            // Add success message for the dispatched devices
             $successMessages[] = "$category devices dispatched successfully. Dispatched: {$devicesToDispatch->count()} of $quantityNeeded.";
         }
     }
