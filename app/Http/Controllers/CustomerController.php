@@ -17,6 +17,17 @@ class CustomerController extends Controller
         return view('customers.index', compact('customers','CustomersCount','VehiclesCount'));
     }
 
+    public function search(Request $request)
+{
+    $query = $request->input('query');
+    $customers = Customer::where('customername', 'like', '%' . $query . '%')
+                        ->orWhere('customer_phone', 'like', '%' . $query . '%')
+                        ->paginate(10); // You can also paginate search results if needed
+
+    return response()->json(['customers' => $customers]);
+}
+
+
     public function store(Request $request)
     {
         // Validate and create a new customer

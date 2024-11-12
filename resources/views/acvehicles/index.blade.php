@@ -220,7 +220,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="m-0">Manage Vehicles</h4>
-            <form action="{{ route('vehicles.index') }}" method="GET" class="form-inline">
+            <form action="{{ route('acvehicles.index') }}" method="GET" class="form-inline">
                 <input type="text" name="search" class="form-control" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch">
                 <button type="submit" class="btn btn-primary ml-2"><i class="fas fa-search"></i></button>
             </form>

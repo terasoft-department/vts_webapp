@@ -156,8 +156,8 @@
                     <th>Name</th>
                     <th>Address</th>
                     <th>Phone</th>
-                    <th>TIN</th>
-                    <th>Email</th>
+                    {{-- <th>TIN</th>
+                    <th>Email</th> --}}
                     <th>Start Date</th>
                     {{-- <th>Actions</th> --}}
                 </tr>
@@ -168,8 +168,8 @@
                     <td>{{ $customer->customername }}</td>
                     <td>{{ $customer->address }}</td>
                     <td>{{ $customer->customer_phone }}</td>
-                    <td>{{ $customer->tin_number }}</td>
-                    <td>{{ $customer->email }}</td>
+                    {{-- <td>{{ $customer->tin_number }}</td>
+                    <td>{{ $customer->email }}</td> --}}
                     <td>{{ $customer->start_date }}</td>
                     {{-- <td>
                         <!-- Edit Button -->

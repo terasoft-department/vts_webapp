@@ -350,7 +350,19 @@
                 @endforeach
             </tbody>
         </table>
+        <script>
+            // Lazy load modal content via AJAX when the modal is shown
+            $('#editCustomerModal').on('show.bs.modal', function (event) {
+                var modal = $(this);
+                var customerId = modal.attr('id').split('-')[1];
 
+                fetch("/customers/" + customerId + "/edit")
+                    .then(response => response.text())
+                    .then(content => {
+                        modal.find('.modal-body').html(content);
+                    });
+            });
+        </script>
         <!-- Add Customer Modal -->
         <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -421,27 +433,36 @@
         }
     }
 </script>
-
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-
+{{--
 <script>
-    $(document).ready(function() {
-        $('#customers').DataTable({
-            dom: 'Bfrtip',
-            buttons: ['copy', 'csv', 'excel', 'print'],
-            responsive: true
-        });
-    });
-</script>
+    function searchCustomer() {
+        let searchQuery = document.getElementById("searchInput").value;
+
+        fetch("{{ route('customers.index') }}?query=" + searchQuery)
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = document.getElementById("customerTableBody");
+                tableBody.innerHTML = ""; // Clear current table data
+
+                data.customers.forEach(customer => {
+                    let row = `<tr>
+                        <td>${customer.customer_id}</td>
+                        <td>${customer.customername}</td>
+                        <td>${customer.address}</td>
+                        <td>${customer.customer_phone}</td>
+                        <td>${customer.start_date}</td>
+                        <td>
+                            <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-${customer.customer_id}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            });
+    }
+</script> --}}
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -457,7 +478,6 @@
 <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
-
 
 </body>
 </html>
