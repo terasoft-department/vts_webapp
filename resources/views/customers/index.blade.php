@@ -188,6 +188,12 @@
             </a>
           </li>
           <li>
+            <li>
+                <a href="vehicles">
+                  <i class="bi bi-circle"></i><span>Vehicle</span>
+                </a>
+              </li>
+              <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>

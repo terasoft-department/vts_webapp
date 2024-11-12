@@ -188,6 +188,12 @@
             </a>
           </li>
           <li>
+            <li>
+                <a href="vehicles">
+                  <i class="bi bi-circle"></i><span>Vehicle</span>
+                </a>
+              </li>
+              <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
@@ -211,14 +217,6 @@
           </li>
         </ul>
       </li><!-- End Forms Nav -->
-
-      </li><!-- End Icons Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="\auth/login">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Logout</span>
-        </a>
-      </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
@@ -461,13 +459,15 @@
                 y: {
                     beginAtZero: true,
                     max: 100,
+                    stepSize: 20,  // Ensures y-axis increments by 20
                     title: {
                         display: true,
                         text: 'Percentage (%)'
                     },
                     ticks: {
+                        stepSize: 20, // Display y-axis labels at 0, 20, 40, 60, 80, 100
                         callback: function(value) {
-                            return value + '%';
+                            return value + '%'; // Add percentage sign to y-axis labels
                         }
                     }
                 }

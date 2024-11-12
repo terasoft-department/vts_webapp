@@ -172,6 +172,7 @@
 
 
       </li><!-- End Components Nav -->
+
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -188,6 +189,12 @@
             </a>
           </li>
           <li>
+            <li>
+                <a href="vehicles">
+                  <i class="bi bi-circle"></i><span>Vehicle</span>
+                </a>
+              </li>
+              <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>

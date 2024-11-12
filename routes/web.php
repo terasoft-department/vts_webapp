@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminInvoice2Controller;
 use App\Http\Controllers\AdminInvoiceController;
 use App\Http\Controllers\AdminTrackDebtsController;
 use App\Http\Controllers\AdminTrackvehicleController;
+use App\Http\Controllers\AdminVehicleController;
 use App\Http\Controllers\AJobCardController;
 use App\Http\Controllers\APaymentController;
 use App\Http\Controllers\AReportController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\InvoicePayments3Controller;
 use App\Http\Controllers\JobcardController;
 use App\Http\Controllers\MjobcardsController;
 use App\Http\Controllers\MonitoringOfficerController;
+use App\Http\Controllers\MonitoringVehicleController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentReportController;
 use App\Http\Controllers\PDashboardController;
@@ -92,6 +94,10 @@ Route::delete('/users/{id}', [AuthController::class, 'destroy'])->name('users.de
 Route::middleware('auth')->group(function () {
 //vehicles routes
 Route::resource('vehicles', VehicleController::class);
+//AdminVehicles
+Route::resource('advehicles', AdminVehicleController::class);
+//MonitorngOfficerVehicles
+Route::resource('mcvehicles', MonitoringVehicleController::class);
 
 });
 //dashboard for admin

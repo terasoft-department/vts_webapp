@@ -186,6 +186,11 @@
               </a>
             </li>
             <li>
+                <a href="mcvehicles">
+                  <i class="bi bi-circle"></i><span>Vehicles</span>
+                </a>
+              </li>
+            <li>
               <a href="jobcards2">
                 <i class="bi bi-circle"></i><span>JobCard</span>
               </a>

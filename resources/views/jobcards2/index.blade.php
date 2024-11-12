@@ -28,7 +28,6 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 <body>
@@ -187,6 +186,11 @@
               </a>
             </li>
             <li>
+                <a href="mcvehicles">
+                  <i class="bi bi-circle"></i><span>Vehicles</span>
+                </a>
+              </li>
+            <li>
               <a href="jobcards2">
                 <i class="bi bi-circle"></i><span>JobCard</span>
               </a>
@@ -241,7 +245,7 @@
 
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
-  <main id="main" class="main">
+<main id="main" class="main">
     <h4 class="page-title mb-1 text-center fw-bold">Job Cards List</h4>
 
     @if (session('success'))

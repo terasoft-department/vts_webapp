@@ -152,51 +152,58 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link" href="accounting_officer">
+                <a class="nav-link" href="project_manager">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-layout-text-window-reverse"></i><span>Accounting & Finance</span><i class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                  <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="customers">
+                          <i class="bi bi-circle"></i><span>Customer</span>
+                        </a>
+                      </li>
+                  <li>
+                    <a href="devices">
+                      <i class="bi bi-circle"></i><span>Device</span>
+                    </a>
+                  </li>
+                  <li>
                     <li>
                         <a href="vehicles">
-                            <i class="bi bi-circle"></i><span>Vehicle</span>
+                          <i class="bi bi-circle"></i><span>Vehicle</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="Acustomers">
-                            <i class="bi bi-circle"></i><span>Customers</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="invoices">
-                            <i class="bi bi-circle"></i><span>Payments</span>
-                        </a>
-                    </li>
-                    </li>
-                    <li>
-                        <a href="tdebts">
-                            <i class="bi bi-circle"></i><span>Track Debts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="invoice_payments">
-                            <i class="bi bi-circle"></i><span>Create Invoice</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="invoice_payments2">
-                            <i class="bi bi-circle"></i><span>Generate Invoice</span>
-                        </a>
-                    </li>
+                      </li>
+                      <li>
+                    <a href="AccountAssignment">
+                      <i class="bi bi-circle"></i><span>Assignments</span>
+                    </a>
+                  </li>
 
+                  <li>
+                    <a href="device_requisitions">
+                      <i class="bi bi-circle"></i><span>Device dispatch</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="return_device">
+                      <i class="bi bi-circle"></i><span>DeviceReturn</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="jobcards">
+                      <i class="bi bi-circle"></i><span>Jobcard</span>
+                    </a>
+                  </li>
                 </ul>
-            </li><!-- End Accounting & Finance Nav -->
+              </li><!-- End Forms Nav -->
+
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/auth/login">
