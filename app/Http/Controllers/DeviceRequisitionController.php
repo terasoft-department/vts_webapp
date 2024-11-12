@@ -174,6 +174,16 @@ public function update(Request $request, $id)
                     ->orderBy('device_id', 'asc') // Ensure correct order, use 'device_id' or another unique column
                     ->get();
 
+                // Check if there are already dispatched devices for this category
+                $alreadyDispatchedDevices = Device::where('category', $category)
+                    ->where('dispatched_status', 'dispatched')
+                    ->get();
+
+                if ($alreadyDispatchedDevices->count() > 0) {
+                    // Devices already dispatched, add a warning message
+                    $dispatchMessages[] = "'$category' devices have already been dispatched.";
+                }
+
                 // Log the available devices found
                 Log::info("Available devices for category $category: " . $availableDevices->count());
 
@@ -221,6 +231,7 @@ public function update(Request $request, $id)
     return redirect()->route('device_requisitions.index')
         ->with('success', implode('<br>', $successMessages));
 }
+
 
 
     public function edit($id)
