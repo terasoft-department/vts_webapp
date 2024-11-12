@@ -6,9 +6,8 @@ use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
-class AdminVehicleController extends Controller
-{
-    // Display a listing of the vehicles with search and filters
+class AccountantVehicleController extends Controller
+{// Display a listing of the vehicles with search and filters
     public function index(Request $request)
     {
         // Define base query with eager loading of related 'customer'
@@ -47,7 +46,7 @@ class AdminVehicleController extends Controller
         // Fetch customers for the filter dropdown
         $customers = Customer::all();
 
-        return view('advehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
+        return view('acvehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
     }
 
     // Show the form for creating a new vehicle
@@ -55,7 +54,7 @@ class AdminVehicleController extends Controller
     {
         $customers = Customer::all();
 
-        return view('advehicles.create', compact('customers'));
+        return view('acvehicles.create', compact('customers'));
     }
 
     // Store a newly created vehicle in the database
@@ -70,20 +69,20 @@ class AdminVehicleController extends Controller
 
         Vehicle::create($request->all());
 
-        return redirect()->route('advehicles.index')->with('success', 'Vehicle created successfully.');
+        return redirect()->route('acvehicles.index')->with('success', 'Vehicle created successfully.');
     }
 
     // Show the details of a single vehicle
     public function show(Vehicle $vehicle)
     {
-        return view('advehicles.show', compact('vehicle'));
+        return view('acvehicles.show', compact('vehicle'));
     }
 
     // Show the form for editing a vehicle
     public function edit(Vehicle $vehicle)
     {
         $customers = Customer::all();
-        return view('advehicles.edit', compact('vehicle', 'customers'));
+        return view('acvehicles.edit', compact('vehicle', 'customers'));
     }
 
     // Update the specified vehicle
@@ -98,7 +97,7 @@ class AdminVehicleController extends Controller
 
         $vehicle->update($request->all());
 
-        return redirect()->route('advehicles.index')->with('success', 'Vehicle updated successfully.');
+        return redirect()->route('acvehicles.index')->with('success', 'Vehicle updated successfully.');
     }
 
     // Remove the specified vehicle
@@ -106,6 +105,6 @@ class AdminVehicleController extends Controller
     {
         $vehicle->delete();
 
-        return redirect()->route('advehicles.index')->with('success', 'Vehicle deleted successfully.');
+        return redirect()->route('acvehicles.index')->with('success', 'Vehicle deleted successfully.');
     }
 }

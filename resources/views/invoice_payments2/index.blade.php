@@ -160,7 +160,7 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="vehicles">
+                        <a href="acvehicles">
                             <i class="bi bi-circle"></i><span>Vehicle</span>
                         </a>
                     </li>
@@ -203,7 +203,6 @@
 
         </ul>
     </aside><!-- End Sidebar -->
-<body>
         <main id="main" class="main">
 <div class="container mt-5">
     <!-- Success/Error Messages -->

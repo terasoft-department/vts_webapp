@@ -28,8 +28,6 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 
 <body>
@@ -162,7 +160,7 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="vehicles">
+                        <a href="acvehicles">
                             <i class="bi bi-circle"></i><span>Vehicle</span>
                         </a>
                     </li>
@@ -205,8 +203,7 @@
 
         </ul>
     </aside><!-- End Sidebar -->
-
-    <main id="main" class="main">
+        <main id="main" class="main">
         <div class="container mt-5">
             <!-- Success/Error Messages -->
             @if(session('success'))

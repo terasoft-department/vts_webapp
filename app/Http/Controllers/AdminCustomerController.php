@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 class AdminCustomerController extends Controller
@@ -12,7 +13,9 @@ class AdminCustomerController extends Controller
     {
         // Fetch all customers
         $customers = Customer::all();
-        return view('Admincustomers.index', compact('customers'));
+        $CustomersCount = Customer::count();
+        $VehiclesCount = Vehicle::count();
+        return view('Admincustomers.index', compact('customers','CustomersCount','VehiclesCount'));
     }
 
     public function store(Request $request)

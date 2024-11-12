@@ -215,6 +215,17 @@
         </ul>
     </aside><!-- End Sidebar -->
     <main id="main" class="main">
+        <div class="col-md-3 mb-2">
+            <div class="card text-center border-primary shadow card-hover">
+                <div class="card-header bg- text-dark">
+                    Operation Summary
+                </div>
+                <div class="card-body bg-white">
+                    <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
+                    <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
+                </div>
+            </div>
+        </div>
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="m-0">Manage Vehicles</h4>

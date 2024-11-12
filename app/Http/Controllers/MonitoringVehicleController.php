@@ -13,7 +13,8 @@ class MonitoringVehicleController extends Controller
     {
         // Define base query with eager loading of related 'customer'
         $vehicles = Vehicle::with('customer');
-
+        $CustomersCount = Customer::count();
+        $VehiclesCount = Vehicle::count();
         // Store search parameters in session
         session([
             'search' => $request->search,
@@ -46,7 +47,7 @@ class MonitoringVehicleController extends Controller
         // Fetch customers for the filter dropdown
         $customers = Customer::all();
 
-        return view('mcvehicles.index', compact('vehicles', 'customers'));
+        return view('mcvehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
     }
 
     // Show the form for creating a new vehicle

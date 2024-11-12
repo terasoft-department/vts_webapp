@@ -160,7 +160,7 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="vehicles">
+                        <a href="acvehicles">
                             <i class="bi bi-circle"></i><span>Vehicle</span>
                         </a>
                     </li>
@@ -208,7 +208,7 @@
             <div class="container mt-4">
                 <div class="row" id="card-container"></div>
             </div>
-            
+
         </main>
 
         <!-- JS to dynamically generate cards based on sidebar -->

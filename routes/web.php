@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AAssignmentsController;
+use App\Http\Controllers\AccountantVehicleController;
 use App\Http\Controllers\AccountAssignmentController;
 use App\Http\Controllers\AccountingOfficerController;
 use App\Http\Controllers\ACustomerController;
@@ -98,6 +99,8 @@ Route::resource('vehicles', VehicleController::class);
 Route::resource('advehicles', AdminVehicleController::class);
 //MonitorngOfficerVehicles
 Route::resource('mcvehicles', MonitoringVehicleController::class);
+//AccountingOfficerVehicles
+Route::resource('acvehicles', AccountantVehicleController::class);
 
 });
 //dashboard for admin
