@@ -135,7 +135,6 @@ public function approveRequisition(Request $request, $requisition_id)
     return redirect()->back()->with('success', 'Requisition approved and stock updated successfully.');
 }
 
-
 public function update(Request $request, $id)
 {
     // Find the requisition by ID
@@ -168,45 +167,51 @@ public function update(Request $request, $id)
                 // Log the number of devices requested
                 Log::info("Requisition for $category devices: $quantityNeeded requested.");
 
-                // Get the number of non-dispatched devices available in this category
-                $availableDevices = Device::where('category', $category)
-                    ->whereIn('dispatched_status', ['available', NULL]) // Consider devices that are either available or unmarked
-                    ->orderBy('device_id', 'asc') // Ensure correct order, use 'device_id' or another unique column
-                    ->get();
-
-                // Check if there are already dispatched devices for this category
+                // Check if devices of this category are already dispatched
                 $alreadyDispatchedDevices = Device::where('category', $category)
                     ->where('dispatched_status', 'dispatched')
                     ->get();
 
                 if ($alreadyDispatchedDevices->count() > 0) {
-                    // Devices already dispatched, add a warning message
-                    $dispatchMessages[] = "'$category' devices have already been dispatched.";
-                }
-
-                // Log the available devices found
-                Log::info("Available devices for category $category: " . $availableDevices->count());
-
-                // Check if there are enough available devices
-                if ($availableDevices->count() < $quantityNeeded) {
-                    // Not enough devices available for this category
-                    $dispatchMessages[] = "Not enough '$category' devices available for dispatch. Only {$availableDevices->count()} available.";
+                    // If devices have already been dispatched, prevent dispatching again
+                    $dispatchMessages[] = "'$category' devices have already been dispatched and cannot be dispatched again.";
                 } else {
-                    // If there are enough devices, mark them as dispatched
-                    $devicesToDispatch = $availableDevices->take($quantityNeeded);  // Select the exact number of devices needed
+                    // Get the number of non-dispatched devices available in this category
+                    $availableDevices = Device::where('category', $category)
+                        ->whereIn('dispatched_status', ['available', NULL]) // Consider devices that are either available or unmarked
+                        ->orderBy('device_id', 'asc') // Ensure correct order, use 'device_id' or another unique column
+                        ->get();
 
-                    foreach ($devicesToDispatch as $device) {
-                        // Mark each device as dispatched
-                        $device->dispatched_status = 'dispatched';
-                        if ($device->save()) {
-                            Log::info("Device with device_id {$device->device_id} marked as dispatched.");
-                        } else {
-                            Log::error("Failed to save device {$device->device_id}.");
+                    // Log the available devices found
+                    Log::info("Available devices for category $category: " . $availableDevices->count());
+
+                    // Check if there are enough available devices
+                    if ($availableDevices->count() < $quantityNeeded) {
+                        // Not enough devices available for this category
+                        $dispatchMessages[] = "Not enough '$category' devices available for dispatch. Only {$availableDevices->count()} available.";
+                    } else {
+                        // If there are enough devices, mark them as dispatched
+                        $devicesToDispatch = $availableDevices->take($quantityNeeded);  // Select the exact number of devices needed
+
+                        foreach ($devicesToDispatch as $device) {
+                            // Check if the device has already been dispatched
+                            if ($device->dispatched_status == 'dispatched') {
+                                // Skip devices that are already dispatched and add a message
+                                $dispatchMessages[] = "Device with ID {$device->device_id} has already been dispatched and cannot be dispatched again.";
+                            } else {
+                                // Mark each device as dispatched
+                                $device->dispatched_status = 'dispatched';
+                                if ($device->save()) {
+                                    Log::info("Device with device_id {$device->device_id} marked as dispatched.");
+                                } else {
+                                    Log::error("Failed to save device {$device->device_id}.");
+                                }
+                            }
                         }
-                    }
 
-                    // Add success message for the dispatched devices
-                    $successMessages[] = "$category devices dispatched successfully. Dispatched: {$devicesToDispatch->count()} of $quantityNeeded.";
+                        // Add success message for the dispatched devices
+                        $successMessages[] = "$category devices dispatched successfully. Dispatched: {$devicesToDispatch->count()} of $quantityNeeded.";
+                    }
                 }
             }
         }
@@ -231,6 +236,7 @@ public function update(Request $request, $id)
     return redirect()->route('device_requisitions.index')
         ->with('success', implode('<br>', $successMessages));
 }
+
 
 
 
