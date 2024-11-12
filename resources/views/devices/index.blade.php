@@ -309,9 +309,8 @@
                     <td>{{ $device->imei_number }}</td>
                     <td>{{ $device->category }}</td>
                     <td>
-                        <button class="btn {{ $device->dispatched_status == 'dispatched' ? 'btn-primary' : 'btn-warning' }}">
-                            {{ $device->dispatched_status }}
-                        </button>
+                        {{ $device->dispatched_status }}
+
                     </td>
                     {{-- <td>
                         <button class="btn {{ $device->dispatched_status == 'dispatched' ? 'btn-primary' : 'btn-warning' }}">
