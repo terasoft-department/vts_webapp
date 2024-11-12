@@ -188,12 +188,6 @@
             </a>
           </li>
           <li>
-            <li>
-                <a href="vehicles">
-                  <i class="bi bi-circle"></i><span>Vehicle</span>
-                </a>
-              </li>
-              <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
@@ -217,6 +211,14 @@
           </li>
         </ul>
       </li><!-- End Forms Nav -->
+
+      </li><!-- End Icons Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="\auth/login">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Logout</span>
+        </a>
+      </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
@@ -404,99 +406,73 @@
         </div>
 
         <!-- JavaScript for Bar Chart -->
-<script>
-    const deviceCounts = {
-        master: {{ $mergedCounts['master']['total_count'] ?? 0 }},
-        I_button: {{ $mergedCounts['I_button']['total_count'] ?? 0 }},
-        buzzer: {{ $mergedCounts['buzzer']['total_count'] ?? 0 }},
-        panick_button: {{ $mergedCounts['panick_button']['total_count'] ?? 0 }},
-    };
+        <script>
+            const deviceCounts = {
+                master: {{ $deviceCounts['master'] ?? 0 }},
+                I_button: {{ $deviceCounts['I_button'] ?? 0 }},
+                buzzer: {{ $deviceCounts['buzzer'] ?? 0 }},
+                panick_button: {{ $deviceCounts['panick_button'] ?? 0 }},
+            };
 
-    const dispatchedCounts = {
-        master: {{ $mergedCounts['master']['dispatched_count'] ?? 0 }},
-        I_button: {{ $mergedCounts['I_button']['dispatched_count'] ?? 0 }},
-        buzzer: {{ $mergedCounts['buzzer']['dispatched_count'] ?? 0 }},
-        panick_button: {{ $mergedCounts['panick_button']['dispatched_count'] ?? 0 }},
-    };
+            const totalDevices = deviceCounts.master + deviceCounts.I_button + deviceCounts.buzzer + deviceCounts.panick_button;
 
-    const totalDevices = deviceCounts.master + deviceCounts.I_button + deviceCounts.buzzer + deviceCounts.panick_button;
-    const totalDispatchedDevices = dispatchedCounts.master + dispatchedCounts.I_button + dispatchedCounts.buzzer + dispatchedCounts.panick_button;
+            const percentages = {
+                master: ((deviceCounts.master / totalDevices) * 100) || 0,
+                I_button: ((deviceCounts.I_button / totalDevices) * 100) || 0,
+                buzzer: ((deviceCounts.buzzer / totalDevices) * 100) || 0,
+                panick_button: ((deviceCounts.panick_button / totalDevices) * 100) || 0,
+            };
 
-    const percentages = {
-        master: ((deviceCounts.master / totalDevices) * 100) || 0,
-        I_button: ((deviceCounts.I_button / totalDevices) * 100) || 0,
-        buzzer: ((deviceCounts.buzzer / totalDevices) * 100) || 0,
-        panick_button: ((deviceCounts.panick_button / totalDevices) * 100) || 0,
-    };
-
-    const dispatchedPercentages = {
-        master: ((dispatchedCounts.master / totalDispatchedDevices) * 100) || 0,
-        I_button: ((dispatchedCounts.I_button / totalDispatchedDevices) * 100) || 0,
-        buzzer: ((dispatchedCounts.buzzer / totalDispatchedDevices) * 100) || 0,
-        panick_button: ((dispatchedCounts.panick_button / totalDispatchedDevices) * 100) || 0,
-    };
-
-    const ctx = document.getElementById('deviceBarChart').getContext('2d');
-    const deviceBarChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Master', 'I Button', 'Buzzer', 'Panic Button'],
-            datasets: [
-                {
-                    label: 'Device Distribution (%)',
-                    data: [percentages.master, percentages.I_button, percentages.buzzer, percentages.panick_button],
-                    backgroundColor: '#007bff',
+            const ctx = document.getElementById('deviceBarChart').getContext('2d');
+            const deviceBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Master', 'I Button', 'Buzzer', 'Panic Button'],
+                    datasets: [{
+                        label: 'Device Distribution (%)',
+                        data: [percentages.master, percentages.I_button, percentages.buzzer, percentages.panick_button],
+                        backgroundColor: ['#007bff', '#28a745', '#dc3545', '#ffc107'],
+                    }]
                 },
-                {
-                    label: 'Dispatched Device Distribution (%)',
-                    data: [dispatchedPercentages.master, dispatchedPercentages.I_button, dispatchedPercentages.buzzer, dispatchedPercentages.panick_button],
-                    backgroundColor: '#28a745',
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    stepSize: 20,  // Ensures y-axis increments by 20
-                    title: {
-                        display: true,
-                        text: 'Percentage (%)'
-                    },
-                    ticks: {
-                        stepSize: 20, // Display y-axis labels at 0, 20, 40, 60, 80, 100
-                        callback: function(value) {
-                            return value + '%'; // Add percentage sign to y-axis labels
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Percentage (%)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%'; // Add percentage sign to y-axis labels
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
-    });
-</script>
-
+            });
+        </script>
     </div>
 </main>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
 
 </body>
 </html>
-
