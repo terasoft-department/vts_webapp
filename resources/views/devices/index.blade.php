@@ -309,15 +309,10 @@
                     <td>{{ $device->imei_number }}</td>
                     <td>{{ $device->category }}</td>
                     <td>
-                        {{ $device->dispatched_status }}
-
-                    </td>
-                    {{-- <td>
-                        <button class="btn {{ $device->dispatched_status == 'dispatched' ? 'btn-primary' : 'btn-warning' }}">
-                            {{ $device->dispatched_status == 'dispatched' ? 'Dispatched' : 'On Stock' }}
+                        <button class="btn {{ $device->dispatched_status === 'dispatched' ? 'btn-primary' : 'btn-warning' }}">
+                            {{ $device->dispatched_status === 'dispatched' ? 'Dispatched' : 'On Stock' }}
                         </button>
-                    </td> --}}
-
+                    </td>
                     <td>
                         <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editDeviceModal-{{ $device->device_id }}">
                             <i class="bi bi-pencil"></i>
