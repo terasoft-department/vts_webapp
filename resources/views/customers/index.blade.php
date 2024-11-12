@@ -229,17 +229,17 @@
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
  <main id="main" class="main">
-        <div class="col-md-3 mb-2">
-            <div class="card text-center border-primary shadow card-hover">
-                <div class="card-header bg- text-dark">
-                    Operation Summary
-                </div>
-                <div class="card-body bg-white">
-                    <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
-                    <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
-                </div>
+    <div class="col-md-3 mb-2">
+        <div class="card text-center border-primary shadow card-hover">
+            <div class="card-header bg- text-dark">
+                Operation Summary
+            </div>
+            <div class="card-body bg-white">
+                <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
+                <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
             </div>
         </div>
+    </div>
 
     <div class="container mt-2">
         <h4 class="text-center">Customer Management</h4>
@@ -271,8 +271,6 @@
                     <th>Name</th>
                     <th>Address</th>
                     <th>Phone</th>
-                    {{-- <th>TIN</th>
-                    <th>Email</th> --}}
                     <th>Start Date</th>
                     <th>Actions</th>
                 </tr>
@@ -284,16 +282,12 @@
                     <td>{{ $customer->customername }}</td>
                     <td>{{ $customer->address }}</td>
                     <td>{{ $customer->customer_phone }}</td>
-                    {{-- <td>{{ $customer->tin_number }}</td>
-                    <td>{{ $customer->email }}</td> --}}
                     <td>{{ $customer->start_date }}</td>
                     <td>
                         <!-- Edit Button -->
                         <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
                             <i class="bi bi-pencil"></i>
                         </button>
-
-
                     </td>
                 </tr>
 
@@ -393,6 +387,7 @@
     </div>
 </main>
 
+<!-- Include jQuery and DataTables buttons library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
@@ -412,6 +407,7 @@
     });
 </script>
 
+<!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
