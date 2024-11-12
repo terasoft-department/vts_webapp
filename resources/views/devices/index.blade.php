@@ -217,8 +217,15 @@
           </li>
         </ul>
       </li><!-- End Forms Nav -->
+    </li><!-- End Icons Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="\auth/login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Logout</span>
+      </a>
+    </li><!-- End Login Page Nav -->
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
  <!-- Main Content -->
  <main id="main" class="main">
     <div class="container mt-2">

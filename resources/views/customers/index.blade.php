@@ -229,17 +229,17 @@
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
  <main id="main" class="main">
-        <div class="col-md-3 mb-2">
-            <div class="card text-center border-primary shadow card-hover">
-                <div class="card-header bg- text-dark">
-                    Operation Summary
-                </div>
-                <div class="card-body bg-white">
-                    <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
-                    <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
-                </div>
+    <div class="col-md-3 mb-2">
+        <div class="card text-center border-primary shadow card-hover">
+            <div class="card-header bg- text-dark">
+                Operation Summary
+            </div>
+            <div class="card-body bg-white">
+                <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
+                <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
             </div>
         </div>
+    </div>
 
     <div class="container mt-2">
         <h4 class="text-center">Customer Management</h4>
@@ -256,6 +256,18 @@
         </div>
         @endif
 
+        <!-- Search Bar and Button -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" onclick="searchCustomer()">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </div>
+
         <!-- Add New Customer Button -->
         <div class="text-left mb-2">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
@@ -271,29 +283,22 @@
                     <th>Name</th>
                     <th>Address</th>
                     <th>Phone</th>
-                    {{-- <th>TIN</th>
-                    <th>Email</th> --}}
                     <th>Start Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="customerTableBody">
                 @foreach ($customers as $customer)
                 <tr>
                     <td>{{ $customer->customer_id }}</td>
                     <td>{{ $customer->customername }}</td>
                     <td>{{ $customer->address }}</td>
                     <td>{{ $customer->customer_phone }}</td>
-                    {{-- <td>{{ $customer->tin_number }}</td>
-                    <td>{{ $customer->email }}</td> --}}
                     <td>{{ $customer->start_date }}</td>
                     <td>
-                        <!-- Edit Button -->
                         <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
                             <i class="bi bi-pencil"></i>
                         </button>
-
-
                     </td>
                 </tr>
 
@@ -393,6 +398,32 @@
     </div>
 </main>
 
+<!-- Add the script for search functionality -->
+<script>
+    function searchCustomer() {
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let table = document.getElementById("customers");
+        let tr = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < tr.length; i++) { // Skipping header row
+            let tdName = tr[i].getElementsByTagName("td")[1]; // Name column
+            let tdPhone = tr[i].getElementsByTagName("td")[3]; // Phone column
+            if (tdName || tdPhone) {
+                let nameText = tdName.textContent || tdName.innerText;
+                let phoneText = tdPhone.textContent || tdPhone.innerText;
+
+                if (nameText.toLowerCase().indexOf(input) > -1 || phoneText.toLowerCase().indexOf(input) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
@@ -427,7 +458,6 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+
 </body>
 </html>
