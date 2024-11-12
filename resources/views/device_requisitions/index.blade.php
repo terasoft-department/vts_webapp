@@ -263,6 +263,11 @@
                     </div>
                 @endif
 
+                <!-- Search Bar -->
+                <div class="mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                </div>
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -277,7 +282,7 @@
                             <th>Approve</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="deviceTable">
                         @foreach($requisitions as $requisition)
                         <tr>
                             <td>{{ $requisition->requisition_id }}</td>
