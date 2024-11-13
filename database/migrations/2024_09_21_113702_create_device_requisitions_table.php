@@ -20,7 +20,9 @@ return new class extends Migration
             $table->integer('master')->default(0)->nullable(); // Master attribute as integer
             $table->integer('I_button')->default(0)->nullable(); // I_button attribute as integer
             $table->integer('buzzer')->default(0)->nullable(); // Buzzer attribute as integer
-            $table->integer('panick_button')->default(0)->nullable(); // Panick_button attribute as integer
+            $table->integer('panick_button')->default(0)->nullable();
+            $table->string('dispatched_status')->default('available')->nullable();
+             // Panick_button attribute as integer
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Device;
 use App\Models\DeviceRequisition;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -55,6 +56,65 @@ class DeviceRequisitionController extends Controller
 
         return redirect()->route('device_requisitions.index')->with('success', 'Requisition created successfully.');
     }
+
+
+
+
+
+
+
+    public function dispatchedDeviceHistory()
+    {
+        // Fetch requisitions where dispatched_status is 'dispatched'
+        $requisitions = DeviceRequisition::select([
+                'device_requisitions.descriptions',
+                'device_requisitions.status',
+                'device_requisitions.dateofProvision',
+                'device_requisitions.master',
+                'device_requisitions.I_button',
+                'device_requisitions.buzzer',
+                'device_requisitions.panick_button',
+                'device_requisitions.dispatched_status',
+                'users.name as name',
+                'devices.category',
+                'devices.imei_number',
+                'devices.dispatched_status as device_dispatched_status'
+            ])
+            ->join('devices', 'device_requisitions.dispatched_status', '=', 'devices.dispatched_status') // Joining on dispatched_status
+            ->join('users', 'device_requisitions.user_id', '=', 'users.user_id') // Join with the users table on user_id
+            ->where('device_requisitions.dispatched_status', 'dispatched') // Only fetch rows where dispatched_status is 'dispatched'
+            ->get();
+
+        // Initialize an array to store the counts for each user
+        $userCounts = [];
+
+        // Loop through requisitions to calculate counts for each user
+        foreach ($requisitions as $requisition) {
+            // Initialize the user if not already initialized
+            if (!isset($userCounts[$requisition->name])) {
+                $userCounts[$requisition->name] = [
+                    'master' => 0,
+                    'I_button' => 0,
+                    'buzzer' => 0,
+                    'panick_button' => 0,
+                ];
+            }
+
+            // Count occurrences for each attribute based on the requisition
+            if ($requisition->master) $userCounts[$requisition->name]['master']++;
+            if ($requisition->I_button) $userCounts[$requisition->name]['I_button']++;
+            if ($requisition->buzzer) $userCounts[$requisition->name]['buzzer']++;
+            if ($requisition->panick_button) $userCounts[$requisition->name]['panick_button']++;
+        }
+
+        // Pass the requisitions and user counts to the view
+        return view('dispatched_history.index', compact('requisitions', 'userCounts'));
+    }
+
+
+
+
+
 
 
 public function approveRequisition(Request $request, $requisition_id)
@@ -203,6 +263,13 @@ public function update(Request $request, $id)
                                 $device->dispatched_status = 'dispatched';
                                 if ($device->save()) {
                                     Log::info("Device with device_id {$device->device_id} marked as dispatched.");
+
+                                    // Update the dispatched status for the requisition as well
+                                    $requisition->dispatched_status = 'dispatched'; // Set dispatched status for requisition
+                                    $requisition->save(); // Save the updated requisition status
+
+                                    // Log the update for the requisition dispatched status
+                                    Log::info("Requisition ID {$requisition->requisition_id} dispatched status updated to dispatched.");
                                 } else {
                                     Log::error("Failed to save device {$device->device_id}.");
                                 }

@@ -190,6 +190,13 @@
                       <i class="bi bi-circle"></i><span>Device dispatch</span>
                     </a>
                   </li>
+
+                  <li>
+                    <a href="dispatched-history">
+                      <i class="bi bi-circle"></i><span>Dispatched devices</span>
+                    </a>
+                  </li>
+
                   <li>
                     <a href="return_device">
                       <i class="bi bi-circle"></i><span>DeviceReturn</span>
@@ -204,16 +211,16 @@
                 </ul>
               </li><!-- End Forms Nav -->
 
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/auth/login">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Logout</span>
+              </li><!-- End Icons Nav -->
+              <li class="nav-item">
+                <a class="nav-link collapsed" href="\auth/login">
+                  <i class="bi bi-box-arrow-in-right"></i>
+                  <span>Logout</span>
                 </a>
-            </li><!-- End Logout Nav -->
+              </li><!-- End Login Page Nav -->
 
-        </ul>
-    </aside><!-- End Sidebar -->
+          </aside><!-- End Sidebar-->
+         <!-- Main Content -->
     <main id="main" class="main">
         <div class="col-md-3 mb-2">
             <div class="card text-center border-primary shadow card-hover">

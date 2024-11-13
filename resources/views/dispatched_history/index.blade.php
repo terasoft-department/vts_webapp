@@ -205,13 +205,6 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
-
-          <li>
-            <a href="dispatched-history">
-              <i class="bi bi-circle"></i><span>Dispatched devices</span>
-            </a>
-          </li>
-
           <li>
             <a href="return_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
@@ -236,119 +229,84 @@
 
   </aside><!-- End Sidebar-->
 
-<!-- Main Content -->
+  <!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header bg text-blue text-center">
-                <h4 class="m-0">Device Dispatch</h4>
+                <h4 class="m-0">Device Dispatch History</h4>
             </div>
 
             <div class="card-body">
-                <!-- Display Success Messages -->
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {!! session('success') !!}
-                    </div>
-                @endif
-
-                <!-- Display Danger Messages -->
-                @if (session('danger'))
-                    <div class="alert alert-danger">
-                        {!! session('danger') !!}
-                    </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <!-- Search Bar -->
-                <div class="mb-3">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
-                </div>
-
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>User Name</th>
-                            <th>Descriptions</th>
+                            <th>Description</th>
+                            <th>IMEI Numbers</th>
                             <th>Status</th>
-                            <th>Master</th>
-                            <th>I-Button</th>
-                            <th>Buzzer</th>
-                            <th>Panic Button</th>
-                            <th>Approve</th>
+                            <th>Master Count</th>
+                            <th>I-Button Count</th>
+                            <th>Buzzer Count</th>
+                            <th>Panic Button Count</th>
+                            <th>Device Category</th>
+                            <th>Device Dispatched Status</th>
                         </tr>
                     </thead>
-                    <tbody id="deviceTable">
-                        @foreach($requisitions as $requisition)
+                    <tbody>
+                        @foreach($userCounts as $userName => $counts)
                         <tr>
-                            <td>{{ $requisition->requisition_id }}</td>
-                            <td>{{ $requisition->user->name ?? 'N/A' }}</td>
-                            <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ ucfirst($requisition->status) }}</td>
-                            <td>{{ $requisition->master }}</td>
-                            <td>{{ $requisition->I_button }}</td>
-                            <td>{{ $requisition->buzzer }}</td>
-                            <td>{{ $requisition->panick_button }}</td>
+                            <!-- Display user name -->
+                            <td>{{ $userName ?? 'N/A' }}</td>
+
+                            <!-- Display requisition details (one per user) -->
+                            <td>{{ isset($requisitions->where('name', $userName)->first()->descriptions) ? $requisitions->where('name', $userName)->first()->descriptions : 'N/A' }}</td>
+
                             <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                                    <i class="bi bi-check-circle"></i>
-                                </button>
+                                <!-- List all IMEI numbers for the user -->
+                                @php
+                                    $userImeis = $requisitions->where('name', $userName)->pluck('imei_number');
+                                @endphp
+                                @foreach ($userImeis as $imei)
+                                    {{ $imei }}@if(!$loop->last), @endif
+                                @endforeach
+                            </td>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
+                            <td>
+                                {{ isset($requisitions->where('name', $userName)->first()->status) ? ucfirst($requisitions->where('name', $userName)->first()->status) : 'N/A' }}
+                            </td>
 
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                                        </select>
-                                                    </div>
+                            <td>{{ $counts['master'] }}</td>
+                            <td>{{ $counts['I_button'] }}</td>
+                            <td>{{ $counts['buzzer'] }}</td>
+                            <td>{{ $counts['panick_button'] }}</td>
 
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <td>
+                                <!-- List all categories for the user on one row -->
+                                @php
+                                    $userCategories = $requisitions->where('name', $userName)->pluck('category');
+                                @endphp
+                                @foreach ($userCategories as $category)
+                                    {{ $category }}@if(!$loop->last), @endif
+                                @endforeach
+                            </td>
+
+                            <td>
+                                {{ isset($requisitions->where('name', $userName)->first()->device_dispatched_status) ? ucfirst($requisitions->where('name', $userName)->first()->device_dispatched_status) : 'N/A' }}
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
 
+
+
+
+                </div>
             </div>
         </div>
     </div>
 </main>
-
-
-
 
 
 <script>

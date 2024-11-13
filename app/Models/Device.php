@@ -26,4 +26,12 @@ class Device extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+
+
+
+    public function requisitions()
+    {
+        return $this->hasMany(DeviceRequisition::class);
+    }
 }

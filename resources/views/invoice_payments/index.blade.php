@@ -390,13 +390,12 @@
                             <td><input type="date" name="to_date[]" class="form-control" required></td>
                             <td>
                                 <select name="payment_type[]" class="form-control" required>
-                                    <option value="Monthly">Monthly</option>
-                                    <option value="Quarterly">Quarterly</option>
-                                    <option value="Annually">Annually</option>
+                                    <option value="Lease">Lease</option>
+                                    <option value="Purchase">Purchase</option>
                                 </select>
                             </td>
-                            <td><input type="number" name="debt[]" class="form-control" required step="0.01" oninput="calculateRowTotal(this)"></td>
-                            <td><input type="number" name="unit_price[]" class="form-control" required step="0.01" oninput="calculateRowTotal(this)"></td>
+                            <td><input type="number" name="debt[]" class="form-control" required ></td>
+                            <td><input type="number" name="unit_price[]" class="form-control" required ></td>
                             <td><input type="text" name="gross_value[]" class="form-control" readonly></td>
                             <td><input type="text" name="vat_value[]" class="form-control" readonly></td>
                             <td><input type="text" name="vat_inclusive[]" class="form-control" readonly></td>

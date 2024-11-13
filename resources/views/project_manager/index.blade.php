@@ -205,6 +205,13 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
+
+          <li>
+            <a href="dispatched-history">
+              <i class="bi bi-circle"></i><span>Dispatched devices</span>
+            </a>
+          </li>
+
           <li>
             <a href="return_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>

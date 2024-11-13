@@ -291,6 +291,10 @@ Route::prefix('jobcards2')->group(function () {
     Route::put('/{id}', [MjobcardsController::class, 'update'])->name('jobcards2.update');
 });
 
+
+Route::get('/dispatched-history', [DeviceRequisitionController::class, 'dispatchedDeviceHistory'])->name('dispatched_history.index');
+
+
 //Tampering for MornitoringOfficer
 Route::prefix('tampering')->group(function () {
     Route::get('/', [TamperingController::class, 'index'])->name('tampering.index');
