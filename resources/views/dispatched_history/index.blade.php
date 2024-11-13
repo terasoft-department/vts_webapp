@@ -245,10 +245,10 @@
                             <th>Description</th>
                             <th>IMEI-Numbers</th>
                             <th>Status</th>
-                            <th>Master Count</th>
-                            <th>I-Button Count</th>
-                            <th>Buzzer Count</th>
-                            <th>Panic Button Count</th>
+                            <th>Master </th>
+                            <th>I-Button</th>
+                            <th>Buzzer </th>
+                            <th>Panic Button </th>
                             <th>Device Category</th>
                             <th>Device Dispatched Status</th>
                         </tr>
