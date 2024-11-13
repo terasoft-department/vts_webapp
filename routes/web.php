@@ -292,7 +292,6 @@ Route::prefix('jobcards2')->group(function () {
     Route::put('/{id}', [MjobcardsController::class, 'update'])->name('jobcards2.update');
 });
 
-
 Route::get('/dispatched-history', [DeviceRequisitionController::class, 'dispatchedDeviceHistory'])->name('dispatched_history.index');
  Route::get('/dispatched-history1', [DeviceRequisitionController::class, 'dispatchedDeviceHistory1'])->name('dispatched_historyv1.index');
 
@@ -302,5 +301,6 @@ Route::prefix('tampering')->group(function () {
     Route::get('/{id}/approve', [TamperingController::class, 'approve'])->name('tampering.approve');
     Route::put('/{id}', [TamperingController::class, 'update'])->name('tampering.update');
 });
+
 
 
