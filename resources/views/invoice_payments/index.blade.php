@@ -235,7 +235,7 @@
                         <th>Periods</th>
                         <th>From</th>
                         <th>To</th>
-                        <th>Payment Type</th>
+                        <th>Payment type</th>
                         <th>Debt</th>
                         <th>Unit Price</th>
                         <th>Gross Value</th>
