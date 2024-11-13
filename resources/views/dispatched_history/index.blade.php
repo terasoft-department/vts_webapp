@@ -243,7 +243,7 @@
                         <tr>
                             <th>Technician</th>
                             <th>Description</th>
-                            <th>IMEI Numbers</th>
+                            <th>IMEI-Numbers</th>
                             <th>Status</th>
                             <th>Master Count</th>
                             <th>I-Button Count</th>
