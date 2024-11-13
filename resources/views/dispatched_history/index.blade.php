@@ -241,7 +241,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>User Name</th>
+                            <th>Technician</th>
                             <th>Description</th>
                             <th>IMEI Numbers</th>
                             <th>Status</th>
