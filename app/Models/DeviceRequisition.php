@@ -22,7 +22,8 @@ class DeviceRequisition extends Model
         'I_button',
         'buzzer',
         'panick_button',
-        'dispatched_status'
+        'dispatched_status',
+        'dispatched_imeis'
 
     ];
 

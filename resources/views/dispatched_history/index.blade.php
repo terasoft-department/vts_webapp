@@ -206,6 +206,12 @@
             </a>
           </li>
           <li>
+            <a href="dispatched-history">
+              <i class="bi bi-circle"></i><span>Dispatched devices</span>
+            </a>
+          </li>
+
+          <li>
             <a href="return_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
@@ -238,66 +244,48 @@
             </div>
 
             <div class="card-body">
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Technician</th>
-                            <th>Description</th>
-                            <th>IMEI-Numbers</th>
-                            <th>Status</th>
-                            <th>Master </th>
+                            <th>IMEI Numbers</th>
+                            <th>Master</th>
                             <th>I-Button</th>
-                            <th>Buzzer </th>
-                            <th>Panic Button </th>
-                            <th>Device Category</th>
-                            <th>Device Dispatched Status</th>
+                            <th>Buzzer</th>
+                            <th>Panic Button</th>
+                            <th>Dispatched Categories</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($userCounts as $userName => $counts)
+                        @foreach($dispatchedHistory as $history)
                         <tr>
-                            <!-- Display user name -->
-                            <td>{{ $userName ?? 'N/A' }}</td>
+                            <!-- Display technician/user name -->
+                            <td>{{ $history['name'] ?? 'N/A' }}</td>
 
-                            <!-- Display requisition details (one per user) -->
-                            <td>{{ isset($requisitions->where('name', $userName)->first()->descriptions) ? $requisitions->where('name', $userName)->first()->descriptions : 'N/A' }}</td>
+                            <!-- Display IMEI numbers for the requisition -->
+                            <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
 
+                            <!-- Device counts for each category -->
+                            <td>{{ $history['master_count'] }}</td>
+                            <td>{{ $history['I_button_count'] }}</td>
+                            <td>{{ $history['buzzer_count'] }}</td>
+                            <td>{{ $history['panick_button_count'] }}</td>
+
+                            <!-- List of dispatched categories -->
                             <td>
-                                <!-- List all IMEI numbers for the user -->
-                                @php
-                                    $userImeis = $requisitions->where('name', $userName)->pluck('imei_number');
-                                @endphp
-                                @foreach ($userImeis as $imei)
-                                    {{ $imei }}@if(!$loop->last), @endif
+                                @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
+                                    @if($history[$category . '_count'] > 0)
+                                        {{ ucfirst($category) }}@if(!$loop->last), @endif
+                                    @endif
                                 @endforeach
                             </td>
 
-                            <td>
-                                {{ isset($requisitions->where('name', $userName)->first()->status) ? ucfirst($requisitions->where('name', $userName)->first()->status) : 'N/A' }}
-                            </td>
-
-                            <td>{{ $counts['master'] }}</td>
-                            <td>{{ $counts['I_button'] }}</td>
-                            <td>{{ $counts['buzzer'] }}</td>
-                            <td>{{ $counts['panick_button'] }}</td>
-
-                            <td>
-                                <!-- List all categories for the user on one row -->
-                                @php
-                                    $userCategories = $requisitions->where('name', $userName)->pluck('category');
-                                @endphp
-                                @foreach ($userCategories as $category)
-                                    {{ $category }}@if(!$loop->last), @endif
-                                @endforeach
-                            </td>
-
-                            <td>
-                                {{ isset($requisitions->where('name', $userName)->first()->device_dispatched_status) ? ucfirst($requisitions->where('name', $userName)->first()->device_dispatched_status) : 'N/A' }}
-                            </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+
 
 
 

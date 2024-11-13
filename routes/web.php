@@ -6,6 +6,7 @@ use App\Http\Controllers\AccountAssignmentController;
 use App\Http\Controllers\AccountingOfficerController;
 use App\Http\Controllers\ACustomerController;
 use App\Http\Controllers\ADailyWeeklyReportController;
+use App\Http\Controllers\ADeviceRequisitonController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDispatchController;
 use App\Http\Controllers\AdminInvoice2Controller;
@@ -293,7 +294,7 @@ Route::prefix('jobcards2')->group(function () {
 
 
 Route::get('/dispatched-history', [DeviceRequisitionController::class, 'dispatchedDeviceHistory'])->name('dispatched_history.index');
-
+ Route::get('/dispatched-history1', [DeviceRequisitionController::class, 'dispatchedDeviceHistory1'])->name('dispatched_historyv1.index');
 
 //Tampering for MornitoringOfficer
 Route::prefix('tampering')->group(function () {

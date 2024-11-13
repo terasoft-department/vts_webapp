@@ -158,197 +158,90 @@
 
 
   </header><!-- End Header -->
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
+  
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item"><a class="nav-link" href="admin"><i class="bi bi-grid"></i><span>Dashboard</span></a></li>
+        {{-- <li class="nav-heading">Control Panel</li> --}}
+        <li class="nav-item"><a class="nav-link collapsed" href="users"><i class="bi bi-person"></i><span>User Management</span></a></li>
+        <li class="nav-heading">Reports</li>
+        <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i> Invoice</i>
+        <li class="nav-item"><a class="nav-link collapsed" href="Apayment_reports"><i class="fas fa-credit-card"></i></i><span>Payments</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Aassignments"><i class="fas fa-file-alt"></i></i><span>Assignments</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="advehicles"><i class="fas fa-car"></i></i><span>Vehicle</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fa fa-chart-line"></i></i><span>Daily&Weekly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fa fa-calendar-alt"></i></i><span>Monthly&Yearly</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-id-badge"></i></i><span>JobCards</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Adminchecklists"><i class="fa fa-check-square"></i></i><span>Checklists</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admindevice_requisitions"><i class="fa fa-share"></i></i><span>Dispatch</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="/dispatched-history1"><i class="fa fa-share"></i></i><span>Dispatched History</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admintdebts"><i class="fa fa-file-invoice-dollar"></i></i><span>Debts</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="Admintrackvehicle"><i class="fas fa-car"></i></i><span>Trackvehicle</span></a></li>
+        <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
+    </ul>
+</aside><!-- End Sidebar -->
 
-      <li class="nav-item">
-        <a class="nav-link " href="project_manager">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-
-      </li><!-- End Components Nav -->
-
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="customers">
-                  <i class="bi bi-circle"></i><span>Customer</span>
-                </a>
-              </li>
-          <li>
-            <a href="devices">
-              <i class="bi bi-circle"></i><span>Device</span>
-            </a>
-          </li>
-          <li>
-            <li>
-                <a href="vehicles">
-                  <i class="bi bi-circle"></i><span>Vehicle</span>
-                </a>
-              </li>
-              <li>
-            <a href="AccountAssignment">
-              <i class="bi bi-circle"></i><span>Assignments</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="device_requisitions">
-              <i class="bi bi-circle"></i><span>Device dispatch</span>
-            </a>
-          </li>
-          <li>
-            <a href="dispatched-history">
-              <i class="bi bi-circle"></i><span>Dispatched devices</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="return_device">
-              <i class="bi bi-circle"></i><span>DeviceReturn</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="jobcards">
-              <i class="bi bi-circle"></i><span>Jobcard</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Forms Nav -->
-
-      </li><!-- End Icons Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="\auth/login">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Logout</span>
-        </a>
-      </li><!-- End Login Page Nav -->
-
-  </aside><!-- End Sidebar-->
-
-<!-- Main Content -->
+  <!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header bg text-blue text-center">
-                <h4 class="m-0">Device Dispatch</h4>
+                <h4 class="m-0">Device Dispatch History</h4>
             </div>
 
             <div class="card-body">
-                <!-- Display Success Messages -->
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {!! session('success') !!}
-                    </div>
-                @endif
-
-                <!-- Display Danger Messages -->
-                @if (session('danger'))
-                    <div class="alert alert-danger">
-                        {!! session('danger') !!}
-                    </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <!-- Search Bar -->
-                <div class="mb-3">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
-                </div>
-
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Descriptions</th>
-                            <th>Status</th>
+                            <th>Technician</th>
+                            <th>IMEI Numbers</th>
                             <th>Master</th>
                             <th>I-Button</th>
                             <th>Buzzer</th>
                             <th>Panic Button</th>
-                            <th>Approve</th>
+                            <th>Dispatched Categories</th>
                         </tr>
                     </thead>
-                    <tbody id="deviceTable">
-                        @foreach($requisitions as $requisition)
+                    <tbody>
+                        @foreach($dispatchedHistory as $history)
                         <tr>
-                            <td>{{ $requisition->requisition_id }}</td>
-                            <td>{{ $requisition->user->name ?? 'N/A' }}</td>
-                            <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ ucfirst($requisition->status) }}</td>
-                            <td>{{ $requisition->master }}</td>
-                            <td>{{ $requisition->I_button }}</td>
-                            <td>{{ $requisition->buzzer }}</td>
-                            <td>{{ $requisition->panick_button }}</td>
+                            <!-- Display technician/user name -->
+                            <td>{{ $history['name'] ?? 'N/A' }}</td>
+
+                            <!-- Display IMEI numbers for the requisition -->
+                            <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
+
+                            <!-- Device counts for each category -->
+                            <td>{{ $history['master_count'] }}</td>
+                            <td>{{ $history['I_button_count'] }}</td>
+                            <td>{{ $history['buzzer_count'] }}</td>
+                            <td>{{ $history['panick_button_count'] }}</td>
+
+                            <!-- List of dispatched categories -->
                             <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                                    <i class="bi bi-check-circle"></i>
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
+                                    @if($history[$category . '_count'] > 0)
+                                        {{ ucfirst($category) }}@if(!$loop->last), @endif
+                                    @endif
+                                @endforeach
                             </td>
+
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
 
+
+
+
+
+                </div>
             </div>
         </div>
     </div>
 </main>
-
-
-
 
 
 <script>

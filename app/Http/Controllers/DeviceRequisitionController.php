@@ -65,56 +65,152 @@ class DeviceRequisitionController extends Controller
 
     public function dispatchedDeviceHistory()
     {
-        // Fetch requisitions where dispatched_status is 'dispatched'
-        $requisitions = DeviceRequisition::select([
-                'device_requisitions.descriptions',
-                'device_requisitions.status',
-                'device_requisitions.dateofProvision',
+        // Fetch device requisitions with dispatched IMEIs, joining with the users table to get the username
+        $requisitions = DeviceRequisition::select(
+                'device_requisitions.user_id',
+                'device_requisitions.dispatched_imeis',
                 'device_requisitions.master',
                 'device_requisitions.I_button',
                 'device_requisitions.buzzer',
                 'device_requisitions.panick_button',
-                'device_requisitions.dispatched_status',
-                'users.name as name',
-                'devices.category',
-                'devices.imei_number',
-                'devices.dispatched_status as device_dispatched_status'
-            ])
-            ->join('devices', 'device_requisitions.dispatched_status', '=', 'devices.dispatched_status') // Joining on dispatched_status
-            ->join('users', 'device_requisitions.user_id', '=', 'users.user_id') // Join with the users table on user_id
-            ->where('device_requisitions.dispatched_status', 'dispatched') // Only fetch rows where dispatched_status is 'dispatched'
+                'users.name as user_name'
+            )
+            ->whereNotNull('device_requisitions.dispatched_imeis')
+            ->join('users', 'device_requisitions.user_id', '=', 'users.user_id')
             ->get();
 
-        // Initialize an array to store the counts for each user
-        $userCounts = [];
+        $dispatchedHistory = [];
 
-        // Loop through requisitions to calculate counts for each user
         foreach ($requisitions as $requisition) {
-            // Initialize the user if not already initialized
-            if (!isset($userCounts[$requisition->name])) {
-                $userCounts[$requisition->name] = [
-                    'master' => 0,
-                    'I_button' => 0,
-                    'buzzer' => 0,
-                    'panick_button' => 0,
-                ];
+            // Initialize counts and statuses for each device category
+            $counts = [
+                'master' => 0,
+                'I_button' => 0,
+                'buzzer' => 0,
+                'panick_button' => 0,
+            ];
+
+            $statuses = [
+                'master' => 'No-requisition',
+                'I_button' => 'No-requisition',
+                'buzzer' => 'No-requisition',
+                'panick_button' => 'No-requisition',
+            ];
+
+            // Convert dispatched_imeis to an array (assuming it's comma-separated)
+            $dispatchedImeiArray = explode(',', $requisition->dispatched_imeis);
+
+            // Count dispatched devices for each category and set status
+            foreach (['master', 'I_button', 'buzzer', 'panick_button'] as $category) {
+                // Count devices of each category that have been dispatched
+                $deviceCount = Device::whereIn('imei_number', $dispatchedImeiArray)
+                    ->where('category', $category)
+                    ->where('dispatched_status', 'dispatched')
+                    ->count();
+
+                $counts[$category] = $deviceCount; // Store the count of devices dispatched
+
+                // If devices are dispatched for this category, set the status to "Dispatched"
+                if ($deviceCount > 0) {
+                    $statuses[$category] = 'Dispatched';
+                }
+                // If no devices are dispatched, but count > 0 in requisition, set status to "Available"
+                elseif ($deviceCount == 0 && $requisition->$category > 0) {
+                    $statuses[$category] = 'Available';
+                }
             }
 
-            // Count occurrences for each attribute based on the requisition
-            if ($requisition->master) $userCounts[$requisition->name]['master']++;
-            if ($requisition->I_button) $userCounts[$requisition->name]['I_button']++;
-            if ($requisition->buzzer) $userCounts[$requisition->name]['buzzer']++;
-            if ($requisition->panick_button) $userCounts[$requisition->name]['panick_button']++;
+            // Add to dispatched history with the correct counts and statuses
+            $dispatchedHistory[] = [
+                'name' => $requisition->user_name,
+                'dispatched_imeis' => $requisition->dispatched_imeis,
+                'master_count' => $counts['master'],
+                'I_button_count' => $counts['I_button'],
+                'buzzer_count' => $counts['buzzer'],
+                'panick_button_count' => $counts['panick_button'],
+                'dispatched_status' => $statuses, // This is the dispatched status array
+            ];
         }
 
-        // Pass the requisitions and user counts to the view
-        return view('dispatched_history.index', compact('requisitions', 'userCounts'));
+        // Return the dispatched history view
+        return view('dispatched_history.index', compact('dispatchedHistory'));
     }
 
 
 
 
+    public function dispatchedDeviceHistory1()
+    {
+        // Fetch device requisitions with dispatched IMEIs, joining with the users table to get the username
+        $requisitions = DeviceRequisition::select(
+                'device_requisitions.user_id',
+                'device_requisitions.dispatched_imeis',
+                'device_requisitions.master',
+                'device_requisitions.I_button',
+                'device_requisitions.buzzer',
+                'device_requisitions.panick_button',
+                'users.name as user_name'
+            )
+            ->whereNotNull('device_requisitions.dispatched_imeis')
+            ->join('users', 'device_requisitions.user_id', '=', 'users.user_id')
+            ->get();
 
+        $dispatchedHistory = [];
+
+        foreach ($requisitions as $requisition) {
+            // Initialize counts and statuses for each device category
+            $counts = [
+                'master' => 0,
+                'I_button' => 0,
+                'buzzer' => 0,
+                'panick_button' => 0,
+            ];
+
+            $statuses = [
+                'master' => 'No-requisition',
+                'I_button' => 'No-requisition',
+                'buzzer' => 'No-requisition',
+                'panick_button' => 'No-requisition',
+            ];
+
+            // Convert dispatched_imeis to an array (assuming it's comma-separated)
+            $dispatchedImeiArray = explode(',', $requisition->dispatched_imeis);
+
+            // Count dispatched devices for each category and set status
+            foreach (['master', 'I_button', 'buzzer', 'panick_button'] as $category) {
+                // Count devices of each category that have been dispatched
+                $deviceCount = Device::whereIn('imei_number', $dispatchedImeiArray)
+                    ->where('category', $category)
+                    ->where('dispatched_status', 'dispatched')
+                    ->count();
+
+                $counts[$category] = $deviceCount; // Store the count of devices dispatched
+
+                // If devices are dispatched for this category, set the status to "Dispatched"
+                if ($deviceCount > 0) {
+                    $statuses[$category] = 'Dispatched';
+                }
+                // If no devices are dispatched, but count > 0 in requisition, set status to "Available"
+                elseif ($deviceCount == 0 && $requisition->$category > 0) {
+                    $statuses[$category] = 'Available';
+                }
+            }
+
+            // Add to dispatched history with the correct counts and statuses
+            $dispatchedHistory[] = [
+                'name' => $requisition->user_name,
+                'dispatched_imeis' => $requisition->dispatched_imeis,
+                'master_count' => $counts['master'],
+                'I_button_count' => $counts['I_button'],
+                'buzzer_count' => $counts['buzzer'],
+                'panick_button_count' => $counts['panick_button'],
+                'dispatched_status' => $statuses, // This is the dispatched status array
+            ];
+        }
+
+        // Return the dispatched history view
+        return view('dispatched_historyv1.index', compact('dispatchedHistory'));
+    }
 
 
 public function approveRequisition(Request $request, $requisition_id)
@@ -195,6 +291,10 @@ public function approveRequisition(Request $request, $requisition_id)
     return redirect()->back()->with('success', 'Requisition approved and stock updated successfully.');
 }
 
+
+
+
+
 public function update(Request $request, $id)
 {
     // Find the requisition by ID
@@ -219,68 +319,100 @@ public function update(Request $request, $id)
             'panick_button' => 'panick_button',
         ];
 
+        // Initialize an array to store dispatched IMEI numbers
+        $dispatchedImeiNumbers = [];
+
+        // Fetch the already dispatched IMEIs for this requisition
+        $dispatchedImeiList = explode(',', $requisition->dispatched_imeis ?? ''); // Fetch already dispatched IMEIs
+
         // Iterate over the device categories in the requisition
         foreach ($deviceMapping as $requisitionAttr => $category) {
             $quantityNeeded = $requisition->$requisitionAttr;
 
-            if ($quantityNeeded > 0) {
-                // Log the number of devices requested
-                Log::info("Requisition for $category devices: $quantityNeeded requested.");
+            // Skip if quantityNeeded is less than or equal to 0
+            if ($quantityNeeded <= 0) {
+                $dispatchMessages[] = "'$category' cannot be dispatched because the quantity requested is 0 or negative.";
+                continue;
+            }
 
-                // Check if devices of this category are already dispatched
-                $alreadyDispatchedDevices = Device::where('category', $category)
-                    ->where('dispatched_status', 'dispatched')
-                    ->get();
+            // Log the number of devices requested
+            Log::info("Requisition for $category devices: $quantityNeeded requested.");
 
-                if ($alreadyDispatchedDevices->count() > 0) {
-                    // If devices have already been dispatched, prevent dispatching again
-                    $dispatchMessages[] = "'$category' devices have already been dispatched and cannot be dispatched again.";
-                } else {
-                    // Get the number of non-dispatched devices available in this category
-                    $availableDevices = Device::where('category', $category)
-                        ->whereIn('dispatched_status', ['available', NULL]) // Consider devices that are either available or unmarked
-                        ->orderBy('device_id', 'asc') // Ensure correct order, use 'device_id' or another unique column
-                        ->get();
-
-                    // Log the available devices found
-                    Log::info("Available devices for category $category: " . $availableDevices->count());
-
-                    // Check if there are enough available devices
-                    if ($availableDevices->count() < $quantityNeeded) {
-                        // Not enough devices available for this category
-                        $dispatchMessages[] = "Not enough '$category' devices available for dispatch. Only {$availableDevices->count()} available.";
-                    } else {
-                        // If there are enough devices, mark them as dispatched
-                        $devicesToDispatch = $availableDevices->take($quantityNeeded);  // Select the exact number of devices needed
-
-                        foreach ($devicesToDispatch as $device) {
-                            // Check if the device has already been dispatched
-                            if ($device->dispatched_status == 'dispatched') {
-                                // Skip devices that are already dispatched and add a message
-                                $dispatchMessages[] = "Device with ID {$device->device_id} has already been dispatched and cannot be dispatched again.";
-                            } else {
-                                // Mark each device as dispatched
-                                $device->dispatched_status = 'dispatched';
-                                if ($device->save()) {
-                                    Log::info("Device with device_id {$device->device_id} marked as dispatched.");
-
-                                    // Update the dispatched status for the requisition as well
-                                    $requisition->dispatched_status = 'dispatched'; // Set dispatched status for requisition
-                                    $requisition->save(); // Save the updated requisition status
-
-                                    // Log the update for the requisition dispatched status
-                                    Log::info("Requisition ID {$requisition->requisition_id} dispatched status updated to dispatched.");
-                                } else {
-                                    Log::error("Failed to save device {$device->device_id}.");
-                                }
-                            }
-                        }
-
-                        // Add success message for the dispatched devices
-                        $successMessages[] = "$category devices dispatched successfully. Dispatched: {$devicesToDispatch->count()} of $quantityNeeded.";
-                    }
+            // Check if the device category has already been fully dispatched
+            $alreadyDispatched = 0;
+            foreach ($dispatchedImeiList as $imei) {
+                $device = Device::where('imei_number', $imei)->first();
+                if ($device && $device->category == $category) {
+                    $alreadyDispatched++;
                 }
             }
+
+            // If enough devices of this category have been dispatched already, skip dispatching again
+            if ($alreadyDispatched >= $quantityNeeded) {
+                $dispatchMessages[] = "Cannot dispatch more '$category' devices. All requested devices have already been dispatched.";
+                continue;  // Skip dispatching this category
+            }
+
+            // Get all devices that are available (unmarked or not dispatched yet) or have been returned and marked as 'available'
+            $availableDevices = Device::where('category', $category)
+                ->where('dispatched_status', 'available') // Only consider devices that have been returned or are available for dispatch
+                ->orderBy('device_id', 'asc') // Ensure correct order, use 'device_id' or another unique column
+                ->get();
+
+            // Log the available devices found
+            Log::info("Available devices for category $category: " . $availableDevices->count());
+
+            // Check if there are enough available devices
+            if ($availableDevices->count() < ($quantityNeeded - $alreadyDispatched)) {
+                // Not enough devices available for this category
+                $dispatchMessages[] = "Not enough '$category' devices available for dispatch. Only {$availableDevices->count()} available.";
+                continue;  // Skip dispatching this category if not enough devices
+            }
+
+            // If there are enough devices, mark them as dispatched
+            $devicesToDispatch = $availableDevices->take($quantityNeeded - $alreadyDispatched);  // Select the exact number of devices needed
+
+            foreach ($devicesToDispatch as $device) {
+                // Check if the device has already been dispatched (based on IMEI) in any other requisition
+                $existingDispatchedRequisition = DeviceRequisition::whereRaw("FIND_IN_SET(?, dispatched_imeis)", [$device->imei_number])->first();
+
+                if ($existingDispatchedRequisition) {
+                    // If this device has already been dispatched, skip it and add a message
+                    $dispatchMessages[] = "Device with IMEI {$device->imei_number} has already been dispatched to another requisition and cannot be dispatched again.";
+                    continue; // Skip dispatching this device
+                }
+
+                // Mark each device as dispatched
+                $device->dispatched_status = 'dispatched';
+                if ($device->save()) {
+                    Log::info("Device with device_id {$device->device_id} marked as dispatched.");
+
+                    // Add the IMEI number to the dispatched IMEI array
+                    $dispatchedImeiNumbers[] = $device->imei_number;
+
+                    // If dispatched_imeis is empty, update the requisition's dispatched_imeis field
+                    if (empty($requisition->dispatched_imeis)) {
+                        $requisition->dispatched_imeis = $device->imei_number; // Initialize the dispatched_imeis field with the first IMEI number
+                    } else {
+                        $requisition->dispatched_imeis .= ',' . $device->imei_number; // Append the new IMEI number
+                    }
+                } else {
+                    Log::error("Failed to save device {$device->device_id}.");
+                }
+            }
+
+            // Add success message for the dispatched devices
+            $successMessages[] = "$category devices dispatched successfully. Dispatched: {$devicesToDispatch->count()} of " . ($quantityNeeded - $alreadyDispatched) . ".";
+        }
+
+        // Save the dispatched IMEI numbers to the requisition (if there were any dispatched devices)
+        if (!empty($dispatchedImeiNumbers)) {
+            $requisition->dispatched_imeis = implode(',', $dispatchedImeiNumbers); // Store as comma-separated values
+            $requisition->save();
+
+            // If any devices are dispatched, set the requisition's dispatched_status to 'dispatched'
+            $requisition->dispatched_status = 'dispatched';
+            $requisition->save();
         }
     }
 
@@ -303,6 +435,7 @@ public function update(Request $request, $id)
     return redirect()->route('device_requisitions.index')
         ->with('success', implode('<br>', $successMessages));
 }
+
 
 
 

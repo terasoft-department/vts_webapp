@@ -21,7 +21,8 @@ return new class extends Migration
             $table->integer('I_button')->default(0)->nullable(); // I_button attribute as integer
             $table->integer('buzzer')->default(0)->nullable(); // Buzzer attribute as integer
             $table->integer('panick_button')->default(0)->nullable();
-            $table->string('dispatched_status')->default('available')->nullable();
+            $table->string('dispatched_status')->default('available');
+            $table->text('dispatched_imeis')->default('available');
              // Panick_button attribute as integer
             $table->timestamps();
         });

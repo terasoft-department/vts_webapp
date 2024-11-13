@@ -206,6 +206,12 @@
             </a>
           </li>
           <li>
+            <a href="dispatched-history">
+              <i class="bi bi-circle"></i><span>Dispatched devices</span>
+            </a>
+          </li>
+
+          <li>
             <a href="return_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
@@ -228,7 +234,7 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
- <!-- Main Content -->
+
 <main id="main" class="main">
     <h4 class="page-title mb-1 text-center fw-bold">Job Cards List</h4>
 
