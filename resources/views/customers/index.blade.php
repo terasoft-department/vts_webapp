@@ -296,7 +296,7 @@
             <tbody id="customerTableBody">
                 @foreach ($customers as $customer)
                 <tr>
-                    <td>{{ $customer->customer_id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $customer->customername }}</td>
                     <td>{{ $customer->address }}</td>
                     <td>{{ $customer->customer_phone }}</td>

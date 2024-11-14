@@ -11,7 +11,7 @@ class InvoicePayment extends Model
 
     protected $table = "invoice_payments";
     protected $primaryKey = "invoice_id"; // Corrected the case to 'primaryKey'
-
+    public $timestamps = true; // Enable timestamps if you have 'created_at' and 'updated_at'
     protected $fillable = [
         'invoice_number', 'status', 'customer_id', 'due_date', 'prepared_by',
         'plate_number', 'tin_number', 'descriptions', 'num_cars', 'periods',
