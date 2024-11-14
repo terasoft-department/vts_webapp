@@ -289,13 +289,13 @@
                 </button>
             </div>
         </div>
-
+{{--
         <!-- Add New Customer Button -->
         <div class="text-left mb-2">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
                 <i class="bi bi-plus-circle"></i> Add Customer
             </button>
-        </div>
+        </div> --}}
 
         <!-- Customer Table -->
         <table id="customers" class="table table-bordered table-striped">
