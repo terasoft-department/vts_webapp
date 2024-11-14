@@ -33,6 +33,7 @@ use App\Http\Controllers\InvoicePaymentController;
 use App\Http\Controllers\InvoicePayments2Controller;
 use App\Http\Controllers\InvoicePayments3Controller;
 use App\Http\Controllers\JobcardController;
+use App\Http\Controllers\MCustomerController;
 use App\Http\Controllers\MjobcardsController;
 use App\Http\Controllers\MonitoringOfficerController;
 use App\Http\Controllers\MonitoringVehicleController;
@@ -284,6 +285,10 @@ Route::get('/cdebts', [CDebtsController::class, 'index'])->name('cdebts.index');
 
 //Acustomer for AccountingOfficer
 Route::get('/Acustomers', [ACustomerController::class, 'index'])->name('Acustomers.index');
+
+//Mcustomer for MonitoringOfficer //Acustomer for AccountingOfficer
+Route::get('/Mcustomers', [MCustomerController::class, 'index'])->name('Mcustomers.index');
+
 
 //jobcards for MornitoringOfficer
 Route::prefix('jobcards2')->group(function () {

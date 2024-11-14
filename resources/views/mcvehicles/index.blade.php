@@ -28,7 +28,6 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 <body>
@@ -186,6 +185,12 @@
                 <i class="bi bi-circle"></i><span>Assignment</span>
               </a>
             </li>
+            <li>
+                <a href="Mcustomers">
+                  <i class="bi bi-circle"></i><span>Customers</span>
+                </a>
+              </li>
+            <li>
             <li>
                 <a href="mcvehicles">
                   <i class="bi bi-circle"></i><span>Vehicles</span>

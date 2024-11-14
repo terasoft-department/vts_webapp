@@ -186,6 +186,12 @@
               </a>
             </li>
             <li>
+                <a href="Mcustomers">
+                  <i class="bi bi-circle"></i><span>Customers</span>
+                </a>
+              </li>
+            <li>
+            <li>
                 <a href="mcvehicles">
                   <i class="bi bi-circle"></i><span>Vehicles</span>
                 </a>
@@ -244,7 +250,6 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-  <!-- Main Content -->
 <main id="main" class="main">
     <h4 class="page-title mb-1 text-center fw-bold">Job Cards List</h4>
 
