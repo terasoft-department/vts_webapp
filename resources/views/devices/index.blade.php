@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -232,7 +232,7 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
- 
+
  <!-- Main Content -->
  <main id="main" class="main">
     <div class="container mt-2">
