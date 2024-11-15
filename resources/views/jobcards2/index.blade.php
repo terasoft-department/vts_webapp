@@ -281,7 +281,7 @@
                         <th>Service Type</th>
                         <th>Date Attended</th>
                         <th>Work Done</th>
-                        <th>IMEI Number</th>
+                        <th>Device Number</th>
                         {{-- <th>Client Comment</th> --}}
                         <th>Technician</th>
                         <th>Pre-Work Picture</th>
