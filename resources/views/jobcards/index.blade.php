@@ -268,7 +268,7 @@
                         <th>Work Done</th>
                         <th>IMEI Number</th>
                         {{-- <th>Client Comment</th> --}}
-                        <th>User Name</th>
+                        <th>Technician</th>
                         <th>Pre-Work Picture</th>
                         <th>Post-Work Picture</th>
                         <th>Car Plate Picture</th>
