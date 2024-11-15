@@ -292,8 +292,8 @@
             @foreach($reports as $report)
                 <tr><td>{{ $report->id }}</td>
                     <td>{{ $report->reported_date }}</td>
-                    <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}</td>
-                    {{-- <td>{{ $report->customername }}</td> --}}
+                    {{-- <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}</td> --}}
+                    <td>{{ $report->customername }}</td>
                     <td>{{ $report->bus_plate_number }}</td>
                     <td>{{ $report->contact }}</td>
                     <td>{{ $report->reported_by }}</td>
