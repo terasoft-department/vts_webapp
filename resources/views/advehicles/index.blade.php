@@ -122,9 +122,9 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="m-0">Manage Vehicles</h4>
-            <form action="{{ route('advehicles.index') }}" method="GET" class="form-inline">
-                <input type="text" name="search" class="form-control" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch">
-                <button type="submit" class="btn btn-primary ml-2"><i class="fas fa-search"></i></button>
+            <form action="{{ route('advehicles.index') }}" method="GET" class="form-inline d-flex align-items-center">
+                <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch" style="width: 250px;">
+                <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
             </form>
         </div>
 {{--
