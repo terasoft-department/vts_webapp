@@ -553,10 +553,10 @@
                         </td>
                     </tr>
 
-<!-- Pagination Links -->
+{{-- <!-- Pagination Links -->
 <div class="d-flex justify-content-center">
     {{ $customers->links() }}
-</div>
+</div> --}}
                     <!-- Edit Customer Modal -->
                     <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel-{{ $customer->customer_id }}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
