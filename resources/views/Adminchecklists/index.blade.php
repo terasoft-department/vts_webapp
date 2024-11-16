@@ -46,7 +46,7 @@
 </head>
 <body>
 
-    <div class="container mt-5">
+    {{-- <div class="container mt-5">
         <h4 class="mb-4 text-center">Search CheckLists</h4>
         <form action="{{ route('checklists.search') }}" method="POST">
             @csrf
@@ -55,14 +55,32 @@
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
             <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
-        </form>
+        </form> --}}
+        <div class="container mt-5">
+            <h4 class="mb-4 text-center">Search CheckLists</h4>
+            <form action="{{ route('checklists.search') }}" method="POST">
+                @csrf
+                {{-- <div class="form-group">
+                    <input type="text" class="form-control" name="query" placeholder="Search by Vehicle No, Customer Name" required>
+                </div> --}}
+                <div class="form-group">
+                    <label for="from_date">From Date:</label>
+                    <input type="date" class="form-control" name="from_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="to_date">To Date:</label>
+                    <input type="date" class="form-control" name="to_date" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
+            </form>
 
         @if(isset($results))
             <div class="table-responsive mt-3">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>UserID</th>
+                            <th>Technician</th>
                             <th>Vehicle Name</th>
                             <th>Customer Name</th>
                             <th>Plate Number</th>
