@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>CheckList Search</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,42 +43,40 @@
         .table th, .table td {
             vertical-align: middle;
         }
+
+        /* Hide search form when printing */
+        @media print {
+            #search-form {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
 
-    {{-- <div class="container mt-5">
+    <!-- Search Form Section -->
+    <div id="search-form" class="container mt-5">
         <h4 class="mb-4 text-center">Search CheckLists</h4>
         <form action="{{ route('checklists.search') }}" method="POST">
             @csrf
             <div class="form-group">
-                <input type="text" class="form-control" name="query" placeholder="Search by Vehicle No, Customer Name" required>
+                <label for="from_date">From Date:</label>
+                <input type="date" class="form-control" name="from_date" required>
+            </div>
+            <div class="form-group">
+                <label for="to_date">To Date:</label>
+                <input type="date" class="form-control" name="to_date" required>
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
             <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
-        </form> --}}
-        <div class="container mt-5">
-            <h4 class="mb-4 text-center">Search CheckLists</h4>
-            <form action="{{ route('checklists.search') }}" method="POST">
-                @csrf
-                {{-- <div class="form-group">
-                    <input type="text" class="form-control" name="query" placeholder="Search by Vehicle No, Customer Name" required>
-                </div> --}}
-                <div class="form-group">
-                    <label for="from_date">From Date:</label>
-                    <input type="date" class="form-control" name="from_date" required>
-                </div>
-                <div class="form-group">
-                    <label for="to_date">To Date:</label>
-                    <input type="date" class="form-control" name="to_date" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Search</button>
-                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
-            </form>
+        </form>
+    </div>
 
-        @if(isset($results))
-            <div class="table-responsive mt-3">
-                <table class="table table-striped">
+    <!-- Results Section -->
+    @if(isset($results))
+        <div class="container mt-3">
+            <div class="table-responsive">
+                <table id="invoiceTable" class="table table-striped">
                     <thead>
                         <tr>
                             <th>Technician</th>
@@ -109,10 +109,32 @@
                     </tbody>
                 </table>
             </div>
-        @endif
-    </div>
+
+            <!-- Print Button -->
+            <div class="text-right mt-3">
+                <button type="button" class="btn btn-warning" onclick="window.print();">Print</button>
+            </div>
+        </div>
+    @endif
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable with export options
+            var table = $('#invoiceTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'print'
+                ]
+            });
+        });
+    </script>
 </body>
 </html>
