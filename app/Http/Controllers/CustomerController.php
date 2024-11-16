@@ -10,10 +10,12 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        // Fetch customers with pagination (e.g., 10 customers per page)
+        $customers = Customer::paginate(10);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
-        return view('customers.index', compact('customers','CustomersCount','VehiclesCount'));
+
+        return view('customers.index', compact('customers', 'CustomersCount', 'VehiclesCount'));
     }
 
     public function search(Request $request)
