@@ -226,7 +226,7 @@
           </li><!-- End Login Page Nav -->
 
       </aside><!-- End Sidebar-->
-      
+
     <main id="main" class="main">
         <div class="col-md-3 mb-2">
             <div class="card text-center border-primary shadow card-hover">
@@ -240,18 +240,20 @@
             </div>
         </div>
         <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="m-0">Manage Vehicles</h4>
-                <form action="{{ route('vehicles.index') }}" method="GET" class="form-inline">
-                    <input type="text" name="search" class="form-control" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch">
-                    <button type="submit" class="btn btn-primary ml-2"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h4 class="m-0">Manage Vehicles</h4>
 
-            <!-- Add New Vehicle Button -->
-            <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#createVehicleModal">
-                <i class="fas fa-plus"></i> Add New Vehicle
-            </button>
+        <form action="{{ route('vehicles.index') }}" method="GET" class="form-inline d-flex align-items-center">
+            <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch" style="width: 250px;">
+            <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+
+    <!-- Add New Vehicle Button -->
+    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#createVehicleModal">
+        <i class="fas fa-plus"></i> Add New Vehicle
+    </button>
+
 
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show">
