@@ -110,10 +110,7 @@
                 </table>
             </div>
 
-            <!-- Print Button -->
-            <div class="text-right mt-3">
-                <button type="button" class="btn btn-warning" onclick="window.print();">Print</button>
-            </div>
+           
         </div>
     @endif
 
