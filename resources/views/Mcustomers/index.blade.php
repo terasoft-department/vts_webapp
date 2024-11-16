@@ -327,6 +327,10 @@
                         </td>
                     </tr>
 
+{{-- <!-- Pagination Links -->
+<div class="d-flex justify-content-center">
+    {{ $customers->links() }}
+</div> --}}
                     <!-- Edit Customer Modal -->
                     <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel-{{ $customer->customer_id }}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -435,7 +439,6 @@
         }
     }
 </script>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

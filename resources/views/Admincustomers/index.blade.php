@@ -185,6 +185,10 @@
                         </td>
                     </tr>
 
+{{-- <!-- Pagination Links -->
+<div class="d-flex justify-content-center">
+    {{ $customers->links() }}
+</div> --}}
                     <!-- Edit Customer Modal -->
                     <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel-{{ $customer->customer_id }}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -294,7 +298,6 @@
     }
 </script>
 
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -310,203 +313,5 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 
-
-
-<script>
-    function filterTable() {
-        const searchInput = document.getElementById("searchBar").value.toLowerCase();
-        const startDate = new Date(document.getElementById("startDate").value);
-        const endDate = new Date(document.getElementById("endDate").value);
-        const table = document.getElementById("customerTable");
-        const tr = table.getElementsByTagName("tr");
-
-        for (let i = 1; i < tr.length; i++) { // start from 1 to skip the header
-            const tdName = tr[i].getElementsByTagName("td")[0]; // Name column
-            const tdStartDate = new Date(tr[i].getElementsByTagName("td")[5].innerText); // Start Date column
-
-            const nameMatch = tdName && tdName.textContent.toLowerCase().includes(searchInput);
-            const dateMatch = (!startDate || tdStartDate >= startDate) && (!endDate || tdStartDate <= endDate);
-
-            if (nameMatch && dateMatch) {
-                tr[i].style.display = ""; // Show row
-            } else {
-                tr[i].style.display = "none"; // Hide row
-            }
-        }
-    }
-</script>
-
-
-@guest
-    <div class="container">
-        <h1 class="mt-2">You need to be logged in to view this page</h1>
-    </div>
-@endguest
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    document.getElementById('mobileMenuButton').addEventListener('click', function() {
-        document.getElementById('mobileMenu').style.display = 'block';
-        document.getElementById('mobileMenuContent').classList.add('show');
-    });
-
-    document.getElementById('mobileMenuClose').addEventListener('click', function() {
-        document.getElementById('mobileMenu').style.display = 'none';
-        document.getElementById('mobileMenuContent').classList.remove('show');
-    });
-</script>
-<script>
-document.getElementById('customername').addEventListener('input', function() {
-    const query = this.value;
-
-    if (query.length > 2) { // Start searching after 3 characters
-        fetch(`/customer/details?query=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.name) {
-                    document.getElementById('plate_number').value = data.plate_number;
-                    document.getElementById('tin_number').value = data.tin_number;
-                    // Autofill other fields if needed
-                }
-            })
-            .catch(error => console.error('Error fetching customer details:', error));
-    }
-});
-</script>
-
-
-<script>
-    document.getElementById('mobileMenuButton').addEventListener('click', function() {
-        document.getElementById('mobileMenu').style.display = 'block';
-        document.getElementById('mobileMenuContent').classList.add('show');
-    });
-
-    document.getElementById('mobileMenuClose').addEventListener('click', function() {
-        document.getElementById('mobileMenu').style.display = 'none';
-        document.getElementById('mobileMenuContent').classList.remove('show');
-    });
-</script>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.querySelector('.form-control');
-        const tableRows = document.querySelectorAll('tbody tr');
-
-        searchInput.addEventListener('input', function () {
-            const searchTerm = searchInput.value.toLowerCase();
-
-            tableRows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let found = false;
-
-                cells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(searchTerm)) {
-                        found = true;
-                    }
-                });
-
-                if (found) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-document.getElementById('customerForm').addEventListener('submit', function(event) {
-let valid = true;
-
-// Clear previous errors
-document.querySelectorAll('.text-danger').forEach(element => element.textContent = '');
-
-// Validate Full Name
-const customername = document.getElementById('customername').value;
-if (customername.trim() === '') {
-    document.getElementById('customernameError').textContent = 'Full Name is required.';
-    valid = false;
-}
-
-// Validate Physical Address
-const address = document.getElementById('address').value;
-if (address.trim() === '') {
-    document.getElementById('addressError').textContent = 'Physical Address is required.';
-    valid = false;
-}
-
-// Validate Phone Number
-const customer_phone = document.getElementById('customer_phone').value;
-if (customer_phone.trim() === '') {
-    document.getElementById('customer_phoneError').textContent = 'Phone Number is required.';
-    valid = false;
-}
-
-    // Validate TIN Number
-    const tinNumber = document.getElementById('tin_number').value;
-    if (tinNumber.trim() === '') {
-        document.getElementById('tinNumberError').textContent = 'TIN Number is required.';
-        valid = false;
-    }
-
-// Validate Email
-const email = document.getElementById('email').value;
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email.trim() === '') {
-        document.getElementById('emailError').textContent = 'Email is required.';
-        valid = false;
-    } else if (!emailPattern.test(email)) {
-        document.getElementById('emailError').textContent = 'Invalid email format.';
-        valid = false;
-    }
-// Validate Start Date
-const startDate = document.getElementById('start_date').value;
-if (startDate.trim() === '') {
-    document.getElementById('startDateError').textContent = 'Start Date is required.';
-    valid = false;
-}
-
-if (!valid) {
-    event.preventDefault();
-}
-});
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-<script>
-document.getElementById('printPDF').addEventListener('click', function () {
-var element = document.getElementById('customerTable');
-html2pdf(element, {
-    margin: 10,
-    filename: 'customers_report.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-});
-});
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-<!-- Vendor JS Files -->
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
-
-</script>
-
 </body>
 </html>
-

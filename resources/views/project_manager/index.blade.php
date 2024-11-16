@@ -205,10 +205,15 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
-
           <li>
             <a href="dispatched-history">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="Pchecklists">
+              <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
           </li>
 
@@ -221,12 +226,6 @@
           <li>
             <a href="jobcards">
               <i class="bi bi-circle"></i><span>Jobcard</span>
-            </a>
-          </li>
-        </ul>
-        <li>
-            <a href="Pchecklists">
-              <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
           </li>
         </ul>
