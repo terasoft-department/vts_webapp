@@ -39,6 +39,7 @@ use App\Http\Controllers\MonitoringOfficerController;
 use App\Http\Controllers\MonitoringVehicleController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentReportController;
+use App\Http\Controllers\PCheckListController;
 use App\Http\Controllers\PDashboardController;
 use App\Http\Controllers\ProjectManagerController;
 use App\Http\Controllers\ReportController;
@@ -116,12 +117,16 @@ Route::post('/Admintrackvehicle/store', [AdminTrackvehicleController::class, 'st
 
 
 
+//ProjectManager checklist
+Route::get('/Pchecklists', [DailyChecklist::class, 'index'])->name('Pchecklists.index');
+Route::post('/Pchecklists/search', [DailyChecklist::class, 'search'])->name('Pchecklists.search');
+Route::post('/Pchecklists/store', [DailyChecklist::class, 'store'])->name('Pchecklists.store');
 
 //daily checklist for admin
 
-Route::get('/Adminchecklists', [DailyChecklist::class, 'index'])->name('Adminchecklists.index');
-Route::post('/Adminchecklists/search', [DailyChecklist::class, 'search'])->name('Adminchecklists.search');
-Route::post('/Adminchecklists/store', [DailyChecklist::class, 'store'])->name('Adminchecklists.store');
+Route::get('/Adminchecklists', [PCheckListController::class, 'index'])->name('Adminchecklists.index');
+Route::post('/Adminchecklists/search', [PCheckListController::class, 'search'])->name('Adminchecklists.search');
+Route::post('/Adminchecklists/store', [PCheckListController::class, 'store'])->name('Adminchecklists.store');
 //trackvehicle for admin
 
 Route::get('/Admintdebts', [AdminTrackDebtsController::class, 'index'])->name('Admintdebts.index');

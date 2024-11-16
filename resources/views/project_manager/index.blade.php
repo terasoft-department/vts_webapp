@@ -224,6 +224,12 @@
             </a>
           </li>
         </ul>
+        <li>
+            <a href="Pchecklists">
+              <i class="bi bi-circle"></i><span>Daily CheckList</span>
+            </a>
+          </li>
+        </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->

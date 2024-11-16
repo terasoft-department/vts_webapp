@@ -172,7 +172,6 @@
 
 
       </li><!-- End Components Nav -->
-
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -205,6 +204,7 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
+
           <li>
             <a href="dispatched-history">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
@@ -223,6 +223,12 @@
             </a>
           </li>
         </ul>
+        <li>
+            <a href="Pchecklists">
+              <i class="bi bi-circle"></i><span>Daily CheckList</span>
+            </a>
+          </li>
+        </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->
@@ -234,7 +240,6 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-
   <!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
