@@ -9,13 +9,57 @@ use Illuminate\Http\Request;
 class VehicleController extends Controller
 {
     // Display a listing of the vehicles with search and filters
+    // public function index(Request $request)
+    // {
+    //     // Define base query with eager loading of related 'customer'
+    //     $vehicles = Vehicle::with('customer');
+    //     $CustomersCount = Customer::count();
+    //     $VehiclesCount = Vehicle::count();
+    //     // Store search parameters in session
+    //     session([
+    //         'search' => $request->search,
+    //         'customer_id' => $request->customer_id,
+    //         'from_date' => $request->from_date,
+    //         'to_date' => $request->to_date
+    //     ]);
+
+    //     // Apply search filter
+    //     if ($request->filled('search')) {
+    //         $vehicles = $vehicles->where(function ($query) use ($request) {
+    //             $query->where('vehicle_name', 'like', '%' . $request->search . '%')
+    //                 ->orWhere('plate_number', 'like', '%' . $request->search . '%');
+    //         });
+    //     }
+
+    //     // Apply customer filter
+    //     if ($request->filled('customer_id')) {
+    //         $vehicles = $vehicles->where('customer_id', $request->customer_id);
+    //     }
+
+    //     // Apply date range filter
+    //     if ($request->filled('from_date') && $request->filled('to_date')) {
+    //         $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
+    //     }
+
+    //     // Paginate the results to get 10 per page
+    //     $vehicles = $vehicles->paginate(10);
+
+    //     // Fetch customers for the filter dropdown
+    //     $customers = Customer::all();
+
+    //     return view('vehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
+    // }
+
     public function index(Request $request)
     {
-        // Define base query with eager loading of related 'customer'
+        // Initialize the base query with eager loading for related 'customer' data
         $vehicles = Vehicle::with('customer');
+
+        // Get count of customers and vehicles
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
-        // Store search parameters in session
+
+        // Store search parameters in session for easy access
         session([
             'search' => $request->search,
             'customer_id' => $request->customer_id,
@@ -23,7 +67,7 @@ class VehicleController extends Controller
             'to_date' => $request->to_date
         ]);
 
-        // Apply search filter
+        // Apply search filters
         if ($request->filled('search')) {
             $vehicles = $vehicles->where(function ($query) use ($request) {
                 $query->where('vehicle_name', 'like', '%' . $request->search . '%')
@@ -31,7 +75,7 @@ class VehicleController extends Controller
             });
         }
 
-        // Apply customer filter
+        // Filter by customer ID
         if ($request->filled('customer_id')) {
             $vehicles = $vehicles->where('customer_id', $request->customer_id);
         }
@@ -41,14 +85,21 @@ class VehicleController extends Controller
             $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
         }
 
-        // Paginate the results to get 10 per page
-        $vehicles = $vehicles->paginate(10);
+        // Determine page size and "Show All" option
+        if ($request->input('show_all')) {
+            $vehicles = $vehicles->get();  // Fetch all records without pagination
+        } else {
+            $pageSize = $request->input('page_size', 10);  // Default to 10 items per page if not specified
+            $vehicles = $vehicles->paginate($pageSize);
+        }
 
-        // Fetch customers for the filter dropdown
+        // Fetch all customers for the filter dropdown
         $customers = Customer::all();
 
-        return view('vehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
+        return view('vehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
     }
+
+    
 
     // Show the form for creating a new vehicle
     public function create()
