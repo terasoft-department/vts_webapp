@@ -148,83 +148,87 @@
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
+
         <ul class="sidebar-nav" id="sidebar-nav">
 
-            <li class="nav-item">
-                <a class="nav-link" href="project_manager">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li><!-- End Dashboard Nav -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                  <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="customers">
-                          <i class="bi bi-circle"></i><span>Customer</span>
-                        </a>
-                      </li>
-                  <li>
-                    <a href="devices">
-                      <i class="bi bi-circle"></i><span>Device</span>
-                    </a>
-                  </li>
-                  <li>
-                    <li>
-                        <a href="vehicles">
-                          <i class="bi bi-circle"></i><span>Vehicle</span>
-                        </a>
-                      </li>
-                      <li>
-                    <a href="AccountAssignment">
-                      <i class="bi bi-circle"></i><span>Assignments</span>
-                    </a>
-                  </li>
+          <li class="nav-item">
+            <a class="nav-link " href="project_manager">
+              <i class="bi bi-grid"></i>
+              <span>Dashboard</span>
+            </a>
+          </li><!-- End Dashboard Nav -->
 
-                  <li>
-                    <a href="device_requisitions">
-                      <i class="bi bi-circle"></i><span>Device dispatch</span>
-                    </a>
-                  </li>
 
-                  <li>
-                    <a href="dispatched-history">
-                      <i class="bi bi-circle"></i><span>Dispatched devices</span>
-                    </a>
-                  </li>
+          </li><!-- End Components Nav -->
 
-                  <li>
-                    <a href="return_device">
-                      <i class="bi bi-circle"></i><span>DeviceReturn</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="jobcards">
-                      <i class="bi bi-circle"></i><span>Jobcard</span>
-                    </a>
-                  </li>
-                </ul>
+          <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+              <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="Pchecklists">
-                      <i class="bi bi-circle"></i><span>Daily CheckList</span>
+                    <a href="customers">
+                      <i class="bi bi-circle"></i><span>Customer</span>
                     </a>
                   </li>
-                </ul>
-              </li><!-- End Forms Nav -->
-
-              </li><!-- End Icons Nav -->
-              <li class="nav-item">
-                <a class="nav-link collapsed" href="\auth/login">
-                  <i class="bi bi-box-arrow-in-right"></i>
-                  <span>Logout</span>
+              <li>
+                <a href="devices">
+                  <i class="bi bi-circle"></i><span>Device</span>
                 </a>
-              </li><!-- End Login Page Nav -->
+              </li>
+              <li>
+                <li>
+                    <a href="vehicles">
+                      <i class="bi bi-circle"></i><span>Vehicle</span>
+                    </a>
+                  </li>
+                  <li>
+                <a href="AccountAssignment">
+                  <i class="bi bi-circle"></i><span>Assignments</span>
+                </a>
+              </li>
 
-          </aside><!-- End Sidebar-->
-          
+              <li>
+                <a href="device_requisitions">
+                  <i class="bi bi-circle"></i><span>Device dispatch</span>
+                </a>
+              </li>
+              <li>
+                <a href="dispatched-history">
+                  <i class="bi bi-circle"></i><span>Dispatched devices</span>
+                </a>
+              </li>
+
+              <li>
+                <a href="Pchecklists">
+                  <i class="bi bi-circle"></i><span>Daily CheckList</span>
+                </a>
+              </li>
+
+              <li>
+                <a href="return_device">
+                  <i class="bi bi-circle"></i><span>DeviceReturn</span>
+                </a>
+              </li>
+
+              <li>
+                <a href="jobcards">
+                  <i class="bi bi-circle"></i><span>Jobcard</span>
+                </a>
+              </li>
+            </ul>
+          </li><!-- End Forms Nav -->
+
+          </li><!-- End Icons Nav -->
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="\auth/login">
+              <i class="bi bi-box-arrow-in-right"></i>
+              <span>Logout</span>
+            </a>
+          </li><!-- End Login Page Nav -->
+
+      </aside><!-- End Sidebar-->
+
     <main id="main" class="main">
         <div class="col-md-3 mb-2">
             <div class="card text-center border-primary shadow card-hover">

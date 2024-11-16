@@ -158,7 +158,6 @@
 
 
   </header><!-- End Header -->
-  <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -169,6 +168,9 @@
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
+
+
+      </li><!-- End Components Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -202,10 +204,15 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
-
           <li>
             <a href="dispatched-history">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="Pchecklists">
+              <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
           </li>
 
@@ -221,12 +228,6 @@
             </a>
           </li>
         </ul>
-        <li>
-            <a href="Pchecklists">
-              <i class="bi bi-circle"></i><span>Daily CheckList</span>
-            </a>
-          </li>
-        </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->
@@ -238,7 +239,6 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-  
  <!-- Main Content -->
  <main id="main" class="main">
     <div class="col-md-3 mb-2">
