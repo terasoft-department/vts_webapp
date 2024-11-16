@@ -86,6 +86,7 @@
                             <th>RPT Status</th>
                             <th>Battery Status</th>
                             <th>Check Date</th>
+                            <th>Checked AT</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,6 +104,27 @@
                                     <td>{{ $checklist->rbt_status }}</td>
                                     <td>{{ $checklist->batt_status }}</td>
                                     <td>{{ $checklist->check_date }}</td>
+                                    <td>
+                                        @php
+                                            // Convert the created_at time to Nairobi local time
+                                            $nairobiTime = $checklist->created_at->setTimezone('Africa/Nairobi');
+                                        @endphp
+                                        {{ $nairobiTime->format('H:i:s') }}
+
+                                        @php
+                                            $hour = $nairobiTime->format('H');
+                                        @endphp
+                                        @if ($hour >= 5 && $hour < 12)
+                                            <span>Morning</span>
+                                        @elseif ($hour >= 12 && $hour < 17)
+                                            <span>Afternoon</span>
+                                        @elseif ($hour >= 17 && $hour < 21)
+                                            <span>Evening</span>
+                                        @else
+                                            <span>Night</span>
+                                        @endif
+                                    </td>
+
                                 </tr>
                             @endforeach
                         @endif
@@ -110,7 +132,8 @@
                 </table>
             </div>
 
-         
+            <!-- Print Button -->
+
         </div>
     @endif
 

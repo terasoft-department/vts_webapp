@@ -42,11 +42,5 @@ class CheckListController extends Controller
     {
         return Excel::download(new ChecklistsExport($request), 'checklist.xlsx');
     }
-    // public function generatePdf(Request $request)
-    // {
-    //     $results = $this->searchResults($request); // Get results from your search query or logic
-
-    //     $pdf = PDF::loadView('checklist_pdf', compact('results')); // Render PDF view
-    //     return $pdf->download('checklist_report.pdf'); // Download the generated PDF
-    // }
+  
 }
