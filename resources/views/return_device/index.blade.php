@@ -270,7 +270,7 @@
                           <th>IMEI Number</th>
                           <th>Reason</th>
                           <th>Status</th>
-                          <th>Approve</th>
+                          {{-- <th>Approve</th> --}}
                       </tr>
                   </thead>
                   <tbody>
@@ -283,11 +283,11 @@
                           <td>{{ $return->reason }}</td>
                           <td>{{ ucfirst($return->status) }}</td>
                           <td>
-                              <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $return->return_id }}">
+                              {{-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $return->return_id }}">
                                   <i class="bi bi-check-circle"></i>
-                              </button>
+                              </button> --}}
 
-                              <!-- Modal for Approval -->
+                              {{-- <!-- Modal for Approval -->
                               <div class="modal fade" id="approveModal{{ $return->return_id }}" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
                                   <div class="modal-dialog modal-lg">
                                       <div class="modal-content">
@@ -313,7 +313,7 @@
                                           </div>
                                       </div>
                                   </div>
-                              </div>
+                              </div> --}}
                           </td>
                       </tr>
                       @endforeach

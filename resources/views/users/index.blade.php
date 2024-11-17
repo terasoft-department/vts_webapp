@@ -202,6 +202,7 @@
                                             <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                                             <option value="accounting_officer" {{ old('role') == 'accounting_officer' ? 'selected' : '' }}>Accounting Officer</option>
                                             <option value="technician" {{ old('role') == 'technician' ? 'selected' : '' }}>Technician</option>
+                                            <option value="storekeeper" {{ old('role') == 'storekeeper' ? 'selected' : '' }}>Storekeeper</option>
                                         </select>
                                         @error('role')
                                             <div class="text-danger">{{ $message }}</div>

@@ -272,17 +272,20 @@
                                     <div class="form-group">
                                         <label for="case_reported">Case Reported</label>
                                         <select class="form-control" id="case_reported" name="case_reported" required>
-                                            <option value="" disabled selected>Select a case</option>
-                                            <option value="skipping">Skipping</option>
-                                            <option value="black_box_data">Black box Data</option>
-                                            <option value="device_tampering">Device Tampering</option>
-                                            <option value="start_stop_journey">Start and stop Journey</option>
-                                            <option value="internal_battery_low">Internal Battery Low</option>
-                                            <option value="external_battery_disconnected">External Battery Disconnected</option>
-                                            <option value="rollover_detection">Rollover Detection</option>
-                                            <option value="emergence_trigger">Emergence Trigger</option>
-                                            <option value="panic_button">Panic Button</option>
-                                            <option value="non_transmission">Non Transmission</option>
+                                                    <option value="" disabled selected>Select a case</option>
+                                                    <option value="New Installation">New Installation</option>
+                                                    <option value="skipping">Skipping</option>
+                                                    <option value="black_box_data">Black box Data</option>
+                                                    <option value="device_tampering">Device Tampering</option>
+                                                    <option value="start_stop_journey">Start and stop Journey</option>
+                                                    <option value="internal_battery_low">Internal Battery Low</option>
+                                                    <option value="external_battery_disconnected">External Battery Disconnected</option>
+                                                    <option value="rollover_detection">Rollover Detection</option>
+                                                    <option value="emergence_trigger">Emergence Trigger</option>
+                                                    <option value="panic_button">Panic Button</option>
+                                                    <option value="non_transmission">Non Transmission</option>
+                                                </select>
+                                            </div>
                                         </select>
                                     </div>
                                     {{-- <div class="form-group">

@@ -28,8 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -157,6 +156,7 @@
 
         </li><!-- End Messages Nav -->
 
+
   </header><!-- End Header -->
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
@@ -175,63 +175,64 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Store keeper</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
+            {{-- <li>
                 <a href="customers">
                   <i class="bi bi-circle"></i><span>Customer</span>
                 </a>
-              </li>
+              </li> --}}
           <li>
-            <a href="devices">
+            <a href="sdevices">
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
           </li>
           <li>
-            <li>
+             {{-- <li>
                 <a href="vehicles">
                   <i class="bi bi-circle"></i><span>Vehicle</span>
                 </a>
-              </li>
-              <li>
+              </li>  --}}
+              {{-- <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="device_requisitions">
+            <a href="sdevice_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
           <li>
-            <a href="dispatched-history">
+            <a href="/dispatched_historyv2">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
           </li>
-
+{{--
           <li>
             <a href="Pchecklists">
               <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="return_device">
+            <a href="Sreturn_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
           </li>
 
-          <li>
+          {{-- <li>
             <a href="jobcards">
               <i class="bi bi-circle"></i><span>Jobcard</span>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="\auth/login">
           <i class="bi bi-box-arrow-in-right"></i>
@@ -241,8 +242,7 @@
 
   </aside><!-- End Sidebar-->
 
- <!-- Main Content -->
- <main id="main" class="main">
+<main id="main" class="main">
     <div class="container mt-2">
         <h5 class="text-center">Device Stocks & Deductions</h5>
         <br>
@@ -298,7 +298,7 @@
         </div>
 
         <!-- Search and Date Filters -->
-        <form method="GET" action="{{ route('devices.index') }}" class="row g-2 mb-2">
+        <form method="GET" action="{{ route('sdevices.index') }}" class="row g-2 mb-2">
             <div class="col-md-2">
                 <label for="search-input" class="form-label">Device Number</label>
                 <input type="text" name="search" class="form-control" placeholder="Search. Number" id="search-input" value="{{ request()->input('search') }}">
@@ -308,12 +308,12 @@
             </div>
         </form>
 
-        {{-- <!-- Add New Device Button -->
+        <!-- Add New Device Button -->
         <div class="text-left mb-2">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeviceModal">
                 <i class="bi bi-plus-circle"></i> Add Device
             </button>
-        </div> --}}
+        </div>
 
         <!-- Device Table -->
         <table class="table table-bordered mt-2 text-left">

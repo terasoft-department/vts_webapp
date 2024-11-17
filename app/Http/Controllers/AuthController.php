@@ -116,7 +116,7 @@ public function toggleStatus($id)
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|string|in:project_manager,monitoring_officer,admin,accounting_officer,technician',
+            'role' => 'required|string|in:project_manager,monitoring_officer,admin,accounting_officer,technician,storekeeper',
 
         ]);
 
@@ -182,7 +182,9 @@ public function login(Request $request)
                 return redirect()->route('admin.index')->with('success', 'Login successful');
             case 'accounting_officer':
                 return redirect()->route('accounting_officer.index')->with('success', 'Login successful');
-            default:
+            case 'storekeeper':
+                    return redirect()->route('storekeeper.index')->with('success', 'Login successful');
+                default:
                 return redirect()->route('login')->with('error', 'Role not recognized');
         }
     } catch (\Exception $e) {

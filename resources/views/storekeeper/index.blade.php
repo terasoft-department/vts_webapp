@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -175,63 +175,64 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Store keeper</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
+            {{-- <li>
                 <a href="customers">
                   <i class="bi bi-circle"></i><span>Customer</span>
                 </a>
-              </li>
+              </li> --}}
           <li>
-            <a href="devices">
+            <a href="sdevices">
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
           </li>
           <li>
-            <li>
+             {{-- <li>
                 <a href="vehicles">
                   <i class="bi bi-circle"></i><span>Vehicle</span>
                 </a>
-              </li>
-              <li>
+              </li>  --}}
+              {{-- <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="device_requisitions">
+            <a href="sdevice_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
           <li>
-            <a href="dispatched-history">
+            <a href="/dispatched_historyv2">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
           </li>
-
+{{--
           <li>
             <a href="Pchecklists">
               <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="return_device">
+            <a href="Sreturn_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
           </li>
 
-          <li>
+          {{-- <li>
             <a href="jobcards">
               <i class="bi bi-circle"></i><span>Jobcard</span>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="\auth/login">
           <i class="bi bi-box-arrow-in-right"></i>
@@ -241,140 +242,164 @@
 
   </aside><!-- End Sidebar-->
 
-<!-- Main Content -->
 <main id="main" class="main">
-    <div class="container mt-2">
-        <div class="card">
-            <div class="card-header bg text-blue text-center">
-                <h4 class="m-0">Device Dispatch</h4>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <!-- Operation Summary Header -->
+            <b><p class="card text-center bg-info text-black py-2 col-12">OPERATION SUMMARY</p></b>
+
+            <!-- Row 1: User ID, Customer, Device -->
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg-primary text-black">
+                        User ID
+                    </div>
+                    <div class="card-body bg-white">
+                        <h5 class="card-title">Welcome, {{ auth()->user()->name }}</h5>
+                        <p class="card-text">Details about the user ID</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="card-body">
-                <!-- Display Success Messages -->
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {!! session('success') !!}
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg-primary text-black">
+                        Customer
                     </div>
-                @endif
-
-                <!-- Display Danger Messages -->
-                @if (session('danger'))
-                    <div class="alert alert-danger">
-                        {!! session('danger') !!}
+                    <div class="card-body bg-white">
+                        <h5 class="card-title count-up" data-target="{{ $CustomersCount ?? 0 }}">{{ $CustomersCount ?? 0 }}</h5>
+                        <p class="card-text">Number of Customers</p>
                     </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <!-- Search Bar -->
-                <div class="mb-3">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                 </div>
+            </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Descriptions</th>
-                            <th>Status</th>
-                            <th>Master</th>
-                            <th>I-Button</th>
-                            <th>Buzzer</th>
-                            <th>Panic Button</th>
-                            <th>Approve</th>
-                        </tr>
-                    </thead>
-                    <tbody id="deviceTable">
-                        @foreach($requisitions as $requisition)
-                        <tr>
-                            <td>{{ $requisition->requisition_id }}</td>
-                            <td>{{ $requisition->user->name ?? 'N/A' }}</td>
-                            <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ ucfirst($requisition->status) }}</td>
-                            <td>{{ $requisition->master }}</td>
-                            <td>{{ $requisition->I_button }}</td>
-                            <td>{{ $requisition->buzzer }}</td>
-                            <td>{{ $requisition->panick_button }}</td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                                    <i class="bi bi-check-circle"></i>
-                                </button>
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg-primary text-black">
+                        Devices
+                    </div>
+                    <div class="card-body bg-white">
+                        <p class="card-text">Master Devices:<strong> {{ $deviceCounts['master'] ?? 0 }}</strong></p>
+                        <p class="card-text">I_Button Devices:<strong> {{ $deviceCounts['I_button'] ?? 0 }}</strong></p>
+                        <p class="card-text">Buzzer Devices:<strong> {{ $deviceCounts['buzzer'] ?? 0 }}</strong></p>
+                        <p class="card-text">Panic Button Devices:<strong> {{ $deviceCounts['panick_button'] ?? 0 }}</strong></p>
+                    </div>
+                </div>
+            </div>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
 
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                                        </select>
-                                                    </div>
+            <!-- Row 2: Device Dispatch, Device Return, Jobcard -->
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg-primary text-black">
+                        Device Dispatch
+                    </div>
+                    <div class="card-body bg-white">
+                        <h5 class="card-title count-up" data-target="{{ $devicedispatchCount ?? 0 }}">{{ $devicedispatchCount ?? 0 }}</h5>
+                        <p class="card-text">Number of Dispatches</p>
+                    </div>
+                </div>
+            </div>
 
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg-primary text-black">
+                        Device Return
+                    </div>
+                    <div class="card-body bg-white">
+                        <h5 class="card-title count-up" data-target="{{ $deviceReturnCount ?? 0 }}">{{ $deviceReturnCount ?? 0 }}</h5>
+                        <p class="card-text">Number of Returns</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header bg-primary text-black">
+                        Jobcard
+                    </div>
+                    <div class="card-body bg-white">
+                        <h5 class="card-title count-up" data-target="{{ $JobcardsCount ?? 0 }}">{{ $JobcardsCount ?? 0 }}</h5>
+                        <p class="card-text">Number of Jobcards</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
-<script>
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const searchValue = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#deviceTable tr');
 
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(searchValue) ? '' : 'none';
+<!-- Styles for animation and hover effects -->
+<style>
+    .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-hover:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .count-up {
+        font-size: 2.5rem;
+        color: #2a2a2a;
+    }
+
+    .border-primary {
+        border-left: 5px solid #007bff;
+    }
+
+    .card-header {
+        font-weight: bold;
+    }
+
+    .bg-primary {
+        background-color: #FFFFFFFF !important;
+    }
+
+    .bg-info {
+        background-color: #FFFFFFFF !important;
+    }
+</style>
+
+<!-- JavaScript for count-up animation -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const counters = document.querySelectorAll('.count-up');
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / 200; // Speed factor
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 10);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
         });
     });
 </script>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
 </body>
 
 </html>

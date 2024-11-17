@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -175,63 +175,64 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Store keeper</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
+            {{-- <li>
                 <a href="customers">
                   <i class="bi bi-circle"></i><span>Customer</span>
                 </a>
-              </li>
+              </li> --}}
           <li>
-            <a href="devices">
+            <a href="sdevices">
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
           </li>
           <li>
-            <li>
+             {{-- <li>
                 <a href="vehicles">
                   <i class="bi bi-circle"></i><span>Vehicle</span>
                 </a>
-              </li>
-              <li>
+              </li>  --}}
+              {{-- <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="device_requisitions">
+            <a href="sdevice_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
           <li>
-            <a href="dispatched-history">
+            <a href="/dispatched_historyv2">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
           </li>
-
+{{--
           <li>
             <a href="Pchecklists">
               <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="return_device">
+            <a href="Sreturn_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
           </li>
 
-          <li>
+          {{-- <li>
             <a href="jobcards">
               <i class="bi bi-circle"></i><span>Jobcard</span>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="\auth/login">
           <i class="bi bi-box-arrow-in-right"></i>
@@ -241,106 +242,78 @@
 
   </aside><!-- End Sidebar-->
 
-<!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
-            <div class="card-header bg text-blue text-center">
-                <h4 class="m-0">Device Dispatch</h4>
+            <div class="card-header text-center bg- text-blue">
+                <h5 class="m-2"><strong>Device Return Approval</strong></h5>
             </div>
 
             <div class="card-body">
-                <!-- Display Success Messages -->
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {!! session('success') !!}
-                    </div>
-                @endif
-
-                <!-- Display Danger Messages -->
-                @if (session('danger'))
-                    <div class="alert alert-danger">
-                        {!! session('danger') !!}
-                    </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 <!-- Search Bar -->
-                <div class="mb-3">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                <div class="row mb-3">
+                    <div class="col-md-4 offset-md-8">
+                        <input type="text" id="search" class="form-control" placeholder="Search...">
+                    </div>
                 </div>
 
-                <table class="table table-striped">
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
+                <table class="table table-striped" id="returnTable">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Descriptions</th>
+                            <th>Technician</th>
+                            <th>Customer</th>
+                            <th>Plate Number</th>
+                            <th>IMEI Number</th>
+                            <th>Reason</th>
                             <th>Status</th>
-                            <th>Master</th>
-                            <th>I-Button</th>
-                            <th>Buzzer</th>
-                            <th>Panic Button</th>
-                            <th>Approve</th>
+                            {{-- <th>Approve</th> --}}
                         </tr>
                     </thead>
-                    <tbody id="deviceTable">
-                        @foreach($requisitions as $requisition)
+                    <tbody>
+                        @foreach($returnDevices as $return)
                         <tr>
-                            <td>{{ $requisition->requisition_id }}</td>
-                            <td>{{ $requisition->user->name ?? 'N/A' }}</td>
-                            <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ ucfirst($requisition->status) }}</td>
-                            <td>{{ $requisition->master }}</td>
-                            <td>{{ $requisition->I_button }}</td>
-                            <td>{{ $requisition->buzzer }}</td>
-                            <td>{{ $requisition->panick_button }}</td>
+                            <td>{{ $return->user->name ?? 'N/A' }}</td>
+                            <td>{{ $return->customer->customername ?? 'N/A' }}</td>
+                            <td>{{ $return->plate_number }}</td>
+                            <td>{{ $return->imei_number }}</td>
+                            <td>{{ $return->reason }}</td>
+                            <td>{{ ucfirst($return->status) }}</td>
                             <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
+                                {{-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $return->return_id }}">
                                     <i class="bi bi-check-circle"></i>
-                                </button>
+                                </button> --}}
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                {{-- <!-- Modal for Approval -->
+                                <div class="modal fade" id="approveModal{{ $return->return_id }}" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
+                                                <h5 class="modal-title">Approve Device Return</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
+                                                <form action="{{ route('return_device.updateStatus', $return->return_id) }}" method="POST">
                                                     @csrf
-                                                    @method('PUT')
-
                                                     <div class="mb-3">
                                                         <label for="status" class="form-label">Status</label>
                                                         <select class="form-select" id="status" name="status" required>
-                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                                            <option value="approved" {{ $return->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                                            <option value="rejected" {{ $return->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
                                                         </select>
                                                     </div>
-
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                        <button type="submit" class="btn btn-primary">Approve Return</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </td>
                         </tr>
                         @endforeach
@@ -349,32 +322,35 @@
             </div>
         </div>
     </div>
-</main>
+  </main>
 
-<script>
-    document.getElementById('searchInput').addEventListener('input', function () {
+  <script>
+    // JavaScript for live table search
+    document.getElementById('search').addEventListener('keyup', function() {
         const searchValue = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#deviceTable tr');
+        const rows = document.querySelectorAll('#returnTable tbody tr');
 
         rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(searchValue) ? '' : 'none';
+            const rowText = row.textContent.toLowerCase();
+            row.style.display = rowText.includes(searchValue) ? '' : 'none';
         });
     });
-</script>
+  </script>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+  </main>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-</body>
+      <!-- Vendor JS Files -->
+      <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="assets/vendor/chart.js/chart.umd.js"></script>
+      <script src="assets/vendor/echarts/echarts.min.js"></script>
+      <script src="assets/vendor/quill/quill.min.js"></script>
+      <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+      <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+      <script src="assets/vendor/php-email-form/validate.js"></script>
 
-</html>
+      <!-- Template Main JS File -->
+      <script src="assets/js/main.js"></script>
+  </body>
+
+  </html>

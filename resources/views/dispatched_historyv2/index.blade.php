@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -175,63 +175,64 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Store keeper</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
+            {{-- <li>
                 <a href="customers">
                   <i class="bi bi-circle"></i><span>Customer</span>
                 </a>
-              </li>
+              </li> --}}
           <li>
-            <a href="devices">
+            <a href="sdevices">
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
           </li>
           <li>
-            <li>
+             {{-- <li>
                 <a href="vehicles">
                   <i class="bi bi-circle"></i><span>Vehicle</span>
                 </a>
-              </li>
-              <li>
+              </li>  --}}
+              {{-- <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="device_requisitions">
+            <a href="sdevice_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
           <li>
-            <a href="dispatched-history">
+            <a href="/dispatched_historyv2">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
           </li>
-
+{{--
           <li>
             <a href="Pchecklists">
               <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
-          </li>
+          </li> --}}
 
           <li>
-            <a href="return_device">
+            <a href="Sreturn_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
           </li>
 
-          <li>
+          {{-- <li>
             <a href="jobcards">
               <i class="bi bi-circle"></i><span>Jobcard</span>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="\auth/login">
           <i class="bi bi-box-arrow-in-right"></i>
@@ -241,115 +242,66 @@
 
   </aside><!-- End Sidebar-->
 
-<!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header bg text-blue text-center">
-                <h4 class="m-0">Device Dispatch</h4>
+                <h4 class="m-0">Device Dispatch History</h4>
             </div>
 
             <div class="card-body">
-                <!-- Display Success Messages -->
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {!! session('success') !!}
-                    </div>
-                @endif
-
-                <!-- Display Danger Messages -->
-                @if (session('danger'))
-                    <div class="alert alert-danger">
-                        {!! session('danger') !!}
-                    </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <!-- Search Bar -->
-                <div class="mb-3">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
-                </div>
 
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Descriptions</th>
-                            <th>Status</th>
+                            <th>Technician</th>
+                            <th>IMEI Numbers</th>
                             <th>Master</th>
                             <th>I-Button</th>
                             <th>Buzzer</th>
                             <th>Panic Button</th>
-                            <th>Approve</th>
+                            <th>Dispatched Categories</th>
                         </tr>
                     </thead>
-                    <tbody id="deviceTable">
-                        @foreach($requisitions as $requisition)
+                    <tbody>
+                        @foreach($dispatchedHistory as $history)
                         <tr>
-                            <td>{{ $requisition->requisition_id }}</td>
-                            <td>{{ $requisition->user->name ?? 'N/A' }}</td>
-                            <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ ucfirst($requisition->status) }}</td>
-                            <td>{{ $requisition->master }}</td>
-                            <td>{{ $requisition->I_button }}</td>
-                            <td>{{ $requisition->buzzer }}</td>
-                            <td>{{ $requisition->panick_button }}</td>
+                            <!-- Display technician/user name -->
+                            <td>{{ $history['name'] ?? 'N/A' }}</td>
+
+                            <!-- Display IMEI numbers for the requisition -->
+                            <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
+
+                            <!-- Device counts for each category -->
+                            <td>{{ $history['master_count'] }}</td>
+                            <td>{{ $history['I_button_count'] }}</td>
+                            <td>{{ $history['buzzer_count'] }}</td>
+                            <td>{{ $history['panick_button_count'] }}</td>
+
+                            <!-- List of dispatched categories -->
                             <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                                    <i class="bi bi-check-circle"></i>
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
+                                    @if($history[$category . '_count'] > 0)
+                                        {{ ucfirst($category) }}@if(!$loop->last), @endif
+                                    @endif
+                                @endforeach
                             </td>
+
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+
+
+
+
+
+                </div>
             </div>
         </div>
     </div>
 </main>
+
 
 <script>
     document.getElementById('searchInput').addEventListener('input', function () {
@@ -362,6 +314,7 @@
         });
     });
 </script>
+
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

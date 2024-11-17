@@ -44,6 +44,11 @@ use App\Http\Controllers\PDashboardController;
 use App\Http\Controllers\ProjectManagerController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReturnDeviceController;
+use App\Http\Controllers\SDeviceController;
+use App\Http\Controllers\SdispatchedController;
+use App\Http\Controllers\SReturnDeviceController;
+use App\Http\Controllers\StDeviceRequisitions;
+use App\Http\Controllers\StoreKeeperController;
 use App\Http\Controllers\TamperingController;
 use App\Http\Controllers\TDebtsController;
 use App\Http\Controllers\TrackVehicleController;
@@ -159,6 +164,8 @@ Route::get('assignmentsv2', [AssignmentController::class, 'index2'])->name('assi
 //return device routes
 
 Route::resource('return_device', ReturnDeviceController::class);
+Route::resource('Sreturn_device', SReturnDeviceController::class);
+
 Route::get('/return_device/{id}/approve', [ReturnDeviceController::class, 'show'])->name('return_device.show');
 Route::put('/return_device/{id}', [ReturnDeviceController::class, 'update'])->name('return_device.update');
 // Specific route for updating the status of a return device
@@ -167,6 +174,14 @@ Route::post('/return_device/{return_id}/status', [ReturnDeviceController::class,
 // Project Manager Officer routes
 Route::get('project_manager', [ProjectManagerController::class, 'dashboard'])->name('project_manager.index');
 Route::get('project_manager/customers', [CustomerController::class, 'countCustomers'])->name('project_manager.customers');
+Route::get('/get-customer-details', [CustomerController::class, 'getCustomerDetails']);
+
+// Storekeeper Officer routes
+Route::get('storekeeper', [StoreKeeperController::class, 'dashboard'])->name('storekeeper.index');
+// Route::get('storekeeper/customers', [CustomerController::class, 'countCustomers'])->name('storekeeper.customers');
+
+
+
 
  Route::resource('customers', CustomerController::class);
  Route::resource('Admincustomers', AdminCustomerController::class);
@@ -181,6 +196,10 @@ Route::get('accounting_officer', [AccountingOfficerController::class, 'showAccou
 
 
 Route::resource('device_requisitions', DeviceRequisitionController::class);
+
+Route::resource('sdevice_requisitions', StDeviceRequisitions::class);
+
+
 
    // Define routes for daily report
    Route::resource('daily_weekly_reports', DailyWeeklyReportController::class);
@@ -219,6 +238,10 @@ Route::put('/device_requisitions/{id}', [DeviceRequisitionController::class, 'up
 
 //devices
 Route::resource('devices', DeviceController::class);
+
+//devices
+Route::resource('sdevices', SDeviceController::class);
+
 
 //customer
 Route::resource('customers', CustomerController::class);
