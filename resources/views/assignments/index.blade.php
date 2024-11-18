@@ -387,12 +387,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="plate_number">Plate Number</label>
-                                    <select class="form-control" id="plate_number" name="plate_number" required>
+                                    <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter plate number" required>
+                                    {{-- <select class="form-control" id="plate_number" name="plate_number" required>
                                         <option value="">Select a plate number</option>
                                         @foreach($vehicles as $vehicle)
                                             <option value="{{ $vehicle->plate_number }}">{{ $vehicle->plate_number }}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                                 <div class="form-group">
                                     <label for="location">Location</label>
