@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->bigIncrements('assignment_id');// Auto-incrementing primary key
             $table->string('plate_number')->nullable();
-            $table->integer('customer_id')->unique();
+            $table->integer('customer_id')->nullable();
             $table->string('customer_phone')->nullable();
             $table->decimal('customer_debt', 10, 2)->nullable();// Decimal for currency
             $table->string('location')->nullable();
