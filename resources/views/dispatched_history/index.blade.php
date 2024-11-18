@@ -241,7 +241,7 @@
 
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
-<main id="main" class="main">
+  <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header bg text-blue text-center">
@@ -249,59 +249,47 @@
             </div>
 
             <div class="card-body">
-
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Technician</th>
-                            <th>IMEI Numbers</th>
-                            <th>Master</th>
-                            <th>I-Button</th>
-                            <th>Buzzer</th>
-                            <th>Panic Button</th>
-                            <th>Dispatched Categories</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($dispatchedHistory as $history)
-                        <tr>
-                            <!-- Display technician/user name -->
-                            <td>{{ $history['name'] ?? 'N/A' }}</td>
-
-                            <!-- Display IMEI numbers for the requisition -->
-                            <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
-
-                            <!-- Device counts for each category -->
-                            <td>{{ $history['master_count'] }}</td>
-                            <td>{{ $history['I_button_count'] }}</td>
-                            <td>{{ $history['buzzer_count'] }}</td>
-                            <td>{{ $history['panick_button_count'] }}</td>
-
-                            <!-- List of dispatched categories -->
-                            <td>
-                                @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
-                                    @if($history[$category . '_count'] > 0)
-                                        {{ ucfirst($category) }}@if(!$loop->last), @endif
-                                    @endif
-                                @endforeach
-                            </td>
-
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-
-
-
-
-
+                <!-- Make the table responsive -->
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Technician</th>
+                                <th>IMEI Numbers</th>
+                                <th class="d-none d-md-table-cell">Master</th>
+                                <th class="d-none d-md-table-cell">I-Button</th>
+                                <th class="d-none d-md-table-cell">Buzzer</th>
+                                <th class="d-none d-md-table-cell">Panic Button</th>
+                                <th>Dispatched Categories</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($dispatchedHistory as $history)
+                            <tr>
+                                <td>{{ $history['name'] ?? 'N/A' }}</td>
+                                <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
+                                <td class="d-none d-md-table-cell">{{ $history['master_count'] }}</td>
+                                <td class="d-none d-md-table-cell">{{ $history['I_button_count'] }}</td>
+                                <td class="d-none d-md-table-cell">{{ $history['buzzer_count'] }}</td>
+                                <td class="d-none d-md-table-cell">{{ $history['panick_button_count'] }}</td>
+                                <td>
+                                    @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
+                                        @if($history[$category . '_count'] > 0)
+                                            {{ ucfirst($category) }}@if(!$loop->last), @endif
+                                        @endif
+                                    @endforeach
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
-
+<!-- Search script to filter table rows -->
 <script>
     document.getElementById('searchInput').addEventListener('input', function () {
         const searchValue = this.value.toLowerCase();
@@ -314,19 +302,17 @@
     });
 </script>
 
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
 </body>
-
 </html>
