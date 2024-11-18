@@ -313,7 +313,7 @@
                     <td>{{ $assignment->case_reported }}</td>
                     <td>{{ $assignment->assigned_by }}</td>
                     <td>{{ ucfirst($assignment->status) }}</td>
-                    <td>{{ $assignment->accepted_at }}</td>
+                    {{-- <td>{{ $assignment->accepted_at }}</td> --}}
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                             <i class="fas fa-edit"></i>
