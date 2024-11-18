@@ -14,25 +14,29 @@ class AccountAssignmentController extends Controller
 
     public function index(Request $request)
     {
+
         $search = $request->get('search');
 
-    // Fetching assignments with pagination and search functionality
-    $assignments = Assignment::when($search, function ($query) use ($search) {
-            $query->where('case_reported', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%")
-                  ->orWhere('customer_phone', 'like', "%{$search}%");
-        })
-        ->paginate(10000); // Change the number to whatever suits your needs
+        // Fetching assignments with pagination and search functionality
+        $assignments = Assignment::when($search, function ($query) use ($search) {
+                $query->where('case_reported', 'like', "%{$search}%")
+                      ->orWhere('location', 'like', "%{$search}%")
+                      ->orWhere('customer_phone', 'like', "%{$search}%");
+            })
+            ->paginate(10000); // Change the number to whatever suits your needs
 
-    // Fetching related customers and users
-    $customers = Customer::all();
-    $users = User::all();
-    $vehicles = Vehicle::all();
+        // Fetching related customers and users
+        $customers = Customer::all();
+        $users = User::all();
+        $vehicles = Vehicle::all();
 
-    return view('AccountAssignment.index', compact('assignments', 'customers', 'users', 'vehicles'));
-
+        return view('AccountAssignment.index', compact('assignments', 'customers', 'users', 'vehicles'));
     }
+
+
      // Display a listing of the resource
+
+
      public function store(Request $request)
         {
             // $request->validate([
@@ -60,19 +64,19 @@ class AccountAssignmentController extends Controller
             $assignment->assigned_by = $request->assigned_by;
             // $assignment->status = $request->status;
 
-            if ($request->hasFile('attachment')) {
-                $file = $request->file('attachment');
-                if ($file->isValid()) {
-                    // Generate a unique file name with extension
-                    $fileName = time() . '-' . $file->getClientOriginalName();
-                    // Move the file to public/uploads directory
-                    $file->move(public_path('uploads'), $fileName);
-                    // Store the file name in the database
-                    $assignment->attachment = $fileName;
-                }
-            } else {
-                $assignment->attachment = null;
-            }
+            // if ($request->hasFile('attachment')) {
+            //     $file = $request->file('attachment');
+            //     if ($file->isValid()) {
+            //         // Generate a unique file name with extension
+            //         $fileName = time() . '-' . $file->getClientOriginalName();
+            //         // Move the file to public/uploads directory
+            //         $file->move(public_path('uploads'), $fileName);
+            //         // Store the file name in the database
+            //         $assignment->attachment = $fileName;
+            //     }
+            // } else {
+            //     $assignment->attachment = null;
+            // }
 
             $assignment->save();
 
@@ -102,20 +106,19 @@ class AccountAssignmentController extends Controller
 
       public function update(Request $request, $id)
     {
-        // Validate the request
+        // // Validate the request
         // $request->validate([
 
-
-        // 'plate_number'  => 'required|string|max:255',
-        // 'customer_id' => 'required|exists:customers,customer_id',
-        // 'customer_phone'=> 'required|string|max:15',
-        // 'customer_debt'=> 'required|numeric',
-        // 'location'=> 'required|string|max:255',
-        // 'user_id'=>'required|string|max:15',
-        // 'case_reported'=>'required|string',
-        // 'attachment' => 'nullable|file|mimes:pdf|max:2048',
-        // 'assigned_by'=> 'required|string',
-        // // 'status'=> 'required|string',
+        //     'plate_number'  => 'required|string|max:255',
+        //     'customer_id' => 'required|exists:customers,customer_id',
+        //     'customer_phone'=> 'required|string|max:15',
+        //     'customer_debt'=> 'required|numeric',
+        //     'location'=> 'required|string|max:255',
+        //     'user_id'=>'required|string|max:15',
+        //     'case_reported'=>'required|string',
+        //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        //     'assigned_by'=> 'required|string',
+        //     //  'status'=> 'required|string',
         // ]);
 
         try {
@@ -132,7 +135,7 @@ class AccountAssignmentController extends Controller
                 'case_reported',
                 'attachment',
                 'assigned_by',
-                // 'status',
+                //  'status',
             ]);
 
             // Update the assignment
@@ -143,6 +146,7 @@ class AccountAssignmentController extends Controller
             return redirect()->back()->withErrors('Failed to update assignment.')->withInput();
         }
     }
+
 
 
         public function destroy($id)
@@ -159,4 +163,4 @@ class AccountAssignmentController extends Controller
                 return redirect()->route('AccountAssignment.index')->withErrors('Failed to delete assignment.');
             }
         }
-}
+    }
