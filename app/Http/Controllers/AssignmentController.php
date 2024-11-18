@@ -14,34 +14,26 @@ use Illuminate\Support\Facades\Storage;
 class AssignmentController extends Controller
  {
 
-    public function index(Request $request)
-    {
-        $search = $request->get('search');
+public function index(Request $request)
+{
 
-        // Fetching assignments with pagination and search functionality
-        $assignments = Assignment::when($search, function ($query) use ($search) {
-                // Performing search on multiple columns to avoid missing results
-                $query->where(function($query) use ($search) {
-                    $query->where('case_reported', 'like', "%{$search}%")
-                          ->orWhere('location', 'like', "%{$search}%")
-                          ->orWhere('customer_phone', 'like', "%{$search}%")
-                          ->orWhereHas('customer', function($query) use ($search) {
-                              $query->where('name', 'like', "%{$search}%")  // Assuming there's a 'name' field in 'customers'
-                                    ->orWhere('email', 'like', "%{$search}%"); // Assuming 'email' field
-                          });
-                });
-            })
-            ->paginate(10); // Adjust the number as needed
+    $search = $request->get('search');
 
-        // Fetching related customers, users, and vehicles
-        $customers = Customer::all();
-        $users = User::all();
-        $vehicles = Vehicle::all();
+    // Fetching assignments with pagination and search functionality
+    $assignments = Assignment::when($search, function ($query) use ($search) {
+            $query->where('case_reported', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%");
+        })
+        ->paginate(10000); // Change the number to whatever suits your needs
 
-        // Returning the view with the necessary data
-        return view('assignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
-    }
+    // Fetching related customers and users
+    $customers = Customer::all();
+    $users = User::all();
+    $vehicles = Vehicle::all();
 
+    return view('assignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
+}
 
 
  // Display a listing of the resource
