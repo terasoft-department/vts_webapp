@@ -184,11 +184,11 @@
                   <i class="bi bi-circle"></i><span>Customer</span>
                 </a>
               </li> --}}
-          <li>
+          {{-- <li>
             <a href="sdevices">
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
-          </li>
+          </li> --}}
           <li>
              {{-- <li>
                 <a href="vehicles">

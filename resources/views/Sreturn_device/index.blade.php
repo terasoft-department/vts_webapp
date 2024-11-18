@@ -205,11 +205,11 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
-          <li>
+          {{-- <li>
             <a href="/dispatched_historyv2">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
-          </li>
+          </li> --}}
 {{--
           <li>
             <a href="Pchecklists">

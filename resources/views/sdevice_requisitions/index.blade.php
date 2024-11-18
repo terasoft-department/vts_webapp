@@ -206,7 +206,7 @@
             </a>
           </li>
           <li>
-            <a href="/dispatched_historyv2">
+            <a href="#">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
           </li>

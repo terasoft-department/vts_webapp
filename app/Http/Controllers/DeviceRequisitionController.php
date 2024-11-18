@@ -57,78 +57,78 @@ class DeviceRequisitionController extends Controller
         return redirect()->route('device_requisitions.index')->with('success', 'Requisition created successfully.');
     }
 
-    public function dispatchedDeviceHistory3()
-    {
-        // Fetch device requisitions with dispatched IMEIs, joining with the users table to get the username
-        $requisitions = DeviceRequisition::select(
-                'device_requisitions.user_id',
-                'device_requisitions.dispatched_imeis',
-                'device_requisitions.master',
-                'device_requisitions.I_button',
-                'device_requisitions.buzzer',
-                'device_requisitions.panick_button',
-                'users.name as user_name'
-            )
-            ->whereNotNull('device_requisitions.dispatched_imeis')
-            ->join('users', 'device_requisitions.user_id', '=', 'users.user_id')
-            ->get();
+    // public function dispatchedDeviceHistory3()
+    // {
+    //     // Fetch device requisitions with dispatched IMEIs, joining with the users table to get the username
+    //     $requisitions = DeviceRequisition::select(
+    //             'device_requisitions.user_id',
+    //             'device_requisitions.dispatched_imeis',
+    //             'device_requisitions.master',
+    //             'device_requisitions.I_button',
+    //             'device_requisitions.buzzer',
+    //             'device_requisitions.panick_button',
+    //             'users.name as user_name'
+    //         )
+    //         ->whereNotNull('device_requisitions.dispatched_imeis')
+    //         ->join('users', 'device_requisitions.user_id', '=', 'users.user_id')
+    //         ->get();
 
-        $dispatchedHistory = [];
+    //     $dispatchedHistory = [];
 
-        foreach ($requisitions as $requisition) {
-            // Initialize counts and statuses for each device category
-            $counts = [
-                'master' => 0,
-                'I_button' => 0,
-                'buzzer' => 0,
-                'panick_button' => 0,
-            ];
+    //     foreach ($requisitions as $requisition) {
+    //         // Initialize counts and statuses for each device category
+    //         $counts = [
+    //             'master' => 0,
+    //             'I_button' => 0,
+    //             'buzzer' => 0,
+    //             'panick_button' => 0,
+    //         ];
 
-            $statuses = [
-                'master' => 'No-requisition',
-                'I_button' => 'No-requisition',
-                'buzzer' => 'No-requisition',
-                'panick_button' => 'No-requisition',
-            ];
+    //         $statuses = [
+    //             'master' => 'No-requisition',
+    //             'I_button' => 'No-requisition',
+    //             'buzzer' => 'No-requisition',
+    //             'panick_button' => 'No-requisition',
+    //         ];
 
-            // Convert dispatched_imeis to an array (assuming it's comma-separated)
-            $dispatchedImeiArray = explode(',', $requisition->dispatched_imeis);
+    //         // Convert dispatched_imeis to an array (assuming it's comma-separated)
+    //         $dispatchedImeiArray = explode(',', $requisition->dispatched_imeis);
 
-            // Count dispatched devices for each category and set status
-            foreach (['master', 'I_button', 'buzzer', 'panick_button'] as $category) {
-                // Count devices of each category that have been dispatched
-                $deviceCount = Device::whereIn('imei_number', $dispatchedImeiArray)
-                    ->where('category', $category)
-                    ->where('dispatched_status', 'dispatched')
-                    ->count();
+    //         // Count dispatched devices for each category and set status
+    //         foreach (['master', 'I_button', 'buzzer', 'panick_button'] as $category) {
+    //             // Count devices of each category that have been dispatched
+    //             $deviceCount = Device::whereIn('imei_number', $dispatchedImeiArray)
+    //                 ->where('category', $category)
+    //                 ->where('dispatched_status', 'dispatched')
+    //                 ->count();
 
-                $counts[$category] = $deviceCount; // Store the count of devices dispatched
+    //             $counts[$category] = $deviceCount; // Store the count of devices dispatched
 
-                // If devices are dispatched for this category, set the status to "Dispatched"
-                if ($deviceCount > 0) {
-                    $statuses[$category] = 'Dispatched';
-                }
-                // If no devices are dispatched, but count > 0 in requisition, set status to "Available"
-                elseif ($deviceCount == 0 && $requisition->$category > 0) {
-                    $statuses[$category] = 'Available';
-                }
-            }
+    //             // If devices are dispatched for this category, set the status to "Dispatched"
+    //             if ($deviceCount > 0) {
+    //                 $statuses[$category] = 'Dispatched';
+    //             }
+    //             // If no devices are dispatched, but count > 0 in requisition, set status to "Available"
+    //             elseif ($deviceCount == 0 && $requisition->$category > 0) {
+    //                 $statuses[$category] = 'Available';
+    //             }
+    //         }
 
-            // Add to dispatched history with the correct counts and statuses
-            $dispatchedHistory[] = [
-                'name' => $requisition->user_name,
-                'dispatched_imeis' => $requisition->dispatched_imeis,
-                'master_count' => $counts['master'],
-                'I_button_count' => $counts['I_button'],
-                'buzzer_count' => $counts['buzzer'],
-                'panick_button_count' => $counts['panick_button'],
-                'dispatched_status' => $statuses, // This is the dispatched status array
-            ];
-        }
+    //         // Add to dispatched history with the correct counts and statuses
+    //         $dispatchedHistory[] = [
+    //             'name' => $requisition->user_name,
+    //             'dispatched_imeis' => $requisition->dispatched_imeis,
+    //             'master_count' => $counts['master'],
+    //             'I_button_count' => $counts['I_button'],
+    //             'buzzer_count' => $counts['buzzer'],
+    //             'panick_button_count' => $counts['panick_button'],
+    //             'dispatched_status' => $statuses, // This is the dispatched status array
+    //         ];
+    //     }
 
-        // Return the dispatched history view
-        return view('dispatched_historyv2.index', compact('dispatchedHistory'));
-    }
+    //     // Return the dispatched history view
+    //     return view('dispatched_historyv2.index', compact('dispatchedHistory'));
+    // }
 
 
 
