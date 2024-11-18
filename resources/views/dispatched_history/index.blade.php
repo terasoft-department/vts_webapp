@@ -261,6 +261,7 @@
                                 <th class="d-none d-md-table-cell">Buzzer</th>
                                 <th class="d-none d-md-table-cell">Panic Button</th>
                                 <th>Dispatched Categories</th>
+                                <th>approved date<th>
                             </tr>
                         </thead>
                         <tbody>
@@ -279,6 +280,26 @@
                                         @endif
                                     @endforeach
                                 </td>
+                                {{-- <td>
+                                    @php
+                                        // Convert the created_at time to Nairobi local time
+                                        $nairobiTime = $dispatchedHistory->created_at->setTimezone('Africa/Nairobi');
+                                    @endphp
+                                    {{ $nairobiTime->format('H:i:s') }}
+
+                                    @php
+                                        $hour = $nairobiTime->format('H');
+                                    @endphp
+                                    @if ($hour >= 5 && $hour < 12)
+                                        <span>Morning</span>
+                                    @elseif ($hour >= 12 && $hour < 17)
+                                        <span>Afternoon</span>
+                                    @elseif ($hour >= 17 && $hour < 21)
+                                        <span>Evening</span>
+                                    @else
+                                        <span>Night</span>
+                                    @endif
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
