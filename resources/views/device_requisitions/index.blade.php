@@ -291,7 +291,7 @@
                             <th>Buzzer</th>
                             <th>Panic Button</th>
                             {{-- <th>Approve</th> --}}
-                            <th>approved date<th>
+                            {{-- <th>approved date<th> --}}
                         </tr>
                     </thead>
                     <tbody id="deviceTable">
@@ -337,32 +337,14 @@
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Submit</button>
                                                     </div>
+
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                             <td>
-                                @php
-                                    // Convert the created_at time to Nairobi local time
-                                    $nairobiTime = $requisition->created_at->setTimezone('Africa/Nairobi');
-                                @endphp
-                                {{ $nairobiTime->format('H:i:s') }}
 
-                                @php
-                                    $hour = $nairobiTime->format('H');
-                                @endphp
-                                @if ($hour >= 5 && $hour < 12)
-                                    <span>Morning</span>
-                                @elseif ($hour >= 12 && $hour < 17)
-                                    <span>Afternoon</span>
-                                @elseif ($hour >= 17 && $hour < 21)
-                                    <span>Evening</span>
-                                @else
-                                    <span>Night</span>
-                                @endif
-                            </td>
                         </tr>
                         @endforeach
                     </tbody>
