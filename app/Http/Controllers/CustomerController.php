@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 
 class CustomerController extends Controller
 {
@@ -28,10 +27,6 @@ class CustomerController extends Controller
                             ->paginate(10);
 
         return response()->json(['customers' => $customers]);
-    }
-    public function show(Customer $customer)
-    {
-        return view('customers.show', compact('customer'));
     }
 
     public function store(Request $request)
