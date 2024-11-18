@@ -30,7 +30,7 @@ public function index(Request $request)
         $customers = Customer::all();
         $users = User::all();
         $vehicles = Vehicle::all();
-        return view('Assignment.index', compact('customers', 'vehicles', 'assignments', 'users'));
+        return view('assignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
 
     }
      // Display a listing of the resource
@@ -84,9 +84,9 @@ public function index(Request $request)
         {
             try {
                 $assignment = Assignment::findOrFail($id);
-                return view('Assignment.show', compact('assignment'));
+                return view('assignments.show', compact('assignment'));
             } catch (\Exception $e) {
-                return redirect()->route('Assignment.index')->withErrors('Assignment not found.');
+                return redirect()->route('assignments.index')->withErrors('Assignment not found.');
             }
         }
 
@@ -95,9 +95,9 @@ public function index(Request $request)
             try {
                 $assignment = Assignment::findOrFail($id);
                 $customers = Customer::all();
-                return view('Assignment.edit', compact('assignment', 'customers'));
+                return view('assignments.edit', compact('assignment', 'customers'));
             } catch (\Exception $e) {
-                return redirect()->route('Assignment.index')->withErrors('Assignment not found.');
+                return redirect()->route('assignments.index')->withErrors('Assignment not found.');
             }
         }
 
@@ -139,7 +139,7 @@ public function index(Request $request)
             // Update the assignment
             $assignment->update($data);
 
-            return redirect()->route('Assignment.index')->with('success', 'Assignment updated successfully.');
+            return redirect()->route('assignments.index')->with('success', 'Assignment updated successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors('Failed to update assignment.')->withInput();
         }
@@ -155,9 +155,9 @@ public function index(Request $request)
                     Storage::disk('public')->delete($assignment->attachment);
                 }
                 $assignment->delete();
-                return redirect()->route('Assignment.index')->with('success', 'Assignment deleted successfully.');
+                return redirect()->route('assignments.index')->with('success', 'Assignment deleted successfully.');
             } catch (\Exception $e) {
-                return redirect()->route('Assignment.index')->withErrors('Failed to delete assignment.');
+                return redirect()->route('assignments.index')->withErrors('Failed to delete assignment.');
             }
         }
 }
