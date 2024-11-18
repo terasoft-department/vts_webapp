@@ -290,7 +290,7 @@
                             <th>I-Button</th>
                             <th>Buzzer</th>
                             <th>Panic Button</th>
-                            <th>Approve</th>
+                            {{-- <th>Approve</th> --}}
                             <th>approved date<th>
                         </tr>
                     </thead>
@@ -307,9 +307,9 @@
                             <td>{{ $requisition->panick_button }}</td>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
+                                {{-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
                                     <i class="bi bi-check-circle"></i>
-                                </button>
+                                </button> --}}
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
