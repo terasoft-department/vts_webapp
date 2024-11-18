@@ -66,19 +66,19 @@ public function index(Request $request)
         $assignment->assigned_by = $request->assigned_by;
         // $assignment->status = $request->status;
 
-        if ($request->hasFile('attachment')) {
-            $file = $request->file('attachment');
-            if ($file->isValid()) {
-                // Generate a unique file name with extension
-                $fileName = time() . '-' . $file->getClientOriginalName();
-                // Move the file to public/uploads directory
-                $file->move(public_path('uploads'), $fileName);
-                // Store the file name in the database
-                $assignment->attachment = $fileName;
-            }
-        } else {
-            $assignment->attachment = null;
-        }
+        // if ($request->hasFile('attachment')) {
+        //     $file = $request->file('attachment');
+        //     if ($file->isValid()) {
+        //         // Generate a unique file name with extension
+        //         $fileName = time() . '-' . $file->getClientOriginalName();
+        //         // Move the file to public/uploads directory
+        //         $file->move(public_path('uploads'), $fileName);
+        //         // Store the file name in the database
+        //         $assignment->attachment = $fileName;
+        //     }
+        // } else {
+        //     $assignment->attachment = null;
+        // }
 
         $assignment->save();
 
