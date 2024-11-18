@@ -290,7 +290,7 @@
                             <th>I-Button</th>
                             <th>Buzzer</th>
                             <th>Panic Button</th>
-                            <th>Approved Date</th>
+                            <th>created Date</th>
                         </tr>
                     </thead>
                     <tbody id="deviceTable">
@@ -304,7 +304,7 @@
                             <td>{{ $requisition->I_button }}</td>
                             <td>{{ $requisition->buzzer }}</td>
                             <td>{{ $requisition->panick_button }}</td>
-                            
+
                             <td>
                                 @php
                                     // Convert the created_at time to Nairobi local time

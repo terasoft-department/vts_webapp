@@ -261,7 +261,7 @@
                                 <th class="d-none d-md-table-cell">Buzzer</th>
                                 <th class="d-none d-md-table-cell">Panic Button</th>
                                 <th>Dispatched Categories</th>
-                                <th>approved date<th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -280,6 +280,7 @@
                                         @endif
                                     @endforeach
                                 </td>
+
                                 {{-- <td>
                                     @php
                                         // Convert the created_at time to Nairobi local time
