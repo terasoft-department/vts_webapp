@@ -513,11 +513,18 @@
             <div class="col-md-6">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
             </div>
-            <div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <button class="btn btn-primary w-100" onclick="searchCustomer()">
                     <i class="bi bi-search"></i> Search
                 </button>
-            </div>
+            </div> --}}
+
+
+        <form action="{{ route('customers.index') }}" method="GET" class="form-inline d-flex align-items-center">
+            <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search customers..." value="{{ request()->query('search') }}" id="customerSearch" style="width: 250px;">
+            <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
+        </form>
+
             <div class="col-md-4 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
                     <i class="bi bi-plus-circle"></i> Add Customer
