@@ -267,12 +267,7 @@
                 </button>
             </div>
 
-        <form action="{{ route('assignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
-            <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="assignmentSearch" style="width: 250px;">
-            <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
-        </form>
-
-            {{-- <div class="row mb-3">
+            <div class="row mb-3">
                 <div class="col-md-8">
                     <form method="GET" action="{{ route('assignments.index') }}">
                         <div class="input-group">
@@ -283,7 +278,7 @@
                         </div>
                     </form>
                 </div>
-            </div> --}}
+            </div>
             <!-- Assignments Table -->
             <table class="table table-bordered table-striped mt-2 text-left">
                 <thead style="background-color: #4177fd; color: white;">
@@ -392,15 +387,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="plate_number">Plate Number</label>
-                                    <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter plate number" required>
-                                    {{-- <select class="form-control" id="plate_number" name="plate_number" required>
+                                    <select class="form-control" id="plate_number" name="plate_number" required>
                                         <option value="">Select a plate number</option>
                                         @foreach($vehicles as $vehicle)
                                             <option value="{{ $vehicle->plate_number }}">{{ $vehicle->plate_number }}</option>
                                         @endforeach
-                                    </select> --}}
+                                    </select>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="location">Location</label>
                                     <input type="text" class="form-control" id="location" name="location" required>
@@ -418,7 +411,6 @@
                                     <label for="case_reported">Case Reported</label>
                                     <select class="form-control" id="case_reported" name="case_reported" required>
                                         <option value="" disabled selected>Select a case</option>
-                                        <option value="New Installation">New Installation</option>
                                         <option value="skipping">Skipping</option>
                                         <option value="black_box_data">Black box Data</option>
                                         <option value="device_tampering">Device Tampering</option>
