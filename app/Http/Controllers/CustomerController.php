@@ -34,6 +34,7 @@ class CustomerController extends Controller
     //     }
     // });
         // Fetch customers with pagination (e.g., 10 customers per page)
+        $customers = Customer::all();
         $customers = Customer::paginate(10);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();

@@ -13,6 +13,7 @@ class AdminCustomerController extends Controller
     public function index()
     {
         // Fetch customers with pagination (e.g., 10 customers per page)
+     
         $customers = Customer::paginate(10);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
