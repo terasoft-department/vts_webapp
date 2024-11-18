@@ -26,7 +26,7 @@ public function index(Request $request)
                   ->orWhere('customer_phone', 'like', "%{$search}%");
         })
         ->paginate(10000); // Change the number to whatever suits your needs
-
+    $customers = Customer::paginate(10000);
     // Fetching related customers and users
     $customers = Customer::all();
     $users = User::all();
