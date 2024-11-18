@@ -290,12 +290,11 @@
                             <th>I-Button</th>
                             <th>Buzzer</th>
                             <th>Panic Button</th>
-                            {{-- <th>Approve</th> --}}
-                            {{-- <th>approved date<th> --}}
+                            <th>Approved Date</th>
                         </tr>
                     </thead>
                     <tbody id="deviceTable">
-                        @foreach($requisitions as $requisition)
+                        @foreach($requisitions->sortBy('requisition_id') as $requisition) <!-- Sorting by requisition_id -->
                         <tr>
                             <td>{{ $requisition->requisition_id }}</td>
                             <td>{{ $requisition->user->name ?? 'N/A' }}</td>
@@ -305,50 +304,32 @@
                             <td>{{ $requisition->I_button }}</td>
                             <td>{{ $requisition->buzzer }}</td>
                             <td>{{ $requisition->panick_button }}</td>
+                            
                             <td>
-                                <!-- Button trigger modal -->
-                                {{-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                                    <i class="bi bi-check-circle"></i>
-                                </button> --}}
+                                @php
+                                    // Convert the created_at time to Nairobi local time
+                                    $nairobiTime = $requisition->created_at->setTimezone('Africa/Nairobi');
+                                @endphp
+                                {{ $nairobiTime->format('H:i:s') }}
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @php
+                                    $hour = $nairobiTime->format('H');
+                                @endphp
+                                @if ($hour >= 5 && $hour < 12)
+                                    <span>Morning</span>
+                                @elseif ($hour >= 12 && $hour < 17)
+                                    <span>Afternoon</span>
+                                @elseif ($hour >= 17 && $hour < 21)
+                                    <span>Evening</span>
+                                @else
+                                    <span>Night</span>
+                                @endif
                             </td>
-
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
