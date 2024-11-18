@@ -205,6 +205,7 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
+
           <li>
             <a href="#">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
@@ -243,109 +244,64 @@
   </aside><!-- End Sidebar-->
 
 <main id="main" class="main">
-    <table class="table table-striped">
-        <div class="container mt-2">
-            <div class="card">
-                <div class="card-header bg text-blue text-center">
-                    <h4 class="m-0">Device Dispatch</h4>
+    <div class="container mt-2">
+        <div class="card">
+            <div class="card-header bg text-blue text-center">
+                <h4 class="m-0">Device Dispatch History</h4>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Technician</th>
+                            <th>IMEI Numbers</th>
+                            <th>Master</th>
+                            <th>I-Button</th>
+                            <th>Buzzer</th>
+                            <th>Panic Button</th>
+                            <th>Dispatched Categories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($dispatchedHistory as $history)
+                        <tr>
+                            <!-- Display technician/user name -->
+                            <td>{{ $history['name'] ?? 'N/A' }}</td>
+
+                            <!-- Display IMEI numbers for the requisition -->
+                            <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
+
+                            <!-- Device counts for each category -->
+                            <td>{{ $history['master_count'] }}</td>
+                            <td>{{ $history['I_button_count'] }}</td>
+                            <td>{{ $history['buzzer_count'] }}</td>
+                            <td>{{ $history['panick_button_count'] }}</td>
+
+                            <!-- List of dispatched categories -->
+                            <td>
+                                @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
+                                    @if($history[$category . '_count'] > 0)
+                                        {{ ucfirst($category) }}@if(!$loop->last), @endif
+                                    @endif
+                                @endforeach
+                            </td>
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+
+
+
+
                 </div>
-
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>User Name</th>
-                <th>Descriptions</th>
-                {{-- <th>Approved At</th> --}}
-                <th>Status</th>
-                <th>Master</th>
-                <th>I-Button</th>
-                <th>Buzzer</th>
-                <th>Panic Button</th>
-                <th>Approve</th>
-                <th>Created At</th>
-            </tr>
-        </thead>
-        <tbody id="deviceTable">
-            @foreach($requisitions->sortBy('requisition_id') as $requisition) <!-- Sorting by requisition_id -->
-            <tr>
-                <td>{{ $requisition->requisition_id }}</td>
-                <td>{{ $requisition->user->name ?? 'N/A' }}</td>
-                <td>{{ $requisition->descriptions }}</td>
-                <td>{{ ucfirst($requisition->status) }}</td>
-                <td>{{ $requisition->master }}</td>
-                <td>{{ $requisition->I_button }}</td>
-                <td>{{ $requisition->buzzer }}</td>
-                <td>{{ $requisition->panick_button }}</td>
-                <td>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                        <i class="bi bi-check-circle"></i>
-                    </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $requisition->requisition_id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel{{ $requisition->requisition_id }}">Crosscheck to Approve</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                {{-- <div class="mb-3">
-                                    <label for="approved_date" class="form-label">Approved Date</label>
-                                    <input type="date" class="form-control" id="approved_date" name="date" required>
-                                </div> --}}
-                                <div class="modal-body">
-                                    <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="mb-3">
-                                            <label for="status{{ $requisition->requisition_id }}" class="form-label">Status</label>
-                                            <select class="form-select" id="status{{ $requisition->requisition_id }}" name="status" required>
-                                                <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                                <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                                <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    @php
-                        // Convert the created_at time to Nairobi local time
-                        $nairobiTime = $requisition->created_at->setTimezone('Africa/Nairobi');
-                    @endphp
-                    {{ $nairobiTime->format('H:i:s') }}
-
-                    @php
-                        $hour = $nairobiTime->format('H');
-                    @endphp
-                    @if ($hour >= 5 && $hour < 12)
-                        <span>Morning</span>
-                    @elseif ($hour >= 12 && $hour < 17)
-                        <span>Afternoon</span>
-                    @elseif ($hour >= 17 && $hour < 21)
-                        <span>Evening</span>
-                    @else
-                        <span>Night</span>
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
             </div>
         </div>
     </div>
 </main>
+
 
 <script>
     document.getElementById('searchInput').addEventListener('input', function () {
@@ -358,6 +314,7 @@
         });
     });
 </script>
+
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

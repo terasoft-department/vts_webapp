@@ -327,6 +327,7 @@ Route::prefix('jobcards2')->group(function () {
 
 Route::get('/dispatched-history', [DeviceRequisitionController::class, 'dispatchedDeviceHistory'])->name('dispatched_history.index');
  Route::get('/dispatched-history1', [DeviceRequisitionController::class, 'dispatchedDeviceHistory1'])->name('dispatched_historyv1.index');
+ Route::get('/dispatched-history2', [DeviceRequisitionController::class, 'dispatchedDeviceHistory2'])->name('dispatched_historyv2.index');
 
 //Tampering for MornitoringOfficer
 Route::prefix('tampering')->group(function () {

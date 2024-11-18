@@ -329,12 +329,12 @@
             </tbody>
         </table>
 
-        <!-- Pagination -->
+        {{-- <!-- Pagination -->
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 {{ $assignments->links() }}
             </ul>
-        </nav>
+        </nav> --}}
 
         <!-- Modal for Adding/Editing Assignment -->
         <div class="modal fade" id="assignmentModal" tabindex="-1" role="dialog" aria-labelledby="assignmentModalLabel" aria-hidden="true">
