@@ -243,7 +243,7 @@
 
   </aside><!-- End Sidebar-->
 
-<main id="main" class="main">
+  <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">
             <div class="card-header bg text-blue text-center">
@@ -251,49 +251,83 @@
             </div>
 
             <div class="card-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Technician</th>
-                            <th>IMEI Numbers</th>
-                            <th>Master</th>
-                            <th>I-Button</th>
-                            <th>Buzzer</th>
-                            <th>Panic Button</th>
-                            <th>Dispatched Categories</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($dispatchedHistory as $history)
-                        <tr>
-                            <!-- Display technician/user name -->
-                            <td>{{ $history['name'] ?? 'N/A' }}</td>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Technician</th>
+                                <th>IMEI Numbers</th>
+                                <th>Master</th>
+                                <th>I-Button</th>
+                                <th>Buzzer</th>
+                                <th>Panic Button</th>
+                                <th>Dispatched Categories</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($dispatchedHistory as $history)
+                            <tr>
+                                <!-- Display technician/user name -->
+                                <td>{{ $history['name'] ?? 'N/A' }}</td>
 
-                            <!-- Display IMEI numbers for the requisition -->
-                            <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
+                                <!-- Display IMEI numbers for the requisition -->
+                                <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
 
-                            <!-- Device counts for each category -->
-                            <td>{{ $history['master_count'] }}</td>
-                            <td>{{ $history['I_button_count'] }}</td>
-                            <td>{{ $history['buzzer_count'] }}</td>
-                            <td>{{ $history['panick_button_count'] }}</td>
+                                <!-- Device counts for each category -->
+                                <td>{{ $history['master_count'] }}</td>
+                                <td>{{ $history['I_button_count'] }}</td>
+                                <td>{{ $history['buzzer_count'] }}</td>
+                                <td>{{ $history['panick_button_count'] }}</td>
 
-                            <!-- List of dispatched categories -->
-                            <td>
-                                @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
-                                    @if($history[$category . '_count'] > 0)
-                                        {{ ucfirst($category) }}@if(!$loop->last), @endif
-                                    @endif
-                                @endforeach
-                            </td>
+                                <!-- List of dispatched categories -->
+                                <td>
+                                    @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
+                                        @if($history[$category . '_count'] > 0)
+                                            {{ ucfirst($category) }}@if(!$loop->last), @endif
+                                        @endif
+                                    @endforeach
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+<style>
+    /* Make table cells fit content and prevent overflow */
+    .table td, .table th {
+        white-space: nowrap; /* Prevent cells from expanding */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px; /* Adjust to your needs */
+    }
 
+    /* Set a max width for the table within the card */
+    .card-body {
+        overflow-x: auto;
+        max-width: 100%; /* Ensures the table fits within the container */
+    }
+</style>
+{{--
+<style>
+    /* Make table cells fit content and prevent overflow */
+    .table td, .table th {
+        white-space: nowrap; /* Prevent cells from expanding */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px; /* Adjust to your needs */
+    }
 
-
+    /* Set a max width for the table within the card */
+    .card-body {
+        overflow-x: auto;
+        max-width: 100%; /* Ensures the table fits within the container */
+    }
+</style> --}}
 
 
                 </div>
