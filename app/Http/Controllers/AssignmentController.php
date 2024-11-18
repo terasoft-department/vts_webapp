@@ -42,16 +42,16 @@ class AssignmentController extends Controller
     // Store a newly created assignment in storage
     public function store(Request $request)
     {
-        $request->validate([
-            'customer_id' => 'required',
-            'customer_phone' => 'required',
-            'customer_debt' => 'required|numeric',
-            'plate_number' => 'required',
-            'location' => 'required',
-            'user_id' => 'required',
-            'case_reported' => 'required',
-            'assigned_by' => 'required',
-        ]);
+        // $request->validate([
+        //     'customer_id' => 'required',
+        //     'customer_phone' => 'required',
+        //     'customer_debt' => 'required|numeric',
+        //     'plate_number' => 'required',
+        //     'location' => 'required',
+        //     'user_id' => 'required',
+        //     'case_reported' => 'required',
+        //     'assigned_by' => 'required',
+        // ]);
 
         Assignment::create($request->all());
 
@@ -72,16 +72,16 @@ class AssignmentController extends Controller
     // Update the specified assignment in storage
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'customer_id' => 'required',
-            'customer_phone' => 'required',
-            'customer_debt' => 'required|numeric',
-            'plate_number' => 'required',
-            'location' => 'required',
-            'user_id' => 'required',
-            'case_reported' => 'required',
-            'assigned_by' => 'required',
-        ]);
+        // $request->validate([
+        //     'customer_id' => 'required',
+        //     'customer_phone' => 'required',
+        //     'customer_debt' => 'required|numeric',
+        //     'plate_number' => 'required',
+        //     'location' => 'required',
+        //     'user_id' => 'required',
+        //     'case_reported' => 'required',
+        //     'assigned_by' => 'required',
+        // ]);
 
         $assignment = Assignment::findOrFail($id);
         $assignment->update($request->all());
