@@ -14,38 +14,40 @@ class AccountAssignmentController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->input('search');
+        $search = $request->get('search');
 
-        $assignments = Assignment::query()
-            ->when($search, function ($query, $search) {
-                $query->whereHas('customer', function($q) use ($search) {
-                    $q->where('customername', 'like', "%{$search}%");
-                })->orWhere('plate_number', 'like', "%{$search}%");
-            })
-            ->paginate(10); // Adjust pagination as needed
+    // Fetching assignments with pagination and search functionality
+    $assignments = Assignment::when($search, function ($query) use ($search) {
+            $query->where('case_reported', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%");
+        })
+        ->paginate(10000); // Change the number to whatever suits your needs
 
-        $customers = Customer::all();
-        $users = User::all();
-        $vehicles = Vehicle::all();
-        return view('AccountAssignment.index', compact('customers', 'vehicles', 'assignments', 'users'));
+    // Fetching related customers and users
+    $customers = Customer::all();
+    $users = User::all();
+    $vehicles = Vehicle::all();
+
+    return view('AccountAssignment.index', compact('assignments', 'customers', 'users', 'vehicles'));
 
     }
      // Display a listing of the resource
      public function store(Request $request)
         {
-            $request->validate([
-                'plate_number' => 'required|string|max:255',
-                'customer_id' => 'required|integer|exists:customers,customer_id',
-                'customer_phone' => 'required|string|max:15',
-                'customer_debt' => 'required|string|max:255',
-                'location' => 'required|string|max:255',
-                'user_id' => 'required|string',
-                'case_reported' => 'required|string',
-                'attachment' => 'nullable|file|mimes:pdf|max:2048',
-                'assigned_by'=> 'required|string',
-                // 'status'=> 'required|string',
+            // $request->validate([
+            //     'plate_number' => 'required|string|max:255',
+            //     'customer_id' => 'required|integer|exists:customers,customer_id',
+            //     'customer_phone' => 'required|string|max:15',
+            //     'customer_debt' => 'required|string|max:255',
+            //     'location' => 'required|string|max:255',
+            //     'user_id' => 'required|string',
+            //     'case_reported' => 'required|string',
+            //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
+            //     'assigned_by'=> 'required|string',
+            //     // 'status'=> 'required|string',
 
-            ]);
+            // ]);
 
             $assignment = new Assignment();
             $assignment->plate_number = $request->plate_number;
@@ -101,20 +103,20 @@ class AccountAssignmentController extends Controller
       public function update(Request $request, $id)
     {
         // Validate the request
-        $request->validate([
+        // $request->validate([
 
 
-        'plate_number'  => 'required|string|max:255',
-        'customer_id' => 'required|exists:customers,customer_id',
-        'customer_phone'=> 'required|string|max:15',
-        'customer_debt'=> 'required|numeric',
-        'location'=> 'required|string|max:255',
-        'user_id'=>'required|string|max:15',
-        'case_reported'=>'required|string',
-        'attachment' => 'nullable|file|mimes:pdf|max:2048',
-        'assigned_by'=> 'required|string',
-        // 'status'=> 'required|string',
-        ]);
+        // 'plate_number'  => 'required|string|max:255',
+        // 'customer_id' => 'required|exists:customers,customer_id',
+        // 'customer_phone'=> 'required|string|max:15',
+        // 'customer_debt'=> 'required|numeric',
+        // 'location'=> 'required|string|max:255',
+        // 'user_id'=>'required|string|max:15',
+        // 'case_reported'=>'required|string',
+        // 'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        // 'assigned_by'=> 'required|string',
+        // // 'status'=> 'required|string',
+        // ]);
 
         try {
             $assignment = Assignment::findOrFail($id);
