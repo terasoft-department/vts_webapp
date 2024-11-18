@@ -17,99 +17,95 @@ class AssignmentController extends Controller
 public function index(Request $request)
 {
 
-    $search = $request->get('search');
+        $search = $request->input('search');
 
-    // Fetching assignments with pagination and search functionality
-    $assignments = Assignment::when($search, function ($query) use ($search) {
-            $query->where('case_reported', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%")
-                  ->orWhere('customer_phone', 'like', "%{$search}%");
-        })
-        ->paginate(10); // Change the number to whatever suits your needs
+        $assignments = Assignment::query()
+            ->when($search, function ($query, $search) {
+                $query->whereHas('customer', function($q) use ($search) {
+                    $q->where('customername', 'like', "%{$search}%");
+                })->orWhere('plate_number', 'like', "%{$search}%");
+            })
+            ->paginate(10); // Adjust pagination as needed
 
-    // Fetching related customers and users
-    $customers = Customer::all();
-    $users = User::all();
-    $vehicles = Vehicle::all();
+        $customers = Customer::all();
+        $users = User::all();
+        $vehicles = Vehicle::all();
+        return view('Assignment.index', compact('customers', 'vehicles', 'assignments', 'users'));
 
-    return view('assignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
-}
+    }
+     // Display a listing of the resource
+     public function store(Request $request)
+        {
+            $request->validate([
+                'plate_number' => 'required|string|max:255',
+                'customer_id' => 'required|integer|exists:customers,customer_id',
+                'customer_phone' => 'required|string|max:15',
+                'customer_debt' => 'required|string|max:255',
+                'location' => 'required|string|max:255',
+                'user_id' => 'required|string',
+                'case_reported' => 'required|string',
+                'attachment' => 'nullable|file|mimes:pdf|max:2048',
+                'assigned_by'=> 'required|string',
+                // 'status'=> 'required|string',
 
+            ]);
 
- // Display a listing of the resource
+            $assignment = new Assignment();
+            $assignment->plate_number = $request->plate_number;
+            $assignment->customer_id = $request->customer_id;
+            $assignment->customer_phone = $request->customer_phone;
+            $assignment->customer_debt = $request->customer_debt;
+            $assignment->location = $request->location;
+            $assignment->user_id = $request->user_id;
+            $assignment->case_reported = $request->case_reported;
+            $assignment->assigned_by = $request->assigned_by;
+            // $assignment->status = $request->status;
 
-
- public function store(Request $request)
-    {
-        // $request->validate([
-        //     'plate_number' => 'required|string|max:255',
-        //     'customer_id' => 'required|integer|exists:customers,customer_id',
-        //     'customer_phone' => 'required|string|max:15',
-        //     'customer_debt' => 'required|string|max:255',
-        //     'location' => 'required|string|max:255',
-        //     'user_id' => 'required|string',
-        //     'case_reported' => 'required|string',
-        //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
-        //     'assigned_by'=> 'required|string',
-        //     // 'status'=> 'required|string',
-
-        // ]);
-
-        $assignment = new Assignment();
-        $assignment->plate_number = $request->plate_number;
-        $assignment->customer_id = $request->customer_id;
-        $assignment->customer_phone = $request->customer_phone;
-        $assignment->customer_debt = $request->customer_debt;
-        $assignment->location = $request->location;
-        $assignment->user_id = $request->user_id;
-        $assignment->case_reported = $request->case_reported;
-        $assignment->assigned_by = $request->assigned_by;
-        // $assignment->status = $request->status;
-
-        if ($request->hasFile('attachment')) {
-            $file = $request->file('attachment');
-            if ($file->isValid()) {
-                // Generate a unique file name with extension
-                $fileName = time() . '-' . $file->getClientOriginalName();
-                // Move the file to public/uploads directory
-                $file->move(public_path('uploads'), $fileName);
-                // Store the file name in the database
-                $assignment->attachment = $fileName;
+            if ($request->hasFile('attachment')) {
+                $file = $request->file('attachment');
+                if ($file->isValid()) {
+                    // Generate a unique file name with extension
+                    $fileName = time() . '-' . $file->getClientOriginalName();
+                    // Move the file to public/uploads directory
+                    $file->move(public_path('uploads'), $fileName);
+                    // Store the file name in the database
+                    $assignment->attachment = $fileName;
+                }
+            } else {
+                $assignment->attachment = null;
             }
-        } else {
-            $assignment->attachment = null;
+
+            $assignment->save();
+
+            return redirect()->back()->with('success', 'Assignment registered successfully!');
         }
 
-        $assignment->save();
+        public function show($id)
+        {
+            try {
+                $assignment = Assignment::findOrFail($id);
+                return view('Assignment.show', compact('assignment'));
+            } catch (\Exception $e) {
+                return redirect()->route('Assignment.index')->withErrors('Assignment not found.');
+            }
+        }
 
-        return redirect()->back()->with('success', 'Assignment registered successfully!');
-    }
+        public function edit($id)
+        {
+            try {
+                $assignment = Assignment::findOrFail($id);
+                $customers = Customer::all();
+                return view('Assignment.edit', compact('assignment', 'customers'));
+            } catch (\Exception $e) {
+                return redirect()->route('Assignment.index')->withErrors('Assignment not found.');
+            }
+        }
 
-    public function show($id)
+      public function update(Request $request, $id)
     {
-        try {
-            $assignment = Assignment::findOrFail($id);
-            return view('assignments.show', compact('assignment'));
-        } catch (\Exception $e) {
-            return redirect()->route('assignments.index')->withErrors('Assignment not found.');
-        }
-    }
+        // Validate the request
+        $request->validate([
 
-    public function edit($id)
-    {
-        try {
-            $assignment = Assignment::findOrFail($id);
-            $customers = Customer::all();
-            return view('assignments.edit', compact('assignment', 'customers'));
-        } catch (\Exception $e) {
-            return redirect()->route('assignments.index')->withErrors('Assignment not found.');
-        }
-    }
-
-  public function update(Request $request, $id)
-{
-    // Validate the request
-    $request->validate([
 
         'plate_number'  => 'required|string|max:255',
         'customer_id' => 'required|exists:customers,customer_id',
@@ -120,48 +116,48 @@ public function index(Request $request)
         'case_reported'=>'required|string',
         'attachment' => 'nullable|file|mimes:pdf|max:2048',
         'assigned_by'=> 'required|string',
-        //  'status'=> 'required|string',
-    ]);
-
-    try {
-        $assignment = Assignment::findOrFail($id);
-
-        // Update the assignment with new data except for the attachment
-        $data = $request->only([
-            'plate_number',
-            'customer_id',
-            'customer_phone',
-            'customer_debt',
-            'location',
-            'user_id',
-            'case_reported',
-            'attachment',
-            'assigned_by',
-            //  'status',
+        // 'status'=> 'required|string',
         ]);
 
-        // Update the assignment
-        $assignment->update($data);
-
-        return redirect()->route('assignments.index')->with('success', 'Assignment updated successfully.');
-    } catch (\Exception $e) {
-        return redirect()->back()->withErrors('Failed to update assignment.')->withInput();
-    }
-}
-
-
-    public function destroy($id)
-    {
         try {
             $assignment = Assignment::findOrFail($id);
-            // Delete attachment file if it exists
-            if ($assignment->attachment) {
-                Storage::disk('public')->delete($assignment->attachment);
-            }
-            $assignment->delete();
-            return redirect()->route('assignments.index')->with('success', 'Assignment deleted successfully.');
+
+            // Update the assignment with new data except for the attachment
+            $data = $request->only([
+                'plate_number',
+                'customer_id',
+                'customer_phone',
+                'customer_debt',
+                'location',
+                'user_id',
+                'case_reported',
+                'attachment',
+                'assigned_by',
+                // 'status',
+            ]);
+
+            // Update the assignment
+            $assignment->update($data);
+
+            return redirect()->route('Assignment.index')->with('success', 'Assignment updated successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('assignments.index')->withErrors('Failed to delete assignment.');
+            return redirect()->back()->withErrors('Failed to update assignment.')->withInput();
         }
     }
+
+
+        public function destroy($id)
+        {
+            try {
+                $assignment = Assignment::findOrFail($id);
+                // Delete attachment file if it exists
+                if ($assignment->attachment) {
+                    Storage::disk('public')->delete($assignment->attachment);
+                }
+                $assignment->delete();
+                return redirect()->route('Assignment.index')->with('success', 'Assignment deleted successfully.');
+            } catch (\Exception $e) {
+                return redirect()->route('Assignment.index')->withErrors('Failed to delete assignment.');
+            }
+        }
 }
