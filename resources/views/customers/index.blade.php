@@ -581,10 +581,10 @@
                                             <label for="customer_phone">Phone</label>
                                             <input type="text" name="customer_phone" class="form-control" value="{{ $customer->customer_phone }}" required>
                                         </div>
-                                        <div class="form-group mb-3">
+                                        {{-- <div class="form-group mb-3">
                                             <label for="email">Email</label>
                                             <input type="email" name="email" class="form-control" value="{{ $customer->email ?? '' }}" required>
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group mb-3">
                                             <label for="start_date">Start Date</label>
                                             <input type="date" name="start_date" class="form-control" value="{{ $customer->start_date }}" required>
@@ -626,10 +626,10 @@
                                 <label for="customer_phone">Phone</label>
                                 <input type="text" name="customer_phone" class="form-control" required>
                             </div>
-                            <div class="form-group mb-3">
+                            {{-- <div class="form-group mb-3">
                                 <label for="email">Email</label>
                                 <input type="email" name="email" class="form-control" required>
-                            </div>
+                            </div> --}}
                             <div class="form-group mb-3">
                                 <label for="start_date">Start Date</label>
                                 <input type="date" name="start_date" class="form-control" required>
