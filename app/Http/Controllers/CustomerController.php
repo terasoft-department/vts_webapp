@@ -21,6 +21,7 @@ class CustomerController extends Controller
 
     public function search(Request $request)
     {
+        $customers = Customer::all();
         $query = $request->input('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
