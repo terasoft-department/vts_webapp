@@ -14,25 +14,46 @@ use Illuminate\Support\Facades\Storage;
 class AssignmentController extends Controller
  {
 
+// public function index(Request $request)
+// {
+
+//         $search = $request->input('search');
+
+//         $assignments = Assignment::query()
+//             ->when($search, function ($query, $search) {
+//                 $query->whereHas('customer', function($q) use ($search) {
+//                     $q->where('customername', 'like', "%{$search}%");
+//                 })->orWhere('plate_number', 'like', "%{$search}%");
+//             })
+//             ->paginate(10); // Adjust pagination as needed
+
+//         $customers = Customer::all();
+//         $users = User::all();
+//         $vehicles = Vehicle::all();
+//         return view('assignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
+
+//     }
+
 public function index(Request $request)
 {
+    $search = $request->input('search');
 
-        $search = $request->input('search');
+    $assignments = Assignment::query()
+        ->when($search, function ($query, $search) {
+            $query->whereHas('customer', function($q) use ($search) {
+                // Update to use 'customer_id' instead of 'id'
+                $q->where('customername', 'like', "%{$search}%");
+            })->orWhere('plate_number', 'like', "%{$search}%");
+        })
+        ->paginate(10); // Adjust pagination as needed
 
-        $assignments = Assignment::query()
-            ->when($search, function ($query, $search) {
-                $query->whereHas('customer', function($q) use ($search) {
-                    $q->where('customername', 'like', "%{$search}%");
-                })->orWhere('plate_number', 'like', "%{$search}%");
-            })
-            ->paginate(10); // Adjust pagination as needed
+    $customers = Customer::all();
+    $users = User::all();
+    $vehicles = Vehicle::all();
 
-        $customers = Customer::all();
-        $users = User::all();
-        $vehicles = Vehicle::all();
-        return view('assignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
+    return view('assignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
+}
 
-    }
      // Display a listing of the resource
      public function store(Request $request)
         {
