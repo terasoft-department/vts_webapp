@@ -165,7 +165,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="project_manager">
+        <a class="nav-link " href="storekeeper">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -184,11 +184,11 @@
                   <i class="bi bi-circle"></i><span>Customer</span>
                 </a>
               </li> --}}
-          {{-- <li>
+          <li>
             <a href="sdevices">
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
-          </li> --}}
+          </li>
           <li>
              {{-- <li>
                 <a href="vehicles">
@@ -207,7 +207,7 @@
             </a>
           </li>
           <li>
-            <a href="/dispatched_historyv2">
+            <a href="/dispatched-historyv2">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
           </li>

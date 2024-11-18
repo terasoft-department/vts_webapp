@@ -164,7 +164,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="project_manager">
+        <a class="nav-link " href="storekeeper">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -205,11 +205,11 @@
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
-          {{-- <li>
-            <a href="/dispatched_historyv2">
+          <li>
+            <a href="/dispatched-historyv2">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
-          </li> --}}
+          </li>
 {{--
           <li>
             <a href="Pchecklists">
