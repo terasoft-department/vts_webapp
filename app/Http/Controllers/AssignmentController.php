@@ -41,19 +41,19 @@ public function index(Request $request)
 
  public function store(Request $request)
     {
-        $request->validate([
-            'plate_number' => 'required|string|max:255',
-            'customer_id' => 'required|integer|exists:customers,customer_id',
-            'customer_phone' => 'required|string|max:15',
-            'customer_debt' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'user_id' => 'required|string',
-            'case_reported' => 'required|string',
-            'attachment' => 'nullable|file|mimes:pdf|max:2048',
-            'assigned_by'=> 'required|string',
-            // 'status'=> 'required|string',
+        // $request->validate([
+        //     'plate_number' => 'required|string|max:255',
+        //     'customer_id' => 'required|integer|exists:customers,customer_id',
+        //     'customer_phone' => 'required|string|max:15',
+        //     'customer_debt' => 'required|string|max:255',
+        //     'location' => 'required|string|max:255',
+        //     'user_id' => 'required|string',
+        //     'case_reported' => 'required|string',
+        //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        //     'assigned_by'=> 'required|string',
+        //     // 'status'=> 'required|string',
 
-        ]);
+        // ]);
 
         $assignment = new Assignment();
         $assignment->plate_number = $request->plate_number;
