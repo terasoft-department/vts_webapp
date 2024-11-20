@@ -25,7 +25,7 @@ public function index(Request $request)
                   ->orWhere('location', 'like', "%{$search}%")
                   ->orWhere('customer_phone', 'like', "%{$search}%");
         })
-        ->paginate(10000); // Change the number to whatever suits your needs
+        ->paginate(10); // Change the number to whatever suits your needs
 
     // Fetching related customers and users
     $customers = Customer::all();
@@ -66,19 +66,19 @@ public function index(Request $request)
         $assignment->assigned_by = $request->assigned_by;
         // $assignment->status = $request->status;
 
-        // if ($request->hasFile('attachment')) {
-        //     $file = $request->file('attachment');
-        //     if ($file->isValid()) {
-        //         // Generate a unique file name with extension
-        //         $fileName = time() . '-' . $file->getClientOriginalName();
-        //         // Move the file to public/uploads directory
-        //         $file->move(public_path('uploads'), $fileName);
-        //         // Store the file name in the database
-        //         $assignment->attachment = $fileName;
-        //     }
-        // } else {
-        //     $assignment->attachment = null;
-        // }
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            if ($file->isValid()) {
+                // Generate a unique file name with extension
+                $fileName = time() . '-' . $file->getClientOriginalName();
+                // Move the file to public/uploads directory
+                $file->move(public_path('uploads'), $fileName);
+                // Store the file name in the database
+                $assignment->attachment = $fileName;
+            }
+        } else {
+            $assignment->attachment = null;
+        }
 
         $assignment->save();
 
@@ -108,20 +108,20 @@ public function index(Request $request)
 
   public function update(Request $request, $id)
 {
-    // // Validate the request
-    // $request->validate([
+    // Validate the request
+    $request->validate([
 
-    //     'plate_number'  => 'required|string|max:255',
-    //     'customer_id' => 'required|exists:customers,customer_id',
-    //     'customer_phone'=> 'required|string|max:15',
-    //     'customer_debt'=> 'required|numeric',
-    //     'location'=> 'required|string|max:255',
-    //     'user_id'=>'required|string|max:15',
-    //     'case_reported'=>'required|string',
-    //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
-    //     'assigned_by'=> 'required|string',
-    //     //  'status'=> 'required|string',
-    // ]);
+        'plate_number'  => 'required|string|max:255',
+        'customer_id' => 'required|exists:customers,customer_id',
+        'customer_phone'=> 'required|string|max:15',
+        'customer_debt'=> 'required|numeric',
+        'location'=> 'required|string|max:255',
+        'user_id'=>'required|string|max:15',
+        'case_reported'=>'required|string',
+        'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        'assigned_by'=> 'required|string',
+        //  'status'=> 'required|string',
+    ]);
 
     try {
         $assignment = Assignment::findOrFail($id);
@@ -149,22 +149,6 @@ public function index(Request $request)
     }
 }
 
-
-// public function searchByPlate(Request $request)
-// {
-//     $plateNumber = $request->query('plate_number');
-//     $customer = Customer::where('plate_number', $plateNumber)->first();
-
-//     if ($customer) {
-//         return response()->json([
-//             'success' => true,
-//             'customername' => $customer->customername,
-//             'customer_phone' => $customer->customer_phone,
-//         ]);
-//     } else {
-//         return response()->json(['success' => false]);
-//     }
-// }
 
     public function destroy($id)
     {
