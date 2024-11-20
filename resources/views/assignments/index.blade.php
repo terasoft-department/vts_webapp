@@ -320,7 +320,7 @@
                     <td>{{ $assignment->assigned_by }}</td>
                     <td>{{ ucfirst($assignment->status) }}</td>
                     <td>
-                        @php
+                        {{-- @php
                             $createdAtNairobi = $assignment->created_at->setTimezone('Africa/Nairobi');
                             $hour = $createdAtNairobi->format('H');
                             $timeOfDay = '';
@@ -338,8 +338,27 @@
                         @endphp
 
                         <!-- Display full date and time, including day of the week -->
-                        {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span>
-                    </td>
+                        {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span> --}}
+                        @php
+                        // Convert the created_at time to Nairobi local time
+                        $nairobiTime = $requisition->created_at->setTimezone('Africa/Nairobi');
+                    @endphp
+                    {{ $nairobiTime->format('H:i:s') }}
+
+                    @php
+                        $hour = $nairobiTime->format('H');
+                    @endphp
+                    @if ($hour >= 5 && $hour < 12)
+                        <span>Morning</span>
+                    @elseif ($hour >= 12 && $hour < 17)
+                        <span>Afternoon</span>
+                    @elseif ($hour >= 17 && $hour < 21)
+                        <span>Evening</span>
+                    @else
+                        <span>Night</span>
+                    @endif
+                </td>
+
 
 
                     <td>
@@ -375,7 +394,7 @@
 
                         <!-- Display the formatted date with time of day or "Not Accepted" if null -->
                         {{ $formattedAcceptedAt }} --}}
-                        @php
+                        {{-- @php
                         $createdAtNairobi = $assignment->created_at->setTimezone('Africa/Nairobi');
                         $hour = $createdAtNairobi->format('H');
                         $timeOfDay = '';
@@ -393,8 +412,27 @@
                     @endphp
 
                     <!-- Display full date and time, including day of the week -->
-                    {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span>
-                    </td>
+                    {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span> --}}
+                    @php
+                    // Convert the created_at time to Nairobi local time
+                    $nairobiTime = $requisition->created_at->setTimezone('Africa/Nairobi');
+                @endphp
+                {{ $nairobiTime->format('H:i:s') }}
+
+                @php
+                    $hour = $nairobiTime->format('H');
+                @endphp
+                @if ($hour >= 5 && $hour < 12)
+                    <span>Morning</span>
+                @elseif ($hour >= 12 && $hour < 17)
+                    <span>Afternoon</span>
+                @elseif ($hour >= 17 && $hour < 21)
+                    <span>Evening</span>
+                @else
+                    <span>Night</span>
+                @endif
+            </td>
+
 
                     <td>
                         @php
