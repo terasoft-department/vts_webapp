@@ -256,7 +256,7 @@
 
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
-<main id="main" class="main">
+  <main id="main" class="main">
     <div class="container">
         <h1>New Installations</h1>
 
@@ -288,8 +288,7 @@
                     <th>DevicePhoto</th>
                     <th>SimCard PaperPhoto</th>
                     <th>Technician</th>
-                    <th>created At</th>
-                    {{-- <th>Actions</th> --}}
+                    <th>Created At</th>
                 </tr>
             </thead>
             <tbody>
@@ -300,59 +299,50 @@
                         <td>{{ $installation->CarRegNumber }}</td>
                         <td>{{ $installation->customerPhone }}</td>
                         <td>{{ $installation->simCardNumber }}</td>
-<!-- Table Content -->
-<td>
-    @if($installation->picha_ya_gari_kwa_mbele)
-        <img src="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}"
-             alt="Front Car Photo"
-             class="thumbnail"
-             data-image="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}">
-    @else
-        N/A
-    @endif
-</td>
-<td>
-    @if($installation->picha_ya_device_anayoifunga)
-        <img src="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}"
-             alt="Device Photo"
-             class="thumbnail"
-             data-image="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}">
-    @else
-        N/A
-    @endif
-</td>
-<td>
-    @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
-        <img src="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
-             alt="Sim Card Paper Photo"
-             class="thumbnail"
-             data-image="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}">
-    @else
-        N/A
-    @endif
-</td>
 
-<!-- Popup Modal -->
-<div id="imageModal" class="modal" style="display: none;">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImage">
-    <div id="caption"></div>
-</div>
+                        <!-- Front Car Photo -->
+                        <td>
+                            @if($installation->picha_ya_gari_kwa_mbele)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}"
+                                     alt="Front Car Photo"
+                                     class="thumbnail"
+                                     data-image="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+
+                        <!-- Device Photo -->
+                        <td>
+                            @if($installation->picha_ya_device_anayoifunga)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}"
+                                     alt="Device Photo"
+                                     class="thumbnail"
+                                     data-image="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+
+                        <!-- SimCard Paper Photo -->
+                        <td>
+                            @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
+                                     alt="Sim Card Paper Photo"
+                                     class="thumbnail"
+                                     data-image="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}">
+                            @else
+                                N/A
+                            @endif
+                        </td>
 
                         <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
-                        {{-- <td>
-                            <a href="{{ route('new_installations.index', $installation->id) }}" class="btn btn-info btn-sm">View</a>
-                        </td> --}}
                         <td>
                             @php
-                                // Convert the created_at time to Nairobi local time
                                 $nairobiTime = $installation->created_at->setTimezone('Africa/Nairobi');
-                            @endphp
-                            {{ $nairobiTime->format('H:i:s') }}
-
-                            @php
                                 $hour = $nairobiTime->format('H');
                             @endphp
+                            {{ $nairobiTime->format('H:i:s') }}
                             @if ($hour >= 5 && $hour < 12)
                                 <span>Morning</span>
                             @elseif ($hour >= 12 && $hour < 17)
@@ -367,10 +357,18 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
 
-</div>
+    <!-- Modal for Image Preview -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div id="caption"></div>
+    </div>
+</main>
 
-<script>/* Modal Styles */
+<!-- Modal Styling -->
+<style>
     .modal {
         display: none;
         position: fixed;
@@ -423,14 +421,16 @@
     .thumbnail:hover {
         transform: scale(1.1);
     }
-    </script>
-    <script>document.addEventListener('DOMContentLoaded', function () {
+</style>
+
+<!-- JavaScript for Modal -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const captionText = document.getElementById('caption');
         const closeModal = document.querySelector('.close');
 
-        // Add click event to all thumbnails
         document.querySelectorAll('.thumbnail').forEach(thumbnail => {
             thumbnail.addEventListener('click', function () {
                 modal.style.display = 'block';
@@ -439,19 +439,18 @@
             });
         });
 
-        // Close modal when clicking on the close button
         closeModal.addEventListener('click', function () {
             modal.style.display = 'none';
         });
 
-        // Close modal when clicking anywhere outside the modal content
         modal.addEventListener('click', function (event) {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
     });
-    </script>
+</script>
+
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
