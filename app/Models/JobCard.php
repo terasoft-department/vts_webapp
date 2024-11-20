@@ -13,36 +13,54 @@ class JobCard extends Model
     public $timestamps = true;
 
     protected $fillable = [
-       'customer_id',
-        'contact_person',
-        'mobile_number',
-        'vehicle_regNo',
+        'Clientname',
+      'Tel',
+       'ContactPerson',
         'title',
-        'physical_location',
-        'plate_number',
-        'problem_reported',
-        'natureOf_ProblemAt_site',
-        'service_type',
-        'date_attended',
-        'work_done',
-        'imei_number',
-        'client_comment',
-        'user_id',
-        'pre_workdone_picture',
-        'post_workdone_picture',
-        'carPlateNumber_picture',
-        'tampering_evidence_picture'
+        'mobilePhone',
+        'VehicleRegNo',
+          'physicalLocation',
+        'deviceID',
+       'problemReported',
+       'DateReported',
+      'DateAttended',
+       'natureOfProblem',
+       'workDone',
+       'clientComment',
+       'service_type',
+       'user_id',
    ];
 
 // Define relationships if applicable (e.g., belongsTo for customer or user)
-public function customer()
-    {
-        return $this->belongsTo(Customer::class, 'customer_id');
-    }
-
-    // Relationship with User model
+  /**
+     * Get the user that created the job card.
+     */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id' );
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get the customer associated with the job card.
+     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
+    }
+
+    /**
+     * Get the device associated with the job card.
+     */
+    public function device()
+    {
+        return $this->belongsTo(Device::class, 'device_id', 'device_id');
+    }
+
+    public function jobcard(){
+        return $this->belongsTo(JobCard::class,'jobcard_id','jobcard_id');
+    }
+
+    public function assignment(){
+        return $this->belongsTo(Assignment::class,'assignment_id','assignment_id');
     }
 }

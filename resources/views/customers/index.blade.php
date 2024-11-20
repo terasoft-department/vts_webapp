@@ -1,3 +1,5 @@
+<!-- resources/views/new_installations/index.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +30,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -53,10 +55,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span>
-            </a><!-- End Notification Icon -->
+            </a><!-- End Notification Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
               <li class="dropdown-header">
@@ -88,10 +90,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-chat-left-text"></i>
               <span class="badge bg-success badge-number">3</span>
-            </a><!-- End Messages Icon -->
+            </a><!-- End Messages Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
               <li class="dropdown-header">
@@ -158,6 +160,7 @@
 
 
   </header><!-- End Header -->
+  <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -227,6 +230,11 @@
               <i class="bi bi-circle"></i><span>Jobcard</span>
             </a>
           </li>
+          <li>
+            <a href="new_installations">
+              <i class="bi bi-circle"></i><span>New_installations</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Forms Nav -->
 
@@ -240,242 +248,6 @@
 
   </aside><!-- End Sidebar-->
  <!-- Main Content -->
- {{-- <main id="main" class="main">
-    <div class="col-md-3 mb-2">
-        <div class="card text-center border-primary shadow card-hover">
-            <div class="card-header bg- text-dark">
-                Operation Summary
-            </div>
-            <div class="card-body bg-white">
-                <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
-                <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="container mt-2">
-        <h4 class="text-center">Customer Management</h4>
-        <br>
-
-        <!-- Error handling for validation -->
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
-        <!-- Search Bar and Button -->
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary" onclick="searchCustomer()">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
-        </div>
-
-        <!-- Add New Customer Button -->
-        <div class="text-left mb-2">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
-                <i class="bi bi-plus-circle"></i> Add Customer
-            </button>
-        </div>
-
-        <!-- Customer Table -->
-        <table id="customers" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>S/No</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Start Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="customerTableBody">
-                @foreach ($customers as $customer)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $customer->customername }}</td>
-                    <td>{{ $customer->address }}</td>
-                    <td>{{ $customer->customer_phone }}</td>
-                    <td>{{ $customer->start_date }}</td>
-                    <td>
-                        <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                    </td>
-                </tr>
-
-                <!-- Edit Customer Modal -->
-                <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editCustomerLabel">Edit Customer</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="{{ route('customers.update', $customer->customer_id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <div class="modal-body">
-                                    <div class="form-group mb-3">
-                                        <label for="customername">Customer Name</label>
-                                        <input type="text" name="customername" class="form-control" value="{{ $customer->customername }}" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="address">Address</label>
-                                        <input type="text" name="address" class="form-control" value="{{ $customer->address }}" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="customer_phone">Phone</label>
-                                        <input type="text" name="customer_phone" class="form-control" value="{{ $customer->customer_phone }}" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="tin_number">TIN Number</label>
-                                        <input type="text" name="tin_number" class="form-control" value="{{ $customer->tin_number }}" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email" class="form-control" value="{{ $customer->email }}" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="start_date">Start Date</label>
-                                        <input type="date" name="start_date" class="form-control" value="{{ $customer->start_date }}" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Update Customer</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </tbody>
-        </table>
-        <script>
-            // Lazy load modal content via AJAX when the modal is shown
-            $('#editCustomerModal').on('show.bs.modal', function (event) {
-                var modal = $(this);
-                var customerId = modal.attr('id').split('-')[1];
-
-                fetch("/customers/" + customerId + "/edit")
-                    .then(response => response.text())
-                    .then(content => {
-                        modal.find('.modal-body').html(content);
-                    });
-            });
-        </script>
-        <!-- Add Customer Modal -->
-        <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addCustomerLabel">Add Customer</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('customers.store') }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <label for="customername">Customer Name</label>
-                                <input type="text" name="customername" class="form-control">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="address">Address</label>
-                                <input type="text" name="address" class="form-control">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="customer_phone">Phone</label>
-                                <input type="text" name="customer_phone" class="form-control">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="tin_number">TIN Number</label>
-                                <input type="text" name="tin_number" class="form-control">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="start_date">Start Date</label>
-                                <input type="date" name="start_date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Add Customer</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</main> --}}
-
-<!-- Add the script for search functionality -->
-{{-- --------acha------------
-<script>
-    function searchCustomer() {
-        let input = document.getElementById("searchInput").value.toLowerCase();
-        let table = document.getElementById("customers");
-        let tr = table.getElementsByTagName("tr");
-
-        for (let i = 1; i < tr.length; i++) { // Skipping header row
-            let tdName = tr[i].getElementsByTagName("td")[1]; // Name column
-            let tdPhone = tr[i].getElementsByTagName("td")[3]; // Phone column
-            if (tdName || tdPhone) {
-                let nameText = tdName.textContent || tdName.innerText;
-                let phoneText = tdPhone.textContent || tdPhone.innerText;
-
-                if (nameText.toLowerCase().indexOf(input) > -1 || phoneText.toLowerCase().indexOf(input) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-</script>
----------acha--------------- --}}
-{{--
-<script>
-    function searchCustomer() {
-        let searchQuery = document.getElementById("searchInput").value;
-
-        fetch("{{ route('customers.index') }}?query=" + searchQuery)
-            .then(response => response.json())
-            .then(data => {
-                let tableBody = document.getElementById("customerTableBody");
-                tableBody.innerHTML = ""; // Clear current table data
-
-                data.customers.forEach(customer => {
-                    let row = `<tr>
-                        <td>${customer.customer_id}</td>
-                        <td>${customer.customername}</td>
-                        <td>${customer.address}</td>
-                        <td>${customer.customer_phone}</td>
-                        <td>${customer.start_date}</td>
-                        <td>
-                            <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-${customer.customer_id}">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                        </td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
-                });
-            });
-    }
-</script> --}}
 <main id="main" class="main">
     <div class="container mt-4">
         <!-- Operation Summary Card -->

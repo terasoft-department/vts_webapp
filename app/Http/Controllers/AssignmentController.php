@@ -150,6 +150,21 @@ public function index(Request $request)
 }
 
 
+// public function searchByPlate(Request $request)
+// {
+//     $plateNumber = $request->query('plate_number');
+//     $customer = Customer::where('plate_number', $plateNumber)->first();
+
+//     if ($customer) {
+//         return response()->json([
+//             'success' => true,
+//             'customername' => $customer->customername,
+//             'customer_phone' => $customer->customer_phone,
+//         ]);
+//     } else {
+//         return response()->json(['success' => false]);
+//     }
+// }
 
     public function destroy($id)
     {

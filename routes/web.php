@@ -37,6 +37,8 @@ use App\Http\Controllers\MCustomerController;
 use App\Http\Controllers\MjobcardsController;
 use App\Http\Controllers\MonitoringOfficerController;
 use App\Http\Controllers\MonitoringVehicleController;
+use App\Http\Controllers\MonNewInstallation;
+use App\Http\Controllers\NewInstallationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentReportController;
 use App\Http\Controllers\PCheckListController;
@@ -160,6 +162,7 @@ Route::resource('assignments', AssignmentController::class);
 Route::get('assignmentsv1', [AssignmentController::class, 'index1'])->name('assignmentsv1.index1');
 Route::resource('assignments', AssignmentController::class);
 Route::get('assignmentsv2', [AssignmentController::class, 'index2'])->name('assignmentsv2.index2');
+
 });
 //return device routes
 
@@ -182,7 +185,7 @@ Route::get('storekeeper', [StoreKeeperController::class, 'dashboard'])->name('st
 
 
 
-
+Route::get('/customers/search', [CustomerController::class, 'searchByPlate'])->name('customers.search');
  Route::resource('customers', CustomerController::class);
  Route::resource('Admincustomers', AdminCustomerController::class);
 
@@ -193,6 +196,9 @@ Route::get('storekeeper', [StoreKeeperController::class, 'dashboard'])->name('st
 Route::get('accounting_officer', [AccountingOfficerController::class, 'showAccountingOfficerDashboard'])->name('accounting_officer.index');
 
 
+
+Route::resource('new_installations', NewInstallationController::class);
+Route::resource('new_installations2', MonNewInstallation::class);
 
 
 Route::resource('device_requisitions', DeviceRequisitionController::class);
@@ -292,6 +298,9 @@ Route::prefix('jobcards')->group(function () {
     Route::get('/', [JobcardController::class, 'index'])->name('jobcards.index');
     Route::get('/{id}/approve', [JobCardController::class, 'approve'])->name('jobcards.approve');
     Route::put('/{id}', [JobCardController::class, 'update'])->name('jobcards.update');
+    Route::get('/jobcards/{jobcard_id}/edit', [JobCardController::class, 'edit'])->name('jobcards.edit');
+    Route::get('/jobcards/{jobcard_id}', [JobCardController::class, 'show'])->name('jobcards.show');
+
 });
 //jobcards for Admin
 Route::prefix('Ajobcards')->group(function () {
@@ -327,7 +336,7 @@ Route::prefix('jobcards2')->group(function () {
 
 Route::get('/dispatched-history', [DeviceRequisitionController::class, 'dispatchedDeviceHistory'])->name('dispatched_history.index');
  Route::get('/dispatched-history1', [DeviceRequisitionController::class, 'dispatchedDeviceHistory1'])->name('dispatched_historyv1.index');
- Route::get('/dispatched-history2', [DeviceRequisitionController::class, 'dispatchedDeviceHistory2'])->name('dispatched_historyv2.index');
+ Route::get('dispatched_historyv2', [StDeviceRequisitions::class, 'dispatchedDeviceHistory2'])->name('dispatched_historyv2.index');
 
 //Tampering for MornitoringOfficer
 Route::prefix('tampering')->group(function () {

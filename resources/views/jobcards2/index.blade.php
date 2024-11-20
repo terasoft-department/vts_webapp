@@ -55,10 +55,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span>
-            </a><!-- End Notification Icon -->
+            </a><!-- End Notification Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
               <li class="dropdown-header">
@@ -90,10 +90,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-chat-left-text"></i>
               <span class="badge bg-success badge-number">3</span>
-            </a><!-- End Messages Icon -->
+            </a><!-- End Messages Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
               <li class="dropdown-header">
@@ -196,6 +196,11 @@
                   <i class="bi bi-circle"></i><span>Vehicles</span>
                 </a>
               </li>
+              <li>
+                <a href="new_installations2">
+                  <i class="bi bi-circle"></i><span>New Installation</span>
+                </a>
+              </li>
             <li>
               <a href="jobcards2">
                 <i class="bi bi-circle"></i><span>JobCard</span>
@@ -250,195 +255,112 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-<main id="main" class="main">
+  <!-- Main Content -->
+  <main id="main" class="main">
     <h4 class="page-title mb-1 text-center fw-bold">Job Cards List</h4>
 
     @if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Search Input -->
-    <div class="mb-1">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search by Contact Person, Mobile Number, or IMEI Number">
-    </div>
+    <div class="container">
 
-    <!-- Job Cards Table -->
-    <div class="card">
-        {{-- <div class="card-body"> --}}
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        {{-- <th>ID</th> --}}
-                        <th>Customer Name</th>
-                        {{-- <th>Contact Person</th>
-                        <th>Mobile Number</th>
-                        <th>Vehicle Reg No</th>
-                        <th>Title</th>
-                        <th>Physical Location</th> --}}
-                        <th>Plate Number</th>
-                        <th>Problem Reported</th>
-                        <th>Nature of Problem at Site</th>
-                        <th>Service Type</th>
-                        <th>Date Attended</th>
-                        <th>Work Done</th>
-                        <th>Device Number</th>
-                        {{-- <th>Client Comment</th> --}}
-                        <th>Technician</th>
-                        <th>Pre-Work Picture</th>
-                        <th>Post-Work Picture</th>
-                        <th>Car Plate Picture</th>
-                        <th>Tampering Evidence</th>
-                        <th>Show</th>
-                    </tr>
-                </thead>
-                <tbody id="jobCardTableBody">
-                    @foreach ($jobcards as $jobcard)
-                    <tr>
-                        {{-- <td>{{ $jobcard->jobcard_id }}</td> --}}
-                        <td>{{ $jobcard->customer ? $jobcard->customer->customername : 'N/A' }}</td>
-                        {{-- <td>{{ $jobcard->contact_person }}</td>
-                        <td>{{ $jobcard->mobile_number }}</td>
-                        <td>{{ $jobcard->vehicle_regNo }}</td>
-                        <td>{{ $jobcard->title }}</td>
-                        <td>{{ $jobcard->physical_location }}</td> --}}
-                        <td>{{ $jobcard->plate_number }}</td>
-                        <td>{{ $jobcard->problem_reported }}</td>
-                        <td>{{ $jobcard->natureOf_ProblemAt_site }}</td>
-                        <td>{{ $jobcard->service_type }}</td>
-                        <td>{{ $jobcard->date_attended }}</td>
-                        <td>{{ $jobcard->work_done }}</td>
-                        <td>{{ $jobcard->imei_number }}</td>
-                        {{-- <td>{{ $jobcard->client_comment }}</td> --}}
-                        <td>{{ $jobcard->user ? $jobcard->user->name : 'N/A' }}</td>
-
-                        <td>
-                            @if($jobcard->pre_workdone_picture)
-                            <a href="#" class="view-image" data-image="{{ asset($jobcard->pre_workdone_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                            @else N/A @endif
-                        </td>
-                        <td>
-                            @if($jobcard->post_workdone_picture)
-                            <a href="#" class="view-image" data-image="{{ asset($jobcard->post_workdone_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                            @else N/A @endif
-                        </td>
-                        <td>
-                            @if($jobcard->carPlateNumber_picture)
-                            <a href="#" class="view-image" data-image="{{ asset($jobcard->carPlateNumber_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                            @else N/A @endif
-                        </td>
-                        <td>
-                            @if($jobcard->tampering_evidence_picture)
-                            <a href="#" class="view-image" data-image="{{ asset($jobcard->tampering_evidence_picture) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                            @else N/A @endif
-                        </td>
-                        <td>
-                            <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#jobCardModal{{ $jobcard->jobcard_id }}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Modal for Job Card Details -->
-                    <div class="modal fade" id="jobCardModal{{ $jobcard->jobcard_id }}" tabindex="-1" aria-labelledby="jobCardModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="jobCardModalLabel">Crosscheck to Preview ID: {{ $jobcard->jobcard_id }}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="/jobcards/{{ $jobcard->jobcard_id }}" onsubmit="return false;"> <!-- Prevent submission -->
-                                        @csrf
-                                        @method('PUT')
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                            <label for="contact_person" class="form-label">Contact Person</label>
-                                            <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{ $jobcard->contact_person }}" required readonly>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="title" class="form-label">Title</label>
-                                            <input type="text" class="form-control" id="title" name="title" value="{{ $jobcard->title }}" required readonly>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="mobile_number" class="form-label">Mobile Number</label>
-                                            <input type="text" class="form-control" id="mobile_number" name="mobile_number" value="{{ $jobcard->mobile_number }}" required readonly>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="physical_location" class="form-label">Physical Location</label>
-                                            <input type="text" class="form-control" id="physical_location" name="physical_location" value="{{ $jobcard->physical_location }}" required readonly>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="problem_reported" class="form-label">Problem Reported</label>
-                                            <textarea class="form-control" id="problem_reported" name="problem_reported" required readonly>{{ $jobcard->problem_reported }}</textarea>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="natureOf_ProblemAt_site" class="form-label">Nature of Problem at Site</label>
-                                            <textarea class="form-control" id="natureOf_ProblemAt_site" name="natureOf_ProblemAt_site" required readonly>{{ $jobcard->natureOf_ProblemAt_site }}</textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="service_type" class="form-label">Service Type</label>
-                                            <input type="text" class="form-control" id="service_type" name="service_type" value="{{ $jobcard->service_type }}" required readonly>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="date_attended" class="form-label">Date Attended</label>
-                                            <input type="date" class="form-control" id="date_attended" name="date_attended" value="{{ $jobcard->date_attended }}" required readonly>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="plate_number" class="form-label">Plate Number</label>
-                                            <input type="text" class="form-control" id="plate_number" name="plate_number" value="{{ $jobcard->plate_number }}" required readonly>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="imei_number" class="form-label">IMEI Number</label>
-                                            <input type="text" class="form-control" id="imei_number" name="imei_number" value="{{ $jobcard->imei_number }}" required readonly>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="work_done" class="form-label">Work Done</label>
-                                            <textarea class="form-control" id="work_done" name="work_done" required readonly>{{ $jobcard->work_done }}</textarea>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="client_comment" class="form-label">Client Comment</label>
-                                            <textarea class="form-control" id="client_comment" name="client_comment" readonly>{{ $jobcard->client_comment }}</textarea>
-                                        </div>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> <!-- Added close button -->
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </tbody>
-            </table>
+        <!-- Search bar -->
+        <div class="input-group mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by Client Name, Contact Person, Vehicle Registration No, etc.">
+            <button class="btn btn-primary" type="button" onclick="filterTable()">Search</button>
         </div>
-    </div>
 
-    <!-- Modal for Image Preview -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img id="modalImage" src="" alt="Image Preview" class="img-fluid">
-                </div>
-            </div>
-        </div>
+        <!-- Job Cards Table -->
+        <table class="table table-bordered" id="jobCardsTable">
+            <thead>
+                <tr>
+                    <th>C.Name</th>
+                    <th>Tel</th>
+                    <th>C.Person</th>
+                    <th>Title</th>
+                    <th>M.Phone</th>
+                    <th>V.Reg No</th>
+                    <th>P.Location</th>
+                    <th>Device ID</th>
+                    <th>P.Reported</th>
+                    <th>D.Reported</th>
+                    <th>D.Attended</th>
+                    <th>N.Problem</th>
+                    <th>W.Done</th>
+                    <th>Created At</th>
+                    <th>C.Comment</th>
+                    <th>S.Type</th>
+                    <th>Technician</th>
+
+                </tr>
+            </thead>
+            <tbody id="jobCardTableBody">
+                @foreach($jobCards as $jobCard)
+                    <tr>
+                        <td>{{ $jobCard->Clientname }}</td>
+                        <td>{{ $jobCard->Tel }}</td>
+                        <td>{{ $jobCard->ContactPerson }}</td>
+                        <td>{{ $jobCard->title }}</td>
+                        <td>{{ $jobCard->mobilePhone }}</td>
+                        <td>{{ $jobCard->VehicleRegNo }}</td>
+                        <td>{{ $jobCard->physicalLocation }}</td>
+                        <td>{{ $jobCard->deviceID }}</td>
+                        <td>{{ $jobCard->problemReported }}</td>
+                        <td>{{ $jobCard->DateReported }}</td>
+                        <td>{{ $jobCard->DateAttended }}</td>
+                        <td>{{ $jobCard->natureOfProblem }}</td>
+                        <td>
+                            @php
+                                // Convert the created_at time to Nairobi local time
+                                $nairobiTime = $jobCard->created_at->setTimezone('Africa/Nairobi');
+                            @endphp
+                            {{ $nairobiTime->format('H:i:s') }}
+
+                            @php
+                                $hour = $nairobiTime->format('H');
+                            @endphp
+                            @if ($hour >= 5 && $hour < 12)
+                                <span>Morning</span>
+                            @elseif ($hour >= 12 && $hour < 17)
+                                <span>Afternoon</span>
+                            @elseif ($hour >= 17 && $hour < 21)
+                                <span>Evening</span>
+                            @else
+                                <span>Night</span>
+                            @endif
+                        </td>
+                        <td>{{ $jobCard->workDone }}</td>
+                        <td>{{ $jobCard->clientComment }}</td>
+                        <td>{{ $jobCard->service_type }}</td>
+                        <td>{{ $jobCard->user ? $jobCard->user->name : 'N/A' }}</td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </main>
 
+
 <script>
-    // Search Functionality
-    document.getElementById("searchInput").addEventListener("input", function() {
-        const filter = this.value.toLowerCase();
-        const rows = document.querySelectorAll("#jobCardTableBody tr");
+    // Function to filter table rows based on search input
+    function filterTable() {
+        const filter = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#jobCardTableBody tr');
 
         rows.forEach(row => {
-            const cells = row.querySelectorAll("td");
-            const rowVisible = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
-            row.style.display = rowVisible ? "" : "none";
+            const cells = Array.from(row.querySelectorAll('td'));
+            const rowVisible = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
+            row.style.display = rowVisible ? '' : 'none';
         });
+    }
+
+    // Event listener for search input to trigger filtering on "Enter" key
+    document.getElementById('searchInput').addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            filterTable();
+        }
     });
 
     // Image Preview Functionality
@@ -450,7 +372,6 @@
         });
     });
 </script>
-
 
 
 <!-- Vendor JS Files -->

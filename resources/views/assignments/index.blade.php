@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -55,10 +55,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span>
-            </a><!-- End Notification Icon -->
+            </a><!-- End Notification Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
               <li class="dropdown-header">
@@ -90,10 +90,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-chat-left-text"></i>
               <span class="badge bg-success badge-number">3</span>
-            </a><!-- End Messages Icon -->
+            </a><!-- End Messages Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
               <li class="dropdown-header">
@@ -196,6 +196,11 @@
                   <i class="bi bi-circle"></i><span>Vehicles</span>
                 </a>
               </li>
+              <li>
+                <a href="new_installations2">
+                  <i class="bi bi-circle"></i><span>New Installation</span>
+                </a>
+              </li>
             <li>
               <a href="jobcards2">
                 <i class="bi bi-circle"></i><span>JobCard</span>
@@ -282,7 +287,6 @@
             </div>
         </div>
 
-        <!-- Assignments Table -->
         <table class="table table-bordered table-striped mt-2 text-left">
             <thead style="background-color: #4177fd; color: white;">
                 <tr>
@@ -296,7 +300,9 @@
                     <th>Incident Reported</th>
                     <th>Assigned By</th>
                     <th>Status</th>
-                    {{-- <th>Created At</th> --}}
+                    <th>Created At</th>
+                    <th>Accepted At</th>
+                    <th>Days Taken</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -313,7 +319,73 @@
                     <td>{{ $assignment->case_reported }}</td>
                     <td>{{ $assignment->assigned_by }}</td>
                     <td>{{ ucfirst($assignment->status) }}</td>
-                    {{-- <td>{{ $assignment->accepted_at }}</td> --}}
+                    <td>
+                        @php
+                            $createdAtNairobi = $assignment->created_at->setTimezone('Africa/Nairobi');
+                            $hour = $createdAtNairobi->format('H');
+                            $timeOfDay = '';
+
+                            // Determine time of day based on hour
+                            if ($hour >= 5 && $hour < 12) {
+                                $timeOfDay = 'Morning';
+                            } elseif ($hour >= 12 && $hour < 17) {
+                                $timeOfDay = 'Afternoon';
+                            } elseif ($hour >= 17 && $hour < 21) {
+                                $timeOfDay = 'Evening';
+                            } else {
+                                $timeOfDay = 'Night';
+                            }
+                        @endphp
+
+                        <!-- Display full date and time, including day of the week -->
+                        {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span>
+                    </td>
+
+
+                    <td>
+                        @php
+                            // Check if `accepted_at` is set; if so, convert to Nairobi timezone
+                            $acceptedAtNairobi = $assignment->accepted_at ? $assignment->accepted_at->setTimezone('Africa/Nairobi') : null;
+
+                            // Initialize `formattedAcceptedAt` to handle the case where `accepted_at` is null
+                            $formattedAcceptedAt = 'Not Accepted';
+
+                            if ($acceptedAtNairobi) {
+                                // Get the formatted date and time with day of the week
+                                $formattedAcceptedAt = $acceptedAtNairobi->format('l, Y-m-d H:i:s');
+
+                                // Determine time of day based on hour
+                                $hour = $acceptedAtNairobi->format('H');
+                                if ($hour >= 5 && $hour < 12) {
+                                    $timeOfDay = 'Morning';
+                                } elseif ($hour >= 12 && $hour < 17) {
+                                    $timeOfDay = 'Afternoon';
+                                } elseif ($hour >= 17 && $hour < 21) {
+                                    $timeOfDay = 'Evening';
+                                } else {
+                                    $timeOfDay = 'Night';
+                                }
+
+                                // Append the time of day to the formatted date
+                                $formattedAcceptedAt .= " ({$timeOfDay})";
+                            }
+                        @endphp
+
+                        <!-- Display the formatted date with time of day or "Not Accepted" if null -->
+                        {{ $formattedAcceptedAt }}
+                    </td>
+
+                    <td>
+                        @php
+                            if ($assignment->accepted_at) {
+                                // Calculate the days between created_at and accepted_at
+                                $daysTaken = $createdAtNairobi->diffInDays($acceptedAtNairobi);
+                                echo $daysTaken . ' days';
+                            } else {
+                                echo 'N/A';
+                            }
+                        @endphp
+                    </td>
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                             <i class="fas fa-edit"></i>
@@ -330,6 +402,7 @@
                 @endforeach
             </tbody>
         </table>
+
 
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
@@ -379,6 +452,15 @@
         <label for="customer_phone">Customer Phone</label>
         <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer phone" required>
     </div>
+    {{-- <div class="form-group">
+        <label for="customer_id">Customer Name</label>
+        <input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="Customer name" readonly>
+    </div>
+
+    <div class="form-group">
+        <label for="customer_phone">Customer Phone</label>
+        <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Customer phone" readonly>
+    </div> --}}
 
     <div class="form-group">
         <label for="customer_debt">Customer Debt (TZS)</label>
@@ -438,7 +520,27 @@
         </div>
     </div>
 </main>
+{{--
+<script>
+document.getElementById('plate_number').addEventListener('input', function () {
+    const plateNumber = this.value;
 
+    if (plateNumber.length > 3) { // Trigger search after 3 characters for optimization
+        fetch(`/customers/search?plate_number=${plateNumber}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('customer_id').value = data.customername;
+                    document.getElementById('customer_phone').value = data.customer_phone;
+                } else {
+                    document.getElementById('customer_id').value = '';
+                    document.getElementById('customer_phone').value = '';
+                }
+            })
+            .catch(error => console.error('Error fetching customer data:', error));
+    }
+}); --}}
+</script>
         <!-- Include jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

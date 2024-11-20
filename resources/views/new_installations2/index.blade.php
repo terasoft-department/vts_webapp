@@ -258,132 +258,118 @@
   <!-- Main Content -->
 <main id="main" class="main">
     <div class="container">
-        <h5>Customer Debts</h5>
+        <h1>New Installations</h1>
 
-        @if (session('success'))
+        @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        <!-- Filters -->
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
+        <!-- Search Bar -->
+        <form action="{{ route('new_installations.index') }}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by Customer Name" value="{{ request('search') }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
             </div>
-            <div class="col-md-3">
-                <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
-            </div>
-            <div class="col-md-3">
-                <input type="date" id="dateTo" class="form-control" placeholder="To Date">
-            </div>
-            <div class="col-md-3">
-                <button id="filterBtn" class="btn btn-primary">Filter</button>
-            </div>
-        </div>
+        </form>
 
-        <!-- Table -->
-        <table class="table" id="invoiceTable">
+        <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Status</th>
-                    <th>Invoice Number</th>
-                    <th>Invoice Date</th>
-                    <th>Grand Total</th>
-                    <th>Customer</th>
+                    <th>C.Name</th>
+                    <th>DeviceNo</th>
+                    <th>CarRegNo</th>
+                    <th>C.Phone</th>
+                    <th>SimCardNo</th>
+                    <th>FrontCarPhoto</th>
+                    <th>DevicePhoto</th>
+                    <th>SimCard PaperPhoto</th>
+                    <th>Technician</th>
+                    <th>created At</th>
+                    {{-- <th>Actions</th> --}}
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $hasUnpaid = $invoices->contains(function($invoice) {
-                        return $invoice->status !== 'Paid';
-                    });
-                @endphp
+                @foreach($installations as $installation)
+                    <tr>
+                        <td>{{ $installation->customerName }}</td>
+                        <td>{{ $installation->DeviceNumber }}</td>
+                        <td>{{ $installation->CarRegNumber }}</td>
+                        <td>{{ $installation->customerPhone }}</td>
+                        <td>{{ $installation->simCardNumber }}</td>
+                        <td>
+                            @if($installation->picha_ya_gari_kwa_mbele)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}" alt="Front Car Photo" style="width: 50px; height: auto;">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>
+                            @if($installation->picha_ya_device_anayoifunga)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}" alt="Device Photo" style="width: 50px; height: auto;">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>
+                            @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}" alt="Sim Card Paper Photo" style="width: 50px; height: auto;">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
+                        {{-- <td>
+                            <a href="{{ route('new_installations.index', $installation->id) }}" class="btn btn-info btn-sm">View</a>
+                        </td> --}}
+                        <td>
+                            @php
+                                // Convert the created_at time to Nairobi local time
+                                $nairobiTime = $installation->created_at->setTimezone('Africa/Nairobi');
+                            @endphp
+                            {{ $nairobiTime->format('H:i:s') }}
 
-                @foreach($invoices as $index => $invoice)
-                    @if($invoice->status !== 'Paid' || $hasUnpaid)
-                        <tr class="invoice-row">
-                            <td>{{ $index + 1 }}</td>
-                            <td>
-                                @if ($invoice->status == 'Paid')
-                                    <span class="badge bg-success">Paid</span>
-                                @else
-                                    <span class="badge bg-danger">Not Paid</span>
-                                @endif
-                            </td>
-                            <td class="invoice-number">{{ $invoice->invoice_number }}</td>
-                            <td class="invoice-date">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('Y-m-d') }}</td>
-                            <td>{{ number_format($invoice->grand_total, 0) }}</td>
-                            <td>{{ $invoice->customername }}</td>
-                        </tr>
-                    @endif
+                            @php
+                                $hour = $nairobiTime->format('H');
+                            @endphp
+                            @if ($hour >= 5 && $hour < 12)
+                                <span>Morning</span>
+                            @elseif ($hour >= 12 && $hour < 17)
+                                <span>Afternoon</span>
+                            @elseif ($hour >= 17 && $hour < 21)
+                                <span>Evening</span>
+                            @else
+                                <span>Night</span>
+                            @endif
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
-        </div>
-        </main>
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const filterBtn = document.getElementById('filterBtn');
-            const invoiceSearch = document.getElementById('invoiceSearch');
-            const dateFrom = document.getElementById('dateFrom');
-            const dateTo = document.getElementById('dateTo');
-            const rows = document.querySelectorAll('.invoice-row');
 
-            filterBtn.addEventListener('click', function () {
-                const searchValue = invoiceSearch.value.toLowerCase();
-                const fromDate = new Date(dateFrom.value);
-                const toDate = new Date(dateTo.value);
+</div>
 
-                rows.forEach(row => {
-                    const invoiceNumber = row.querySelector('.invoice-number').textContent.toLowerCase();
-                    const invoiceDate = new Date(row.querySelector('.invoice-date').textContent);
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-                    let matchesSearch = !searchValue || invoiceNumber.includes(searchValue);
-                    let matchesDateRange = (!dateFrom.value || invoiceDate >= fromDate) &&
-                                           (!dateTo.value || invoiceDate <= toDate);
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
 
-                    if (matchesSearch && matchesDateRange) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            });
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
 
-            // Optionally, trigger filtering when typing in the search field
-            invoiceSearch.addEventListener('input', function () {
-                filterBtn.click();
-            });
-        });
-</script>
+</body>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
+</html>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
-    </body>
 
-    </html>

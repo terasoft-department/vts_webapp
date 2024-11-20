@@ -1,3 +1,5 @@
+<!-- resources/views/new_installations/index.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,8 +54,8 @@
           </li><!-- End Search Icon-->
 
           <li class="nav-item dropdown">
-{{--
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span>
             </a><!-- End Notification Icon --> --}}
@@ -164,7 +166,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="storekeeper">
+        <a class="nav-link " href="project_manager">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -175,65 +177,68 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Store keeper</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Project Manager</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            {{-- <li>
+            <li>
                 <a href="customers">
                   <i class="bi bi-circle"></i><span>Customer</span>
                 </a>
-              </li> --}}
+              </li>
           <li>
-            <a href="sdevices">
+            <a href="devices">
               <i class="bi bi-circle"></i><span>Device</span>
             </a>
           </li>
           <li>
-             {{-- <li>
+            <li>
                 <a href="vehicles">
                   <i class="bi bi-circle"></i><span>Vehicle</span>
                 </a>
-              </li>  --}}
-              {{-- <li>
+              </li>
+              <li>
             <a href="AccountAssignment">
               <i class="bi bi-circle"></i><span>Assignments</span>
             </a>
-          </li> --}}
+          </li>
 
           <li>
-            <a href="sdevice_requisitions">
+            <a href="device_requisitions">
               <i class="bi bi-circle"></i><span>Device dispatch</span>
             </a>
           </li>
-
           <li>
-            <a href="dispatched_historyv2">
+            <a href="dispatched-history">
               <i class="bi bi-circle"></i><span>Dispatched devices</span>
             </a>
           </li>
-{{--
+
           <li>
             <a href="Pchecklists">
               <i class="bi bi-circle"></i><span>Daily CheckList</span>
             </a>
-          </li> --}}
+          </li>
 
           <li>
-            <a href="Sreturn_device">
+            <a href="return_device">
               <i class="bi bi-circle"></i><span>DeviceReturn</span>
             </a>
           </li>
 
-          {{-- <li>
+          <li>
             <a href="jobcards">
               <i class="bi bi-circle"></i><span>Jobcard</span>
             </a>
-          </li> --}}
+          </li>
+          <li>
+            <a href="new_installations">
+              <i class="bi bi-circle"></i><span>New_installations</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Forms Nav -->
 
       </li><!-- End Icons Nav -->
-
       <li class="nav-item">
         <a class="nav-link collapsed" href="\auth/login">
           <i class="bi bi-box-arrow-in-right"></i>
@@ -242,126 +247,121 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
+ <!-- Main Content -->
+ <main id="main" class="main">
+    <div class="container">
+        <h1>New Installations</h1>
 
-  <main id="main" class="main">
-    <div class="container mt-2">
-        <div class="card">
-            <div class="card-header bg text-blue text-center">
-                <h4 class="m-0">Device Dispatch History</h4>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
+        @endif
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-sm">
-                        <thead>
-                            <tr>
-                                <th>Technician</th>
-                                <th>IMEI Numbers</th>
-                                <th>Master</th>
-                                <th>I-Button</th>
-                                <th>Buzzer</th>
-                                <th>Panic Button</th>
-                                <th>Dispatched Categories</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($dispatchedHistory as $history)
-                            <tr>
-                                <!-- Display technician/user name -->
-                                <td>{{ $history['name'] ?? 'N/A' }}</td>
-
-                                <!-- Display IMEI numbers for the requisition -->
-                                <td>{{ $history['dispatched_imeis'] ?? 'N/A' }}</td>
-
-                                <!-- Device counts for each category -->
-                                <td>{{ $history['master_count'] }}</td>
-                                <td>{{ $history['I_button_count'] }}</td>
-                                <td>{{ $history['buzzer_count'] }}</td>
-                                <td>{{ $history['panick_button_count'] }}</td>
-
-                                <!-- List of dispatched categories -->
-                                <td>
-                                    @foreach(['master', 'I_button', 'buzzer', 'panick_button'] as $category)
-                                        @if($history[$category . '_count'] > 0)
-                                            {{ ucfirst($category) }}@if(!$loop->last), @endif
-                                        @endif
-                                    @endforeach
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+        <!-- Search Bar -->
+        <form action="{{ route('new_installations.index') }}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by Customer Name" value="{{ request('search') }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </div>
-        </div>
-    </div>
-</main>
+        </form>
 
-<style>
-    /* Make table cells fit content and prevent overflow */
-    .table td, .table th {
-        white-space: nowrap; /* Prevent cells from expanding */
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 150px; /* Adjust to your needs */
-    }
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>C.Name</th>
+                    <th>DeviceNo</th>
+                    <th>CarRegNo</th>
+                    <th>C.Phone</th>
+                    <th>SimCardNo</th>
+                    <th>FrontCarPhoto</th>
+                    <th>DevicePhoto</th>
+                    <th>SimCard PaperPhoto</th>
+                    <th>Technician</th>
+                    <th>created At</th>
+                    {{-- <th>Actions</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($installations as $installation)
+                    <tr>
+                        <td>{{ $installation->customerName }}</td>
+                        <td>{{ $installation->DeviceNumber }}</td>
+                        <td>{{ $installation->CarRegNumber }}</td>
+                        <td>{{ $installation->customerPhone }}</td>
+                        <td>{{ $installation->simCardNumber }}</td>
+                        <td>
+                            @if($installation->picha_ya_gari_kwa_mbele)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}" alt="Front Car Photo" style="width: 50px; height: auto;">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>
+                            @if($installation->picha_ya_device_anayoifunga)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}" alt="Device Photo" style="width: 50px; height: auto;">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>
+                            @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
+                                <img src="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}" alt="Sim Card Paper Photo" style="width: 50px; height: auto;">
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
+                        {{-- <td>
+                            <a href="{{ route('new_installations.index', $installation->id) }}" class="btn btn-info btn-sm">View</a>
+                        </td> --}}
+                        <td>
+                            @php
+                                // Convert the created_at time to Nairobi local time
+                                $nairobiTime = $installation->created_at->setTimezone('Africa/Nairobi');
+                            @endphp
+                            {{ $nairobiTime->format('H:i:s') }}
 
-    /* Set a max width for the table within the card */
-    .card-body {
-        overflow-x: auto;
-        max-width: 100%; /* Ensures the table fits within the container */
-    }
-</style>
-{{--
-<style>
-    /* Make table cells fit content and prevent overflow */
-    .table td, .table th {
-        white-space: nowrap; /* Prevent cells from expanding */
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 150px; /* Adjust to your needs */
-    }
+                            @php
+                                $hour = $nairobiTime->format('H');
+                            @endphp
+                            @if ($hour >= 5 && $hour < 12)
+                                <span>Morning</span>
+                            @elseif ($hour >= 12 && $hour < 17)
+                                <span>Afternoon</span>
+                            @elseif ($hour >= 17 && $hour < 21)
+                                <span>Evening</span>
+                            @else
+                                <span>Night</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-    /* Set a max width for the table within the card */
-    .card-body {
-        overflow-x: auto;
-        max-width: 100%; /* Ensures the table fits within the container */
-    }
-</style> --}}
+</div>
 
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
 
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
 
-<script>
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const searchValue = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#deviceTable tr');
-
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(searchValue) ? '' : 'none';
-        });
-    });
-</script>
-
-
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
 </body>
 
 </html>
+
+
+

@@ -1,3 +1,5 @@
+<!-- resources/views/new_installations/index.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +30,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -53,10 +55,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span>
-            </a><!-- End Notification Icon -->
+            </a><!-- End Notification Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
               <li class="dropdown-header">
@@ -88,10 +90,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-chat-left-text"></i>
               <span class="badge bg-success badge-number">3</span>
-            </a><!-- End Messages Icon -->
+            </a><!-- End Messages Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
               <li class="dropdown-header">
@@ -228,6 +230,11 @@
               <i class="bi bi-circle"></i><span>Jobcard</span>
             </a>
           </li>
+          <li>
+            <a href="new_installations">
+              <i class="bi bi-circle"></i><span>New_installations</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Forms Nav -->
 
@@ -240,8 +247,7 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-
-<!-- Main Content -->
+ <!-- Main Content -->
 <main id="main" class="main">
     <div class="container mt-2">
         <div class="card">

@@ -43,6 +43,7 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
     }
 
+
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
