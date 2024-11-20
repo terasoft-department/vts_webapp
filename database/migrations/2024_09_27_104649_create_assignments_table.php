@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('attachment')->nullable(); // Nullable attachment field
             $table->string('assigned_by')->nullable();
             $table->string('status')->nullable();
-            $table->timestamp('created_at')->nullable(); 
             $table->string('accepted_at')->nullable();
 
             $table->timestamps();

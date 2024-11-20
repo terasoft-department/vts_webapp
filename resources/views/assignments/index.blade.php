@@ -344,12 +344,12 @@
 
                     </td>
 
-                    <td>
-                        {{-- <td>
+                    {{-- <td>
+                        <td>
                             <!-- Display the days taken or N/A -->
                             {{ $daysTaken }}
-                        </td> --}}
-                    </td>
+                        </td>
+                    </td> --}}
 
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
@@ -473,10 +473,6 @@
     <div class="form-group">
         <label for="assigned_by">Assigned By</label>
         <input type="text" class="form-control" id="assigned_by" name="assigned_by" placeholder="Enter name of person assigning" required>
-    </div>
-    <div class="form-group">
-        <label for="created_at">created AT`</label>
-        <input type="date" class="form-control" id="created_at" name="created_at" placeholder="Enter created_at" required>
     </div>
 </form>
 
