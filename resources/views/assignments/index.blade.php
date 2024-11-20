@@ -257,7 +257,7 @@
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
 
-  <main id="main" class="main">
+<main id="main" class="main">
     <div class="main-content">
         <div class="container mt-2" style="margin-top:50px">
             <h4 class="text-center" style="color:#4177fd;">Assignments</h4><br>
@@ -272,6 +272,81 @@
                     <i class="bi bi-plus-circle"></i> Create Assignment
                 </button>
             </div>
+
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <form method="GET" action="{{ route('assignments.index') }}">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by customer or plate number..." aria-label="Search assignments" value="{{ request()->query('search') }}">
+                            <button class="btn btn-primary" type="submit" style="background-color:#4177fd;">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Assignments Table -->
+            <table class="table table-bordered table-striped mt-2 text-left">
+                <thead style="background-color: #4177fd; color: white;">
+                    <tr>
+                        <th>No</th>
+                        <th>Plate Number</th>
+                        <th>Customer</th>
+                        <th>Customer Phone</th>
+                        <th>Customer Debt</th>
+                        <th>Location</th>
+                        <th>Reporter</th>
+                        <th>Incident Reported</th>
+                        {{-- <th>Attachment</th> --}}
+                        <th>Assigned By</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($assignments as $index => $assignment)
+                    <tr>
+                        <td>{{ $assignments->firstItem() + $index }}</td>
+                        <td>{{ $assignment->plate_number }}</td>
+                        <td>{{ optional($customers->find($assignment->customer_id))->customername ?? 'Unknown' }}</td>
+                        <td>{{ $assignment->customer_phone }}</td>
+                        <td>{{ number_format($assignment->customer_debt, 2) }} TZS</td>
+                        <td>{{ $assignment->location }}</td>
+                        <td>{{ optional($users->find($assignment->user_id))->name ?? 'Unknown' }}</td>
+                        <td>{{ $assignment->case_reported }}</td>
+                        {{-- <td>
+                            @if ($assignment->attachment)
+                                <a href="{{ asset('uploads/' . $assignment->attachment) }}" target="_blank">
+                                    <i class="fas fa-file-pdf text-danger"></i>
+                                </a>
+                            @endif
+                        </td> --}}
+                        <td>{{ $assignment->assigned_by }}</td>
+
+                        <td>{{ucfirst($assignment->status) }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <form action="{{ route('assignments.destroy', $assignment->assignment_id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this assignment?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            {{-- <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {{ $assignments->links() }}
+                </ul>
+            </nav> --}}
 
             <!-- Modal for Adding/Editing Assignment -->
             <div class="modal fade" id="assignmentModal" tabindex="-1" role="dialog" aria-labelledby="assignmentModalLabel" aria-hidden="true">
@@ -301,15 +376,30 @@
 
                                 <div class="form-group">
                                     <label for="customer_id">Customer Name</label>
-                                    <input type="text" class="form-control" id="customer_name" name="customer_name" readonly>
+                                    <select class="form-control" id="customer_id" name="customer_id" required>
+                                        <option value="">Select a customer</option>
+                                        @foreach($customers as $customer)
+                                            <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="customer_phone">Customer Phone</label>
-                                    <input type="text" class="form-control" id="customer_phone" name="customer_phone" readonly>
+                                    <input type="text" class="form-control" id="customer_phone" name="customer_phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer_debt">Customer Debt (TZS)</label>
+                                    <input type="text" class="form-control" id="customer_debt" name="customer_debt" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="plate_number">Plate Number</label>
-                                    <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter plate number" required onkeyup="fetchCustomerDetails()">
+                                    <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter plate number" required>
+                                    {{-- <select class="form-control" id="plate_number" name="plate_number" required>
+                                        <option value="">Select a plate number</option>
+                                        @foreach($vehicles as $vehicle)
+                                            <option value="{{ $vehicle->plate_number }}">{{ $vehicle->plate_number }}</option>
+                                        @endforeach
+                                    </select> --}}
                                 </div>
 
                                 <div class="form-group">
@@ -342,11 +432,19 @@
                                         <option value="non_transmission">Non Transmission</option>
                                     </select>
                                 </div>
-
+                                {{-- <div class="form-group">
+                                    <label for="attachment">Attachment (PDF)</label>
+                                    <input type="file" class="form-control-file" id="attachment" name="attachment" accept=".pdf">
+                                </div> --}}
                                 <div class="form-group">
                                     <label for="assigned_by">Assigned By</label>
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
+
+                                {{-- <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <input type="text" class="form-control" id="status" name="status" required>
+                                </div> --}}
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
                             </form>
@@ -358,25 +456,44 @@
     </div>
 </main>
 
-<script>
-    function fetchCustomerDetails() {
-        let plateNumber = document.getElementById('plate_number').value;
-        if (plateNumber.length >= 3) {
-            fetch(`/api/get-customer-details?plate_number=${plateNumber}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data) {
-                        document.getElementById('customer_name').value = data.customer_name;
-                        document.getElementById('customer_phone').value = data.customer_phone;
-                    } else {
-                        document.getElementById('customer_name').value = '';
-                        document.getElementById('customer_phone').value = '';
-                    }
-                })
-                .catch(error => console.error('Error fetching customer details:', error));
-        }
-    }
-</script>
+        <!-- Include jQuery and Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            // Open the modal to create a new assignment
+            function openCreateModal() {
+                $('#assignmentForm').attr('action', '{{ route('assignments.store') }}');
+                $('#assignmentForm').attr('method', 'POST');
+                $('#modalTitle').text('Create Assignment');
+                $('#assignmentForm').trigger('reset'); // Reset the form
+                $('#assignmentModal').modal('show');
+            }
+
+            // Open the modal to edit an existing assignment
+            function openEditModal(assignment) {
+                // Set form action for update with PUT method
+                $('#assignmentForm').attr('action', '/assignments/' + assignment.assignment_id);
+                $('#assignmentForm').append('<input type="hidden" name="_method" value="PUT">');
+                $('#modalTitle').text('Edit Assignment');
+
+                // Populate the form fields with existing data
+                $('#assignment_id').val(assignment.assignment_id);
+                $('#customer_id').val(assignment.customer_id);
+                $('#customer_phone').val(assignment.customer_phone);
+                $('#customer_debt').val(assignment.customer_debt);
+                $('#plate_number').val(assignment.plate_number);
+                $('#location').val(assignment.location);
+                $('#user_id').val(assignment.user_id);
+                $('#case_reported').val(assignment.case_reported);
+                $('#assigned_by').val(assignment.assigned_by);
+                $('#status').val(assignment.status);
+                $('#assignmentModal').modal('show');
+            }
+        </script>
+    </div>
+</main>
+
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
