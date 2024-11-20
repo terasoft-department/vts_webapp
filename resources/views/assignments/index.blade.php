@@ -319,71 +319,36 @@
                     <td>{{ $assignment->case_reported }}</td>
                     <td>{{ $assignment->assigned_by }}</td>
                     <td>{{ ucfirst($assignment->status) }}</td>
+                    <td>{{ $assignment->created_at }}</td>
                     <td>
-                        @php
-                        $now = \Carbon\Carbon::now();
-                            // Convert `created_at` to Nairobi time
-                            $nairobiCreatedAt = $assignment->created_at->setTimezone('Africa/Nairobi');
-                            $hourCreatedAt = $nairobiCreatedAt->format('H');
 
-                            // Determine time of day for `created_at`
-                            $timeOfDayCreatedAt = '';
-                            if ($hourCreatedAt >= 5 && $hourCreatedAt < 12) {
-                                $timeOfDayCreatedAt = 'Morning';
-                            } elseif ($hourCreatedAt >= 12 && $hourCreatedAt < 17) {
-                                $timeOfDayCreatedAt = 'Afternoon';
-                            } elseif ($hourCreatedAt >= 17 && $hourCreatedAt < 21) {
-                                $timeOfDayCreatedAt = 'Evening';
-                            } else {
-                                $timeOfDayCreatedAt = 'Night';
-                            }
+                            @php
+                            // Convert the created_at time to Nairobi local time
+                            $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
                         @endphp
+                        {{ $nairobiTime->format('H:i:s') }}
 
-                        <!-- Display the created_at time and time of day -->
-                        {{ $nairobiCreatedAt->format('Y-m-d H:i:s') }} <span>({{ $timeOfDayCreatedAt }})</span>
-                    </td>
-
-                    <td>
                         @php
-                            $now = \Carbon\Carbon::now();
-                            // Convert `accepted_at` to Nairobi time if it's set
-                            $nairobiAcceptedAt = $assignment->accepted_at ? Carbon::parse($assignment->accepted_at)->setTimezone('Africa/Nairobi') : null;
-                            $timeOfDayAcceptedAt = '';
-                            if ($nairobiAcceptedAt) {
-                                $hourAcceptedAt = $nairobiAcceptedAt->format('H');
-                                // Determine time of day for `accepted_at`
-                                if ($hourAcceptedAt >= 5 && $hourAcceptedAt < 12) {
-                                    $timeOfDayAcceptedAt = 'Morning';
-                                } elseif ($hourAcceptedAt >= 12 && $hourAcceptedAt < 17) {
-                                    $timeOfDayAcceptedAt = 'Afternoon';
-                                } elseif ($hourAcceptedAt >= 17 && $hourAcceptedAt < 21) {
-                                    $timeOfDayAcceptedAt = 'Evening';
-                                } else {
-                                    $timeOfDayAcceptedAt = 'Night';
-                                }
-                            }
+                            $hour = $nairobiTime->format('H');
                         @endphp
-
-                        <!-- Display the accepted_at time and time of day or N/A if not set -->
-                        @if ($nairobiAcceptedAt)
-                            {{ $nairobiAcceptedAt->format('Y-m-d H:i:s') }} <span>({{ $timeOfDayAcceptedAt }})</span>
+                        @if ($hour >= 5 && $hour < 12)
+                            <span>Morning</span>
+                        @elseif ($hour >= 12 && $hour < 17)
+                            <span>Afternoon</span>
+                        @elseif ($hour >= 17 && $hour < 21)
+                            <span>Evening</span>
                         @else
-                            N/A
+                            <span>Night</span>
                         @endif
+
+
                     </td>
 
                     <td>
-                        @php
-                            // If both `created_at` and `accepted_at` are available, calculate the difference in days
-                            if ($nairobiCreatedAt && $nairobiAcceptedAt) {
-                                $daysTaken = $nairobiCreatedAt->diffInDays($nairobiAcceptedAt);
-                            } else {
-                                $daysTaken = 'N/A';
-                            }
-                        @endphp
-
-                        <!-- Display the days taken or N/A -->
-                        {{ $daysTaken }}
+                        {{-- <td>
+                            <!-- Display the days taken or N/A -->
+                            {{ $daysTaken }}
+                        </td> --}}
                     </td>
 
                     <td class="text-center">
@@ -508,6 +473,10 @@
     <div class="form-group">
         <label for="assigned_by">Assigned By</label>
         <input type="text" class="form-control" id="assigned_by" name="assigned_by" placeholder="Enter name of person assigning" required>
+    </div>
+    <div class="form-group">
+        <label for="created_at">created AT`</label>
+        <input type="date" class="form-control" id="created_at" name="created_at" placeholder="Enter created_at" required>
     </div>
 </form>
 
