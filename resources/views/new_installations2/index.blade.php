@@ -289,6 +289,7 @@
                     <th>SimCard PaperPhoto</th>
                     <th>Technician</th>
                     <th>Created At</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -358,6 +359,11 @@
                                 <span>Night</span>
                             @endif
                         </td>
+                        <td><td>
+                            <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#installationModal{{ $installation->id }}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td></td>
                     </tr>
                 @endforeach
             </tbody>
