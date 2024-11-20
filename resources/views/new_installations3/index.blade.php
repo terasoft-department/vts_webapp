@@ -108,118 +108,147 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container mt-2">
-        <div class="card">
-            <div class="card-header bg text-blue text-center">
-                <h4 class="m-0">Device Dispatch</h4>
+    <div class="container">
+        <h1>New Installations</h1>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
+        @endif
 
-            <div class="card-body">
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
+        <!-- Search Bar -->
+        <form action="{{ route('new_installations3.index') }}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by Customer Name" value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
 
-                <!-- Search Bar -->
-                <div class="mb-3">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
-                </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>C.Name</th>
+                    <th>DeviceNo</th>
+                    <th>CarRegNo</th>
+                    <th>C.Phone</th>
+                    <th>SimCardNo</th>
+                    <th>FrontCarPhoto</th>
+                    <th>DevicePhoto</th>
+                    <th>SimCard PaperPhoto</th>
+                    <th>Technician</th>
+                    <th>Created At</th>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Descriptions</th>
-                            <th>Status</th>
-                            <th>Master</th>
-                            <th>I-Button</th>
-                            <th>Buzzer</th>
-                            <th>Panic Button</th>
-                            <th>Approve</th>
-                        </tr>
-                    </thead>
-                    <tbody id="deviceTable">
-                        @foreach($requisitions as $requisition)
-                        <tr>
-                            <td>{{ $requisition->requisition_id }}</td>
-                            <td>{{ $requisition->user->name ?? 'N/A' }}</td>
-                            <td>{{ $requisition->descriptions }}</td>
-                            <td>{{ ucfirst($requisition->status) }}</td>
-                            <td>{{ $requisition->master }}</td>
-                            <td>{{ $requisition->I_button }}</td>
-                            <td>{{ $requisition->buzzer }}</td>
-                            <td>{{ $requisition->panick_button }}</td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $requisition->requisition_id }}">
-                                    <i class="bi bi-check-circle"></i>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($installations as $installation)
+                    <tr>
+                        <td>{{ $installation->customerName }}</td>
+                        <td>{{ $installation->DeviceNumber }}</td>
+                        <td>{{ $installation->CarRegNumber }}</td>
+                        <td>{{ $installation->customerPhone }}</td>
+                        <td>{{ $installation->simCardNumber }}</td>
+
+                        <!-- Front Car Photo -->
+                        <td>
+                            @if($installation->picha_ya_gari_kwa_mbele)
+                                <button class="btn btn-link text-decoration-none view-image"
+                                        data-image="{{ asset($installation->picha_ya_gari_kwa_mbele) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal">
+                                    Show <i class="fas fa-eye"></i>
+
                                 </button>
+                            @else
+                                N/A
+                            @endif
+                        </td>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="editModal{{ $requisition->requisition_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Crosscheck to Approve</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="/device_requisitions/{{ $requisition->requisition_id }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="mb-3">
-                                                        <label for="status" class="form-label">Status</label>
-                                                        <select class="form-select" id="status" name="status" required>
-                                                            <option value="Pending" {{ $requisition->status == 'Pending' ? 'selected' : '' }}>pending</option>
-                                                            <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>approved</option>
-                                                            <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>rejected</option>
-                                                        </select>
-                                                    </div>
+                        <!-- Device Photo -->
+                        <td>
+                            @if($installation->picha_ya_device_anayoifunga)
+                                <button class="btn btn-link text-decoration-none view-image"
+                                        data-image="{{ asset($installation->picha_ya_device_anayoifunga) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal">
+                                        Show <i class="fas fa-eye"></i>
+                                </button>
+                            @else
+                                N/A
+                            @endif
+                        </td>
 
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        <!-- SimCard Paper Photo -->
+                        <td>
+                            @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
+                                <button class="btn btn-link text-decoration-none view-image"
+                                        data-image="{{ asset($installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal">
+                                        Show <i class="fas fa-eye"></i>
+                                </button>
+                            @else
+                                Not Found
+                            @endif
+                        </td>
+
+                        <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
+                        <td>{{ $installation->created_at->setTimezone('Africa/Nairobi')->format('H:i:s') }}</td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for Image Preview -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" class="img-fluid rounded" alt="Preview">
+                </div>
             </div>
         </div>
     </div>
 </main>
 
+<!-- JavaScript for Modal -->
 <script>
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const searchValue = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#deviceTable tr');
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalImage = document.getElementById('modalImage');
 
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(searchValue) ? '' : 'none';
+        document.querySelectorAll('.view-image').forEach(button => {
+            button.addEventListener('click', function () {
+                const imageSrc = this.getAttribute('data-image');
+                modalImage.src = imageSrc;
+            });
         });
     });
 </script>
 
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+
 </body>
 
 </html>
+
+

@@ -9,6 +9,7 @@ use App\Http\Controllers\ADailyWeeklyReportController;
 use App\Http\Controllers\ADeviceRequisitonController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDispatchController;
+use App\Http\Controllers\AdminInstallationController;
 use App\Http\Controllers\AdminInvoice2Controller;
 use App\Http\Controllers\AdminInvoiceController;
 use App\Http\Controllers\AdminTrackDebtsController;
@@ -199,7 +200,7 @@ Route::get('accounting_officer', [AccountingOfficerController::class, 'showAccou
 
 Route::resource('new_installations', NewInstallationController::class);
 Route::resource('new_installations2', MonNewInstallation::class);
-
+Route::resource('new_installations3', AdminInstallationController::class);
 
 Route::resource('device_requisitions', DeviceRequisitionController::class);
 

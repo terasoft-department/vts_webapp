@@ -262,9 +262,7 @@
         <form action="{{ route('new_installations.index') }}" method="GET" class="mb-3">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search by Customer Name" value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
 
@@ -280,8 +278,8 @@
                     <th>DevicePhoto</th>
                     <th>SimCard PaperPhoto</th>
                     <th>Technician</th>
-                    <th>created At</th>
-                    {{-- <th>Actions</th> --}}
+                    <th>Created At</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -292,57 +290,88 @@
                         <td>{{ $installation->CarRegNumber }}</td>
                         <td>{{ $installation->customerPhone }}</td>
                         <td>{{ $installation->simCardNumber }}</td>
+
+                        <!-- Front Car Photo -->
                         <td>
                             @if($installation->picha_ya_gari_kwa_mbele)
-                                <img src="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}" alt="Front Car Photo" style="width: 50px; height: auto;">
+                                <button class="btn btn-link text-decoration-none view-image"
+                                        data-image="{{ asset($installation->picha_ya_gari_kwa_mbele) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal">
+                                    Show <i class="fas fa-eye"></i>
+
+                                </button>
                             @else
                                 N/A
                             @endif
                         </td>
+
+                        <!-- Device Photo -->
                         <td>
                             @if($installation->picha_ya_device_anayoifunga)
-                                <img src="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}" alt="Device Photo" style="width: 50px; height: auto;">
+                                <button class="btn btn-link text-decoration-none view-image"
+                                        data-image="{{ asset($installation->picha_ya_device_anayoifunga) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal">
+                                        Show <i class="fas fa-eye"></i>
+                                </button>
                             @else
                                 N/A
                             @endif
                         </td>
+
+                        <!-- SimCard Paper Photo -->
                         <td>
                             @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
-                                <img src="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}" alt="Sim Card Paper Photo" style="width: 50px; height: auto;">
+                                <button class="btn btn-link text-decoration-none view-image"
+                                        data-image="{{ asset($installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal">
+                                        Show <i class="fas fa-eye"></i>
+                                </button>
                             @else
-                                N/A
+                                Not Found
                             @endif
                         </td>
-                        <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
-                        {{-- <td>
-                            <a href="{{ route('new_installations.index', $installation->id) }}" class="btn btn-info btn-sm">View</a>
-                        </td> --}}
-                        <td>
-                            @php
-                                // Convert the created_at time to Nairobi local time
-                                $nairobiTime = $installation->created_at->setTimezone('Africa/Nairobi');
-                            @endphp
-                            {{ $nairobiTime->format('H:i:s') }}
 
-                            @php
-                                $hour = $nairobiTime->format('H');
-                            @endphp
-                            @if ($hour >= 5 && $hour < 12)
-                                <span>Morning</span>
-                            @elseif ($hour >= 12 && $hour < 17)
-                                <span>Afternoon</span>
-                            @elseif ($hour >= 17 && $hour < 21)
-                                <span>Evening</span>
-                            @else
-                                <span>Night</span>
-                            @endif
-                        </td>
+                        <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
+                        <td>{{ $installation->created_at->setTimezone('Africa/Nairobi')->format('H:i:s') }}</td>
+
                     </tr>
                 @endforeach
             </tbody>
         </table>
+    </div>
 
-</div>
+    <!-- Modal for Image Preview -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" class="img-fluid rounded" alt="Preview">
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- JavaScript for Modal -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalImage = document.getElementById('modalImage');
+
+        document.querySelectorAll('.view-image').forEach(button => {
+            button.addEventListener('click', function () {
+                const imageSrc = this.getAttribute('data-image');
+                modalImage.src = imageSrc;
+            });
+        });
+    });
+</script>
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
