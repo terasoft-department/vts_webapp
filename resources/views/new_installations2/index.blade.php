@@ -276,7 +276,6 @@
             </div>
         </form>
 
-        <!-- Table -->
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -301,8 +300,13 @@
                         <td>{{ $installation->customerPhone }}</td>
                         <td>{{ $installation->simCardNumber }}</td>
 
-                        <!-- Front Car Photo -->
                         <td>
+                            @if($installation->picha_ya_gari_kwa_mbele)
+                            <a href="#" class="view-image" data-image="{{ asset($installation->picha_ya_gari_kwa_mbele) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
+                            @else N/A @endif
+                        </td>
+                        <!-- Front Car Photo -->
+                        {{-- <td>
                             @if($installation->picha_ya_gari_kwa_mbele)
                                 <img src="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}"
                                      alt="Front Car Photo"
@@ -311,7 +315,7 @@
                             @else
                                 N/A
                             @endif
-                        </td>
+                        </td> --}}
 
                         <!-- Device Photo -->
                         <td>
@@ -365,7 +369,6 @@
         <span class="close">&times;</span>
         <img class="modal-content" id="modalImage">
         <div id="caption"></div>
-        <button id="printButton" style="margin-top: 10px;">Print</button>
     </div>
 </main>
 
@@ -450,21 +453,17 @@
                 modal.style.display = 'none';
             }
         });
+    });
 
-        document.getElementById('printButton').addEventListener('click', function () {
-            const img = modalImage.src;
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html><body style="text-align: center;">
-                <img src="${img}" style="max-width: 100%;"><br>
-                <button onclick="window.print()">Print</button>
-                </body></html>
-            `);
-            printWindow.document.close();
+       // Image Preview Functionality
+       document.querySelectorAll('.view-image').forEach(image => {
+        image.addEventListener('click', function() {
+            const imgSrc = this.getAttribute('data-image');
+            document.getElementById('modalImage').src = imgSrc;
+            new bootstrap.Modal(document.getElementById('imageModal')).show();
         });
     });
 </script>
-
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
