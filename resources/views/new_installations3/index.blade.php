@@ -194,8 +194,26 @@
                         </td>
 
                         <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
-                        <td>{{ $installation->created_at->setTimezone('Africa/Nairobi')->format('H:i:s') }}</td>
+                        <td>
+                            @php
+                                        // Convert the created_at time to Nairobi local time
+                                        $nairobiTime = $installation->created_at->setTimezone('Africa/Nairobi');
+                                    @endphp
+                                    {{ $nairobiTime->format('H:i:s') }}
 
+                                    @php
+                                        $hour = $nairobiTime->format('H');
+                                    @endphp
+                                    @if ($hour >= 5 && $hour < 12)
+                                        <span>Morning</span>
+                                    @elseif ($hour >= 12 && $hour < 17)
+                                        <span>Afternoon</span>
+                                    @elseif ($hour >= 17 && $hour < 21)
+                                        <span>Evening</span>
+                                    @else
+                                        <span>Night</span>
+                                    @endif
+                            </td>
                     </tr>
                 @endforeach
             </tbody>
