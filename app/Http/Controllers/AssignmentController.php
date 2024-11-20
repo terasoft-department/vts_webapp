@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class AssignmentController extends Controller
  {
@@ -36,6 +35,8 @@ public function index(Request $request)
     return view('assignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
 }
 
+
+ // Display a listing of the resource
 
 
  public function store(Request $request)
@@ -86,17 +87,12 @@ public function index(Request $request)
 
     public function show($id)
     {
-
-
-        $assignment = Assignment::find($id);
-
-        // Example usage of Carbon
-        $createdAt = Carbon::parse($assignment->created_at)->setTimezone('Africa/Nairobi');
-        $formattedDate = $createdAt->format('Y-m-d H:i:s');
-
-        return view('assignments.show', compact('assignment', 'formattedDate'));
-
-
+        try {
+            $assignment = Assignment::findOrFail($id);
+            return view('assignments.show', compact('assignment'));
+        } catch (\Exception $e) {
+            return redirect()->route('assignments.index')->withErrors('Assignment not found.');
+        }
     }
 
     public function edit($id)
