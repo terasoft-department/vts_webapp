@@ -320,131 +320,68 @@
                     <td>{{ $assignment->assigned_by }}</td>
                     <td>{{ ucfirst($assignment->status) }}</td>
                     <td>
-                        {{-- @php
-                            $createdAtNairobi = $assignment->created_at->setTimezone('Africa/Nairobi');
-                            $hour = $createdAtNairobi->format('H');
-                            $timeOfDay = '';
+                        @php
+                            // Convert `created_at` to Nairobi time
+                            $nairobiCreatedAt = $assignment->created_at->setTimezone('Africa/Nairobi');
+                            $hourCreatedAt = $nairobiCreatedAt->format('H');
 
-                            // Determine time of day based on hour
-                            if ($hour >= 5 && $hour < 12) {
-                                $timeOfDay = 'Morning';
-                            } elseif ($hour >= 12 && $hour < 17) {
-                                $timeOfDay = 'Afternoon';
-                            } elseif ($hour >= 17 && $hour < 21) {
-                                $timeOfDay = 'Evening';
+                            // Determine time of day for `created_at`
+                            $timeOfDayCreatedAt = '';
+                            if ($hourCreatedAt >= 5 && $hourCreatedAt < 12) {
+                                $timeOfDayCreatedAt = 'Morning';
+                            } elseif ($hourCreatedAt >= 12 && $hourCreatedAt < 17) {
+                                $timeOfDayCreatedAt = 'Afternoon';
+                            } elseif ($hourCreatedAt >= 17 && $hourCreatedAt < 21) {
+                                $timeOfDayCreatedAt = 'Evening';
                             } else {
-                                $timeOfDay = 'Night';
+                                $timeOfDayCreatedAt = 'Night';
                             }
                         @endphp
 
-                        <!-- Display full date and time, including day of the week -->
-                        {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span> --}}
-                        @php
-                        // Convert the created_at time to Nairobi local time
-                        $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
-                    @endphp
-                    {{ $nairobiTime->format('H:i:s') }}
-
-                    @php
-                        $hour = $nairobiTime->format('H');
-                    @endphp
-                    @if ($hour >= 5 && $hour < 12)
-                        <span>Morning</span>
-                    @elseif ($hour >= 12 && $hour < 17)
-                        <span>Afternoon</span>
-                    @elseif ($hour >= 17 && $hour < 21)
-                        <span>Evening</span>
-                    @else
-                        <span>Night</span>
-                    @endif
-                </td>
-
-
+                        <!-- Display the created_at time and time of day -->
+                        {{ $nairobiCreatedAt->format('Y-m-d H:i:s') }} <span>({{ $timeOfDayCreatedAt }})</span>
+                    </td>
 
                     <td>
-                        {{-- @php
-
-                            // Check if `accepted_at` is set; convert to Nairobi timezone if so
-                            $acceptedAt = $assignment->accepted_at;
-                            $acceptedAtNairobi = $acceptedAt ? Carbon::parse($acceptedAt)->setTimezone('Africa/Nairobi') : null;
-
-                            // Initialize `formattedAcceptedAt` to handle the case where `accepted_at` is null
-                            $formattedAcceptedAt = 'Not Accepted';
-
-                            if ($acceptedAtNairobi) {
-                                // Get the formatted date and time with day of the week
-                                $formattedAcceptedAt = $acceptedAtNairobi->format('l, Y-m-d H:i:s');
-
-                                // Determine time of day based on hour
-                                $hour = $acceptedAtNairobi->format('H');
-                                if ($hour >= 5 && $hour < 12) {
-                                    $timeOfDay = 'Morning';
-                                } elseif ($hour >= 12 && $hour < 17) {
-                                    $timeOfDay = 'Afternoon';
-                                } elseif ($hour >= 17 && $hour < 21) {
-                                    $timeOfDay = 'Evening';
+                        @php
+                            // Convert `accepted_at` to Nairobi time if it's set
+                            $nairobiAcceptedAt = $assignment->accepted_at ? Carbon::parse($assignment->accepted_at)->setTimezone('Africa/Nairobi') : null;
+                            $timeOfDayAcceptedAt = '';
+                            if ($nairobiAcceptedAt) {
+                                $hourAcceptedAt = $nairobiAcceptedAt->format('H');
+                                // Determine time of day for `accepted_at`
+                                if ($hourAcceptedAt >= 5 && $hourAcceptedAt < 12) {
+                                    $timeOfDayAcceptedAt = 'Morning';
+                                } elseif ($hourAcceptedAt >= 12 && $hourAcceptedAt < 17) {
+                                    $timeOfDayAcceptedAt = 'Afternoon';
+                                } elseif ($hourAcceptedAt >= 17 && $hourAcceptedAt < 21) {
+                                    $timeOfDayAcceptedAt = 'Evening';
                                 } else {
-                                    $timeOfDay = 'Night';
+                                    $timeOfDayAcceptedAt = 'Night';
                                 }
-
-                                // Append the time of day to the formatted date
-                                $formattedAcceptedAt .= " ({$timeOfDay})";
                             }
                         @endphp
 
-                        <!-- Display the formatted date with time of day or "Not Accepted" if null -->
-                        {{ $formattedAcceptedAt }} --}}
-                        {{-- @php
-                        $createdAtNairobi = $assignment->created_at->setTimezone('Africa/Nairobi');
-                        $hour = $createdAtNairobi->format('H');
-                        $timeOfDay = '';
-
-                        // Determine time of day based on hour
-                        if ($hour >= 5 && $hour < 12) {
-                            $timeOfDay = 'Morning';
-                        } elseif ($hour >= 12 && $hour < 17) {
-                            $timeOfDay = 'Afternoon';
-                        } elseif ($hour >= 17 && $hour < 21) {
-                            $timeOfDay = 'Evening';
-                        } else {
-                            $timeOfDay = 'Night';
-                        }
-                    @endphp
-
-                    <!-- Display full date and time, including day of the week -->
-                    {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span> --}}
-                    @php
-                    // Convert the created_at time to Nairobi local time
-                    $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
-                @endphp
-                {{ $nairobiTime->format('H:i:s') }}
-
-                @php
-                    $hour = $nairobiTime->format('H');
-                @endphp
-                @if ($hour >= 5 && $hour < 12)
-                    <span>Morning</span>
-                @elseif ($hour >= 12 && $hour < 17)
-                    <span>Afternoon</span>
-                @elseif ($hour >= 17 && $hour < 21)
-                    <span>Evening</span>
-                @else
-                    <span>Night</span>
-                @endif
-            </td>
-
+                        <!-- Display the accepted_at time and time of day or N/A if not set -->
+                        @if ($nairobiAcceptedAt)
+                            {{ $nairobiAcceptedAt->format('Y-m-d H:i:s') }} <span>({{ $timeOfDayAcceptedAt }})</span>
+                        @else
+                            N/A
+                        @endif
+                    </td>
 
                     <td>
                         @php
-                            // Check if `accepted_at` is set and if `created_at` is defined and parsed correctly
-                            if ($assignment->accepted_at && isset($createdAtNairobi)) {
-                                // Calculate the days between created_at and accepted_at
-                                $daysTaken = $createdAtNairobi->diffInDays($acceptedAtNairobi);
-                                echo $daysTaken . ' days';
+                            // If both `created_at` and `accepted_at` are available, calculate the difference in days
+                            if ($nairobiCreatedAt && $nairobiAcceptedAt) {
+                                $daysTaken = $nairobiCreatedAt->diffInDays($nairobiAcceptedAt);
                             } else {
-                                echo 'N/A';
+                                $daysTaken = 'N/A';
                             }
                         @endphp
+
+                        <!-- Display the days taken or N/A -->
+                        {{ $daysTaken }}
                     </td>
 
                     <td class="text-center">
