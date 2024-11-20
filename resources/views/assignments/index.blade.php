@@ -344,6 +344,7 @@
 
                     <td>
                         @php
+                        
                             // Convert `accepted_at` to Nairobi time if it's set
                             $nairobiAcceptedAt = $assignment->accepted_at ? Carbon::parse($assignment->accepted_at)->setTimezone('Africa/Nairobi') : null;
                             $timeOfDayAcceptedAt = '';

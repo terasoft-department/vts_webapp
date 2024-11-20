@@ -37,8 +37,6 @@ public function index(Request $request)
 }
 
 
- // Display a listing of the resource
-
 
  public function store(Request $request)
     {
@@ -88,12 +86,17 @@ public function index(Request $request)
 
     public function show($id)
     {
-        try {
-            $assignment = Assignment::findOrFail($id);
-            return view('assignments.show', compact('assignment'));
-        } catch (\Exception $e) {
-            return redirect()->route('assignments.index')->withErrors('Assignment not found.');
-        }
+
+
+        $assignment = Assignment::find($id);
+
+        // Example usage of Carbon
+        $createdAt = Carbon::parse($assignment->created_at)->setTimezone('Africa/Nairobi');
+        $formattedDate = $createdAt->format('Y-m-d H:i:s');
+
+        return view('assignments.show', compact('assignment', 'formattedDate'));
+
+
     }
 
     public function edit($id)
