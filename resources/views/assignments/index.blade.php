@@ -321,6 +321,7 @@
                     <td>{{ ucfirst($assignment->status) }}</td>
                     <td>
                         @php
+                        $now = \Carbon\Carbon::now();
                             // Convert `created_at` to Nairobi time
                             $nairobiCreatedAt = $assignment->created_at->setTimezone('Africa/Nairobi');
                             $hourCreatedAt = $nairobiCreatedAt->format('H');
@@ -344,7 +345,7 @@
 
                     <td>
                         @php
-                        
+                            $now = \Carbon\Carbon::now();
                             // Convert `accepted_at` to Nairobi time if it's set
                             $nairobiAcceptedAt = $assignment->accepted_at ? Carbon::parse($assignment->accepted_at)->setTimezone('Africa/Nairobi') : null;
                             $timeOfDayAcceptedAt = '';
