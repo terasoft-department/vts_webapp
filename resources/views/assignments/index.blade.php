@@ -343,7 +343,7 @@
 
 
                     <td>
-                        @php
+                        {{-- @php
 
                             // Check if `accepted_at` is set; convert to Nairobi timezone if so
                             $acceptedAt = $assignment->accepted_at;
@@ -374,7 +374,26 @@
                         @endphp
 
                         <!-- Display the formatted date with time of day or "Not Accepted" if null -->
-                        {{ $formattedAcceptedAt }}
+                        {{ $formattedAcceptedAt }} --}}
+                        @php
+                        $createdAtNairobi = $assignment->created_at->setTimezone('Africa/Nairobi');
+                        $hour = $createdAtNairobi->format('H');
+                        $timeOfDay = '';
+
+                        // Determine time of day based on hour
+                        if ($hour >= 5 && $hour < 12) {
+                            $timeOfDay = 'Morning';
+                        } elseif ($hour >= 12 && $hour < 17) {
+                            $timeOfDay = 'Afternoon';
+                        } elseif ($hour >= 17 && $hour < 21) {
+                            $timeOfDay = 'Evening';
+                        } else {
+                            $timeOfDay = 'Night';
+                        }
+                    @endphp
+
+                    <!-- Display full date and time, including day of the week -->
+                    {{ $createdAtNairobi->format('l, Y-m-d H:i:s') }} <span>({{ $timeOfDay }})</span>
                     </td>
 
                     <td>
