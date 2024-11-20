@@ -321,7 +321,7 @@
                                         data-image="{{ asset($installation->picha_ya_device_anayoifunga) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#imageModal">
-                                    Show
+                                        Show <i class="fas fa-eye"></i>
                                 </button>
                             @else
                                 N/A
@@ -335,7 +335,7 @@
                                         data-image="{{ asset($installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#imageModal">
-                                        Show
+                                        Show <i class="fas fa-eye"></i>
                                 </button>
                             @else
                                 Not Found
@@ -344,11 +344,7 @@
 
                         <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
                         <td>{{ $installation->created_at->setTimezone('Africa/Nairobi')->format('H:i:s') }}</td>
-                        <td>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installationModal{{ $installation->id }}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </td>
+
                     </tr>
                 @endforeach
             </tbody>
