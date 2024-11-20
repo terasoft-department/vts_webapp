@@ -257,7 +257,7 @@
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
 
-<main id="main" class="main">
+  <main id="main" class="main">
     <div class="main-content">
         <div class="container mt-2" style="margin-top:50px">
             <h4 class="text-center" style="color:#4177fd;">Assignments</h4><br>
@@ -454,7 +454,7 @@
             </div>
         </div>
     </div>
-</main>
+
 
         <!-- Include jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -492,8 +492,6 @@
             }
         </script>
     </div>
-</main>
-
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
