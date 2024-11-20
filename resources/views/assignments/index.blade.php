@@ -302,7 +302,7 @@
                     <th>Status</th>
                     <th>Created At</th>
                     <th>Accepted At</th>
-                    {{-- <th>Days Taken</th> --}}
+                    <th>Days Taken</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -344,12 +344,12 @@
 
                     </td>
 
-                    {{-- <td>
+                    <td>
                         <td>
                             <!-- Display the days taken or N/A -->
                             {{ $daysTaken }}
                         </td>
-                    </td> --}}
+                    </td>
 
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">

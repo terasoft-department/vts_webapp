@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
 {
-
     use HasFactory;
 
+    // Table name if different from the class name
     protected $table = 'assignments';
-    protected $primaryKey = 'assignment_id'; // Set the primary key to assignment_id
-    public $incrementing = true; // Ensure auto-incrementing is enabled
-    protected $keyType = 'int'; // The key type is integer
 
+    // Primary key
+    protected $primaryKey = 'assignment_id';
+
+    // Mass assignable attributes
     protected $fillable = [
         'plate_number',
         'customer_id',
@@ -26,27 +27,19 @@ class Assignment extends Model
         'attachment',
         'assigned_by',
         'status',
-
+        'accepted_at',
     ];
+
+    // If you have date attributes
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'accepted_at',
+    ];
+
+    // Relationships (example: with Customer model)
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id','id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
-
-    // Define the relationship with the User model
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function vehicle()
-    {
-        return $this->belongsTo(Vehicle::class, 'plate_number');
-    }
-
-    public function assignments()
-{
-    return $this->hasMany(Assignment::class);
-}
-
 }
