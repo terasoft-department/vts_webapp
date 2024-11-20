@@ -334,10 +334,12 @@
                                         data-image="{{ asset($installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#imageModal">
-                                    Show
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installationModal{{ $installation->id }}">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
                                 </button>
                             @else
-                                N/A
+                                Not Found
                             @endif
                         </td>
 
