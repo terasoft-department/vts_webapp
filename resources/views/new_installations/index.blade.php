@@ -259,12 +259,12 @@
         @endif
 
         <!-- Search Bar -->
-        <form action="{{ route('new_installations.index') }}" method="GET" class="mb-3">
+        {{-- <form action="{{ route('new_installations.index') }}" method="GET" class="mb-3">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search by Customer Name" value="{{ request('search') }}">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
-        </form>
+        </form> --}}
 
         <!-- DataTable with export buttons -->
         <table id="installationsTable" class="table table-bordered">
