@@ -266,7 +266,8 @@
             </div>
         </form>
 
-        <table class="table table-bordered">
+        <!-- DataTable with export buttons -->
+        <table id="installationsTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>C.Name</th>
@@ -279,7 +280,6 @@
                     <th>SimCard PaperPhoto</th>
                     <th>Technician</th>
                     <th>Created At</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -299,7 +299,6 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#imageModal">
                                     Show <i class="fas fa-eye"></i>
-
                                 </button>
                             @else
                                 N/A
@@ -313,7 +312,7 @@
                                         data-image="{{ asset($installation->picha_ya_device_anayoifunga) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#imageModal">
-                                        Show <i class="fas fa-eye"></i>
+                                    Show <i class="fas fa-eye"></i>
                                 </button>
                             @else
                                 N/A
@@ -327,7 +326,7 @@
                                         data-image="{{ asset($installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#imageModal">
-                                        Show <i class="fas fa-eye"></i>
+                                    Show <i class="fas fa-eye"></i>
                                 </button>
                             @else
                                 Not Found
@@ -336,7 +335,6 @@
 
                         <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
                         <td>{{ $installation->created_at->setTimezone('Africa/Nairobi')->format('H:i:s') }}</td>
-
                     </tr>
                 @endforeach
             </tbody>
@@ -359,7 +357,7 @@
     </div>
 </main>
 
-<!-- JavaScript for Modal -->
+<!-- JavaScript for Modal and DataTable -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const modalImage = document.getElementById('modalImage');
@@ -370,10 +368,16 @@
                 modalImage.src = imageSrc;
             });
         });
+
+        // Initialize DataTable with export options
+        $('#installationsTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf', 'print' // Enable Copy, Excel, PDF, and Print options
+            ]
+        });
     });
 </script>
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -385,12 +389,17 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 
+<!-- DataTable JS Files -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.0/js/buttons.print.min.js"></script>
+
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
 
 </body>
-
 </html>
-
-
-
