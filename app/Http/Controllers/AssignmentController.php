@@ -148,7 +148,26 @@ public function index(Request $request)
         return redirect()->back()->withErrors('Failed to update assignment.')->withInput();
     }
 }
+// -----------------------------------------NYONGEZA------------------------------------------------
+public function getCustomerDetails(Request $request)
+{
+    $plateNumber = $request->query('plate_number');
 
+    // Find the vehicle by plate number (Assuming 'Vehicle' model is available)
+    $vehicle = Vehicle::where('plate_number', $plateNumber)->first();
+
+    if ($vehicle) {
+        // Fetch customer details associated with the vehicle
+        $customer = Customer::find($vehicle->customer_id);
+        return response()->json([
+            'customer_name' => $customer ? $customer->customername : 'Unknown',
+            'customer_phone' => $customer ? $customer->phone : 'Unknown',
+        ]);
+    }
+
+    return response()->json(null);
+}
+// -----------------------------------------NYONGEZA------------------------------------------------
 
     public function destroy($id)
     {

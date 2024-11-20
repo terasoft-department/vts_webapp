@@ -157,12 +157,17 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('Aassignments', AAssignmentsController::class);
     Route::get('assignmentsv2', [AAssignmentsController::class, 'index2'])->name('assignmentsv2.index2');
     });
+
+
+
 //assignments
 Route::middleware(['auth'])->group(function () {
 Route::resource('assignments', AssignmentController::class);
 Route::get('assignmentsv1', [AssignmentController::class, 'index1'])->name('assignmentsv1.index1');
 Route::resource('assignments', AssignmentController::class);
 Route::get('assignmentsv2', [AssignmentController::class, 'index2'])->name('assignmentsv2.index2');
+Route::get('/api/get-customer-details', [AssignmentController::class, 'getCustomerDetails']);
+
 
 });
 //return device routes
