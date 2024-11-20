@@ -258,8 +258,9 @@
   <!-- Main Content -->
   <main id="main" class="main">
     <div class="container">
-        <h1>New Installations</h1>
+        <h1 class="text-center my-4">New Installations</h1>
 
+        <!-- Success Message -->
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -267,209 +268,154 @@
         @endif
 
         <!-- Search Bar -->
-        <form action="{{ route('new_installations2.index') }}" method="GET" class="mb-3">
+        <form action="{{ route('new_installations2.index') }}" method="GET" class="mb-4">
             <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search by Customer Name" value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search by Customer Name"
+                    value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>C.Name</th>
-                    <th>DeviceNo</th>
-                    <th>CarRegNo</th>
-                    <th>C.Phone</th>
-                    <th>SimCardNo</th>
-                    <th>FrontCarPhoto</th>
-                    <th>DevicePhoto</th>
-                    <th>SimCard PaperPhoto</th>
-                    <th>Technician</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($installations as $installation)
+        <!-- Installation Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
                     <tr>
-                        <td>{{ $installation->customerName }}</td>
-                        <td>{{ $installation->DeviceNumber }}</td>
-                        <td>{{ $installation->CarRegNumber }}</td>
-                        <td>{{ $installation->customerPhone }}</td>
-                        <td>{{ $installation->simCardNumber }}</td>
-
-                        <td>
-                            @if($installation->picha_ya_gari_kwa_mbele)
-                            <a href="#" class="view-image" data-image="{{ asset($installation->picha_ya_gari_kwa_mbele) }}" data-bs-toggle="modal" data-bs-target="#imageModal">Show</a>
-                            @else N/A @endif
-                        </td>
-                        <!-- Front Car Photo -->
-                        {{-- <td>
-                            @if($installation->picha_ya_gari_kwa_mbele)
-                                <img src="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}"
-                                     alt="Front Car Photo"
-                                     class="thumbnail"
-                                     data-image="{{ asset('storage/' . $installation->picha_ya_gari_kwa_mbele) }}">
-                            @else
-                                N/A
-                            @endif
-                        </td> --}}
-
-                        <!-- Device Photo -->
-                        <td>
-                            @if($installation->picha_ya_device_anayoifunga)
-                                <img src="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}"
-                                     alt="Device Photo"
-                                     class="thumbnail"
-                                     data-image="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}">
-                            @else
-                                N/A
-                            @endif
-                        </td>
-
-                        <!-- SimCard Paper Photo -->
-                        <td>
-                            @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
-                                <img src="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
-                                     alt="Sim Card Paper Photo"
-                                     class="thumbnail"
-                                     data-image="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}">
-                            @else
-                                N/A
-                            @endif
-                        </td>
-
-                        <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
-                        <td>
-                            @php
-                                $nairobiTime = $installation->created_at->setTimezone('Africa/Nairobi');
-                                $hour = $nairobiTime->format('H');
-                            @endphp
-                            {{ $nairobiTime->format('H:i:s') }}
-                            @if ($hour >= 5 && $hour < 12)
-                                <span>Morning</span>
-                            @elseif ($hour >= 12 && $hour < 17)
-                                <span>Afternoon</span>
-                            @elseif ($hour >= 17 && $hour < 21)
-                                <span>Evening</span>
-                            @else
-                                <span>Night</span>
-                            @endif
-                        </td>
-                        <td><td>
-                            <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#installationModal{{ $installation->id }}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </td></td>
+                        <th>C.Name</th>
+                        <th>DeviceNo</th>
+                        <th>CarRegNo</th>
+                        <th>C.Phone</th>
+                        <th>SimCardNo</th>
+                        <th>FrontCarPhoto</th>
+                        <th>DevicePhoto</th>
+                        <th>SimCard PaperPhoto</th>
+                        <th>Technician</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach($installations as $installation)
+                        <tr>
+                            <td>{{ $installation->customerName }}</td>
+                            <td>{{ $installation->DeviceNumber }}</td>
+                            <td>{{ $installation->CarRegNumber }}</td>
+                            <td>{{ $installation->customerPhone }}</td>
+                            <td>{{ $installation->simCardNumber }}</td>
+                            <td>
+                                @if($installation->picha_ya_gari_kwa_mbele)
+                                    <button class="btn btn-link text-decoration-none view-image"
+                                            data-image="{{ asset($installation->picha_ya_gari_kwa_mbele) }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#imageModal">
+                                        Show
+                                    </button>
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                            <td>
+                                @if($installation->picha_ya_device_anayoifunga)
+                                    <img src="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}"
+                                         alt="Device Photo"
+                                         class="thumbnail"
+                                         data-image="{{ asset('storage/' . $installation->picha_ya_device_anayoifunga) }}">
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                            <td>
+                                @if($installation->picha_ya_hiyo_karatasi_ya_simCardNumber)
+                                    <img src="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}"
+                                         alt="SimCard Paper Photo"
+                                         class="thumbnail"
+                                         data-image="{{ asset('storage/' . $installation->picha_ya_hiyo_karatasi_ya_simCardNumber) }}">
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                            <td>{{ $installation->user ? $installation->user->name : 'N/A' }}</td>
+                            <td>
+                                @php
+                                    $nairobiTime = $installation->created_at->setTimezone('Africa/Nairobi');
+                                    $hour = $nairobiTime->format('H');
+                                @endphp
+                                {{ $nairobiTime->format('H:i:s') }}
+                                <span>
+                                    @if ($hour >= 5 && $hour < 12)
+                                        Morning
+                                    @elseif ($hour >= 12 && $hour < 17)
+                                        Afternoon
+                                    @elseif ($hour >= 17 && $hour < 21)
+                                        Evening
+                                    @else
+                                        Night
+                                    @endif
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-info"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#installationModal{{ $installation->id }}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- Modal for Image Preview -->
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage">
-        <div id="caption"></div>
+    <!-- Image Preview Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" class="img-fluid rounded">
+                    <p id="caption" class="mt-3"></p>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
-<!-- Modal Styling -->
+<!-- Styles -->
 <style>
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        padding-top: 60px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    .modal-content {
-        margin: auto;
-        display: block;
-        width: 80%;
-        max-width: 700px;
-        border-radius: 8px;
-    }
-
-    .modal-content:hover {
-        box-shadow: 0 0 8px #fff;
-    }
-
-    #caption {
-        text-align: center;
-        color: #fff;
-        padding: 10px 0;
-        font-size: 18px;
-    }
-
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 35px;
-        color: #fff;
-        font-size: 40px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
     .thumbnail {
         cursor: pointer;
-        width: 50px;
+        width: 60px;
         height: auto;
-        transition: 0.3s ease;
+        transition: transform 0.3s ease;
     }
 
     .thumbnail:hover {
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
 </style>
 
-<!-- JavaScript for Modal -->
+<!-- JavaScript -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const captionText = document.getElementById('caption');
-        const closeModal = document.querySelector('.close');
 
-        document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-            thumbnail.addEventListener('click', function () {
-                modal.style.display = 'block';
+        document.querySelectorAll('.view-image, .thumbnail').forEach(element => {
+            element.addEventListener('click', function () {
                 modalImage.src = this.getAttribute('data-image');
-                captionText.innerText = this.alt;
+                captionText.textContent = this.alt || 'Image Preview';
             });
-        });
-
-        closeModal.addEventListener('click', function () {
-            modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    });
-
-       // Image Preview Functionality
-       document.querySelectorAll('.view-image').forEach(image => {
-        image.addEventListener('click', function() {
-            const imgSrc = this.getAttribute('data-image');
-            document.getElementById('modalImage').src = imgSrc;
-            new bootstrap.Modal(document.getElementById('imageModal')).show();
         });
     });
 </script>
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
