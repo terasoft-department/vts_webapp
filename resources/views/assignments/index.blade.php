@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -196,6 +196,11 @@
                   <i class="bi bi-circle"></i><span>Vehicles</span>
                 </a>
               </li>
+              <li>
+                <a href="new_installations2">
+                  <i class="bi bi-circle"></i><span>New Installation</span>
+                </a>
+              </li>
             <li>
               <a href="jobcards2">
                 <i class="bi bi-circle"></i><span>JobCard</span>
@@ -251,6 +256,7 @@
 
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
+  
 <main id="main" class="main">
     <div class="main-content">
         <div class="container mt-2" style="margin-top:50px">
