@@ -335,12 +335,12 @@
                 </tbody>
             </table>
 
-            <!-- Pagination -->
+            {{-- <!-- Pagination -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     {{ $assignments->links() }}
                 </ul>
-            </nav>
+            </nav> --}}
 
             <!-- Modal for Adding/Editing Assignment -->
             <div class="modal fade" id="assignmentModal" tabindex="-1" role="dialog" aria-labelledby="assignmentModalLabel" aria-hidden="true">
@@ -413,6 +413,7 @@
                                     <label for="case_reported">Case Reported</label>
                                     <select class="form-control" id="case_reported" name="case_reported" required>
                                         <option value="" disabled selected>Select a case</option>
+                                        <option value="New Installation">New Installation</option>
                                         <option value="skipping">Skipping</option>
                                         <option value="black_box_data">Black box Data</option>
                                         <option value="device_tampering">Device Tampering</option>
