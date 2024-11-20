@@ -298,11 +298,12 @@
                     <i class="bi bi-search"></i> Search
                 </button>
             </div>
-            {{-- <div class="col-md-4 text-end">
+
+            <div class="col-md-4 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
                     <i class="bi bi-plus-circle"></i> Add Customer
                 </button>
-            </div> --}}
+            </div>
         </div>
 
         <!-- Customer Table -->
@@ -361,10 +362,10 @@
                                             <label for="customer_phone">Phone</label>
                                             <input type="text" name="customer_phone" class="form-control" value="{{ $customer->customer_phone }}" required>
                                         </div>
-                                        <div class="form-group mb-3">
+                                        {{-- <div class="form-group mb-3">
                                             <label for="email">Email</label>
                                             <input type="email" name="email" class="form-control" value="{{ $customer->email ?? '' }}" required>
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group mb-3">
                                             <label for="start_date">Start Date</label>
                                             <input type="date" name="start_date" class="form-control" value="{{ $customer->start_date }}" required>
@@ -406,10 +407,10 @@
                                 <label for="customer_phone">Phone</label>
                                 <input type="text" name="customer_phone" class="form-control" required>
                             </div>
-                            <div class="form-group mb-3">
+                            {{-- <div class="form-group mb-3">
                                 <label for="email">Email</label>
                                 <input type="email" name="email" class="form-control" required>
-                            </div>
+                            </div> --}}
                             <div class="form-group mb-3">
                                 <label for="start_date">Start Date</label>
                                 <input type="date" name="start_date" class="form-control" required>
