@@ -344,12 +344,12 @@
 
                     </td>
 
-                    <td>
+                    {{-- <td>
                         <td>
                             <!-- Display the days taken or N/A -->
                             {{ $daysTaken }}
                         </td>
-                    </td>
+                    </td> --}}
 
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
