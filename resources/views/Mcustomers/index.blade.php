@@ -300,7 +300,7 @@
             </div>
 
             <div class="col-md-4 text-end">
-                <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
                     <i class="bi bi-plus-circle"></i> Add Customer
                 </button>
             </div>
@@ -328,7 +328,7 @@
                         <td>{{ $customer->customer_phone }}</td>
                         <td>{{ $customer->start_date }}</td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
+                            <button class="btn btn-sm btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
                         </td>
