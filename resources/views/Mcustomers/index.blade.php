@@ -300,7 +300,7 @@
             </div>
 
             <div class="col-md-4 text-end">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                <button class="btn btn-" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
                     <i class="bi bi-plus-circle"></i> Add Customer
                 </button>
             </div>
