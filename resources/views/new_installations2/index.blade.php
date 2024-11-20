@@ -267,7 +267,7 @@
         @endif
 
         <!-- Search Bar -->
-        <form action="{{ route('new_installations.index') }}" method="GET" class="mb-3">
+        <form action="{{ route('new_installations2.index') }}" method="GET" class="mb-3">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search by Customer Name" value="{{ request('search') }}">
                 <div class="input-group-append">
