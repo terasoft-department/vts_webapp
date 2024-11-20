@@ -276,6 +276,7 @@
             </div>
         </form>
 
+        <!-- Table -->
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -364,6 +365,7 @@
         <span class="close">&times;</span>
         <img class="modal-content" id="modalImage">
         <div id="caption"></div>
+        <button id="printButton" style="margin-top: 10px;">Print</button>
     </div>
 </main>
 
@@ -448,8 +450,21 @@
                 modal.style.display = 'none';
             }
         });
+
+        document.getElementById('printButton').addEventListener('click', function () {
+            const img = modalImage.src;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html><body style="text-align: center;">
+                <img src="${img}" style="max-width: 100%;"><br>
+                <button onclick="window.print()">Print</button>
+                </body></html>
+            `);
+            printWindow.document.close();
+        });
     });
 </script>
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
