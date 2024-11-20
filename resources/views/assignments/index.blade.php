@@ -344,8 +344,10 @@
 
                     <td>
                         @php
-                            // Check if `accepted_at` is set; if so, convert to Nairobi timezone
-                            $acceptedAtNairobi = $assignment->accepted_at ? $assignment->accepted_at->setTimezone('Africa/Nairobi') : null;
+
+                            // Check if `accepted_at` is set; convert to Nairobi timezone if so
+                            $acceptedAt = $assignment->accepted_at;
+                            $acceptedAtNairobi = $acceptedAt ? Carbon::parse($acceptedAt)->setTimezone('Africa/Nairobi') : null;
 
                             // Initialize `formattedAcceptedAt` to handle the case where `accepted_at` is null
                             $formattedAcceptedAt = 'Not Accepted';
@@ -377,7 +379,8 @@
 
                     <td>
                         @php
-                            if ($assignment->accepted_at) {
+                            // Check if `accepted_at` is set and if `created_at` is defined and parsed correctly
+                            if ($assignment->accepted_at && isset($createdAtNairobi)) {
                                 // Calculate the days between created_at and accepted_at
                                 $daysTaken = $createdAtNairobi->diffInDays($acceptedAtNairobi);
                                 echo $daysTaken . ' days';
@@ -386,6 +389,7 @@
                             }
                         @endphp
                     </td>
+
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                             <i class="fas fa-edit"></i>
