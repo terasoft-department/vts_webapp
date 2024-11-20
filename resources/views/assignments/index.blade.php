@@ -302,7 +302,7 @@
                     <th>Status</th>
                     <th>Created At</th>
                     <th>Accepted At</th>
-                    <th>Days Taken</th>
+                    {{-- <th>Days Taken</th> --}}
                     <th>Actions</th>
                 </tr>
             </thead>
