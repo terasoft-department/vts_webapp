@@ -6,13 +6,13 @@ use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
-class MCustomerController extends Controller
+class CustomerController extends Controller
 {
-
     public function index()
     {
         // Fetch customers with pagination (e.g., 10 customers per page)
-        $customers = Customer::paginate(10);
+        $customers = Customer::all();
+        $customers = Customer::paginate(10000);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
 
@@ -21,10 +21,11 @@ class MCustomerController extends Controller
 
     public function search(Request $request)
     {
+        $customers = Customer::all();
         $query = $request->input('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
-                            ->paginate(10);
+                             ->paginate(10000);
 
         return response()->json(['Mcustomers' => $customers]);
     }
@@ -41,6 +42,7 @@ class MCustomerController extends Controller
         $customer->update($request->all());
         return redirect()->route('Mcustomers.index')->with('success', 'Customer updated successfully.');
     }
+
 
     public function destroy($id)
     {
