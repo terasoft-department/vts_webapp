@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -55,10 +55,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-bell"></i>
               <span class="badge bg-primary badge-number">4</span>
-            </a><!-- End Notification Icon -->
+            </a><!-- End Notification Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
               <li class="dropdown-header">
@@ -90,10 +90,10 @@
 
           <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-chat-left-text"></i>
               <span class="badge bg-success badge-number">3</span>
-            </a><!-- End Messages Icon -->
+            </a><!-- End Messages Icon --> --}}
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
               <li class="dropdown-header">
@@ -196,6 +196,11 @@
                   <i class="bi bi-circle"></i><span>Vehicles</span>
                 </a>
               </li>
+              <li>
+                <a href="new_installations2">
+                  <i class="bi bi-circle"></i><span>New Installation</span>
+                </a>
+              </li>
             <li>
               <a href="jobcards2">
                 <i class="bi bi-circle"></i><span>JobCard</span>
@@ -282,7 +287,6 @@
             </div>
         </div>
 
-        <!-- Assignments Table -->
         <table class="table table-bordered table-striped mt-2 text-left">
             <thead style="background-color: #4177fd; color: white;">
                 <tr>
@@ -296,7 +300,9 @@
                     <th>Incident Reported</th>
                     <th>Assigned By</th>
                     <th>Status</th>
-                    {{-- <th>Created At</th> --}}
+                    <th>Created At</th>
+                    <th>Accepted At</th>
+                    {{-- <th>Days Taken</th> --}}
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -313,7 +319,38 @@
                     <td>{{ $assignment->case_reported }}</td>
                     <td>{{ $assignment->assigned_by }}</td>
                     <td>{{ ucfirst($assignment->status) }}</td>
-                    {{-- <td>{{ $assignment->accepted_at }}</td> --}}
+                    <td>{{ $assignment->created_at }}</td>
+                    <td>
+
+                            @php
+                            // Convert the created_at time to Nairobi local time
+                            $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
+                        @endphp
+                        {{ $nairobiTime->format('H:i:s') }}
+
+                        @php
+                            $hour = $nairobiTime->format('H');
+                        @endphp
+                        @if ($hour >= 5 && $hour < 12)
+                            <span>Morning</span>
+                        @elseif ($hour >= 12 && $hour < 17)
+                            <span>Afternoon</span>
+                        @elseif ($hour >= 17 && $hour < 21)
+                            <span>Evening</span>
+                        @else
+                            <span>Night</span>
+                        @endif
+
+
+                    </td>
+
+                    {{-- <td>
+                        <td>
+                            <!-- Display the days taken or N/A -->
+                            {{ $daysTaken }}
+                        </td>
+                    </td> --}}
+
                     <td class="text-center">
                         <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                             <i class="fas fa-edit"></i>
@@ -330,6 +367,7 @@
                 @endforeach
             </tbody>
         </table>
+
 
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
