@@ -6,8 +6,9 @@ use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class MCustomerController extends Controller
 {
+
     public function index()
     {
         // Fetch customers with pagination (e.g., 10 customers per page)
