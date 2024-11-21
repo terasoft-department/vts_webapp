@@ -313,8 +313,8 @@
                         <th>Assigned By</th>
                         <th>Status</th>
                         <th>Created At</th>
-                        <th>Delivery At</th>
                         <th>Accepted At</th>
+
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -340,9 +340,8 @@
 
                         <td>{{ucfirst($assignment->status) }}</td>
                         <td>{{ \Carbon\Carbon::parse($assignment->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
-                        {{-- <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
 
-                        {{-- <td>
+                        <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
                                 $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
@@ -361,9 +360,11 @@
                             @else
                                 <span>Night</span>
                             @endif
-                        </td> --}}
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
 
-                        <td>
+
+                        {{-- <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
                                 $nairobiTime = $assignment->accepted_at->setTimezone('Africa/Nairobi');
@@ -382,7 +383,7 @@
                             @else
                                 <span>Night</span>
                             @endif
-                        </td>
+                        </td> --}}
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
