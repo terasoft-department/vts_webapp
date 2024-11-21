@@ -483,10 +483,10 @@
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="created_at">Created At</label>
                                     <input type="text" class="form-control" id="created_at" name="created_at" required>
-                                </div>
+                                </div> --}}
                                 {{-- <div class="form-group">
                                     <label for="accepted_at">Accepted At</label>
                                     <input type="text" class="form-control" id="accepted_at" name="accepted_at" required>
