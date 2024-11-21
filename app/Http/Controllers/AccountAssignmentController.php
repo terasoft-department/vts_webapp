@@ -54,7 +54,7 @@ class AccountAssignmentController extends Controller
         $vehicles = Vehicle::all();
 
         // Return the view with the data
-        return view('Accountassignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
+        return view('Accountassignment.index', compact('assignments', 'customers', 'users', 'vehicles'));
     }
 
 
@@ -114,7 +114,7 @@ class AccountAssignmentController extends Controller
             $assignment = Assignment::findOrFail($id);
             return view('Accountassignments.show', compact('assignment'));
         } catch (\Exception $e) {
-            return redirect()->route('Accountassignments.index')->withErrors('Assignment not found.');
+            return redirect()->route('Accountassignment.index')->withErrors('Assignment not found.');
         }
     }
 
@@ -125,7 +125,7 @@ class AccountAssignmentController extends Controller
             $customers = Customer::all();
             return view('Accountassignments.edit', compact('assignment', 'customers'));
         } catch (\Exception $e) {
-            return redirect()->route('Accountassignments.index')->withErrors('Assignment not found.');
+            return redirect()->route('Accountassignment.index')->withErrors('Assignment not found.');
         }
     }
 
@@ -166,7 +166,7 @@ class AccountAssignmentController extends Controller
         // Update the assignment
         $assignment->update($data);
 
-        return redirect()->route('Accountassignments.index')->with('success', 'Assignment updated successfully.');
+        return redirect()->route('Accountassignment.index')->with('success', 'Assignment updated successfully.');
     } catch (\Exception $e) {
         return redirect()->back()->withErrors('Failed to update assignment.')->withInput();
     }
@@ -201,9 +201,9 @@ class AccountAssignmentController extends Controller
                 Storage::disk('public')->delete($assignment->attachment);
             }
             $assignment->delete();
-            return redirect()->route('Accountassignments.index')->with('success', 'Assignment deleted successfully.');
+            return redirect()->route('Accountassignment.index')->with('success', 'Assignment deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('Accountassignments.index')->withErrors('Failed to delete assignment.');
+            return redirect()->route('Accountassignment.index')->withErrors('Failed to delete assignment.');
         }
     }
 }
