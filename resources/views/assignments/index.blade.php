@@ -338,7 +338,9 @@
                         <td>{{ $assignment->assigned_by }}</td>
 
                         <td>{{ucfirst($assignment->status) }}</td>
-                        <td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+
+                        {{-- <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
                                 $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
@@ -357,7 +359,7 @@
                             @else
                                 <span>Night</span>
                             @endif
-                        </td>
+                        </td> --}}
                         <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
 
 
