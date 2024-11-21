@@ -47,8 +47,8 @@ class AssignmentController extends Controller
         // Determine page size, default to 10 if not specified
         $pageSize = $request->input('page_size', 10000);
 
-        // Fetch paginated results
-        $assignments = $assignments->paginate($pageSize);
+        // // Fetch paginated results
+        // $assignments = $assignments->paginate($pageSize);
 
         // Fetch related data for the filter dropdowns
         $customers = Customer::all();
