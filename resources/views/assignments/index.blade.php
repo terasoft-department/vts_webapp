@@ -346,7 +346,7 @@
                                 <span>Night</span>
                             @endif
                         </td>
-                        <td>
+                        {{-- <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
                                 $nairobiTime = $assignment->accepted_at->setTimezone('Africa/Nairobi');
@@ -365,7 +365,7 @@
                             @else
                                 <span>Night</span>
                             @endif
-                        </td>
+                        </td> --}}
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
