@@ -48,5 +48,9 @@ class Customer extends Model
     {
         return $this->hasMany(DailyWeeklyReport::class);
     }
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class, 'customer_id');
+    }
 
 }

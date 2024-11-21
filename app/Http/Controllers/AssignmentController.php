@@ -19,15 +19,31 @@ class AssignmentController extends Controller
         // Retrieve the search term from the request
         $search = $request->get('search');
 
-        // Initialize the query for fetching assignments
+        // // Initialize the query for fetching assignments
+        // $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
+        //     ->when($search, function ($query) use ($search) {
+        //         // Apply search filter on 'case_reported', 'location', and 'customer_phone'
+        //         $query->where('case_reported', 'like', "%{$search}%")
+        //               ->orWhere('location', 'like', "%{$search}%")
+        //               ->orWhere('customer_phone', 'like', "%{$search}%");
+        //     });
         $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
-            ->when($search, function ($query) use ($search) {
-                // Apply search filter on 'case_reported', 'location', and 'customer_phone'
-                $query->where('customer_id', 'like', "%{$search}%")
-                      ->orWhere('location', 'like', "%{$search}%")
-                      ->orWhere('customer_phone', 'like', "%{$search}%");
-            });
+        ->when($search, function ($query) use ($search) {
+            // Apply search filter on 'case_reported', 'location', and 'customer_phone'
+            $query->where('case_reported', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%");
+        })
+        ->select('assignment_id', 'plate_number', 'customer_id', 'customer_phone', 'location', 'case_reported', 'user_id', 'assigned_by', 'status', 'accepted_at', 'created_at', 'updated_at') // Select fields to be fetched
+        ->get();
 
+    // Now you can access the attributes like so
+    foreach ($assignments as $assignment) {
+        $plateNumber = $assignment->plate_number;
+        $customerName = $assignment->customer ? $assignment->customer->name : null; // Assuming 'name' is the field for customer's name
+        $customerPhone = $assignment->customer ? $assignment->customer->customer_phone : null; // Assuming 'customer_phone' is a field in Customer model
+        echo "Plate Number: $plateNumber, Customer Name: $customerName, Customer Phone: $customerPhone\n";
+    }
         // Determine page size, default to 10 if not specified
         $pageSize = $request->input('page_size', 10000);
 
