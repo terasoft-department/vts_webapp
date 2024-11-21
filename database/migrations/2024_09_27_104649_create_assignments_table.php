@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('plate_number')->nullable();
             $table->integer('customer_id')->nullable();
             $table->string('customer_phone')->nullable();
-            $table->decimal('customer_debt', 10, 2)->nullable();// Decimal for currency
+            $table->string('customer_debt')->nullable();//  for currency
             $table->string('location')->nullable();
             $table->string('user_id')->nullable(); // Corrected typo
             $table->text('case_reported')->nullable(); // Use text for longer case reports

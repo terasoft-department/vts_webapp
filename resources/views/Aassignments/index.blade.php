@@ -264,88 +264,76 @@
                             @endif
 
                             <!-- Dynamic Form for Creating/Updating Assignment -->
-                            <form id="assignmentForm" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" id="assignment_id" name="assignment_id">
+<form id="assignmentForm" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" id="assignment_id" name="assignment_id">
 
-                                <div class="form-group">
-                                    <label for="customer_id">Customer Name</label>
-                                    <select class="form-control" id="customer_id" name="customer_id" required>
-                                        <option value="">Select a customer</option>
-                                        @foreach($customers as $customer)
-                                            <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="customer_phone">Customer Phone</label>
-                                    <input type="text" class="form-control" id="customer_phone" name="customer_phone" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="customer_debt">Customer Debt (TZS)</label>
-                                    <input type="text" class="form-control" id="customer_debt" name="customer_debt" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="plate_number">Plate Number</label>
-                                    <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter plate number" required>
-                                    {{-- <select class="form-control" id="plate_number" name="plate_number" required>
-                                        <option value="">Select a plate number</option>
-                                        @foreach($vehicles as $vehicle)
-                                            <option value="{{ $vehicle->plate_number }}">{{ $vehicle->plate_number }}</option>
-                                        @endforeach
-                                    </select> --}}
-                                </div>
+    <div class="form-group">
+        <label for="customer_id">Customer Name</label>
+        <select class="form-control" id="customer_id" name="customer_id" required>
+            <option value="">Select a customer</option>
+            @foreach($customers as $customer)
+                <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+            @endforeach
+        </select>
+    </div>
 
-                                <div class="form-group">
-                                    <label for="location">Location</label>
-                                    <input type="text" class="form-control" id="location" name="location" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="user_id">Reporter</label>
-                                    <select class="form-control" id="user_id" name="user_id" required>
-                                        <option value="">Select reporter</option>
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->user_id }}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="case_reported">Case Reported</label>
-                                    <select class="form-control" id="case_reported" name="case_reported" required>
-                                        <option value="" disabled selected>Select a case</option>
-                                        <option value="New Installation">New Installation</option>
-                                        <option value="skipping">Skipping</option>
-                                        <option value="black_box_data">Black box Data</option>
-                                        <option value="device_tampering">Device Tampering</option>
-                                        <option value="start_stop_journey">Start and stop Journey</option>
-                                        <option value="internal_battery_low">Internal Battery Low</option>
-                                        <option value="external_battery_disconnected">External Battery Disconnected</option>
-                                        <option value="rollover_detection">Rollover Detection</option>
-                                        <option value="emergence_trigger">Emergence Trigger</option>
-                                        <option value="panic_button">Panic Button</option>
-                                        <option value="non_transmission">Non Transmission</option>
-                                    </select>
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label for="attachment">Attachment (PDF)</label>
-                                    <input type="file" class="form-control-file" id="attachment" name="attachment" accept=".pdf">
-                                </div> --}}
-                                <div class="form-group">
-                                    <label for="assigned_by">Assigned By</label>
-                                    <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
-                                </div>
+    <div class="form-group">
+        <label for="customer_phone">Customer Phone</label>
+        <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer's phone number" required>
+    </div>
 
-                                {{-- <div class="form-group">
-                                    <label for="created_at">Created At</label>
-                                    <input type="text" class="form-control" id="created_at" name="created_at" required>
-                                </div> --}}
-                                {{-- <div class="form-group">
-                                    <label for="accepted_at">Accepted At</label>
-                                    <input type="text" class="form-control" id="accepted_at" name="accepted_at" required>
-                                </div> --}}
+    <div class="form-group">
+        <label for="customer_debt">Customer Debt (TZS)</label>
+        <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" required>
+    </div>
 
-                                <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
-                            </form>
+    <div class="form-group">
+        <label for="plate_number">Plate Number</label>
+        <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter vehicle plate number" required>
+    </div>
+
+    <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter assignment location" required>
+    </div>
+
+    <div class="form-group">
+        <label for="user_id">Reporter</label>
+        <select class="form-control" id="user_id" name="user_id" required>
+            <option value="">Select reporter</option>
+            @foreach($users as $user)
+                <option value="{{ $user->user_id }}">{{ $user->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="case_reported">Case Reported</label>
+        <select class="form-control" id="case_reported" name="case_reported" required>
+            <option value="" disabled selected>Select a case</option>
+            <option value="New Installation">New Installation</option>
+            <option value="skipping">Skipping</option>
+            <option value="black_box_data">Black box Data</option>
+            <option value="device_tampering">Device Tampering</option>
+            <option value="start_stop_journey">Start and stop Journey</option>
+            <option value="internal_battery_low">Internal Battery Low</option>
+            <option value="external_battery_disconnected">External Battery Disconnected</option>
+            <option value="rollover_detection">Rollover Detection</option>
+            <option value="emergence_trigger">Emergence Trigger</option>
+            <option value="panic_button">Panic Button</option>
+            <option value="non_transmission">Non Transmission</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="assigned_by">Assigned By</label>
+        <input type="text" class="form-control" id="assigned_by" name="assigned_by" placeholder="Enter name of person assigning the task" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
+</form>
+
                         </div>
                     </div>
                 </div>
