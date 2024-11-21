@@ -272,8 +272,16 @@
                     <i class="bi bi-plus-circle"></i> Create Assignment
                 </button>
             </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <h4 class="m-0">Manage Vehicles</h4>
 
-            <div class="row mb-3">
+                <form action="{{ route('assignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
+                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch" style="width: 250px;">
+                    <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            {{-- <div class="row mb-3">
                 <div class="col-md-8">
                     <form method="GET" action="{{ route('assignments.index') }}">
                         <div class="input-group">
@@ -284,7 +292,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
             <!-- Assignments Table -->
             <table class="table table-bordered table-striped mt-2 text-left">
                 <thead style="background-color: #4177fd; color: white;">
