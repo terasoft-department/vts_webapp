@@ -314,7 +314,7 @@
                         <th>Status</th>
                         <th>Created At</th>
                         <th>Accepted At</th>
-                        <th>Delivered At</th>
+                        <th>Viewed At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
