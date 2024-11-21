@@ -301,6 +301,7 @@
                         <th>Assigned By</th>
                         <th>Status</th>
                         <th>Created At</th>
+                        <th>Accepted At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -329,6 +330,26 @@
                             @php
                                 // Convert the created_at time to Nairobi local time
                                 $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
+                            @endphp
+                            {{ $nairobiTime->format('H:i:s') }}
+
+                            @php
+                                $hour = $nairobiTime->format('H');
+                            @endphp
+                            @if ($hour >= 5 && $hour < 12)
+                                <span>Morning</span>
+                            @elseif ($hour >= 12 && $hour < 17)
+                                <span>Afternoon</span>
+                            @elseif ($hour >= 17 && $hour < 21)
+                                <span>Evening</span>
+                            @else
+                                <span>Night</span>
+                            @endif
+                        </td>
+                        <td>
+                            @php
+                                // Convert the created_at time to Nairobi local time
+                                $nairobiTime = $assignment->accepted_at->setTimezone('Africa/Nairobi');
                             @endphp
                             {{ $nairobiTime->format('H:i:s') }}
 
@@ -465,6 +486,10 @@
                                 <div class="form-group">
                                     <label for="created_at">Created At</label>
                                     <input type="text" class="form-control" id="created_at" name="created_at" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="accepted_at">Accepted At</label>
+                                    <input type="text" class="form-control" id="accepted_at" name="accepted_at" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
