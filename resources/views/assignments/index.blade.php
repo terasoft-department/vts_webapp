@@ -313,8 +313,8 @@
                         <th>Assigned By</th>
                         <th>Status</th>
                         <th>Created At</th>
-                        <th>Delivered At</th>
                         <th>Accepted At</th>
+                        <th>Delivered At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -340,8 +340,9 @@
 
                         <td>{{ucfirst($assignment->status) }}</td>
                         <td>{{ \Carbon\Carbon::parse($assignment->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
-                       <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> 
-                        <td>{{ $assignment->accepted_at }}</td>
+                        <td>{{ $assignment->accepted_at}}</td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+
                         {{--
                         <td>
                             @php
