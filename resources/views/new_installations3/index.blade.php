@@ -161,7 +161,7 @@
 
                                 </button>
                             @else
-                                N/A
+                            Not Uploaded
                             @endif
                         </td>
 
@@ -175,7 +175,7 @@
                                         Show <i class="fas fa-eye"></i>
                                 </button>
                             @else
-                                N/A
+                            Not Uploaded
                             @endif
                         </td>
 
@@ -189,7 +189,7 @@
                                         Show <i class="fas fa-eye"></i>
                                 </button>
                             @else
-                                Not Found
+                                Not Uploaded
                             @endif
                         </td>
 
