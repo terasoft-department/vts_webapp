@@ -314,7 +314,6 @@
                         <th>Status</th>
                         <th>Created At</th>
                         <th>Accepted At</th>
-
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -340,7 +339,7 @@
 
                         <td>{{ucfirst($assignment->status) }}</td>
                         <td>{{ \Carbon\Carbon::parse($assignment->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
-
+{{--
                         <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
@@ -360,7 +359,7 @@
                             @else
                                 <span>Night</span>
                             @endif
-                        </td>
+                        </td> --}}
                         <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
 
 
