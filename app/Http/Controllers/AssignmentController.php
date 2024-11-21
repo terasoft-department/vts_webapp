@@ -14,26 +14,35 @@ use Illuminate\Support\Facades\Storage;
 class AssignmentController extends Controller
  {
 
-public function index(Request $request)
-{
+    public function index(Request $request)
+    {
+        // Retrieve the search term from the request
+        $search = $request->get('search');
 
-    $search = $request->get('search');
+        // Initialize the query for fetching assignments
+        $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
+            ->when($search, function ($query) use ($search) {
+                // Apply search filter on 'case_reported', 'location', and 'customer_phone'
+                $query->where('case_reported', 'like', "%{$search}%")
+                      ->orWhere('location', 'like', "%{$search}%")
+                      ->orWhere('customer_phone', 'like', "%{$search}%");
+            });
 
-    // Fetching assignments with pagination and search functionality
-    $assignments = Assignment::when($search, function ($query) use ($search) {
-            $query->where('case_reported', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%")
-                  ->orWhere('customer_phone', 'like', "%{$search}%");
-        })
-        ->paginate(10); // Change the number to whatever suits your needs
+        // Determine page size, default to 10 if not specified
+        $pageSize = $request->input('page_size', 10);
 
-    // Fetching related customers and users
-    $customers = Customer::all();
-    $users = User::all();
-    $vehicles = Vehicle::all();
+        // Fetch paginated results
+        $assignments = $assignments->paginate($pageSize);
 
-    return view('assignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
-}
+        // Fetch related data for the filter dropdowns
+        $customers = Customer::all();
+        $users = User::all();
+        $vehicles = Vehicle::all();
+
+        // Return the view with the data
+        return view('assignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
+    }
+
 
 
  // Display a listing of the resource
@@ -44,8 +53,8 @@ public function index(Request $request)
         $request->validate([
             'plate_number' => 'required|string|max:255',
             'customer_id' => 'required|integer|exists:customers,customer_id',
-            'customer_phone' => 'required|string|max:15',
-            'customer_debt' => 'required|string|max:255',
+            'customer_phone' => 'required|string|max:255',
+            // 'customer_debt' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'user_id' => 'required|string',
             'case_reported' => 'required|string',
@@ -149,24 +158,24 @@ public function index(Request $request)
     }
 }
 // -----------------------------------------NYONGEZA------------------------------------------------
-public function getCustomerDetails(Request $request)
-{
-    $plateNumber = $request->query('plate_number');
+// public function getCustomerDetails(Request $request)
+// {
+//     $plateNumber = $request->query('plate_number');
 
-    // Find the vehicle by plate number (Assuming 'Vehicle' model is available)
-    $vehicle = Vehicle::where('plate_number', $plateNumber)->first();
+//     // Find the vehicle by plate number (Assuming 'Vehicle' model is available)
+//     $vehicle = Vehicle::where('plate_number', $plateNumber)->first();
 
-    if ($vehicle) {
-        // Fetch customer details associated with the vehicle
-        $customer = Customer::find($vehicle->customer_id);
-        return response()->json([
-            'customer_name' => $customer ? $customer->customername : 'Unknown',
-            'customer_phone' => $customer ? $customer->phone : 'Unknown',
-        ]);
-    }
+//     if ($vehicle) {
+//         // Fetch customer details associated with the vehicle
+//         $customer = Customer::find($vehicle->customer_id);
+//         return response()->json([
+//             'customer_name' => $customer ? $customer->customername : 'Unknown',
+//             'customer_phone' => $customer ? $customer->phone : 'Unknown',
+//         ]);
+//     }
 
-    return response()->json(null);
-}
+//     return response()->json(null);
+// }
 // -----------------------------------------NYONGEZA------------------------------------------------
 
     public function destroy($id)

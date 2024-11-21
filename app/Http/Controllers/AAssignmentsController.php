@@ -12,23 +12,34 @@ use Illuminate\Support\Facades\Storage;
 class AAssignmentsController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    // Retrieve the search term from the request
+    $search = $request->get('search');
 
-        $assignments = Assignment::query()
-            ->when($search, function ($query, $search) {
-                $query->whereHas('customer', function($q) use ($search) {
-                    $q->where('customername', 'like', "%{$search}%");
-                })->orWhere('plate_number', 'like', "%{$search}%");
-            })
-            ->paginate(10); // Adjust pagination as needed
+    // Initialize the query for fetching assignments
+    $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
+        ->when($search, function ($query) use ($search) {
+            // Apply search filter on 'case_reported', 'location', and 'customer_phone'
+            $query->where('case_reported', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%");
+        });
 
-        $customers = Customer::all();
-        $users = User::all();
-        $vehicles = Vehicle::all();
-        return view('Aassignments.index', compact('customers', 'vehicles', 'assignments', 'users'));
+    // Determine page size, default to 10 if not specified
+    $pageSize = $request->input('page_size', 10);
 
-    }
+    // Fetch paginated results
+    $assignments = $assignments->paginate($pageSize);
+
+    // Fetch related data for the filter dropdowns
+    $customers = Customer::all();
+    $users = User::all();
+    $vehicles = Vehicle::all();
+
+    // Return the view with the data
+    return view('Aassignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
+}
+
      // Display a listing of the resource
      public function store(Request $request)
         {
@@ -36,7 +47,7 @@ class AAssignmentsController extends Controller
                 'plate_number' => 'required|string|max:255',
                 'customer_id' => 'required|integer|exists:customers,customer_id',
                 'customer_phone' => 'required|string|max:15',
-                'customer_debt' => 'required|string|max:255',
+                // 'customer_debt' => 'required|string|max:255',
                 'location' => 'required|string|max:255',
                 'user_id' => 'required|string',
                 'case_reported' => 'required|string',
