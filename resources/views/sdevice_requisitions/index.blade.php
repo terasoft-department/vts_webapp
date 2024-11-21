@@ -311,10 +311,10 @@
                                                 <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
                                             </select>
                                               </div>
-                                              <div class="mb-3">
+                                              {{-- <div class="mb-3">
                                                 <label for="approved_at{{ $requisition->requisition_id }}" class="form-label">Approve At</label>
                                                 <input type="date" class="form-control" id="approved_at{{ $requisition->requisition_id }}" name="approved_at" required>
-                                                  </div>
+                                                  </div> --}}
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
