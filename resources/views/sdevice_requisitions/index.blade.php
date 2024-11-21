@@ -255,8 +255,8 @@
                 <th>ID</th>
                 <th>User Name</th>
                 <th>Descriptions</th>
-                <th>Provision date</th>
-                <th>Approved At</th>
+                {{-- <th>Provision date</th>
+                <th>Approved At</th> --}}
                 <th>Status</th>
                 <th>Master</th>
                 <th>I-Button</th>
