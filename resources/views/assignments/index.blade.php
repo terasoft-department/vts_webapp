@@ -301,7 +301,7 @@
                         <th>Assigned By</th>
                         <th>Status</th>
                         <th>Created At</th>
-                        <th>Accepted At</th>
+                        {{-- <th>Accepted At</th> --}}
                         <th>Actions</th>
                     </tr>
                 </thead>
