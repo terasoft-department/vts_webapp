@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('panick_button')->default(0)->nullable();
             $table->string('dispatched_status')->default('available');
             $table->text('dispatched_imeis')->default('available');
+            $table->string(column: 'approved_at')->nullable();
              // Panick_button attribute as integer
             $table->timestamps();
         });

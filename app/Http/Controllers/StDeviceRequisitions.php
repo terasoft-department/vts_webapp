@@ -131,7 +131,7 @@ class StDeviceRequisitions extends Controller
         return view('dispatched_historyv2.index', compact('dispatchedHistory'));
     }
 
-public function approveRequisition(Request $request, $requisition_id)
+public function approveRequisition2(Request $request, $requisition_id)
 {
     // Find the requisition
     $requisition = DeviceRequisition::findOrFail($requisition_id);

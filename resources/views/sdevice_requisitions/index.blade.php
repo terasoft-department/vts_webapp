@@ -255,7 +255,8 @@
                 <th>ID</th>
                 <th>User Name</th>
                 <th>Descriptions</th>
-                {{-- <th>Approved At</th> --}}
+                <th>Provision date</th>
+                <th>Approved At</th>
                 <th>Status</th>
                 <th>Master</th>
                 <th>I-Button</th>
@@ -271,7 +272,8 @@
                 <td>{{ $requisition->requisition_id }}</td>
                 <td>{{ $requisition->user->name ?? 'N/A' }}</td>
                 <td>{{ $requisition->descriptions }}</td>
-                {{-- <td>{{ $requisition->approved_at }}</td> --}}
+                <td>{{ $requisition->dateofProvision }}</td>
+                <td>{{ $requisition->approved_at }}</td>
                 {{-- <td>{{ \Carbon\Carbon::parse($requisition->approved_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
 
                 <td>{{ ucfirst($requisition->status) }}</td>
@@ -298,7 +300,7 @@
                                     <input type="date" class="form-control" id="approved_date" name="date" required>
                                 </div> --}}
                                 <div class="modal-body">
-                                    <form action="{{ route('device_requisitions.update', $requisition->requisition_id) }}" method="POST">
+                                    <form action="{{ route('sdevice_requisitions.update', $requisition->requisition_id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="mb-3">
@@ -308,7 +310,11 @@
                                                 <option value="Approved" {{ $requisition->status == 'Approved' ? 'selected' : '' }}>Approved</option>
                                                 <option value="Rejected" {{ $requisition->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
                                             </select>
-                                        </div>
+                                              </div>
+                                              <div class="mb-3">
+                                                <label for="approved_at{{ $requisition->requisition_id }}" class="form-label">Approve At</label>
+                                                <input type="date" class="form-control" id="approved_at{{ $requisition->requisition_id }}" name="approved_at" required>
+                                                  </div>
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
