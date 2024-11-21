@@ -276,7 +276,7 @@
                 <h4 class="m-0">Manage Assignments</h4>
 
                 <form action="{{ route('assignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search platenumber,phonenumber or location..." value="{{ request()->query('search') }}" id="assignmentsSearch" style="width: 250px;">
+                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search platenumber,phonenumber or location..." value="{{ request()->query('search') }}" id="assignmentsSearch" style="width: 900px;">
                     <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
                 </form>
             </div>
