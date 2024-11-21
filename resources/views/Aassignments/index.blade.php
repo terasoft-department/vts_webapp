@@ -125,7 +125,7 @@
 
             <div class="row mb-3">
                 <div class="col-md-8">
-                    <form method="GET" action="{{ route('assignments.index') }}">
+                    <form method="GET" action="{{ route('Aassignments.index') }}">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Search by customer or plate number..." aria-label="Search assignments" value="{{ request()->query('search') }}">
                             <button class="btn btn-primary" type="submit" style="background-color:#4177fd;">
@@ -150,6 +150,8 @@
                         {{-- <th>Attachment</th> --}}
                         <th>Assigned By</th>
                         <th>Status</th>
+                        <th>Created At</th>
+                        {{-- <th>Accepted At</th> --}}
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -174,11 +176,51 @@
                         <td>{{ $assignment->assigned_by }}</td>
 
                         <td>{{ucfirst($assignment->status) }}</td>
+                        <td>
+                            @php
+                                // Convert the created_at time to Nairobi local time
+                                $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
+                            @endphp
+                            {{ $nairobiTime->format('H:i:s') }}
+
+                            @php
+                                $hour = $nairobiTime->format('H');
+                            @endphp
+                            @if ($hour >= 5 && $hour < 12)
+                                <span>Morning</span>
+                            @elseif ($hour >= 12 && $hour < 17)
+                                <span>Afternoon</span>
+                            @elseif ($hour >= 17 && $hour < 21)
+                                <span>Evening</span>
+                            @else
+                                <span>Night</span>
+                            @endif
+                        </td>
+                        {{-- <td>
+                            @php
+                                // Convert the created_at time to Nairobi local time
+                                $nairobiTime = $assignment->accepted_at->setTimezone('Africa/Nairobi');
+                            @endphp
+                            {{ $nairobiTime->format('H:i:s') }}
+
+                            @php
+                                $hour = $nairobiTime->format('H');
+                            @endphp
+                            @if ($hour >= 5 && $hour < 12)
+                                <span>Morning</span>
+                            @elseif ($hour >= 12 && $hour < 17)
+                                <span>Afternoon</span>
+                            @elseif ($hour >= 17 && $hour < 21)
+                                <span>Evening</span>
+                            @else
+                                <span>Night</span>
+                            @endif
+                        </td> --}}
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <form action="{{ route('assignments.destroy', $assignment->assignment_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('Aassignments.destroy', $assignment->assignment_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this assignment?')">
@@ -291,9 +333,13 @@
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="created_at">Created At</label>
+                                    <input type="text" class="form-control" id="created_at" name="created_at" required>
+                                </div>
                                 {{-- <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <input type="text" class="form-control" id="status" name="status" required>
+                                    <label for="accepted_at">Accepted At</label>
+                                    <input type="text" class="form-control" id="accepted_at" name="accepted_at" required>
                                 </div> --}}
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
@@ -304,7 +350,7 @@
             </div>
         </div>
     </div>
-</main>
+
 
         <!-- Include jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -342,8 +388,6 @@
             }
         </script>
     </div>
-</main>
-
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
