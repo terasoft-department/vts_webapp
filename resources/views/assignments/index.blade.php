@@ -325,7 +325,7 @@
                         <td>{{ $assignment->plate_number }}</td>
                         <td>{{ optional($customers->find($assignment->customer_id))->customername ?? 'Unknown' }}</td>
                         <td>{{ $assignment->customer_phone }}</td>
-                        <td>{{ number_format($assignment->customer_debt, 2) }} TZS</td>
+                        <td>{{ $assignment->customer_debt}}</td>
                         <td>{{ $assignment->location }}</td>
                         <td>{{ optional($users->find($assignment->user_id))->name ?? 'Unknown' }}</td>
                         <td>{{ $assignment->case_reported }}</td>
