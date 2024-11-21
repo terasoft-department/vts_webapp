@@ -301,7 +301,7 @@
                         <th>Assigned By</th>
                         <th>Status</th>
                         <th>Created At</th>
-                        {{-- <th>Accepted At</th> --}}
+                        <th>Accepted At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -346,6 +346,7 @@
                                 <span>Night</span>
                             @endif
                         </td>
+                        <td>{{ $assignment->accepted_at }}</td>
                         {{-- <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
