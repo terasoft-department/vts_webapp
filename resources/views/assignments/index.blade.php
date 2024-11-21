@@ -328,7 +328,7 @@
                         <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
-                                $nairobiTime = $requisition->created_at->setTimezone('Africa/Nairobi');
+                                $nairobiTime = $assignment->created_at->setTimezone('Africa/Nairobi');
                             @endphp
                             {{ $nairobiTime->format('H:i:s') }}
 
