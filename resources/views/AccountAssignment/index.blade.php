@@ -266,7 +266,7 @@
                 </h4>
 
 
-                <form action="{{ route('Accountassignment.index') }}" method="GET" class="form-inline d-flex align-items-center">
+                <form action="{{ route('AccountAssignment.index') }}" method="GET" class="form-inline d-flex align-items-center">
                     <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search by  platenumber or  phonenumber or location..." value="{{ request()->query('search') }}" id="assignmentsSearch" style="width: 900px;">
                     <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
                 </form>
@@ -359,7 +359,7 @@
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <form action="{{ route('Accountassignment.destroy', $assignment->assignment_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('AccountAssignment.destroy', $assignment->assignment_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this assignment?')">
