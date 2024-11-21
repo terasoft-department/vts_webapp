@@ -358,7 +358,8 @@
                                 <span>Night</span>
                             @endif
                         </td>
-                        <td>{{ $assignment->accepted_at }}</td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('g:i A') }}</td>
+
                         {{-- <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
