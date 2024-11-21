@@ -313,6 +313,7 @@
                         <th>Assigned By</th>
                         <th>Status</th>
                         <th>Created At</th>
+                        <th>Delivered At</th>
                         <th>Accepted At</th>
                         <th>Actions</th>
                     </tr>
@@ -339,7 +340,9 @@
 
                         <td>{{ucfirst($assignment->status) }}</td>
                         <td>{{ \Carbon\Carbon::parse($assignment->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
-{{--
+                       <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> 
+                        <td>{{ $assignment->accepted_at }}</td>
+                        {{--
                         <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
@@ -363,26 +366,7 @@
                         {{-- <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
 
 
-                        <td>
-                            @php
-                                // Convert the created_at time to Nairobi local time
-                                $nairobiTime = $assignment->accepted_at->setTimezone('Africa/Nairobi');
-                            @endphp
-                            {{ $nairobiTime->format('H:i:s') }}
 
-                            @php
-                                $hour = $nairobiTime->format('H');
-                            @endphp
-                            @if ($hour >= 5 && $hour < 12)
-                                <span>Morning</span>
-                            @elseif ($hour >= 12 && $hour < 17)
-                                <span>Afternoon</span>
-                            @elseif ($hour >= 17 && $hour < 21)
-                                <span>Evening</span>
-                            @else
-                                <span>Night</span>
-                            @endif
-                        </td>
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
