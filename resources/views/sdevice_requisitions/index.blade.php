@@ -255,7 +255,7 @@
                 <th>ID</th>
                 <th>User Name</th>
                 <th>Descriptions</th>
-                {{-- <th>Approved At</th> --}}
+                <th>Approved At</th>
                 <th>Status</th>
                 <th>Master</th>
                 <th>I-Button</th>
@@ -271,6 +271,9 @@
                 <td>{{ $requisition->requisition_id }}</td>
                 <td>{{ $requisition->user->name ?? 'N/A' }}</td>
                 <td>{{ $requisition->descriptions }}</td>
+                <td>{{ $requisition->approved_at }}</td>
+                {{-- <td>{{ \Carbon\Carbon::parse($requisition->approved_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
+
                 <td>{{ ucfirst($requisition->status) }}</td>
                 <td>{{ $requisition->master }}</td>
                 <td>{{ $requisition->I_button }}</td>
