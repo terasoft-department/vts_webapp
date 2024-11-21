@@ -38,12 +38,12 @@ class AssignmentController extends Controller
         ->get();
 
     // Now you can access the attributes like so
-    foreach ($assignments as $assignment) {
-        $plateNumber = $assignment->plate_number;
-        $customerName = $assignment->customer ? $assignment->customer->name : null; // Assuming 'name' is the field for customer's name
-        $customerPhone = $assignment->customer ? $assignment->customer->customer_phone : null; // Assuming 'customer_phone' is a field in Customer model
-        echo "Plate Number: $plateNumber, Customer Name: $customerName, Customer Phone: $customerPhone\n";
-    }
+    // foreach ($assignments as $assignment) {
+    //     $plateNumber = $assignment->plate_number;
+    //     $customerName = $assignment->customer ? $assignment->customer->name : null; // Assuming 'name' is the field for customer's name
+    //     $customerPhone = $assignment->customer ? $assignment->customer->customer_phone : null; // Assuming 'customer_phone' is a field in Customer model
+    //     echo "Plate Number: $plateNumber, Customer Name: $customerName, Customer Phone: $customerPhone\n";
+    // }
         // Determine page size, default to 10 if not specified
         $pageSize = $request->input('page_size', 10000);
 
