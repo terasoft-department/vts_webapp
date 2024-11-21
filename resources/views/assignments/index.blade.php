@@ -358,7 +358,8 @@
                                 <span>Night</span>
                             @endif
                         </td>
-                        <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('g:i A') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+
 
                         {{-- <td>
                             @php
