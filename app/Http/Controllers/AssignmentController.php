@@ -19,23 +19,23 @@ class AssignmentController extends Controller
         // Retrieve the search term from the request
         $search = $request->get('search');
 
-        // // Initialize the query for fetching assignments
-        // $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
-        //     ->when($search, function ($query) use ($search) {
-        //         // Apply search filter on 'case_reported', 'location', and 'customer_phone'
-        //         $query->where('case_reported', 'like', "%{$search}%")
-        //               ->orWhere('location', 'like', "%{$search}%")
-        //               ->orWhere('customer_phone', 'like', "%{$search}%");
-        //     });
+        // Initialize the query for fetching assignments
         $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
-        ->when($search, function ($query) use ($search) {
-            // Apply search filter on 'case_reported', 'location', and 'customer_phone'
-            $query->where('assignment_id', 'like', "%{$search}%")
-                  ->orWhere('plate_number', 'like', "%{$search}%")
-                  ->orWhere('customer_phone', 'like', "%{$search}%");
-        })
-        ->select('assignment_id', 'plate_number', 'customer_id', 'customer_phone', 'location', 'case_reported', 'user_id', 'assigned_by', 'status', 'accepted_at', 'created_at', 'updated_at') // Select fields to be fetched
-        ->get();
+            ->when($search, function ($query) use ($search) {
+                // Apply search filter on 'case_reported', 'location', and 'customer_phone'
+                $query->where('case_reported', 'like', "%{$search}%")
+                      ->orWhere('location', 'like', "%{$search}%")
+                      ->orWhere('customer_phone', 'like', "%{$search}%");
+            });
+        // $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
+        // ->when($search, function ($query) use ($search) {
+        //     // Apply search filter on 'case_reported', 'location', and 'customer_phone'
+        //     $query->where('assignment_id', 'like', "%{$search}%")
+        //           ->orWhere('plate_number', 'like', "%{$search}%")
+        //           ->orWhere('customer_phone', 'like', "%{$search}%");
+        // })
+        // ->select('assignment_id', 'plate_number', 'customer_id', 'customer_phone', 'location', 'case_reported', 'user_id', 'assigned_by', 'status', 'accepted_at', 'created_at', 'updated_at') // Select fields to be fetched
+        // ->get();
 
     // Now you can access the attributes like so
     // foreach ($assignments as $assignment) {
