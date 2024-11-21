@@ -300,6 +300,7 @@
                         {{-- <th>Attachment</th> --}}
                         <th>Assigned By</th>
                         <th>Status</th>
+                        <th>Created At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -441,10 +442,10 @@
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
 
-                                {{-- <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <input type="text" class="form-control" id="status" name="status" required>
-                                </div> --}}
+                                <div class="form-group">
+                                    <label for="created_at">Created At</label>
+                                    <input type="text" class="form-control" id="created_at" name="created_at" required>
+                                </div>
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
                             </form>
