@@ -487,10 +487,10 @@
                                     <label for="created_at">Created At</label>
                                     <input type="text" class="form-control" id="created_at" name="created_at" required>
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="accepted_at">Accepted At</label>
                                     <input type="text" class="form-control" id="accepted_at" name="accepted_at" required>
-                                </div>
+                                </div> --}}
 
                                 <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
                             </form>
