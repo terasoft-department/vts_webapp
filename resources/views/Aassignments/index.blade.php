@@ -116,12 +116,12 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <!-- Add New Assignment Button -->
+            {{-- <!-- Add New Assignment Button -->
             <div class="text-left mb-2">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#assignmentModal" onclick="openCreateModal()">
                     <i class="bi bi-plus-circle"></i> Create Assignment
                 </button>
-            </div>
+            </div> --}}
             <br>
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                 <h4 class="m-0">
@@ -130,7 +130,7 @@
 
 
                 <form action="{{ route('Aassignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search by  platenumber or  phonenumber or location..." value="{{ request()->query('search') }}" id="assignmentsSearch" style="width: 900px;">
+                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search by  platenumber or  phonenumber or location..." value="{{ request()->query('search') }}" id="AassignmentsSearch" style="width: 900px;">
                     <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
                 </form>
             </div>

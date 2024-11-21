@@ -138,8 +138,8 @@
                     <th>D.Reported</th>
                     <th>D.Attended</th>
                     <th>N.Problem</th>
-                    <th>W.Done</th>
                     <th>Created At</th>
+                    <th>W.Done</th>
                     <th>C.Comment</th>
                     <th>S.Type</th>
                     <th>Technician</th>
