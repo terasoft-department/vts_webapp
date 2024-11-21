@@ -272,8 +272,8 @@
                 <td>{{ $requisition->requisition_id }}</td>
                 <td>{{ $requisition->user->name ?? 'N/A' }}</td>
                 <td>{{ $requisition->descriptions }}</td>
-                <td>{{ $requisition->dateofProvision }}</td>
-                <td>{{ $requisition->approved_at }}</td>
+                {{-- <td>{{ $requisition->dateofProvision }}</td>
+                <td>{{ $requisition->approved_at }}</td> --}}
                 {{-- <td>{{ \Carbon\Carbon::parse($requisition->approved_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
 
                 <td>{{ ucfirst($requisition->status) }}</td>
