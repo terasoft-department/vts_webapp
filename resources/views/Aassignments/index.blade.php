@@ -122,10 +122,22 @@
                     <i class="bi bi-plus-circle"></i> Create Assignment
                 </button>
             </div>
+            <br>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <h4 class="m-0">
+                    <i class="fa fa-info-circle"></i> Instructions:
+                </h4>
 
-            <div class="row mb-3">
+
+                <form action="{{ route('Aassignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
+                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search by  platenumber or  phonenumber or location..." value="{{ request()->query('search') }}" id="assignmentsSearch" style="width: 900px;">
+                    <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            {{-- <div class="row mb-3">
                 <div class="col-md-8">
-                    <form method="GET" action="{{ route('Aassignments.index') }}">
+                    <form method="GET" action="{{ route('assignments.index') }}">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Search by customer or plate number..." aria-label="Search assignments" value="{{ request()->query('search') }}">
                             <button class="btn btn-primary" type="submit" style="background-color:#4177fd;">
@@ -134,7 +146,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
             <!-- Assignments Table -->
             <table class="table table-bordered table-striped mt-2 text-left">
                 <thead style="background-color: #4177fd; color: white;">
@@ -151,7 +163,8 @@
                         <th>Assigned By</th>
                         <th>Status</th>
                         <th>Created At</th>
-                        {{-- <th>Accepted At</th> --}}
+                        <th>Accepted At</th>
+                        <th>Viewed At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -176,6 +189,11 @@
                         <td>{{ $assignment->assigned_by }}</td>
 
                         <td>{{ucfirst($assignment->status) }}</td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+                        <td>{{ $assignment->accepted_at}}</td>
+                        <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+
+                        {{--
                         <td>
                             @php
                                 // Convert the created_at time to Nairobi local time
@@ -195,27 +213,11 @@
                             @else
                                 <span>Night</span>
                             @endif
-                        </td>
-                        {{-- <td>
-                            @php
-                                // Convert the created_at time to Nairobi local time
-                                $nairobiTime = $assignment->accepted_at->setTimezone('Africa/Nairobi');
-                            @endphp
-                            {{ $nairobiTime->format('H:i:s') }}
-
-                            @php
-                                $hour = $nairobiTime->format('H');
-                            @endphp
-                            @if ($hour >= 5 && $hour < 12)
-                                <span>Morning</span>
-                            @elseif ($hour >= 12 && $hour < 17)
-                                <span>Afternoon</span>
-                            @elseif ($hour >= 17 && $hour < 21)
-                                <span>Evening</span>
-                            @else
-                                <span>Night</span>
-                            @endif
                         </td> --}}
+                        {{-- <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
+
+
+
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
@@ -333,10 +335,10 @@
                                     <input type="text" class="form-control" id="assigned_by" name="assigned_by" required>
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="created_at">Created At</label>
                                     <input type="text" class="form-control" id="created_at" name="created_at" required>
-                                </div>
+                                </div> --}}
                                 {{-- <div class="form-group">
                                     <label for="accepted_at">Accepted At</label>
                                     <input type="text" class="form-control" id="accepted_at" name="accepted_at" required>
