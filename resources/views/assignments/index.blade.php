@@ -274,7 +274,10 @@
             </div>
             <br>
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <h4 class="m-0">Instructions</h4>
+                <h4 class="m-0">
+                    <i class="fa fa-info-circle"></i> Instructions:
+                </h4>
+
 
                 <form action="{{ route('assignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
                     <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search platenumber,phonenumber or location..." value="{{ request()->query('search') }}" id="assignmentsSearch" style="width: 900px;">
