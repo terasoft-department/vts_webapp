@@ -24,7 +24,7 @@ class AssignmentController extends Controller
             ->when($search, function ($query) use ($search) {
                 // Apply search filter on 'case_reported', 'location', and 'customer_phone'
                 $query->where('plate_number', 'like', "%{$search}%")
-                      ->orWhere('customername', 'like', "%{$search}%")
+                      ->orWhere('location', 'like', "%{$search}%")
                       ->orWhere('customer_phone', 'like', "%{$search}%");
             });
         // $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
