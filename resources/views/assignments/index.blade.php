@@ -273,10 +273,10 @@
                 </button>
             </div>
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <h4 class="m-0">Manage Vehicles</h4>
+                <h4 class="m-0">Manage Assignments</h4>
 
                 <form action="{{ route('assignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch" style="width: 250px;">
+                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search Assignments..." value="{{ request()->query('search') }}" id="vehicleSearch" style="width: 250px;">
                     <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
                 </form>
             </div>
