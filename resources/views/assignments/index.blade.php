@@ -340,7 +340,7 @@
 
                         <td>{{ucfirst($assignment->status) }}</td>
                         <td>{{ \Carbon\Carbon::parse($assignment->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+                        {{-- <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
 
                         {{-- <td>
                             @php
@@ -362,7 +362,6 @@
                                 <span>Night</span>
                             @endif
                         </td> --}}
-
 
                         <td>
                             @php
