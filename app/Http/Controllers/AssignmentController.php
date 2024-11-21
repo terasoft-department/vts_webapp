@@ -30,8 +30,8 @@ class AssignmentController extends Controller
         $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
         ->when($search, function ($query) use ($search) {
             // Apply search filter on 'case_reported', 'location', and 'customer_phone'
-            $query->where('case_reported', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%")
+            $query->where('assignment_id', 'like', "%{$search}%")
+                  ->orWhere('plate_number', 'like', "%{$search}%")
                   ->orWhere('customer_phone', 'like', "%{$search}%");
         })
         ->select('assignment_id', 'plate_number', 'customer_id', 'customer_phone', 'location', 'case_reported', 'user_id', 'assigned_by', 'status', 'accepted_at', 'created_at', 'updated_at') // Select fields to be fetched
@@ -47,8 +47,8 @@ class AssignmentController extends Controller
         // Determine page size, default to 10 if not specified
         $pageSize = $request->input('page_size', 10000);
 
-        // // Fetch paginated results
-        // $assignments = $assignments->paginate($pageSize);
+        // Fetch paginated results
+        $assignments = $assignments->paginate($pageSize);
 
         // Fetch related data for the filter dropdowns
         $customers = Customer::all();
