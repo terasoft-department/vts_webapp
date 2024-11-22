@@ -269,10 +269,9 @@
         <!-- Search Filter -->
         <div class="row mb-3">
             <div class="col-md-6">
-                <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
+                <input type="text" id="customerSearch" class="form-control" placeholder="Search Customer Name">
             </div>
         </div>
-
 
         <!-- Table -->
         <table class="table" id="invoiceTable">
@@ -307,50 +306,45 @@
                             <td class="invoice-number">{{ $invoice->invoice_number }}</td>
                             <td class="invoice-date">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('Y-m-d') }}</td>
                             <td>{{ number_format($invoice->grand_total, 0) }}</td>
-                            <td>{{ $invoice->customername }}</td>
+                            <td class="customer-name">{{ $invoice->customername }}</td>
                         </tr>
                     @endif
                 @endforeach
             </tbody>
         </table>
-        </div>
-        </main>
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const filterBtn = document.getElementById('filterBtn');
-            const invoiceSearch = document.getElementById('invoiceSearch');
-            const dateFrom = document.getElementById('dateFrom');
-            const dateTo = document.getElementById('dateTo');
-            const rows = document.querySelectorAll('.invoice-row');
+    </div>
+</main>
 
-            filterBtn.addEventListener('click', function () {
-                const searchValue = invoiceSearch.value.toLowerCase();
-                const fromDate = new Date(dateFrom.value);
-                const toDate = new Date(dateTo.value);
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const customerSearch = document.getElementById('customerSearch');
+        const rows = document.querySelectorAll('.invoice-row');
 
-                rows.forEach(row => {
-                    const invoiceNumber = row.querySelector('.invoice-number').textContent.toLowerCase();
-                    const invoiceDate = new Date(row.querySelector('.invoice-date').textContent);
+        customerSearch.addEventListener('input', function () {
+            const searchValue = customerSearch.value.toLowerCase();
 
-                    let matchesSearch = !searchValue || invoiceNumber.includes(searchValue);
-                    let matchesDateRange = (!dateFrom.value || invoiceDate >= fromDate) &&
-                                           (!dateTo.value || invoiceDate <= toDate);
+            rows.forEach(row => {
+                const customerName = row.querySelector('.customer-name').textContent.toLowerCase();
 
-                    if (matchesSearch && matchesDateRange) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            });
-
-            // Optionally, trigger filtering when typing in the search field
-            invoiceSearch.addEventListener('input', function () {
-                filterBtn.click();
+                if (customerName.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
         });
+    });
 </script>
 
+<!-- Vendor JS Files -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+
+{{--
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -375,7 +369,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-arrow-up-short"></i>
-    </a>
+    </a> --}}
     </body>
 
     </html>
