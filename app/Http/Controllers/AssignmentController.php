@@ -66,25 +66,25 @@ class AssignmentController extends Controller
 
  public function store(Request $request)
     {
-        $request->validate([
-            'plate_number' => 'required|string|max:255',
-            'customer_id' => 'required|integer|exists:customers,customer_id',
-            'customer_phone' => 'required|string|max:255',
-            // 'customer_debt' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'user_id' => 'required|string',
-            'case_reported' => 'required|string',
-            'attachment' => 'nullable|file|mimes:pdf|max:2048',
-            'assigned_by'=> 'required|string',
-            // 'status'=> 'required|string',
+        // $request->validate([
+        //     'plate_number' => 'required|string|max:255',
+        //     'customer_id' => 'required|integer|exists:customers,customer_id',
+        //     'customer_phone' => 'required|string|max:255',
+        //     // 'customer_debt' => 'required|string|max:255',
+        //     'location' => 'required|string|max:255',
+        //     'user_id' => 'required|string',
+        //     'case_reported' => 'required|string',
+        //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        //     'assigned_by'=> 'required|string',
+        //     // 'status'=> 'required|string',
 
-        ]);
+        // ]);
 
         $assignment = new Assignment();
         $assignment->plate_number = $request->plate_number;
         $assignment->customer_id = $request->customer_id;
         $assignment->customer_phone = $request->customer_phone;
-        $assignment->customer_debt = $request->customer_debt;
+        // $assignment->customer_debt = $request->customer_debt;
         $assignment->location = $request->location;
         $assignment->user_id = $request->user_id;
         $assignment->case_reported = $request->case_reported;
@@ -133,20 +133,20 @@ class AssignmentController extends Controller
 
   public function update(Request $request, $id)
 {
-    // Validate the request
-    $request->validate([
+    // // Validate the request
+    // $request->validate([
 
-        'plate_number'  => 'required|string|max:255',
-        'customer_id' => 'required|exists:customers,customer_id',
-        'customer_phone'=> 'required|string|max:15',
-        'customer_debt'=> 'required|numeric',
-        'location'=> 'required|string|max:255',
-        'user_id'=>'required|string|max:15',
-        'case_reported'=>'required|string',
-        'attachment' => 'nullable|file|mimes:pdf|max:2048',
-        'assigned_by'=> 'required|string',
-        //  'status'=> 'required|string',
-    ]);
+    //     'plate_number'  => 'required|string|max:255',
+    //     'customer_id' => 'required|exists:customers,customer_id',
+    //     'customer_phone'=> 'required|string|max:15',
+    //     // 'customer_debt'=> 'required|numeric',
+    //     'location'=> 'required|string|max:255',
+    //     'user_id'=>'required|string|max:15',
+    //     'case_reported'=>'required|string',
+    //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
+    //     'assigned_by'=> 'required|string',
+    //     //  'status'=> 'required|string',
+    // ]);
 
     try {
         $assignment = Assignment::findOrFail($id);
@@ -156,7 +156,7 @@ class AssignmentController extends Controller
             'plate_number',
             'customer_id',
             'customer_phone',
-            'customer_debt',
+            // 'customer_debt',
             'location',
             'user_id',
             'case_reported',
@@ -209,3 +209,4 @@ class AssignmentController extends Controller
         }
     }
 }
+
