@@ -427,12 +427,12 @@
 
                         <div class="form-group">
                             <label for="customer_phone">Customer Phone</label>
-                            <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer's phone number" readonly>
+                            <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer's phone number" required>
                         </div>
 
                         <div class="form-group">
                             <label for="customer_debt">Customer Debt (TZS)</label>
-                            <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" readonly>
+                            <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" required>
                         </div>
 
                         <div class="form-group">
