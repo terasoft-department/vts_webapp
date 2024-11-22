@@ -14,7 +14,7 @@ class AdminCustomerController extends Controller
     {
         // Fetch customers with pagination (e.g., 10 customers per page)
 
-        $customers = Customer::paginate(10);
+        $customers = Customer::paginate(10000);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
 
@@ -26,7 +26,7 @@ class AdminCustomerController extends Controller
         $query = $request->get('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
-                            ->paginate(1000);
+                            ->paginate(10000);
 
         return response()->json(['Admincustomers' => $customers]);
     }
