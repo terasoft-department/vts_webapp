@@ -282,15 +282,15 @@
 
         <!-- Search Bar and Add Button -->
         <div class="row mb-3">
-            {{-- <div class="col-md-6">
+            <div class="col-md-6">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
             </div>
             <div class="col-md-2">
                 <button class="btn btn-primary w-100" onclick="searchCustomer()">
                     <i class="bi bi-search"></i> Search
                 </button>
-            </div> --}}
-            
+            </div>
+
 
             <div class="col-md-4 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
