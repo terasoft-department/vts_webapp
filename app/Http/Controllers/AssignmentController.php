@@ -80,32 +80,32 @@ class AssignmentController extends Controller
 
         // ]);
 
-        $assignment = new Assignment();
-        $assignment->plate_number = $request->plate_number;
-        $assignment->customer_id = $request->customer_id;
-        $assignment->customer_phone = $request->customer_phone;
-        // $assignment->customer_debt = $request->customer_debt;
-        $assignment->location = $request->location;
-        $assignment->user_id = $request->user_id;
-        $assignment->case_reported = $request->case_reported;
-        $assignment->assigned_by = $request->assigned_by;
-        // $assignment->status = $request->status;
+        // $assignment = new Assignment();
+        // $assignment->plate_number = $request->plate_number;
+        // $assignment->customer_id = $request->customer_id;
+        // $assignment->customer_phone = $request->customer_phone;
+        // // $assignment->customer_debt = $request->customer_debt;
+        // $assignment->location = $request->location;
+        // $assignment->user_id = $request->user_id;
+        // $assignment->case_reported = $request->case_reported;
+        // $assignment->assigned_by = $request->assigned_by;
+        // // $assignment->status = $request->status;
 
-        if ($request->hasFile('attachment')) {
-            $file = $request->file('attachment');
-            if ($file->isValid()) {
-                // Generate a unique file name with extension
-                $fileName = time() . '-' . $file->getClientOriginalName();
-                // Move the file to public/uploads directory
-                $file->move(public_path('uploads'), $fileName);
-                // Store the file name in the database
-                $assignment->attachment = $fileName;
-            }
-        } else {
-            $assignment->attachment = null;
-        }
+        // if ($request->hasFile('attachment')) {
+        //     $file = $request->file('attachment');
+        //     if ($file->isValid()) {
+        //         // Generate a unique file name with extension
+        //         $fileName = time() . '-' . $file->getClientOriginalName();
+        //         // Move the file to public/uploads directory
+        //         $file->move(public_path('uploads'), $fileName);
+        //         // Store the file name in the database
+        //         $assignment->attachment = $fileName;
+        //     }
+        // } else {
+        //     $assignment->attachment = null;
+        // }
 
-        $assignment->save();
+        // $assignment->save();
 
         return redirect()->back()->with('success', 'Assignment registered successfully!');
     }
