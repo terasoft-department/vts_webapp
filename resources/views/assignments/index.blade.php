@@ -266,12 +266,12 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <!-- Add New Assignment Button -->
+            {{-- <!-- Add New Assignment Button -->
             <div class="text-left mb-2">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#assignmentModal" onclick="openCreateModal()">
                     <i class="bi bi-plus-circle"></i> Create Assignment
                 </button>
-            </div>
+            </div> --}}
             <br>
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                 <h4 class="m-0">
@@ -280,7 +280,7 @@
 
 
                 <form action="{{ route('assignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search by  platenumber or  phonenumber or location..." value="{{ request()->query('search') }}" id="assignmentsSearch" style="width: 900px;">
+                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search by  platenumber or  phonenumber or location..." value="{{ request()->query('search') }}" id="AassignmentsSearch" style="width: 900px;">
                     <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
                 </form>
             </div>
@@ -392,162 +392,142 @@
                 </ul>
             </nav> --}}
 
-
-    <!-- Modal for Adding/Editing Assignment -->
-    <div class="modal fade" id="assignmentModal" tabindex="-1" role="dialog" aria-labelledby="assignmentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #4177fd;color:white;">
-                    <h5 class="modal-title" id="modalTitle">Create Assignment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+            <!-- Modal for Adding/Editing Assignment -->
+            <div class="modal fade" id="assignmentModal" tabindex="-1" role="dialog" aria-labelledby="assignmentModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #4177fd;color:white;">
+                            <h5 class="modal-title" id="modalTitle">Create Assignment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    @endif
+                        <div class="modal-body">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
-                    <!-- Dynamic Form for Creating/Updating Assignment -->
-                    <form id="assignmentForm" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" id="assignment_id" name="assignment_id">
+                            <!-- Dynamic Form for Creating/Updating Assignment -->
+<form id="assignmentForm" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" id="assignment_id" name="assignment_id">
 
-                        <div class="form-group">
-                            <label for="customer_name">Customer Name</label>
-                            <input type="text" class="form-control" id="customername" name="customername" placeholder="Enter customer name">
+    <div class="form-group">
+        <label for="customer_id">Customer Name</label>
+        <select class="form-control" id="customer_id" name="customer_id" required>
+            <option value="">Select a customer</option>
+            @foreach($customers as $customer)
+                <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="customer_phone">Customer Phone</label>
+        <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer's phone number" required>
+    </div>
+
+    <div class="form-group">
+        <label for="customer_debt">Customer Debt (TZS)</label>
+        <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" required>
+    </div>
+
+    <div class="form-group">
+        <label for="plate_number">Plate Number</label>
+        <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter vehicle plate number" required>
+    </div>
+
+    <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter assignment location" required>
+    </div>
+
+    <div class="form-group">
+        <label for="user_id">Reporter</label>
+        <select class="form-control" id="user_id" name="user_id" required>
+            <option value="">Select reporter</option>
+            @foreach($users as $user)
+                <option value="{{ $user->user_id }}">{{ $user->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="case_reported">Case Reported</label>
+        <select class="form-control" id="case_reported" name="case_reported" required>
+            <option value="" disabled selected>Select a case</option>
+            <option value="New Installation">New Installation</option>
+            <option value="skipping">Skipping</option>
+            <option value="black_box_data">Black box Data</option>
+            <option value="device_tampering">Device Tampering</option>
+            <option value="start_stop_journey">Start and stop Journey</option>
+            <option value="internal_battery_low">Internal Battery Low</option>
+            <option value="external_battery_disconnected">External Battery Disconnected</option>
+            <option value="rollover_detection">Rollover Detection</option>
+            <option value="emergence_trigger">Emergence Trigger</option>
+            <option value="panic_button">Panic Button</option>
+            <option value="non_transmission">Non Transmission</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="assigned_by">Assigned By</label>
+        <input type="text" class="form-control" id="assigned_by" name="assigned_by" placeholder="Enter name of person assigning the task" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
+</form>
+
                         </div>
-
-
-                        <div class="form-group">
-                            <label for="customer_phone">Customer Phone</label>
-                            <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer's phone number" >
-                        </div>
-
-                        <div class="form-group">
-                            <label for="customer_debt">Customer Debt (TZS)</label>
-                            <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" >
-                        </div>
-
-                        <div class="form-group">
-                            <label for="plate_number">Plate Number</label>
-                            <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter vehicle plate number" >
-                        </div>
-
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter assignment location" >
-                        </div>
-
-                        <div class="form-group">
-                            <label for="user_id">Reporter</label>
-                            <select class="form-control" id="user_id" name="user_id" >
-                                <option value="">Select reporter</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->user_id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="case_reported">Case Reported</label>
-                            <select class="form-control" id="case_reported" name="case_reported" required>
-                                <option value="" disabled selected>Select a case</option>
-                                <option value="New Installation">New Installation</option>
-                                <option value="skipping">Skipping</option>
-                                <option value="black_box_data">Black box Data</option>
-                                <option value="device_tampering">Device Tampering</option>
-                                <option value="start_stop_journey">Start and stop Journey</option>
-                                <option value="internal_battery_low">Internal Battery Low</option>
-                                <option value="external_battery_disconnected">External Battery Disconnected</option>
-                                <option value="rollover_detection">Rollover Detection</option>
-                                <option value="emergence_trigger">Emergence Trigger</option>
-                                <option value="panic_button">Panic Button</option>
-                                <option value="non_transmission">Non Transmission</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="assigned_by">Assigned By</label>
-                            <input type="text" class="form-control" id="assigned_by" name="assigned_by" placeholder="Enter name of person assigning the task" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" style="background-color: #4177fd;color:white">Save Assignment</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Include jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        // Open the modal to create a new assignment
-        function openCreateModal() {
-            $('#assignmentForm').attr('action', '{{ route('assignments.store') }}');
-            $('#assignmentForm').attr('method', 'POST');
-            $('#modalTitle').text('Create Assignment');
-            $('#assignmentForm').trigger('reset'); // Reset the form
-            $('#assignmentModal').modal('show');
-        }
+        <!-- Include jQuery and Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-        // Open the modal to edit an existing assignment
-        function openEditModal(assignment) {
-            // Set form action for update with PUT method
-            $('#assignmentForm').attr('action', '/assignments/' + assignment.assignment_id);
-            $('#assignmentForm').append('<input type="hidden" name="_method" value="PUT">');
-            $('#modalTitle').text('Edit Assignment');
-
-            // Populate the form fields with existing data
-            $('#assignment_id').val(assignment.assignment_id);
-            $('#customer_id').val(assignment.customer_id);
-            $('#customer_phone').val(assignment.customer_phone);
-            $('#customer_debt').val(assignment.customer_debt);
-            $('#plate_number').val(assignment.plate_number);
-            $('#location').val(assignment.location);
-            $('#user_id').val(assignment.user_id);
-            $('#case_reported').val(assignment.case_reported);
-            $('#assigned_by').val(assignment.assigned_by);
-            $('#assignmentModal').modal('show');
-        }
-
-        // Listen for input in the plate number field
-        $('#plate_number').on('input', function() {
-            var plateNumber = $(this).val();
-
-            if (plateNumber.length >= 3) { // Ensure at least 3 characters are entered before making the request
-                // Make an AJAX call to fetch customer details
-                $.ajax({
-                    url: '{{ route('assignments.index') }}', // This route should handle the search request
-                    type: 'GET',
-                    data: { plate_number: plateNumber },
-                    success: function(response) {
-                        if (response.customer) {
-                            // Fill customer details into the form fields
-                            $('#customer_phone').val(response.customer.customer_phone);
-                            $('#customer_debt').val(response.customer.customer_debt);
-                        } else {
-                            // If no customer found, clear the fields
-                            $('#customer_phone').val('');
-                            $('#customer_debt').val('');
-                        }
-                    },
-                    error: function() {
-                        // Handle any errors from the AJAX request
-                        $('#customer_phone').val('');
-                        $('#customer_debt').val('');
-                    }
-                });
+        <script>
+            // Open the modal to create a new assignment
+            function openCreateModal() {
+                $('#assignmentForm').attr('action', '{{ route('assignments.store') }}');
+                $('#assignmentForm').attr('method', 'POST');
+                $('#modalTitle').text('Create Assignment');
+                $('#assignmentForm').trigger('reset'); // Reset the form
+                $('#assignmentModal').modal('show');
             }
-        });
-    </script>
+
+            // Open the modal to edit an existing assignment
+            function openEditModal(assignment) {
+                // Set form action for update with PUT method
+                $('#assignmentForm').attr('action', '/assignments/' + assignment.assignment_id);
+                $('#assignmentForm').append('<input type="hidden" name="_method" value="PUT">');
+                $('#modalTitle').text('Edit Assignment');
+
+                // Populate the form fields with existing data
+                $('#assignment_id').val(assignment.assignment_id);
+                $('#customer_id').val(assignment.customer_id);
+                $('#customer_phone').val(assignment.customer_phone);
+                $('#customer_debt').val(assignment.customer_debt);
+                $('#plate_number').val(assignment.plate_number);
+                $('#location').val(assignment.location);
+                $('#user_id').val(assignment.user_id);
+                $('#case_reported').val(assignment.case_reported);
+                $('#assigned_by').val(assignment.assigned_by);
+                $('#status').val(assignment.status);
+                $('#assignmentModal').modal('show');
+            }
+        </script>
+    </div>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
