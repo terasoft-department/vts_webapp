@@ -247,7 +247,8 @@
       </li><!-- End Login Page Nav -->
 
   </aside><!-- End Sidebar-->
-  <main id="main" class="main">
+ <!-- Main Content -->
+<main id="main" class="main">
     <div class="container mt-4">
         <!-- Operation Summary Card -->
         <div class="row">
@@ -280,14 +281,22 @@
         @endif
 
         <!-- Search Bar and Add Button -->
-        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-            <form id="customerSearchForm" action="{{ route('customers.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                <input type="text" name="search" class="form-control rounded-pill" placeholder="Search customers by name or phone" value="{{ request()->query('search') }}" id="customerSearch" style="width: 500px;">
-                <button type="button" class="btn btn-primary rounded-pill" onclick="searchCustomer()"><i class="fas fa-search"></i></button>
-            </form>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
-                <i class="bi bi-plus-circle"></i> Add Customer
-            </button>
+        <div class="row mb-3">
+            {{-- <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="searchCustomer()">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div> --}}
+            
+
+            <div class="col-md-4 text-end">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                    <i class="bi bi-plus-circle"></i> Add Customer
+                </button>
+            </div>
         </div>
 
         <!-- Customer Table -->
@@ -312,12 +321,16 @@
                         <td>{{ $customer->customer_phone }}</td>
                         <td>{{ $customer->start_date }}</td>
                         <td>
-                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
+                            <button class="btn btn-sm btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
                         </td>
                     </tr>
 
+{{-- <!-- Pagination Links -->
+<div class="d-flex justify-content-center">
+    {{ $customers->links() }}
+</div> --}}
                     <!-- Edit Customer Modal -->
                     <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel-{{ $customer->customer_id }}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -326,11 +339,10 @@
                                     <h5 class="modal-title" id="editCustomerLabel-{{ $customer->customer_id }}">Edit Customer</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="{{ route('customers.update', $customer->customer_id) }}" method="POST" onsubmit="submitForm(event, this)">
+                                <form action="{{ route('customers.update', $customer->customer_id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">
-                                        <!-- Form Fields -->
                                         <div class="form-group mb-3">
                                             <label for="customername">Customer Name</label>
                                             <input type="text" name="customername" class="form-control" value="{{ $customer->customername }}" required>
@@ -343,6 +355,10 @@
                                             <label for="customer_phone">Phone</label>
                                             <input type="text" name="customer_phone" class="form-control" value="{{ $customer->customer_phone }}" required>
                                         </div>
+                                        {{-- <div class="form-group mb-3">
+                                            <label for="email">Email</label>
+                                            <input type="email" name="email" class="form-control" value="{{ $customer->email ?? '' }}" required>
+                                        </div> --}}
                                         <div class="form-group mb-3">
                                             <label for="start_date">Start Date</label>
                                             <input type="date" name="start_date" class="form-control" value="{{ $customer->start_date }}" required>
@@ -369,10 +385,9 @@
                         <h5 class="modal-title" id="addCustomerLabel">Add Customer</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('customers.store') }}" method="POST" onsubmit="submitForm(event, this)">
+                    <form action="{{ route('customers.store') }}" method="POST">
                         @csrf
                         <div class="modal-body">
-                            <!-- Form Fields -->
                             <div class="form-group mb-3">
                                 <label for="customername">Customer Name</label>
                                 <input type="text" name="customername" class="form-control" required>
@@ -385,6 +400,10 @@
                                 <label for="customer_phone">Phone</label>
                                 <input type="text" name="customer_phone" class="form-control" required>
                             </div>
+                            {{-- <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div> --}}
                             <div class="form-group mb-3">
                                 <label for="start_date">Start Date</label>
                                 <input type="date" name="start_date" class="form-control" required>
@@ -401,34 +420,10 @@
     </div>
 </main>
 
+<!-- Search and Modal Script -->
 <script>
-    // Submit form via AJAX to prevent page reload
-    function submitForm(event, form) {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const url = form.action;
-
-        fetch(url, {
-            method: form.method,
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                form.reset();
-                $(form).closest('.modal').modal('hide');
-                // Optionally, refresh the customer list here without reloading the page
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    // Live search function for customer table
     function searchCustomer() {
-        let input = document.getElementById("customerSearch").value.toLowerCase();
+        let input = document.getElementById("searchInput").value.toLowerCase();
         let table = document.getElementById("customers");
         let tr = table.getElementsByTagName("tr");
 
@@ -438,12 +433,27 @@
             if (tdName || tdPhone) {
                 let nameText = tdName.textContent || tdName.innerText;
                 let phoneText = tdPhone.textContent || tdPhone.innerText;
+
                 tr[i].style.display = (nameText.toLowerCase().indexOf(input) > -1 || phoneText.toLowerCase().indexOf(input) > -1) ? "" : "none";
             }
         }
     }
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
 </body>
 </html>
