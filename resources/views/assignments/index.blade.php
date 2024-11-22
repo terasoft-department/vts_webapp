@@ -266,12 +266,12 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            {{-- <!-- Add New Assignment Button -->
+            <!-- Add New Assignment Button -->
             <div class="text-left mb-2">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#assignmentModal" onclick="openCreateModal()">
                     <i class="bi bi-plus-circle"></i> Create Assignment
                 </button>
-            </div> --}}
+            </div>
             <br>
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                 <h4 class="m-0">
@@ -435,7 +435,7 @@
 
     <div class="form-group">
         <label for="customer_debt">Customer Debt (TZS)</label>
-        <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" required>
+        <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" >
     </div>
 
     <div class="form-group">
