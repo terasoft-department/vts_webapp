@@ -5,14 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch customers with pagination (e.g., 10 customers per page)
-        $customers = Customer::all();
-        $customers = Customer::paginate(10000);
+        // Get search term from request
+        $search = $request->input('search');
+
+        // Initialize query with optional search filter
+        $customers = Customer::when($search, function ($query) use ($search) {
+                $query->where('customername', 'like', "%{$search}%")
+                      ->orWhere('customer_phone', 'like', "%{$search}%");
+            })
+            ->paginate($request->input('page_size', 10000)); // Default to 10,000 per page
+
+        // Count related data for stats
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
 
@@ -21,33 +30,66 @@ class CustomerController extends Controller
 
     public function search(Request $request)
     {
-        $customers = Customer::all();
         $query = $request->input('query');
-        $customers = Customer::where('customername', 'like', '%' . $query . '%')
-                            ->orWhere('customer_phone', 'like', '%' . $query . '%')
-                             ->paginate(10000);
+
+        $customers = Customer::where('customername', 'like', "%{$query}%")
+                             ->orWhere('customer_phone', 'like', "%{$query}%")
+                             ->paginate(10000); // Optional: Adjust pagination limit as needed
 
         return response()->json(['customers' => $customers]);
     }
 
     public function store(Request $request)
     {
-        Customer::create($request->all());
-        return redirect()->route('customers.index')->with('success', 'Customer added successfully.');
+        // Validate incoming data
+        $request->validate([
+           'customername' => 'required|string|max:255',
+            'address' => 'required|string|max:500',
+          'customer_phone' => 'required|string|max:15',
+          'tin_number' => 'nullable|string|max:20',
+           'email' => 'nullable|email|max:255',
+          'start_date' => 'required|date',
+        ]);
+
+        try {
+            Customer::create($request->all());
+            return redirect()->route('customers.index')->with('success', 'Customer added successfully.');
+        } catch (\Exception $e) {
+            Log::error("Failed to create customer: " . $e->getMessage());
+            return redirect()->back()->withErrors('Failed to add customer.')->withInput();
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->update($request->all());
-        return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
-    }
+        $request->validate([
+            'customername' => 'required|string|max:255',
+        'address' => 'required|string|max:500',
+        'customer_phone' => 'required|string|max:15',
+        'tin_number' => 'nullable|string|max:20',
+        'email' => 'nullable|email|max:255',
+        'start_date' => 'required|date',
+        ]);
 
+        try {
+            $customer = Customer::findOrFail($id);
+            $customer->update($request->all());
+            return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
+        } catch (\Exception $e) {
+            Log::error("Failed to update customer with ID {$id}: " . $e->getMessage());
+            return redirect()->back()->withErrors('Failed to update customer.')->withInput();
+        }
+    }
 
     public function destroy($id)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->delete();
-        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+        try {
+            $customer = Customer::findOrFail($id);
+            $customer->delete();
+            return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error("Failed to delete customer with ID {$id}: " . $e->getMessage());
+            return redirect()->route('customers.index')->withErrors('Failed to delete customer.');
+        }
     }
 }

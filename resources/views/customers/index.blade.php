@@ -282,13 +282,21 @@
 
         <!-- Search Bar and Add Button -->
         <div class="row mb-3">
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
             </div>
             <div class="col-md-2">
                 <button class="btn btn-primary w-100" onclick="searchCustomer()">
                     <i class="bi bi-search"></i> Search
                 </button>
+            </div> --}}
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <h4 class="m-0">Manage Vehicles</h4>
+
+                <form action="{{ route('customers.index') }}" method="GET" class="form-inline d-flex align-items-center">
+                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search customers by name or phone" value="{{ request()->query('search') }}" id="customerSearch" style="width: 500px;">
+                    <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
+                </form>
             </div>
 
             <div class="col-md-4 text-end">
