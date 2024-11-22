@@ -256,7 +256,7 @@
 
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
-<main id="main" class="main">
+  <main id="main" class="main">
     <div class="container">
         <h5>Customer Debts</h5>
 
@@ -266,21 +266,13 @@
             </div>
         @endif
 
-        <!-- Filters -->
+        <!-- Search Filter -->
         <div class="row mb-3">
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
             </div>
-            <div class="col-md-3">
-                <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
-            </div>
-            <div class="col-md-3">
-                <input type="date" id="dateTo" class="form-control" placeholder="To Date">
-            </div>
-            <div class="col-md-3">
-                <button id="filterBtn" class="btn btn-primary">Filter</button>
-            </div>
         </div>
+
 
         <!-- Table -->
         <table class="table" id="invoiceTable">

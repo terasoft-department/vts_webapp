@@ -22,6 +22,36 @@ class CDebtsController extends Controller
         return view('cdebts.index', compact('invoices'));
     }
 
+    public function search(Request $request)
+{
+    // Initialize the query on the Invoice model
+    $query = Invoice::query();
+
+    // Filter by customer name if provided
+    if ($request->filled('customername')) {
+        $query->whereHas('customer', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->input('customername') . '%');
+        });
+    }
+
+    // Filter by invoice number if provided
+    if ($request->filled('invoice_number')) {
+        $query->where('invoice_number', 'like', '%' . $request->input('invoice_number') . '%');
+    }
+
+    // Filter by unpaid status if provided
+    if ($request->input('status') == 'unpaid') {
+        $query->where('status', '!=', 'Paid');
+    }
+
+    // Get the filtered invoices
+    $invoices = $query->get();
+
+    // Return the search results view with the filtered invoices
+    return view('cdebts.index', compact('invoices'));
+}
+
+
     // Handle payment
     public function pay($id)
     {
