@@ -25,7 +25,7 @@ class CustomerController extends Controller
         });
 
             // ->paginate($request->input('page_size', 10000)); // Default to 10,000 per page
-            $pageSize = $request->input('page_size', 10000);
+            $pageSize = $request->input('page_size', 100);
         // Count related data for stats
           // Fetch paginated results
         //   $customers = $customers->paginate($pageSize);
@@ -44,7 +44,7 @@ class CustomerController extends Controller
 
         $customers = Customer::where('customername', 'like', "%{$query}%")
                              ->orWhere('customer_phone', 'like', "%{$query}%")
-                             ->paginate(10000); // Optional: Adjust pagination limit as needed
+                             ->paginate(100); // Optional: Adjust pagination limit as needed
 
         return response()->json(['customers' => $customers]);
     }
