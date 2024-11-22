@@ -66,46 +66,46 @@ class AssignmentController extends Controller
 
  public function store(Request $request)
     {
-        // $request->validate([
-        //     'plate_number' => 'required|string|max:255',
-        //     'customer_id' => 'required|integer|exists:customers,customer_id',
-        //     'customer_phone' => 'required|string|max:255',
-        //     // 'customer_debt' => 'required|string|max:255',
-        //     'location' => 'required|string|max:255',
-        //     'user_id' => 'required|string',
-        //     'case_reported' => 'required|string',
-        //     'attachment' => 'nullable|file|mimes:pdf|max:2048',
-        //     'assigned_by'=> 'required|string',
-        //     // 'status'=> 'required|string',
+        $request->validate([
+            'plate_number' => 'required|string|max:255',
+            'customer_id' => 'required|integer|exists:customers,customer_id',
+            'customer_phone' => 'required|string|max:255',
+            // 'customer_debt' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'user_id' => 'required|string',
+            'case_reported' => 'required|string',
+            'attachment' => 'nullable|file|mimes:pdf|max:2048',
+            'assigned_by'=> 'required|string',
+            // 'status'=> 'required|string',
 
-        // ]);
+        ]);
 
-        // $assignment = new Assignment();
-        // $assignment->plate_number = $request->plate_number;
-        // $assignment->customer_id = $request->customer_id;
-        // $assignment->customer_phone = $request->customer_phone;
-        // // $assignment->customer_debt = $request->customer_debt;
-        // $assignment->location = $request->location;
-        // $assignment->user_id = $request->user_id;
-        // $assignment->case_reported = $request->case_reported;
-        // $assignment->assigned_by = $request->assigned_by;
-        // // $assignment->status = $request->status;
+        $assignment = new Assignment();
+        $assignment->plate_number = $request->plate_number;
+        $assignment->customer_id = $request->customer_id;
+        $assignment->customer_phone = $request->customer_phone;
+        $assignment->customer_debt = $request->customer_debt;
+        $assignment->location = $request->location;
+        $assignment->user_id = $request->user_id;
+        $assignment->case_reported = $request->case_reported;
+        $assignment->assigned_by = $request->assigned_by;
+        // $assignment->status = $request->status;
 
-        // if ($request->hasFile('attachment')) {
-        //     $file = $request->file('attachment');
-        //     if ($file->isValid()) {
-        //         // Generate a unique file name with extension
-        //         $fileName = time() . '-' . $file->getClientOriginalName();
-        //         // Move the file to public/uploads directory
-        //         $file->move(public_path('uploads'), $fileName);
-        //         // Store the file name in the database
-        //         $assignment->attachment = $fileName;
-        //     }
-        // } else {
-        //     $assignment->attachment = null;
-        // }
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            if ($file->isValid()) {
+                // Generate a unique file name with extension
+                $fileName = time() . '-' . $file->getClientOriginalName();
+                // Move the file to public/uploads directory
+                $file->move(public_path('uploads'), $fileName);
+                // Store the file name in the database
+                $assignment->attachment = $fileName;
+            }
+        } else {
+            $assignment->attachment = null;
+        }
 
-        // $assignment->save();
+        $assignment->save();
 
         return redirect()->back()->with('success', 'Assignment registered successfully!');
     }
