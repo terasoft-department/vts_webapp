@@ -28,7 +28,7 @@ class CustomerController extends Controller
             $pageSize = $request->input('page_size', 10000);
         // Count related data for stats
           // Fetch paginated results
-          $customers = $customers->paginate($pageSize);
+        //   $customers = $customers->paginate($pageSize);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
         $customers = Customer::all();
