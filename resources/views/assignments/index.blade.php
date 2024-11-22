@@ -421,33 +421,33 @@
 
                         <div class="form-group">
                             <label for="customer_name">Customer Name</label>
-                            <input type="text" class="form-control" id="customername" name="customername" placeholder="Enter customer name" required>
+                            <input type="text" class="form-control" id="customername" name="customername" placeholder="Enter customer name">
                         </div>
 
 
                         <div class="form-group">
                             <label for="customer_phone">Customer Phone</label>
-                            <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer's phone number" required>
+                            <input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="Enter customer's phone number" >
                         </div>
 
                         <div class="form-group">
                             <label for="customer_debt">Customer Debt (TZS)</label>
-                            <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" required>
+                            <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" >
                         </div>
 
                         <div class="form-group">
                             <label for="plate_number">Plate Number</label>
-                            <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter vehicle plate number" required>
+                            <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter vehicle plate number" >
                         </div>
 
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter assignment location" required>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter assignment location" >
                         </div>
 
                         <div class="form-group">
                             <label for="user_id">Reporter</label>
-                            <select class="form-control" id="user_id" name="user_id" required>
+                            <select class="form-control" id="user_id" name="user_id" >
                                 <option value="">Select reporter</option>
                                 @foreach($users as $user)
                                     <option value="{{ $user->user_id }}">{{ $user->name }}</option>
