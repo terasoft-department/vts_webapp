@@ -256,8 +256,8 @@
 
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
-  
-<main id="main" class="main">
+
+  <main id="main" class="main">
     <div class="container my-4">
       <div class="row">
         <div class="container mt-2">
