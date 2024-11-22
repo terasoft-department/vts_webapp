@@ -13,7 +13,7 @@ class AdminCustomerController extends Controller
     public function index()
     {
         // Fetch customers with pagination (e.g., 10 customers per page)
-     
+
         $customers = Customer::paginate(10);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
@@ -23,7 +23,7 @@ class AdminCustomerController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = $request->get('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
                             ->paginate(10);
