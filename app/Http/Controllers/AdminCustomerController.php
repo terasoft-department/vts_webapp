@@ -26,7 +26,7 @@ class AdminCustomerController extends Controller
         $query = $request->get('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
-                            ->paginate(10);
+                            ->paginate(1000);
 
         return response()->json(['Admincustomers' => $customers]);
     }
