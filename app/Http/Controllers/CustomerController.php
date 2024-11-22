@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -12,20 +13,29 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         // Get search term from request
-        $search = $request->input('search');
+        $search = $request->get('search');
 
         // Initialize query with optional search filter
-        $customers = Customer::when($search, function ($query) use ($search) {
-                $query->where('customername', 'like', "%{$search}%")
-                      ->orWhere('customer_phone', 'like', "%{$search}%");
-            })
-            ->paginate($request->input('page_size', 10000)); // Default to 10,000 per page
+        $customers = Customer::with(['customer', 'user', 'vehicle'])
+        ->when($search, function ($query) use ($search) {
+            // Apply search filter on 'case_reported', 'location', and 'customer_phone'
+            $query->where('customername', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+        });
 
+            // ->paginate($request->input('page_size', 10000)); // Default to 10,000 per page
+            $pageSize = $request->input('page_size', 10000);
         // Count related data for stats
+          // Fetch paginated results
+          $customers = $customers->paginate($pageSize);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
+        $customers = Customer::all();
+        $users = User::all();
+        $vehicles = Vehicle::all();
 
-        return view('customers.index', compact('customers', 'CustomersCount', 'VehiclesCount'));
+        return view('customers.index', compact('customers', 'CustomersCount', 'VehiclesCount','customers', 'users', 'vehicles'));
     }
 
     public function search(Request $request)
@@ -80,7 +90,15 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors('Failed to update customer.')->withInput();
         }
     }
-
+    public function show($id)
+    {
+        try {
+            $assignment = Customer::findOrFail($id);
+            return view('customers.show', compact('customers'));
+        } catch (\Exception $e) {
+            return redirect()->route('customers.index')->withErrors('customers not found.');
+        }
+    }
     public function destroy($id)
     {
         try {
