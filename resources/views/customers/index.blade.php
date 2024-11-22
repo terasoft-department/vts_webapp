@@ -291,7 +291,7 @@
                 </button>
             </div> --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <h4 class="m-0">Manage Vehicles</h4>
+                {{-- <h4 class="m-0">Manage Vehicles</h4> --}}
 
                 <form action="{{ route('customers.index') }}" method="GET" class="form-inline d-flex align-items-center">
                     <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search customers by name or phone" value="{{ request()->query('search') }}" id="customerSearch" style="width: 500px;">
