@@ -290,20 +290,21 @@
                     <i class="bi bi-search"></i> Search
                 </button>
             </div> --}}
-            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                {{-- <h4 class="m-0">Manage Vehicles</h4> --}}
 
-                <form action="{{ route('customers.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                    <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search customers by name or phone" value="{{ request()->query('search') }}" id="customerSearch" style="width: 500px;">
-                    <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
 
             <div class="col-md-4 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
                     <i class="bi bi-plus-circle"></i> Add Customer
                 </button>
             </div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            {{-- <h4 class="m-0">Manage Vehicles</h4> --}}
+
+            <form action="{{ route('customers.index') }}" method="GET" class="form-inline d-flex align-items-center">
+                <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search customers by name or phone" value="{{ request()->query('search') }}" id="customerSearch" style="width: 500px;">
+                <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
+            </form>
         </div>
 
         <!-- Customer Table -->
