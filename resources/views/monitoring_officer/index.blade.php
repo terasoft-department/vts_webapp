@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -41,8 +41,6 @@
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
-
-
 
       <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -89,8 +87,8 @@
           </li><!-- End Notification Nav -->
 
           <li class="nav-item dropdown">
-
-            {{-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+{{--
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-chat-left-text"></i>
               <span class="badge bg-success badge-number">3</span>
             </a><!-- End Messages Icon --> --}}
@@ -160,7 +158,6 @@
 
 
   </header><!-- End Header -->
-
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
@@ -173,13 +170,14 @@
         </a>
       </li><!-- End Dashboard Nav -->
 
+
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Monitoring Officer</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Monitoring Officer</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
               <a href="assignments">
                 <i class="bi bi-circle"></i><span>Assignment</span>
@@ -400,6 +398,7 @@
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/quill/quill.js"></script>
   <script src="assets/js/main.js"></script>
+
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
