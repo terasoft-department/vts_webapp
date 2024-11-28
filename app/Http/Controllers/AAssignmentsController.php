@@ -136,7 +136,7 @@ class AAssignmentsController extends Controller
         'plate_number'  => 'required|string|max:255',
         'customer_id' => 'required|exists:customers,customer_id',
         'customer_phone'=> 'required|string|max:15',
-        'customer_debt'=> 'required|numeric',
+        // 'customer_debt'=> 'required|numeric',
         'location'=> 'required|string|max:255',
         'user_id'=>'required|string|max:15',
         'case_reported'=>'required|string',
