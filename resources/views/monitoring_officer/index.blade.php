@@ -168,86 +168,129 @@
 
   </aside><!-- End Sidebar-->
   <!-- Main Content -->
-
   <main id="main" class="main">
     <div class="container my-4">
       <div class="row">
         <div class="container mt-2">
-            <b>
-                <p class="card text-center">OPERATION SUMMARY</p>
-            </b>
-            <div class="row">
+          <b>
+            <p class="card text-center">OPERATION SUMMARY</p>
+          </b>
+          <div class="row">
 
-        <!-- Card 1: Assignments -->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card card-custom border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Assignments</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $assignmentCount ?? 0 }}">{{ $assignmentCount ?? 0 }}</div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-list-task fa-2x text-gray-300"></i>
+            <!-- Card 1: Assignments -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card card-custom border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Assignments</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $assignmentCount ?? 0 }}">{{ $assignmentCount ?? 0 }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-list-task fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                  <!-- View More Button -->
+                  <a href="/assignments" class="btn btn-sm btn-outline-primary mt-3" data-toggle="collapse">View More</a>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Card 2: Job Cards -->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card card-custom border-left-success shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Job Cards</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $JobcardsCount ?? 0 }}">{{ $JobcardsCount ?? 0 }}</div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-card-checklist fa-2x text-gray-300"></i>
+            <!-- Card 2: Job Cards -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card card-custom border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Job Cards</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $JobcardsCount ?? 0 }}">{{ $JobcardsCount ?? 0 }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-card-checklist fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                  <!-- View More Button -->
+                  <a href="/jobcards2" class="btn btn-sm btn-outline-success mt-3" data-toggle="collapse">View More</a>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Card 3: Routine Checkup -->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card card-custom border-left-info shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Routine Checkup</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $CheckuplistCount ?? 0 }}">{{ $CheckuplistCount ?? 0 }}</div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-clipboard-pulse fa-2x text-gray-300"></i>
+            <!-- Card 3: Routine Checkup -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card card-custom border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Routine Checkup</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $CheckuplistCount ?? 0 }}">{{ $CheckuplistCount ?? 0 }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-clipboard-pulse fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                  <!-- View More Button -->
+                  <a href="/checklists" class="btn btn-sm btn-outline-info mt-3" data-toggle="collapse">View More</a>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Card 4: Customer Debts -->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card card-custom border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Customer Debts</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $DebtsCount ?? 0 }}">{{ $DebtsCount ?? 0 }}</div>
-                </div>
-                <div class="col-auto">
-                  <i class="bi bi-currency-dollar fa-2x text-gray-300"></i>
+            <!-- Card 4: Customer Debts -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card card-custom border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Customer Debts</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 count-up" data-target="{{ $DebtsCount ?? 0 }}">{{ $DebtsCount ?? 0 }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="bi bi-currency-dollar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                  <!-- View More Button -->
+                  <a href="/cdebts" class="btn btn-sm btn-outline-warning mt-3" data-toggle="collapse">View More</a>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-      </div> <!-- End Row -->
-    </div> <!-- End Container -->
+          </div> <!-- End Row -->
+        </div> <!-- End Container -->
+      </div> <!-- End Main Container -->
+    </div>
+
+    <!-- Sidebars for More Info -->
+    <div id="assignmentsSidebar" class="collapse">
+      <!-- Add your content here for assignments -->
+      <div class="container mt-3">
+        <h4>Assignments Details</h4>
+        <p>More detailed information about assignments can go here.</p>
+      </div>
+    </div>
+
+    <div id="jobCardsSidebar" class="collapse">
+      <!-- Add your content here for job cards -->
+      <div class="container mt-3">
+        <h4>Job Cards Details</h4>
+        <p>More detailed information about job cards can go here.</p>
+      </div>
+    </div>
+
+    <div id="checkupSidebar" class="collapse">
+      <!-- Add your content here for routine checkup -->
+      <div class="container mt-3">
+        <h4>Routine Checkup Details</h4>
+        <p>More detailed information about routine checkups can go here.</p>
+      </div>
+    </div>
+
+    <div id="debtsSidebar" class="collapse">
+      <!-- Add your content here for customer debts -->
+      <div class="container mt-3">
+        <h4>Customer Debts Details</h4>
+        <p>More detailed information about customer debts can go here.</p>
+      </div>
+    </div>
+
   </main>
 
   <!-- CSS for animations and hover effects -->
@@ -281,6 +324,22 @@
     .border-left-warning {
       border-left: 5px solid #f6c23e;
     }
+
+    /* Button Styles */
+    .btn-outline-primary, .btn-outline-success, .btn-outline-info, .btn-outline-warning {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .btn:hover {
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
   </style>
 
   <!-- JavaScript for count-up animation -->
@@ -306,7 +365,6 @@
       });
     });
   </script>
-
 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
