@@ -165,6 +165,7 @@
                         <th>Created At</th>
                         <th>Accepted At</th>
                         <th>Viewed At</th>
+                        <th>Comment</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -217,12 +218,12 @@
                         {{-- <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
 
 
-
+                        <td>{{ $assignment->return_comment}}</td>
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <form action="{{ route('Aassignments.destroy', $assignment->assignment_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('assignments.destroy', $assignment->assignment_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this assignment?')">
