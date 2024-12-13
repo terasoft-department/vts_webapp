@@ -49,6 +49,8 @@ class AssignmentController extends Controller
 
         // Fetch paginated results
         $assignments = $assignments->paginate($pageSize);
+        $assignments = Assignment::orderBy('created_at', 'desc')->paginate(10000);
+
 
         // Fetch related data for the filter dropdowns
         $customers = Customer::all();
