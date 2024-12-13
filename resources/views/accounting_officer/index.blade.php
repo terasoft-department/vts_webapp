@@ -211,35 +211,91 @@
             </div>
 
         </main>
+<!-- JS to dynamically generate cards based on sidebar -->
+<script>
+    // Grab all sidebar links
+    const sidebarLinks = document.querySelectorAll('#sidebar-nav li ul li a');
+    const cardContainer = document.getElementById('card-container');
 
-        <!-- JS to dynamically generate cards based on sidebar -->
-        <script>
-            // Grab all sidebar links
-            const sidebarLinks = document.querySelectorAll('#sidebar-nav li ul li a');
-            const cardContainer = document.getElementById('card-container');
+    // Loop through each sidebar link and create corresponding card
+    sidebarLinks.forEach((link, index) => {
+      const card = document.createElement('div');
+      card.classList.add('col-md-3', 'mb-4', 'card-wrapper');
 
-            // Loop through each sidebar link and create corresponding card
-            sidebarLinks.forEach((link, index) => {
-                const card = document.createElement('div');
-                card.classList.add('col-md-3', 'mb-4');
+      // Create card HTML
+      card.innerHTML = `
+        <div class="card shadow-lg border-light">
+          <div class="card-header text-center bg-primary text-white">
+            <h5 class="card-title mb-0">${link.textContent}</h5>
+          </div>
 
-                // Create card HTML
-                card.innerHTML = `
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <h5>${link.textContent}</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Description for ${link.textContent}.</p>
-                            <a href="${link.getAttribute('href')}" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
-                `;
+          <div class="card-body text-center">
+            <p class="card-text">Description for ${link.textContent}.</p>
+            <a href="${link.getAttribute('href')}" class="btn btn-outline-primary btn-lg">View Details</a>
+          </div>
+        </div>
+      `;
 
-                // Append card to the container
-                cardContainer.appendChild(card);
-            });
-        </script>
+      // Append card to the container
+      cardContainer.appendChild(card);
+    });
+  </script>
+
+  <style>
+    /* General card styling */
+    .card-wrapper {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-wrapper:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .card-header {
+      border-radius: 8px 8px 0 0;
+      padding: 15px;
+      background-color: #4e73df;
+    }
+
+    .card-header h5 {
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-text {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .btn-outline-primary {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: #4e73df;
+      color: white;
+    }
+
+    .card:hover .card-header {
+      background-color: #3b5b9d; /* Darker shade of blue on hover */
+    }
+  </style>
+
 
         <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     </body>

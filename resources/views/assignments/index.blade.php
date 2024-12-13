@@ -315,6 +315,7 @@
                         <th>Created At</th>
                         <th>Accepted At</th>
                         <th>Viewed At</th>
+                        <th>Comment</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -367,7 +368,7 @@
                         {{-- <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td> --}}
 
 
-
+                        <td>{{ $assignment->return_comment}}</td>
                         <td class="text-center">
                             <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                 <i class="fas fa-edit"></i>
