@@ -10,14 +10,30 @@ class AdminCustomerController extends Controller
 {
 
 
-    public function index()
+    public function index(Request $request)
     {
         // Fetch customers with pagination (e.g., 10 customers per page)
 
         $customers = Customer::paginate(10000);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
+// Query to fetch customers
+$query = Customer::query();
 
+// Filter by start date
+if ($request->has('start_date') && $request->start_date) {
+    $query->where('start_date', '>=', $request->start_date);
+}
+
+// Filter by end date
+if ($request->has('end_date') && $request->end_date) {
+    $query->where('start_date', '<=', $request->end_date);
+}
+
+// Paginate results
+$customers = $query->orderBy('start_date', 'asc')->paginate(10);
+
+// Return view with filtered customers
         return view('Admincustomers.index', compact('customers', 'CustomersCount', 'VehiclesCount'));
     }
 

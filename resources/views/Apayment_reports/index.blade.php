@@ -116,28 +116,30 @@
                 {{ session('success') }}
             </div>
         @endif
+        <form action="{{ route('Apayment_reports.index') }}" method="GET" class="form-inline d-flex align-items-center">
+            <input type="date" name="start_date" class="form-control rounded-pill mr-2" placeholder="Date From" value="{{ request()->query('start_date') }}">
+            <input type="date" name="end_date" class="form-control rounded-pill mr-2" placeholder="Date To" value="{{ request()->query('end_date') }}">
 
-        <!-- Filters -->
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
-            </div>
-            <div class="col-md-3">
-                <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
-            </div>
-            <div class="col-md-3">
-                <input type="date" id="dateTo" class="form-control" placeholder="To Date">
-            </div>
-            <div class="col-md-3">
-                <button id="filterBtn" class="btn btn-primary">Filter</button>
-            </div>
-        </div>
+            <!-- Filter Button -->
+            <button type="submit" class="btn btn-light d-flex align-items-center px-3 mr-2">
+                <i class="fas fa-filter mr-2"></i>
+                <span> Filter </span>
+            </button>
+
+            <!-- Clear Button -->
+            <a href="{{ route('Apayment_reports.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
+                <i class="fas fa-times mr-2"></i>
+                <span> Clear </span>
+            </a>
+        </form>
 
         {{-- <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
             Create Payment
         </button> --}}
 
         <!-- Table -->
+          <!-- Conditional Check: Only Show Table if Filters are Applied -->
+          @if(request()->has('start_date') || request()->has('end_date') || request()->has('search'))
         <table class="table" id="invoiceTable">
             <thead>
                 <tr>
@@ -185,6 +187,19 @@
                 @endforeach
             </tbody>
         </table>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{ $invoices->links() }}
+                    </ul>
+                </nav>
+            @else
+                <div class="text-center">
+                    <p class="alert alert-info">Please apply filters to view the invoices.</p>
+                </div>
+            @endif
+        </div>
     </div>
 
     <!-- Create Invoice Modal -->

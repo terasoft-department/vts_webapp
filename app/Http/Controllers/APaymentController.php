@@ -5,18 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\paymentReport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class APaymentController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::all();
-        $invoices = Invoice::all();
+         // Initialize query to get all invoices
+         $invoices = Invoice::query();
 
+         // Apply date filters if provided
+         if ($request->has('start_date') && $request->has('end_date')) {
+             $invoices->whereBetween('invoice_date', [
+                 Carbon::parse($request->start_date)->startOfDay(),
+                 Carbon::parse($request->end_date)->endOfDay(),
+             ]);
+         }
 
-        $query = Customer::query();
+         // Apply search query if provided (e.g., searching by invoice number)
+         if ($request->has('search')) {
+             $invoices->where('invoice_number', 'like', '%' . $request->search . '%');
+         }
+
+         // Paginate the invoices to prevent loading too many records at once
+         $invoices = $invoices->paginate(10000);
+
 
 
         return view('Apayment_reports.index', compact('invoices'));

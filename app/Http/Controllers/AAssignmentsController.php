@@ -13,50 +13,41 @@ class AAssignmentsController extends Controller
 {
     public function index(Request $request)
     {
-        // Retrieve the search term from the request
-        $search = $request->get('search');
+        // Retrieve the input values
+    $startDate = $request->query('start_date');
+    $endDate = $request->query('end_date');
+    $search = $request->query('search');
 
-        // Initialize the query for fetching assignments
-        $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
-            ->when($search, function ($query) use ($search) {
-                // Apply search filter on 'case_reported', 'location', and 'customer_phone'
-                $query->where('plate_number', 'like', "%{$search}%")
-                      ->orWhere('location', 'like', "%{$search}%")
-                      ->orWhere('customer_phone', 'like', "%{$search}%");
-            });
-        // $assignments = Assignment::with(['customer', 'user', 'vehicle']) // Eager load relationships
-        // ->when($search, function ($query) use ($search) {
-        //     // Apply search filter on 'case_reported', 'location', and 'customer_phone'
-        //     $query->where('assignment_id', 'like', "%{$search}%")
-        //           ->orWhere('plate_number', 'like', "%{$search}%")
-        //           ->orWhere('customer_phone', 'like', "%{$search}%");
-        // })
-        // ->select('assignment_id', 'plate_number', 'customer_id', 'customer_phone', 'location', 'case_reported', 'user_id', 'assigned_by', 'status', 'accepted_at', 'created_at', 'updated_at') // Select fields to be fetched
-        // ->get();
+    // Query assignments with filters
+    $query = Assignment::query();
 
-    // Now you can access the attributes like so
-    // foreach ($assignments as $assignment) {
-    //     $plateNumber = $assignment->plate_number;
-    //     $customerName = $assignment->customer ? $assignment->customer->name : null; // Assuming 'name' is the field for customer's name
-    //     $customerPhone = $assignment->customer ? $assignment->customer->customer_phone : null; // Assuming 'customer_phone' is a field in Customer model
-    //     echo "Plate Number: $plateNumber, Customer Name: $customerName, Customer Phone: $customerPhone\n";
-    // }
-        // Determine page size, default to 10 if not specified
-        $pageSize = $request->input('page_size', 10000);
+    // Apply date filtering if provided
+    if ($startDate) {
+        $query->whereDate('created_at', '>=', $startDate);
+    }
 
-        // Fetch paginated results
-        $assignments = $assignments->paginate($pageSize);
-        $assignments = Assignment::orderBy('created_at', 'desc')->paginate(10000);
+    if ($endDate) {
+        $query->whereDate('created_at', '<=', $endDate);
+    }
 
+    // Optional search filter
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('plate_number', 'like', "%$search%")
+              ->orWhere('customer_phone', 'like', "%$search%")
+              ->orWhere('location', 'like', "%$search%");
+        });
+    }
 
+    // Get paginated results
+    $assignments = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        // Fetch related data for the filter dropdowns
-        $customers = Customer::all();
-        $users = User::all();
-        $vehicles = Vehicle::all();
+    // Fetch related customers and users
+    $customers = Customer::all();
+    $users = User::all();
 
         // Return the view with the data
-        return view('Aassignments.index', compact('assignments', 'customers', 'users', 'vehicles'));
+        return view('Aassignments.index', compact('assignments', 'customers', 'users'));
     }
 
 

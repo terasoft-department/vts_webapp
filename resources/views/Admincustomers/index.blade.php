@@ -110,7 +110,7 @@
 <main id="main" class="main">
     <div class="container mt-4">
         <!-- Operation Summary Card -->
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-3 mb-2">
                 <div class="card text-center border-primary shadow-sm">
                     <div class="card-header text-dark bg-light">
@@ -125,38 +125,52 @@
         </div>
 
         <!-- Customer Management Section -->
-        <h4 class="text-center mt-3">Customer Management</h4>
-        <br>
+        <h4 class="text-center mb-4">Customer Management</h4>
 
         <!-- Error Handling -->
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
-        <!-- Search Bar and Add Button -->
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
+        <!-- Filter Form -->
+        <form action="{{ route('Admincustomers.index') }}" method="GET" class="form-inline d-flex align-items-center mb-4">
+            <div class="row w-100">
+                <!-- Start Date -->
+                <div class="col-md-3 mb-2">
+                    <input type="date" name="start_date" class="form-control" placeholder="Start Date" value="{{ request()->query('start_date') }}">
+                </div>
+
+                <!-- End Date -->
+                <div class="col-md-3 mb-2">
+                    <input type="date" name="end_date" class="form-control" placeholder="End Date" value="{{ request()->query('end_date') }}">
+                </div>
+
+                <!-- Filter Button -->
+                <div class="col-md-2 mb-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-filter"></i> Filter
+                    </button>
+                </div>
+
+                <!-- Clear Button -->
+                <div class="col-md-2 mb-2">
+                    <a href="{{ route('Admincustomers.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
+                        <i class="fas fa-times mr-2"></i><span> Clear </span>
+                    </a>
+                </div>
             </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100" onclick="searchCustomer()">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
-            <div class="col-md-4 text-end">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
-                    <i class="bi bi-plus-circle"></i> Add Customer
-                </button>
-            </div>
-        </div>
+        </form>
 
         <!-- Customer Table -->
+  <!-- Conditional Check: Only Show Table if Filters are Applied -->
+  @if(request()->has('start_date') || request()->has('end_date') || request()->has('search'))
+
         <div class="table-responsive">
             <table id="customers" class="table table-bordered table-striped">
                 <thead>
@@ -178,16 +192,12 @@
                         <td>{{ $customer->customer_phone }}</td>
                         <td>{{ $customer->start_date }}</td>
                         <td>
-                            <button class="btn btn-sm btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
                         </td>
                     </tr>
 
-{{-- <!-- Pagination Links -->
-<div class="d-flex justify-content-center">
-    {{ $customers->links() }}
-</div> --}}
                     <!-- Edit Customer Modal -->
                     <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel-{{ $customer->customer_id }}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -196,7 +206,7 @@
                                     <h5 class="modal-title" id="editCustomerLabel-{{ $customer->customer_id }}">Edit Customer</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="{{ route('customers.update', $customer->customer_id) }}" method="POST">
+                                <form action="{{ route('Admincustomers.update', $customer->customer_id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">
@@ -234,83 +244,33 @@
             </table>
         </div>
 
-        <!-- Add Customer Modal -->
-        <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addCustomerLabel">Add Customer</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('customers.store') }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <label for="customername">Customer Name</label>
-                                <input type="text" name="customername" class="form-control" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="address">Address</label>
-                                <input type="text" name="address" class="form-control" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="customer_phone">Phone</label>
-                                <input type="text" name="customer_phone" class="form-control" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="start_date">Start Date</label>
-                                <input type="date" name="start_date" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Add Customer</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center">
+            {{ $customers->links() }}
         </div>
+        @else
+        <div class="text-center">
+            <p class="alert alert-info">Please apply filters to view the customers.</p>
+        </div>
+    @endif
     </div>
 </main>
 
-<!-- Search and Modal Script -->
-<script>
-    function searchCustomer() {
-        let input = document.getElementById("searchInput").value.toLowerCase();
-        let table = document.getElementById("customers");
-        let tr = table.getElementsByTagName("tr");
-
-        for (let i = 1; i < tr.length; i++) {
-            let tdName = tr[i].getElementsByTagName("td")[1];
-            let tdPhone = tr[i].getElementsByTagName("td")[3];
-            if (tdName || tdPhone) {
-                let nameText = tdName.textContent || tdName.innerText;
-                let phoneText = tdPhone.textContent || tdPhone.innerText;
-
-                tr[i].style.display = (nameText.toLowerCase().indexOf(input) > -1 || phoneText.toLowerCase().indexOf(input) > -1) ? "" : "none";
-            }
-        }
-    }
-</script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+</main>
 </body>
 </html>
+
