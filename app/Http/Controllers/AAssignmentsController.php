@@ -40,7 +40,7 @@ class AAssignmentsController extends Controller
     }
 
     // Get paginated results
-    $assignments = $query->orderBy('created_at', 'desc')->paginate(10);
+    $assignments = $query->orderBy('created_at', 'desc')->paginate(10000);
 
     // Fetch related customers and users
     $customers = Customer::all();
