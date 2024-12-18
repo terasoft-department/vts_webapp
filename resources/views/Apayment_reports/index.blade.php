@@ -194,6 +194,7 @@
                         {{ $invoices->links() }}
                     </ul>
                 </nav>
+                
             @else
                 <div class="text-center">
                     <p class="alert alert-info">Please apply filters to view the invoices.</p>
