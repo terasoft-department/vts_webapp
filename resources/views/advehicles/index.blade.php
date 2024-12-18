@@ -108,185 +108,141 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="col-md-3 mb-2">
-        <div class="card text-center border-primary shadow card-hover">
-            <div class="card-header bg- text-dark">
-                Operation Summary
-            </div>
-            <div class="card-body bg-white">
-                <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
-                <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="m-0">Manage Vehicles</h4>
-            <form action="{{ route('advehicles.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                <input type="text" name="search" class="form-control rounded-pill mr-2" placeholder="Search vehicles..." value="{{ request()->query('search') }}" id="vehicleSearch" style="width: 250px;">
-                <button type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
-{{--
-        <!-- Add New Vehicle Button -->
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#createVehicleModal">
-            <i class="fas fa-plus"></i> Add New Vehicle
-        </button> --}}
+    <div class="main-content">
+        <div class="container">
+            <!-- Title -->
+            <h5>Manage Vehicles</h5>
 
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show">
-                {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+            <!-- Operation Summary -->
+            <div class="col-md-3 mb-2">
+                <div class="card text-center border-primary shadow card-hover">
+                    <div class="card-header text-dark bg-light">
+                        Operation Summary
+                    </div>
+                    <div class="card-body bg-white">
+                        <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
+                        <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
+                    </div>
+                </div>
+            </div>
+
+         <!-- Filter Card -->
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="card-title">Filter Vehicles</h5>
+    </div>
+    <div class="card-body">
+        <!-- Filter Form -->
+        <form id="filterForm" action="{{ route('advehicles.index') }}" method="GET" class="row">
+            <!-- Start Date -->
+            <div class="col-md-3 mb-2">
+                <input type="date" name="start_date" class="form-control" placeholder="Start Date"
+                    value="{{ request()->query('start_date') }}">
+            </div>
+
+            <!-- End Date -->
+            <div class="col-md-3 mb-2">
+                <input type="date" name="end_date" class="form-control" placeholder="End Date"
+                    value="{{ request()->query('end_date') }}">
+            </div>
+
+            <!-- Filter Button -->
+            <div class="col-md-2 mb-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-filter"></i> Filter
                 </button>
             </div>
-        @endif
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Vehicle Name</th>
-                        <th>Installer</th>
-                        <th>Customer</th>
-                        <th>Plate Number</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="vehicleTableBody">
-                    @foreach ($vehicles as $vehicle)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $vehicle->vehicle_name }}</td>
-                            <td>{{ $vehicle->category }}</td>
-                            <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
-                            <td>{{ $vehicle->plate_number }}</td>
-                            <td>
-                                <button class="btn btn-" data-toggle="modal" data-target="#editVehicleModal{{ $vehicle->vehicle_id }}"><i class="bi bi-pencil"></i></button>
-                                {{-- <form action="{{ route('vehicles.destroy', $vehicle->vehicle_id) }}" method="POST" class="d-inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-"><i class="bi bi-trash"></i></button>
-                                </form> --}}
-                            </td>
-                        </tr>
-
-                        <!-- Edit Vehicle Modal -->
-                        <div class="modal fade" id="editVehicleModal{{ $vehicle->vehicle_id }}" tabindex="-1" role="dialog" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Edit Vehicle Details</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('vehicles.update', $vehicle->vehicle_id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group">
-                                                <label for="vehicle_name">Vehicle Name</label>
-                                                <input type="text" class="form-control" name="vehicle_name" value="{{ $vehicle->vehicle_name }}" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="category">Category</label>
-                                                <input type="text" class="form-control" name="category" value="{{ $vehicle->category }}" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="customer_id">Customer</label>
-                                                <select class="form-control" name="customer_id" required>
-                                                    @foreach ($customers as $customer)
-                                                        <option value="{{ $customer->customer_id }}" {{ $vehicle->customer_id == $customer->customer_id ? 'selected' : '' }}>
-                                                            {{ $customer->customername }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="plate_number">Plate Number</label>
-                                                <input type="text" class="form-control" name="plate_number" value="{{ $vehicle->plate_number }}" required>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Add New Vehicle Modal -->
-    <div class="modal fade" id="createVehicleModal" tabindex="-1" role="dialog" aria-labelledby="createVehicleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add New Vehicle</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('vehicles.store') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="vehicle_name">Vehicle Name</label>
-                            <input type="text" class="form-control" name="vehicle_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="category">Category</label>
-                            <input type="text" class="form-control" name="category" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_id">Customer</label>
-                            <select class="form-control" name="customer_id" required>
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="plate_number">Plate Number</label>
-                            <input type="text" class="form-control" name="plate_number" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Vehicle</button>
-                    </form>
-                </div>
+            <!-- Clear Button -->
+            <div class="col-md-2 mb-2">
+                <button type="button" id="clearFilter" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-times"></i> Clear
+                </button>
             </div>
+        </form>
+    </div>
+</div>
+            <!-- Success Message -->
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            <!-- Vehicle Table -->
+            @if($vehicles->count())
+                <div class="table-responsive" id="vehicleTableContainer">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Vehicle Name</th>
+                                <th>Installer</th>
+                                <th>Customer</th>
+                                <th>Plate Number</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($vehicles as $vehicle)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $vehicle->vehicle_name }}</td>
+                                    <td>{{ $vehicle->category }}</td>
+                                    <td>{{ $vehicle->customer ? $vehicle->customer->customername : 'N/A' }}</td>
+                                    <td>{{ $vehicle->plate_number }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($vehicle->created_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                 <!-- Pagination -->
+                 <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{ $vehicles->links() }}
+                    </ul>
+                </nav>
+            @else
+                <div class="text-center">
+                    <p class="alert alert-info">Please apply filters to view the vehicles.</p>
+                </div>
+            @endif
         </div>
     </div>
+</main>
 
-    <!-- Vendor JS Files -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Vendor JS Files -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const clearButton = document.getElementById('clearFilter');
+        const filterForm = document.getElementById('filterForm');
+        const vehicleTableContainer = document.getElementById('vehicleTableContainer');
 
-    <script>
-        // Dynamic Search Filtering
-        document.querySelector('#vehicleSearch').addEventListener('keyup', function () {
-            const searchInput = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#vehicleTableBody tr');
+        // Clear input fields and hide table when "Clear" button is clicked
+        clearButton.addEventListener('click', function () {
+            // Clear form inputs
+            filterForm.reset();
 
-            rows.forEach(row => {
-                const vehicleName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                const installer = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                const customer = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
-                const plateNumber = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
-
-                if (vehicleName.includes(searchInput) || installer.includes(searchInput) || customer.includes(searchInput) || plateNumber.includes(searchInput)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+            // Hide the table container
+            if (vehicleTableContainer) {
+                vehicleTableContainer.style.display = 'none';
+            }
         });
-    </script>
+    });
+</script>
 
-    <!-- Back-to-Top Button -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -300,8 +256,6 @@
 
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
-
-</script>
 </main>
 </body>
 </html>

@@ -108,7 +108,9 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container mt-4">
+    <div class="main-content">
+        <div class="container">
+            <h5>Customer Management</h5>
         <!-- Operation Summary Card -->
         <div class="row mb-4">
             <div class="col-md-3 mb-2">
@@ -124,8 +126,6 @@
             </div>
         </div>
 
-        <!-- Customer Management Section -->
-        <h4 class="text-center mb-4">Customer Management</h4>
 
         <!-- Error Handling -->
         @if ($errors->any())
@@ -138,34 +138,42 @@
             </div>
         @endif
 
-        <!-- Filter Form -->
-        <form action="{{ route('Admincustomers.index') }}" method="GET" class="form-inline d-flex align-items-center mb-4">
-            <div class="row w-100">
-                <!-- Start Date -->
-                <div class="col-md-3 mb-2">
-                    <input type="date" name="start_date" class="form-control" placeholder="Start Date" value="{{ request()->query('start_date') }}">
-                </div>
-
-                <!-- End Date -->
-                <div class="col-md-3 mb-2">
-                    <input type="date" name="end_date" class="form-control" placeholder="End Date" value="{{ request()->query('end_date') }}">
-                </div>
-
-                <!-- Filter Button -->
-                <div class="col-md-2 mb-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-filter"></i> Filter
-                    </button>
-                </div>
-
-                <!-- Clear Button -->
-                <div class="col-md-2 mb-2">
-                    <a href="{{ route('Admincustomers.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
-                        <i class="fas fa-times mr-2"></i><span> Clear </span>
-                    </a>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Filter Customers</h5>
             </div>
-        </form>
+            <div class="card-body">
+                <!-- Filter Form -->
+                <form action="{{ route('Admincustomers.index') }}" method="GET" class="form-inline d-flex align-items-center mb-4">
+                    <div class="row w-100">
+                        <!-- Start Date -->
+                        <div class="col-md-3 mb-2">
+                            <input type="date" name="start_date" class="form-control" placeholder="Start Date" value="{{ request()->query('start_date') }}">
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="col-md-3 mb-2">
+                            <input type="date" name="end_date" class="form-control" placeholder="End Date" value="{{ request()->query('end_date') }}">
+                        </div>
+
+                        <!-- Filter Button -->
+                        <div class="col-md-2 mb-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-filter"></i> Filter
+                            </button>
+                        </div>
+
+                        <!-- Clear Button -->
+                        <div class="col-md-2 mb-2">
+                            <a href="{{ route('Admincustomers.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
+                                <i class="fas fa-times mr-2"></i><span> Clear </span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <!-- Customer Table -->
   <!-- Conditional Check: Only Show Table if Filters are Applied -->
@@ -180,7 +188,7 @@
                         <th>Address</th>
                         <th>Phone</th>
                         <th>Start Date</th>
-                        <th>Actions</th>
+                        {{-- <th>Actions</th> --}}
                     </tr>
                 </thead>
                 <tbody id="customerTableBody">
@@ -191,11 +199,11 @@
                         <td>{{ $customer->address }}</td>
                         <td>{{ $customer->customer_phone }}</td>
                         <td>{{ $customer->start_date }}</td>
-                        <td>
+                        {{-- <td>
                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                        </td>
+                        </td> --}}
                     </tr>
 
                     <!-- Edit Customer Modal -->
@@ -242,7 +250,7 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
+
 
         <!-- Pagination Links -->
         <div class="d-flex justify-content-center">

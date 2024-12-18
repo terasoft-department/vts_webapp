@@ -108,8 +108,9 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-        <div class="container mt-5">
-            <!-- Success/Error Messages -->
+    <div class="main-content">
+        <div class="container">
+            <h5>Generate Invoice</h5>
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif

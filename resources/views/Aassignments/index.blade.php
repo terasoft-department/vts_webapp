@@ -109,35 +109,38 @@
 <!-- Main Content -->
 <main id="main" class="main">
     <div class="main-content">
-        <div class="container mt-2" style="margin-top:50px">
-            <h4 class="text-center" style="color:#4177fd;">Assignments</h4><br>
+        <div class="container">
+            <h5>Assignments</h5>
 
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
             <br>
-            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <h4 class="m-0">
-                    <i class="fa fa-info-circle"></i> Instructions:
-                </h4>
 
-                <form action="{{ route('Aassignments.index') }}" method="GET" class="form-inline d-flex align-items-center">
-                    <input type="date" name="start_date" class="form-control rounded-pill mr-2" placeholder="Date From" value="{{ request()->query('start_date') }}">
-                    <input type="date" name="end_date" class="form-control rounded-pill mr-2" placeholder="Date To" value="{{ request()->query('end_date') }}">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Filter Assignments</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('Aassignments.index') }}" method="GET" class="form-inline d-flex justify-content-between align-items-center w-100">
+                            <input type="date" name="start_date" class="form-control rounded-pill mr-2" placeholder="Date From" value="{{ request()->query('start_date') }}">
+                            <input type="date" name="end_date" class="form-control rounded-pill mr-2" placeholder="Date To" value="{{ request()->query('end_date') }}">
 
-                    <!-- Filter Button -->
-                    <button type="submit" class="btn btn-light d-flex align-items-center px-3 mr-2">
-                        <i class="fas fa-filter mr-2"></i>
-                        <span> Filter </span>
-                    </button>
+                            <!-- Filter Button -->
+                            <button type="submit" class="btn btn-light d-flex align-items-center px-3 mr-2">
+                                <i class="fas fa-filter mr-2"></i>
+                                <span> Filter </span>
+                            </button>
 
-                    <!-- Clear Button -->
-                    <a href="{{ route('Aassignments.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
-                        <i class="fas fa-times mr-2"></i>
-                        <span> Clear </span>
-                    </a>
-                </form>
+                            <!-- Clear Button -->
+                            <a href="{{ route('Aassignments.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
+                                <i class="fas fa-times mr-2"></i>
+                                <span> Clear </span>
+                            </a>
+                        </form>
+                    </div>
+                </div>
 
 
 
@@ -163,7 +166,7 @@
                             <th>Accepted At</th>
                             <th>Viewed At</th>
                             <th>Comment</th>
-                            <th>Actions</th>
+                            {{-- <th>Actions</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -183,7 +186,7 @@
                             <td>{{ $assignment->accepted_at }}</td>
                             <td>{{ \Carbon\Carbon::parse($assignment->accepted_at)->timezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
                             <td>{{ $assignment->return_comment }}</td>
-                            <td class="text-center">
+                            {{-- <td class="text-center">
                                 <button class="btn btn-edit" onclick="openEditModal({{ $assignment }})">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -194,7 +197,7 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>

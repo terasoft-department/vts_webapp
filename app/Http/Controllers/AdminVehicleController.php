@@ -10,45 +10,49 @@ class AdminVehicleController extends Controller
 {
     // Display a listing of the vehicles with search and filters
     public function index(Request $request)
-    {
-        // Define base query with eager loading of related 'customer'
-        $vehicles = Vehicle::with('customer');
-        $CustomersCount = Customer::count();
-        $VehiclesCount = Vehicle::count();
-        // Store search parameters in session
-        session([
-            'search' => $request->search,
-            'customer_id' => $request->customer_id,
-            'from_date' => $request->from_date,
-            'to_date' => $request->to_date
-        ]);
+{
+    // Initialize query for vehicles
+    $query = Vehicle::query();
 
-        // Apply search filter
-        if ($request->filled('search')) {
-            $vehicles = $vehicles->where(function ($query) use ($request) {
-                $query->where('vehicle_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('plate_number', 'like', '%' . $request->search . '%');
-            });
-        }
+    // Apply date filters if provided
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        // Ensure the dates are formatted properly for the query (optional depending on the input format)
+        $startDate = \Carbon\Carbon::parse($request->start_date)->startOfDay();
+        $endDate = \Carbon\Carbon::parse($request->end_date)->endOfDay();
 
-        // Apply customer filter
-        if ($request->filled('customer_id')) {
-            $vehicles = $vehicles->where('customer_id', $request->customer_id);
-        }
-
-        // Apply date range filter
-        if ($request->filled('from_date') && $request->filled('to_date')) {
-            $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
-        }
-
-        // Paginate the results to get 10 per page
-        $vehicles = $vehicles->paginate(10);
-
-        // Fetch customers for the filter dropdown
-        $customers = Customer::all();
-
-        return view('advehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
+        // Apply the date range filter to the query
+        $query->whereBetween('created_at', [$startDate, $endDate]);
     }
+
+    // Get filtered vehicles with pagination
+    $vehicles = $query->paginate(10000);
+
+    // Get the count of customers and vehicles
+    $CustomersCount = Customer::count();
+    $VehiclesCount = Vehicle::count();
+
+    // Get all customers for the dropdown in the filter modal
+    $customers = Customer::all();
+    // Query to fetch customers
+$query = Customer::query();
+
+// // Filter by start date
+// if ($request->has('start_date') && $request->start_date) {
+//     $query->where('start_date', '>=', $request->start_date);
+// }
+
+// Filter by end date
+if ($request->has('end_date') && $request->end_date) {
+    $query->where('start_date', '<=', $request->end_date);
+}
+
+// Paginate results
+$customers = $query->orderBy('start_date', 'asc')->paginate(10000);
+
+
+    return view('advehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
+}
+
 
     // Show the form for creating a new vehicle
     public function create()
