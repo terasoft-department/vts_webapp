@@ -31,7 +31,7 @@ if ($request->has('end_date') && $request->end_date) {
 }
 
 // Paginate results
-$customers = $query->orderBy('start_date', 'asc')->paginate(10);
+$customers = $query->orderBy('start_date', 'asc')->paginate(10000);
 
 // Return view with filtered customers
         return view('Admincustomers.index', compact('customers', 'CustomersCount', 'VehiclesCount'));
