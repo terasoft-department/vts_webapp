@@ -116,7 +116,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        <form action="{{ route('Apayment_reports.index') }}" method="GET" class="form-inline d-flex align-items-center">
+        <form action="{{ route('Apayment_reports.index') }}" method="GET" class="form-inline d-flex justify-content-between align-items-center w-100">
             <input type="date" name="start_date" class="form-control rounded-pill mr-2" placeholder="Date From" value="{{ request()->query('start_date') }}">
             <input type="date" name="end_date" class="form-control rounded-pill mr-2" placeholder="Date To" value="{{ request()->query('end_date') }}">
 
@@ -132,6 +132,7 @@
                 <span> Clear </span>
             </a>
         </form>
+
 
         {{-- <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
             Create Payment
@@ -194,7 +195,7 @@
                         {{ $invoices->links() }}
                     </ul>
                 </nav>
-                
+
             @else
                 <div class="text-center">
                     <p class="alert alert-info">Please apply filters to view the invoices.</p>
