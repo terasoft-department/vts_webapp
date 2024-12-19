@@ -9,8 +9,6 @@ use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class AssignmentController extends Controller
@@ -69,26 +67,21 @@ class AssignmentController extends Controller
 
 
  public function store(Request $request)
-{
-    // Validate the request
-    $validator = Validator::make($request->all(), [
-        'plate_number' => 'required|string|max:255',
-        'customer_id' => 'required|integer|exists:customers,customer_id',
-        'customer_phone' => 'required|string|max:255',
-        'location' => 'required|string|max:255',
-        'user_id' => 'required|integer|exists:users,user_id',  // Ensure user_id exists in users table
-        'case_reported' => 'required|string',
-        'attachment' => 'nullable|file|mimes:pdf|max:2048',
-        'assigned_by' => 'required|string',
-    ]);
+    {
+        $request->validate([
+            'plate_number' => 'required|string|max:255',
+            'customer_id' => 'required|integer|exists:customers,customer_id',
+            'customer_phone' => 'required|string|max:255',
+            // 'customer_debt' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'user_id' => 'required|string',
+            'case_reported' => 'required|string',
+            'attachment' => 'nullable|file|mimes:pdf|max:2048',
+            'assigned_by'=> 'required|string',
+            // 'status'=> 'required|string',
 
-    // Return validation errors if validation fails
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
-    }
+        ]);
 
-    try {
-        // Create a new assignment
         $assignment = new Assignment();
         $assignment->plate_number = $request->plate_number;
         $assignment->customer_id = $request->customer_id;
@@ -98,70 +91,26 @@ class AssignmentController extends Controller
         $assignment->user_id = $request->user_id;
         $assignment->case_reported = $request->case_reported;
         $assignment->assigned_by = $request->assigned_by;
+        // $assignment->status = $request->status;
 
-        // Handle file upload for attachment
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
             if ($file->isValid()) {
+                // Generate a unique file name with extension
                 $fileName = time() . '-' . $file->getClientOriginalName();
+                // Move the file to public/uploads directory
                 $file->move(public_path('uploads'), $fileName);
+                // Store the file name in the database
                 $assignment->attachment = $fileName;
             }
         } else {
             $assignment->attachment = null;
         }
 
-        // Save the assignment to the database
         $assignment->save();
 
-        // Fetch the user based on the user_id and send an email
-        $user = User::find($request->user_id);
-        if ($user) {
-            try {
-                $this->sendAssignmentNotificationEmail($user, $assignment);
-                // Set success email message in session
-                session()->flash('success_email', 'Assignment email sent successfully!');
-            } catch (\Exception $e) {
-                // Log the error message and set error email message in session
-                Log::error('Failed to send email: ' . $e->getMessage());
-                session()->flash('error_email', 'Failed to send assignment email: ' . $e->getMessage());
-            }
-        }
-
-        // Set success message for assignment
         return redirect()->back()->with('success', 'Assignment registered successfully!');
-    } catch (\Exception $e) {
-        // Catch any exception and show error
-        return redirect()->back()->with('error', 'Failed to create assignment: ' . $e->getMessage());
     }
-}
-
-private function sendAssignmentNotificationEmail(User $user, Assignment $assignment)
-{
-    // Prepare email subject and body
-    $subject = 'New Assignment Assigned';
-    $emailBody = "Dear {$user->name},\n\n"
-        . "You have been assigned a new task:\n"
-        . "Plate Number: {$assignment->plate_number}\n"
-        . "Customer ID: {$assignment->customer_id}\n"
-        . "Location: {$assignment->location}\n"
-        . "Case Reported: {$assignment->case_reported}\n\n"
-        . "Please log into your portal for more details.\n\n"
-        . "Thank you for your attention.";
-
-    // Send the email using Laravel's Mail facade
-    try {
-        Mail::raw($emailBody, function ($message) use ($user, $subject) {
-            $message->to($user->email);  // Send to the user's email
-            $message->subject($subject);
-        });
-    } catch (\Exception $e) {
-        Log::error('Email sending failed: ' . $e->getMessage());
-        throw $e; // Rethrow the exception to be handled in the store method
-    }
-}
-
-
 
     public function show($id)
     {
