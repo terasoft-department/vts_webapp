@@ -118,8 +118,11 @@ class AssignmentController extends Controller
         $user = User::find($request->user_id);
         if ($user) {
             $this->sendAssignmentNotificationEmail($user, $assignment);
+            // Set success email message in session
+            session()->flash('success_email', 'Assignment email sent successfully!');
         }
 
+        // Set success message in session
         return redirect()->back()->with('success', 'Assignment registered successfully!');
     } catch (\Exception $e) {
         // Catch any exception and show error
@@ -147,10 +150,9 @@ private function sendAssignmentNotificationEmail(User $user, Assignment $assignm
             $message->subject($subject);
         });
     } catch (\Exception $e) {
-        Log::error('Email sending failed: ' . $e->getMessage());  // Updated to use Log without the backslash
+        Log::error('Email sending failed: ' . $e->getMessage());
     }
 }
-
 
 
     public function show($id)
