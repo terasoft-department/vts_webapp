@@ -56,84 +56,95 @@ class AAssignmentsController extends Controller
 
 
  // Display a listing of the resource
-
-
  public function store(Request $request)
- {
-     $request->validate([
-         'plate_number' => 'required|string|max:255',
-         'customer_id' => 'required|integer|exists:customers,customer_id',
-         'customer_phone' => 'required|string|max:255',
-         'location' => 'required|string|max:255',
-         'user_id' => 'required|string|exists:users,user_id',
-         'case_reported' => 'required|string',
-         'attachment' => 'nullable|file|mimes:pdf|max:2048',
-         'assigned_by'=> 'required|string',
-     ]);
+{
+    $request->validate([
+        'plate_number' => 'required|string|max:255',
+        'customer_id' => 'required|integer|exists:customers,customer_id',
+        'customer_phone' => 'required|string|max:255',
+        'location' => 'required|string|max:255',
+        'user_id' => 'required|string|exists:users,user_id',
+        'case_reported' => 'required|string',
+        'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        'assigned_by'=> 'required|string',
+    ]);
 
-     try {
-         $assignment = new Assignment();
-         $assignment->plate_number = $request->plate_number;
-         $assignment->customer_id = $request->customer_id;
-         $assignment->customer_phone = $request->customer_phone;
-         $assignment->location = $request->location;
-         $assignment->user_id = $request->user_id;
-         $assignment->case_reported = $request->case_reported;
-         $assignment->assigned_by = $request->assigned_by;
+    try {
+        // Create the assignment
+        $assignment = new Assignment();
+        $assignment->plate_number = $request->plate_number;
+        $assignment->customer_id = $request->customer_id;
+        $assignment->customer_phone = $request->customer_phone;
+        $assignment->location = $request->location;
+        $assignment->user_id = $request->user_id;
+        $assignment->case_reported = $request->case_reported;
+        $assignment->assigned_by = $request->assigned_by;
 
-         // Handle file upload
-         if ($request->hasFile('attachment')) {
-             $file = $request->file('attachment');
-             if ($file->isValid()) {
-                 $fileName = time() . '-' . $file->getClientOriginalName();
-                 $file->move(public_path('uploads'), $fileName);
-                 $assignment->attachment = $fileName;
-             }
-         }
+        // Handle file upload
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            if ($file->isValid()) {
+                $fileName = time() . '-' . $file->getClientOriginalName();
+                $file->move(public_path('uploads'), $fileName);
+                $assignment->attachment = $fileName;
+            }
+        }
 
-         $assignment->save();
+        // Save the assignment
+        $assignment->save();
 
-         // Send email notification
-         $this->sendAssignmentNotification($assignment);
+        // Send the email notification
+        $this->sendAssignmentNotification($assignment);
 
-         return redirect()->back()->with('success', 'Assignment registered successfully!');
-     } catch (Exception $e) {
-         Log::error('Error creating assignment: ' . $e->getMessage());
-         return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
-     }
- }
+        // Store success message in session, combining both actions
+        return redirect()->back()->with('success', 'Assignment registered and email sent successfully!');
+    } catch (Exception $e) {
+        Log::error('Error creating assignment: ' . $e->getMessage());
+
+        // Store error message in session
+        return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+    }
+}
+
 
  /**
   * Send email notification to the assigned user.
   */
- private function sendAssignmentNotification(Assignment $assignment)
- {
-     $user = User::where('user_id', $assignment->user_id)->first();
-     if (!$user) {
-         Log::error('Assigned user not found.');
-         return;
-     }
+  private function sendAssignmentNotification(Assignment $assignment)
+{
+    // Find the user to whom the assignment is assigned
+    $user = User::find($assignment->user_id);
+    if (!$user) {
+        Log::error('Assigned user not found.');
+        return;
+    }
 
-     $subject = 'New Assignment Notification';
-     $emailBody = "Dear {$user->name},\n\n"
-         . "A new assignment has been assigned to you.\n\n"
-         . "Details:\n"
-         . "Plate Number: {$assignment->plate_number}\n"
-         . "Location: {$assignment->location}\n"
-         . "Case Reported: {$assignment->case_reported}\n\n"
-         . "Please log in to your portal for confirmation.\n\n"
-         . "Best regards,\n"
-         . "Your App Team";
+    // Create the email subject and body with both success message and assignment details
+    $subject = 'New Assignment Notification';
+    $emailBody = "Dear {$user->name},\n\n"
+        . "A new assignment has been successfully registered for you.\n\n"
+        . "Details:\n"
+        . "Plate Number: {$assignment->plate_number}\n"
+        . "Location: {$assignment->location}\n"
+        . "Case Reported: {$assignment->case_reported}\n\n"
+        . "Please log in to your portal for confirmation.\n\n"
+        . "Best regards,\n"
+        . "Your App Team";
 
-     try {
-         Mail::raw($emailBody, function ($message) use ($user, $subject) {
-             $message->to($user->email);
-             $message->subject($subject);
-         });
-     } catch (Exception $e) {
-         Log::error('Failed to send email: ' . $e->getMessage());
-     }
- }
+    try {
+        // Send the email using the Laravel Mail facade
+        Mail::raw($emailBody, function ($message) use ($user, $subject) {
+            $message->to($user->email);
+            $message->subject($subject);
+        });
+
+        Log::info("Assignment email sent to {$user->email}");
+    } catch (Exception $e) {
+        Log::error('Failed to send email: ' . $e->getMessage());
+    }
+}
+
+
 
     public function show($id)
     {
