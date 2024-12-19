@@ -236,6 +236,7 @@
             if (vehicleTableContainer) {
                 vehicleTableContainer.style.display = 'none';
             }
+
         });
     });
 </script>
