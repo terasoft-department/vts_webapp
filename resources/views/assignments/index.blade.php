@@ -405,7 +405,7 @@
                         </div>
                         <div class="modal-body">
 
-                            <!-- Display success message for Assignment -->
+<!-- Display success message for Assignment -->
 @if (session('success'))
 <div class="alert alert-success">
     {{ session('success') }}
@@ -436,6 +436,7 @@
     </ul>
 </div>
 @endif
+
 
                             <!-- Dynamic Form for Creating/Updating Assignment -->
 <form id="assignmentForm" method="POST" enctype="multipart/form-data">

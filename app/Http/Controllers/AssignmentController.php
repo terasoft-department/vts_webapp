@@ -85,14 +85,10 @@ class AssignmentController extends Controller
      try {
          // Create new assignment
          $assignment = new Assignment();
-         $assignment->plate_number = $request->plate_number;
-         $assignment->customer_id = $request->customer_id;
-         $assignment->customer_phone = $request->customer_phone;
-         $assignment->customer_debt = $request->customer_debt;
-         $assignment->location = $request->location;
-         $assignment->user_id = $request->user_id;
-         $assignment->case_reported = $request->case_reported;
-         $assignment->assigned_by = $request->assigned_by;
+         $assignment->fill($request->only([
+             'plate_number', 'customer_id', 'customer_phone', 'customer_debt',
+             'location', 'user_id', 'case_reported', 'assigned_by'
+         ]));
 
          // Handle file upload
          if ($request->hasFile('attachment')) {
@@ -102,8 +98,6 @@ class AssignmentController extends Controller
                  $file->move(public_path('uploads'), $fileName);
                  $assignment->attachment = $fileName;
              }
-         } else {
-             $assignment->attachment = null;
          }
 
          // Save assignment
@@ -126,6 +120,7 @@ class AssignmentController extends Controller
 
      return redirect()->back();
  }
+
 
  // Email Notification Logic
  private function sendAssignmentNotificationEmail(User $user, Assignment $assignment)
