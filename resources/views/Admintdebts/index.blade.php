@@ -134,7 +134,7 @@
             </div>
         </div>
 
-        @if(request()->has('start_date') || request()->has('end_date') || request()->has('search'))
+        {{-- @if(request()->has('start_date') || request()->has('end_date') || request()->has('search')) --}}
         <table class="table" id="invoiceTable">
             <thead>
                 <tr>
@@ -173,7 +173,7 @@
                 @endforeach
             </tbody>
         </table>
-           <!-- Pagination -->
+           {{-- <!-- Pagination -->
            <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 {{ $invoices->links() }}
@@ -184,7 +184,7 @@
         <div class="text-center">
             <p class="alert alert-info">Please apply filters to view the invoices.</p>
         </div>
-    @endif
+    @endif --}}
 </div>
     </div>
 </main>
