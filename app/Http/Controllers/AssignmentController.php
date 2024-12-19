@@ -6,9 +6,11 @@ use App\Models\Assignment;
 use App\Models\Customer;
 use App\Models\User;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail; // Import Mail facade
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AssignmentController extends Controller
@@ -67,50 +69,92 @@ class AssignmentController extends Controller
 
 
  public function store(Request $request)
-    {
-        $request->validate([
-            'plate_number' => 'required|string|max:255',
-            'customer_id' => 'required|integer|exists:customers,customer_id',
-            'customer_phone' => 'required|string|max:255',
-            // 'customer_debt' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'user_id' => 'required|string',
-            'case_reported' => 'required|string',
-            'attachment' => 'nullable|file|mimes:pdf|max:2048',
-            'assigned_by'=> 'required|string',
-            // 'status'=> 'required|string',
+{
+    $request->validate([
+        'plate_number' => 'required|string|max:255',
+        'customer_id' => 'required|integer|exists:customers,customer_id',
+        'customer_phone' => 'required|string|max:255',
+        'location' => 'required|string|max:255',
+        'user_id' => 'required|string|exists:users,user_id',
+        'case_reported' => 'required|string',
+        'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        'assigned_by'=> 'required|string',
+    ]);
 
-        ]);
-
+    try {
+        // Create the assignment
         $assignment = new Assignment();
         $assignment->plate_number = $request->plate_number;
         $assignment->customer_id = $request->customer_id;
         $assignment->customer_phone = $request->customer_phone;
-        $assignment->customer_debt = $request->customer_debt;
         $assignment->location = $request->location;
         $assignment->user_id = $request->user_id;
         $assignment->case_reported = $request->case_reported;
         $assignment->assigned_by = $request->assigned_by;
-        // $assignment->status = $request->status;
 
+        // Handle file upload
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
             if ($file->isValid()) {
-                // Generate a unique file name with extension
                 $fileName = time() . '-' . $file->getClientOriginalName();
-                // Move the file to public/uploads directory
                 $file->move(public_path('uploads'), $fileName);
-                // Store the file name in the database
                 $assignment->attachment = $fileName;
             }
-        } else {
-            $assignment->attachment = null;
         }
 
+        // Save the assignment
         $assignment->save();
 
-        return redirect()->back()->with('success', 'Assignment registered successfully!');
+        // Send the email notification
+        $this->sendAssignmentNotification($assignment);
+
+        // Store success message in session, combining both actions
+        return redirect()->back()->with('success', 'Assignment registered and email sent successfully!');
+    } catch (Exception $e) {
+        Log::error('Error creating assignment: ' . $e->getMessage());
+
+        // Store error message in session
+        return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
     }
+}
+
+
+ /**
+  * Send email notification to the assigned user.
+  */
+  private function sendAssignmentNotification(Assignment $assignment)
+{
+    // Find the user to whom the assignment is assigned
+    $user = User::find($assignment->user_id);
+    if (!$user) {
+        Log::error('Assigned user not found.');
+        return;
+    }
+
+    // Create the email subject and body with both success message and assignment details
+    $subject = 'New Assignment Notification';
+    $emailBody = "Dear {$user->name},\n\n"
+        . "A new assignment has been successfully registered for you.\n\n"
+        . "Details:\n"
+        . "Plate Number: {$assignment->plate_number}\n"
+        . "Location: {$assignment->location}\n"
+        . "Case Reported: {$assignment->case_reported}\n\n"
+        . "Please log in to your portal for confirmation.\n\n"
+        . "Best regards,\n"
+        . "Your App Team";
+
+    try {
+        // Send the email using the Laravel Mail facade
+        Mail::raw($emailBody, function ($message) use ($user, $subject) {
+            $message->to($user->email);
+            $message->subject($subject);
+        });
+
+        Log::info("Assignment email sent to {$user->email}");
+    } catch (Exception $e) {
+        Log::error('Failed to send email: ' . $e->getMessage());
+    }
+}
 
     public function show($id)
     {
