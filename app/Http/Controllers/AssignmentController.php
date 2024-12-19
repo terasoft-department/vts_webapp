@@ -69,72 +69,72 @@ class AssignmentController extends Controller
 
 
  public function store(Request $request)
- {
-     // Validate the request
-     $validator = Validator::make($request->all(), [
-         'plate_number' => 'required|string|max:255',
-         'customer_id' => 'required|integer|exists:customers,customer_id',
-         'customer_phone' => 'required|string|max:255',
-         'location' => 'required|string|max:255',
-         'user_id' => 'required|integer|exists:users,user_id',  // Ensure user_id exists in users table
-         'case_reported' => 'required|string',
-         'attachment' => 'nullable|file|mimes:pdf|max:2048',
-         'assigned_by' => 'required|string',
-     ]);
+{
+    // Validate the request
+    $validator = Validator::make($request->all(), [
+        'plate_number' => 'required|string|max:255',
+        'customer_id' => 'required|integer|exists:customers,customer_id',
+        'customer_phone' => 'required|string|max:255',
+        'location' => 'required|string|max:255',
+        'user_id' => 'required|integer|exists:users,user_id',  // Ensure user_id exists in users table
+        'case_reported' => 'required|string',
+        'attachment' => 'nullable|file|mimes:pdf|max:2048',
+        'assigned_by' => 'required|string',
+    ]);
 
-     // Return validation errors if validation fails
-     if ($validator->fails()) {
-         return redirect()->back()->withErrors($validator)->withInput();
-     }
+    // Return validation errors if validation fails
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
 
-     try {
-         // Create a new assignment
-         $assignment = new Assignment();
-         $assignment->plate_number = $request->plate_number;
-         $assignment->customer_id = $request->customer_id;
-         $assignment->customer_phone = $request->customer_phone;
-         $assignment->customer_debt = $request->customer_debt;
-         $assignment->location = $request->location;
-         $assignment->user_id = $request->user_id;
-         $assignment->case_reported = $request->case_reported;
-         $assignment->assigned_by = $request->assigned_by;
+    try {
+        // Create a new assignment
+        $assignment = new Assignment();
+        $assignment->plate_number = $request->plate_number;
+        $assignment->customer_id = $request->customer_id;
+        $assignment->customer_phone = $request->customer_phone;
+        $assignment->customer_debt = $request->customer_debt;
+        $assignment->location = $request->location;
+        $assignment->user_id = $request->user_id;
+        $assignment->case_reported = $request->case_reported;
+        $assignment->assigned_by = $request->assigned_by;
 
-         // Handle file upload for attachment
-         if ($request->hasFile('attachment')) {
-             $file = $request->file('attachment');
-             if ($file->isValid()) {
-                 $fileName = time() . '-' . $file->getClientOriginalName();
-                 $file->move(public_path('uploads'), $fileName);
-                 $assignment->attachment = $fileName;
-             }
-         } else {
-             $assignment->attachment = null;
-         }
+        // Handle file upload for attachment
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            if ($file->isValid()) {
+                $fileName = time() . '-' . $file->getClientOriginalName();
+                $file->move(public_path('uploads'), $fileName);
+                $assignment->attachment = $fileName;
+            }
+        } else {
+            $assignment->attachment = null;
+        }
 
-         // Save the assignment to the database
-         $assignment->save();
+        // Save the assignment to the database
+        $assignment->save();
 
-         // Fetch the user based on the user_id and send an email
-         $user = User::find($request->user_id);
-         if ($user) {
-             try {
-                 $this->sendAssignmentNotificationEmail($user, $assignment);
-                 // Set success email message in session
-                 session()->flash('success_email', 'Assignment email sent successfully!');
-             } catch (\Exception $e) {
-                 // Set error email message in session
-                 session()->flash('error_email', 'Failed to send assignment email: ' . $e->getMessage());
-             }
-         }
+        // Fetch the user based on the user_id and send an email
+        $user = User::find($request->user_id);
+        if ($user) {
+            try {
+                $this->sendAssignmentNotificationEmail($user, $assignment);
+                // Set success email message in session
+                session()->flash('success_email', 'Assignment email sent successfully!');
+            } catch (\Exception $e) {
+                // Log the error message and set error email message in session
+                Log::error('Failed to send email: ' . $e->getMessage());
+                session()->flash('error_email', 'Failed to send assignment email: ' . $e->getMessage());
+            }
+        }
 
-         // Set success message in session
-         return redirect()->back()->with('success', 'Assignment registered successfully!');
-     } catch (\Exception $e) {
-         // Catch any exception and show error
-         return redirect()->back()->with('error', 'Failed to create assignment: ' . $e->getMessage());
-     }
- }
-
+        // Set success message for assignment
+        return redirect()->back()->with('success', 'Assignment registered successfully!');
+    } catch (\Exception $e) {
+        // Catch any exception and show error
+        return redirect()->back()->with('error', 'Failed to create assignment: ' . $e->getMessage());
+    }
+}
 
 private function sendAssignmentNotificationEmail(User $user, Assignment $assignment)
 {
@@ -157,8 +157,10 @@ private function sendAssignmentNotificationEmail(User $user, Assignment $assignm
         });
     } catch (\Exception $e) {
         Log::error('Email sending failed: ' . $e->getMessage());
+        throw $e; // Rethrow the exception to be handled in the store method
     }
 }
+
 
 
     public function show($id)
