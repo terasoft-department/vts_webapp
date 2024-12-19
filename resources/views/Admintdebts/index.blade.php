@@ -146,7 +146,7 @@
                     <th>Customer</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody">
                 @php
                     $hasUnpaid = $invoices->contains(function($invoice) {
                         return $invoice->status !== 'Paid';
@@ -184,6 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const dateFrom = document.getElementById('dateFrom');
     const dateTo = document.getElementById('dateTo');
     const rows = document.querySelectorAll('.invoice-row');
+    const tableBody = document.getElementById('tableBody');
+
+    const originalRows = Array.from(rows); // Store original rows for resetting the table
 
     // Filter Functionality
     filterBtn.addEventListener('click', function () {
@@ -207,20 +210,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Clear Filters Functionality
+    // Clear Filters and Reset Table Functionality
     clearBtn.addEventListener('click', function () {
         invoiceSearch.value = '';
         dateFrom.value = '';
         dateTo.value = '';
 
-        rows.forEach(row => {
-            row.style.display = '';
-        });
-    });
+        // Clear the table body or reset the rows
+        tableBody.innerHTML = ''; // Empty table
 
-    // Optional: Trigger filtering when typing in the search field
-    invoiceSearch.addEventListener('input', function () {
-        filterBtn.click();
+        // Reload original rows (if needed)
+        originalRows.forEach(row => {
+            tableBody.appendChild(row);
+            row.style.display = ''; // Ensure all rows are visible
+        });
     });
 });
 </script>
