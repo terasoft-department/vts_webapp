@@ -405,39 +405,25 @@
                         </div>
                         <div class="modal-body">
 
-                            @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> {{ session('success') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+                            @if(session('assignment_success'))
+    <div class="alert alert-success">
+        {{ session('assignment_success') }}
     </div>
 @endif
 
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ session('error') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+@if(session('email_status'))
+    <div class="alert alert-info">
+        {{ session('email_status') }}
     </div>
 @endif
 
-@if (session('success_email'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> {{ session('success_email') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-@endif
-
-@if (session('error_email'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ session('error_email') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
 @endif
 
