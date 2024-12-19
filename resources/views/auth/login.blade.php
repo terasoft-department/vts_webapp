@@ -25,7 +25,7 @@
         .login-card {
             max-width: 400px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.8); /* Reduced opacity for transparency */
             border-radius: 15px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -87,12 +87,12 @@
         }
 
         .form-control:focus {
-            box-shadow: 0 0 5px rgba(19, 130, 171, 0.5);
-            border-color: #1382abc7;
+            box-shadow: 0 0 5px rgba(11, 11, 255, 0.638);
+            border-color: rgba(11, 11, 255, 0.638);
         }
 
         .btn-primary {
-            background-color: #1382abc7;
+            background-color: rgba(11, 11, 255, 0.638);
             border: none;
             border-radius: 8px;
             height: 45px;
@@ -100,7 +100,7 @@
         }
 
         .btn-primary:hover {
-            background-color: #0f6f94;
+            background-color: rgba(11, 11, 255, 0.638);
         }
 
         @media (max-width: 706px) {

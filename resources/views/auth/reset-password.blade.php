@@ -30,6 +30,12 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 15px;
         }
 
         .card-body {
@@ -44,6 +50,7 @@
             color: #075e8d;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
             letter-spacing: 2px;
+            text-align: center;
         }
 
         /* Input fields with icons */
@@ -72,23 +79,24 @@
         }
 
         .form-control:focus {
-            box-shadow: 0 0 5px rgba(19, 130, 171, 0.5);
-            border-color: #1382abc7;
+            box-shadow: 0 0 5px rgba(11, 11, 255, 0.638);
+            border-color: rgba(11, 11, 255, 0.638);
         }
 
         .btn-primary {
-            background-color: #1382abc7;
+            background-color: rgba(11, 11, 255, 0.638);
             border: none;
             border-radius: 8px;
             height: 45px;
+            transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #0f6f94;
+            background-color: rgba(11, 11, 255, 0.638);
         }
 
         .text-center a {
-            color: #1382abc7;
+            color: rgba(11, 11, 255, 0.638);
             text-decoration: none;
         }
 
@@ -101,16 +109,29 @@
                 margin: 20px;
             }
         }
+
+        /* Additional Animations for Card */
+        @keyframes cardSlideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .reset-card {
+            animation: cardSlideIn 0.5s ease-out;
+        }
     </style>
 </head>
 
 <body>
     <div class="reset-card card">
         <!-- Reset Password Title -->
-        <br>
-        <div class="text-center mt-2">
-            <div class="reset-title">Reset Password</div>
-        </div>
+        <div class="reset-title">Reset Password</div>
 
         <!-- Form Section -->
         <div class="card-body">
