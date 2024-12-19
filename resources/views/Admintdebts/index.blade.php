@@ -116,23 +116,29 @@
                 {{ session('success') }}
             </div>
         @endif
-
-        <!-- Filters -->
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h5 class="card-title">Filter Debts</h5>
             </div>
-            <div class="col-md-3">
-                <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
-            </div>
-            <div class="col-md-3">
-                <input type="date" id="dateTo" class="form-control" placeholder="To Date">
-            </div>
-            <div class="col-md-3 d-flex">
-                <button id="filterBtn" class="btn btn-primary me-2">Filter</button>
-                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-1">
+                        <input type="text" id="invoiceSearch" class="form-control" placeholder="" readonly>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" id="dateTo" class="form-control" placeholder="To Date">
+                    </div>
+                    <div class="col-md-3 d-flex">
+                        <button id="filterBtn" class="btn btn-primary me-2">Filter</button>
+                        <button id="clearBtn" class="btn btn-secondary">Clear</button>
+                    </div>
+                </div>
             </div>
         </div>
+
 
         <!-- Table -->
         <table class="table" id="invoiceTable">
