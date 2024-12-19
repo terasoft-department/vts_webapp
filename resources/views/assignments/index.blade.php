@@ -405,34 +405,41 @@
                         </div>
                         <div class="modal-body">
                            <!-- Display success message for Assignment -->
-                           @if (session('success') || session('success_email'))
-                           <div class="alert alert-success">
-                               @if (session('success'))
-                                   {{ session('success') }}
-                               @endif
-                               @if (session('success_email'))
-                                   {{ session('success_email') }}
-                               @endif
-                           </div>
-                       @endif
+@if (session('success') || session('success_email'))
+<div class="alert alert-success">
+    @if (session('success'))
+        {{ session('success') }}
+    @endif
+    @if (session('success_email'))
+        {{ session('success_email') }}
+    @endif
+</div>
+@endif
 
-                       <!-- Display error message -->
-                       @if (session('error'))
-                           <div class="alert alert-danger">
-                               {{ session('error') }}
-                           </div>
-                       @endif
+<!-- Display error message -->
+@if (session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
 
-                       <!-- Display validation errors -->
-                       @if ($errors->any())
-                           <div class="alert alert-danger">
-                               <ul>
-                                   @foreach ($errors->all() as $error)
-                                       <li>{{ $error }}</li>
-                                   @endforeach
-                               </ul>
-                           </div>
-                       @endif
+<!-- Display error message for email sending -->
+@if (session('error_email'))
+<div class="alert alert-danger">
+    {{ session('error_email') }}
+</div>
+@endif
+
+<!-- Display validation errors -->
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 
 
                             <!-- Dynamic Form for Creating/Updating Assignment -->
