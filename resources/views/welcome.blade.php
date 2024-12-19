@@ -52,25 +52,104 @@
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center"
-  style="background-image: url('./images/bgbg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center"
+style="background-image: url('./images/bgbg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-        <h1>Tera Vehicle Tracking System</h1>
-        {{-- <h4>Click the button below to start session</h4> --}}
-        <div class="d-flex justify-content-center justify-content-lg-start">
-          <a href="auth/login" class="btn-get-started scrollto">Get Started</a>
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+      <h1>Tera Vehicle Tracking System</h1>
+      <div class="d-flex justify-content-center justify-content-lg-start">
+        <a href="auth/login" class="btn-get-started scrollto">Get Started</a>
       </div>
-      <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-        <img src="./images/home-bg.jpg" class="img-fluid animated" alt="Hero Image">
+    </div>
+    <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="100">
+      <!-- Slideshow of Images -->
+      <div class="slideshow-container">
+        <div class="slide fade">
+          <img src="./images/picha1.jpg" class="img-fluid animated" alt="Hero Image 1">
+        </div>
+        <div class="slide fade">
+          <img src="./images/picha2.jpg" class="img-fluid animated" alt="Hero Image 2">
+        </div>
+        <div class="slide fade">
+          <img src="./images/picha3.jpg" class="img-fluid animated" alt="Hero Image 3">
+        </div>
+          <div class="slide fade">
+            <img src="./images/picha4.jpg" class="img-fluid animated" alt="Hero Image 4">
+          </div>
+          <div class="slide fade">
+            <img src="./images/picha5.jpg" class="img-fluid animated" alt="Hero Image 5">
+        </div>
+        <div class="slide fade">
+          <img src="./images/picha6.jpg" class="img-fluid animated" alt="Hero Image 6">
+      </div>
+      <div class="slide fade">
+        <img src="./images/picha7.jpg" class="img-fluid animated" alt="Hero Image 7">
+    </div>
+    <div class="slide fade">
+      <img src="./images/picha8.jpg" class="img-fluid animated" alt="Hero Image 8">
+        <!-- Add more images as needed -->
       </div>
     </div>
   </div>
+</div>
 
 </section><!-- End Hero -->
+
+<!-- Add the following CSS and JavaScript -->
+<style>
+/* Style for the slideshow container */
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Hide all images by default */
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* Fade-in animation */
+.fade {
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Keyframes for fade-in effect */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+</style>
+
+<script>
+let slideIndex = 0;
+showSlides();
+
+// Function to change slides
+function showSlides() {
+  let slides = document.getElementsByClassName("slide");
+
+  // Hide all slides
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+
+  // Show the current slide
+  slideIndex++;
+  if (slideIndex > slides.length) { slideIndex = 1 }
+  slides[slideIndex - 1].style.display = "block";
+
+  // Change slide every 3 seconds
+  setTimeout(showSlides, 3000);
+}
+</script>
 
 
   <main id="main">
