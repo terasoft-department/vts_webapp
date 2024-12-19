@@ -404,9 +404,18 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            @if (session('success'))
+
+                            <!-- Display success message for Assignment -->
+@if (session('success'))
 <div class="alert alert-success">
     {{ session('success') }}
+</div>
+@endif
+
+<!-- Display success message for Email -->
+@if (session('success_email'))
+<div class="alert alert-success">
+    {{ session('success_email') }}
 </div>
 @endif
 
@@ -416,6 +425,18 @@
     {{ session('error') }}
 </div>
 @endif
+
+<!-- Display validation errors -->
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
                             <!-- Dynamic Form for Creating/Updating Assignment -->
 <form id="assignmentForm" method="POST" enctype="multipart/form-data">
     @csrf

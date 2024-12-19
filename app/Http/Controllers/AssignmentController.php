@@ -6,12 +6,12 @@ use App\Models\Assignment;
 use App\Models\Customer;
 use App\Models\User;
 use App\Models\Vehicle;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail; // Import Mail facade
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;  // Ensure this is imported
 use Illuminate\Support\Facades\Storage;
+
 
 class AssignmentController extends Controller
  {
@@ -70,23 +70,25 @@ class AssignmentController extends Controller
 
  public function store(Request $request)
  {
+     // Validate incoming request
      $request->validate([
          'plate_number' => 'required|string|max:255',
          'customer_id' => 'required|integer|exists:customers,customer_id',
          'customer_phone' => 'required|string|max:255',
          'location' => 'required|string|max:255',
-         'user_id' => 'required|string|exists:users,user_id',
+         'user_id' => 'required|string',
          'case_reported' => 'required|string',
          'attachment' => 'nullable|file|mimes:pdf|max:2048',
          'assigned_by'=> 'required|string',
      ]);
 
      try {
-         // Create the assignment
+         // Create new assignment
          $assignment = new Assignment();
          $assignment->plate_number = $request->plate_number;
          $assignment->customer_id = $request->customer_id;
          $assignment->customer_phone = $request->customer_phone;
+         $assignment->customer_debt = $request->customer_debt;
          $assignment->location = $request->location;
          $assignment->user_id = $request->user_id;
          $assignment->case_reported = $request->case_reported;
@@ -100,70 +102,56 @@ class AssignmentController extends Controller
                  $file->move(public_path('uploads'), $fileName);
                  $assignment->attachment = $fileName;
              }
+         } else {
+             $assignment->attachment = null;
          }
 
-         // Save the assignment
+         // Save assignment
          $assignment->save();
 
-         // Send the email notification and capture whether it was successful
-         $emailStatus = $this->sendAssignmentNotification($assignment);
-
-         // Combine success message with email status
-         if ($emailStatus) {
-             return redirect()->back()->with('success', 'Assignment registered and email sent successfully!');
-         } else {
-             return redirect()->back()->with('success', 'Assignment registered, but failed to send email.');
+         // Send email to the user
+         $user = User::find($request->user_id);
+         if ($user) {
+             $this->sendAssignmentNotificationEmail($user, $assignment);
+             // Success message for email
+             session()->flash('success_email', 'Email sent successfully to the user.');
          }
 
-     } catch (Exception $e) {
-         Log::error('Error creating assignment: ' . $e->getMessage());
-
-         // Store error message in session
-         return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
-     }
- }
-
- private function sendAssignmentNotification(Assignment $assignment)
- {
-     // Find the user to whom the assignment is assigned
-     $user = User::find($assignment->user_id);
-     if (!$user) {
-         Log::error('Assigned user not found for assignment ID: ' . $assignment->id);
-         return false; // Return false if the user is not found
-     }
-
-     // Prepare assignment details for the email
-     $subject = 'New Assignment Notification';
-     $emailBody = "Dear {$user->name},\n\n"
-         . "A new assignment has been successfully registered for you.\n\n"
-         . "Details:\n"
-         . "Plate Number: {$assignment->plate_number}\n"
-         . "Location: {$assignment->location}\n"
-         . "Case Reported: {$assignment->case_reported}\n\n"
-         . "Please log in to your portal for confirmation.\n\n"
-         . "Best regards,\n"
-         . "Your App Team";
-
-     // Send the email
-     try {
-         // Use the Mail facade to send the email
-         Mail::raw($emailBody, function ($message) use ($user, $subject) {
-             $message->to($user->email);
-             $message->subject($subject);
-             // Ensure the "from" address is correctly set, fallback to environment config
-             $message->from(config('mail.from.address'), config('mail.from.name'));
-         });
-
-         Log::info("Assignment email sent to {$user->email} for Assignment ID: {$assignment->id}");
-         return true; // Return true if the email is successfully sent
+         // Success message for assignment
+         session()->flash('success', 'Assignment registered successfully!');
      } catch (\Exception $e) {
-         // Log the error with more detailed information
-         Log::error('Failed to send assignment email for Assignment ID ' . $assignment->id . ' to ' . $user->email . '. Error: ' . $e->getMessage());
-         return false; // Return false if email fails
+         // Error message if assignment or email fails
+         session()->flash('error', 'Failed to register the assignment or send the email. Error: ' . $e->getMessage());
      }
+
+     return redirect()->back();
  }
 
+ // Email Notification Logic
+ private function sendAssignmentNotificationEmail(User $user, Assignment $assignment)
+{
+    $subject = 'New Assignment Assigned';
+    $emailBody = "Dear {$user->name},\n\n"
+        . "You have been assigned a new task:\n"
+        . "Plate Number: {$assignment->plate_number}\n"
+        . "Customer ID: {$assignment->customer_id}\n"
+        . "Location: {$assignment->location}\n"
+        . "Case Reported: {$assignment->case_reported}\n\n"
+        . "Please log into your portal for more details.\n\n"
+        . "Thank you for your attention.";
 
+    // Send the email
+    try {
+        Mail::raw($emailBody, function ($message) use ($user, $subject) {
+            $message->to($user->email);
+            $message->subject($subject);
+        });
+    } catch (\Exception $e) {
+        // Log the error message in the session or display a message
+        session()->flash('error', 'Failed to send the assignment notification email. Error: ' . $e->getMessage());
+        throw $e;  // Re-throw the exception to be caught by the main try-catch
+    }
+}
 
 
     public function show($id)
