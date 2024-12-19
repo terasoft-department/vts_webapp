@@ -116,125 +116,124 @@
                 {{ session('success') }}
             </div>
         @endif
-    <!-- Filters -->
-    <div class="row mb-3">
-        <div class="col-md-3">
-            <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
+
+        <!-- Filters -->
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
+            </div>
+            <div class="col-md-3">
+                <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
+            </div>
+            <div class="col-md-3">
+                <input type="date" id="dateTo" class="form-control" placeholder="To Date">
+            </div>
+            <div class="col-md-3 d-flex">
+                <button id="filterBtn" class="btn btn-primary me-2">Filter</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
-        </div>
-        <div class="col-md-3">
-            <input type="date" id="dateTo" class="form-control" placeholder="To Date">
-        </div>
-        <div class="col-md-3">
-            <button id="filterBtn" class="btn btn-primary">Filter</button>
-        </div>
+
+        <!-- Table -->
+        <table class="table" id="invoiceTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Status</th>
+                    <th>Invoice Number</th>
+                    <th>Invoice Date</th>
+                    <th>Grand Total</th>
+                    <th>Customer</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $hasUnpaid = $invoices->contains(function($invoice) {
+                        return $invoice->status !== 'Paid';
+                    });
+                @endphp
+
+                @foreach($invoices as $index => $invoice)
+                    @if($invoice->status !== 'Paid' || $hasUnpaid)
+                        <tr class="invoice-row">
+                            <td>{{ $index + 1 }}</td>
+                            <td>
+                                @if ($invoice->status == 'Paid')
+                                    <span class="badge bg-success">Paid</span>
+                                @else
+                                    <span class="badge bg-danger">Not Paid</span>
+                                @endif
+                            </td>
+                            <td class="invoice-number">{{ $invoice->invoice_number }}</td>
+                            <td class="invoice-date">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('Y-m-d') }}</td>
+                            <td>{{ number_format($invoice->grand_total, 0) }}</td>
+                            <td>{{ $invoice->customername }}</td>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
     </div>
+</main>
 
-    <!-- Table -->
-    <table class="table" id="invoiceTable">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Status</th>
-                <th>Invoice Number</th>
-                <th>Invoice Date</th>
-                <th>Grand Total</th>
-                <th>Customer</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $hasUnpaid = $invoices->contains(function($invoice) {
-                    return $invoice->status !== 'Paid';
-                });
-            @endphp
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const filterBtn = document.getElementById('filterBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const invoiceSearch = document.getElementById('invoiceSearch');
+    const dateFrom = document.getElementById('dateFrom');
+    const dateTo = document.getElementById('dateTo');
+    const rows = document.querySelectorAll('.invoice-row');
 
-            @foreach($invoices as $index => $invoice)
-                @if($invoice->status !== 'Paid' || $hasUnpaid)
-                    <tr class="invoice-row">
-                        <td>{{ $index + 1 }}</td>
-                        <td>
-                            @if ($invoice->status == 'Paid')
-                                <span class="badge bg-success">Paid</span>
-                            @else
-                                <span class="badge bg-danger">Not Paid</span>
-                            @endif
-                        </td>
-                        <td class="invoice-number">{{ $invoice->invoice_number }}</td>
-                        <td class="invoice-date">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('Y-m-d') }}</td>
-                        <td>{{ number_format($invoice->grand_total, 0) }}</td>
-                        <td>{{ $invoice->customername }}</td>
-                    </tr>
-                @endif
-            @endforeach
-        </tbody>
-    </table>
-    </div>
-    </main>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const filterBtn = document.getElementById('filterBtn');
-        const invoiceSearch = document.getElementById('invoiceSearch');
-        const dateFrom = document.getElementById('dateFrom');
-        const dateTo = document.getElementById('dateTo');
-        const rows = document.querySelectorAll('.invoice-row');
+    // Filter Functionality
+    filterBtn.addEventListener('click', function () {
+        const searchValue = invoiceSearch.value.toLowerCase();
+        const fromDate = new Date(dateFrom.value);
+        const toDate = new Date(dateTo.value);
 
-        filterBtn.addEventListener('click', function () {
-            const searchValue = invoiceSearch.value.toLowerCase();
-            const fromDate = new Date(dateFrom.value);
-            const toDate = new Date(dateTo.value);
+        rows.forEach(row => {
+            const invoiceNumber = row.querySelector('.invoice-number').textContent.toLowerCase();
+            const invoiceDate = new Date(row.querySelector('.invoice-date').textContent);
 
-            rows.forEach(row => {
-                const invoiceNumber = row.querySelector('.invoice-number').textContent.toLowerCase();
-                const invoiceDate = new Date(row.querySelector('.invoice-date').textContent);
+            let matchesSearch = !searchValue || invoiceNumber.includes(searchValue);
+            let matchesDateRange = (!dateFrom.value || invoiceDate >= fromDate) &&
+                                   (!dateTo.value || invoiceDate <= toDate);
 
-                let matchesSearch = !searchValue || invoiceNumber.includes(searchValue);
-                let matchesDateRange = (!dateFrom.value || invoiceDate >= fromDate) &&
-                                       (!dateTo.value || invoiceDate <= toDate);
-
-                if (matchesSearch && matchesDateRange) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-
-        // Optionally, trigger filtering when typing in the search field
-        invoiceSearch.addEventListener('input', function () {
-            filterBtn.click();
+            if (matchesSearch && matchesDateRange) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
         });
     });
+
+    // Clear Filters Functionality
+    clearBtn.addEventListener('click', function () {
+        invoiceSearch.value = '';
+        dateFrom.value = '';
+        dateTo.value = '';
+
+        rows.forEach(row => {
+            row.style.display = '';
+        });
+    });
+
+    // Optional: Trigger filtering when typing in the search field
+    invoiceSearch.addEventListener('input', function () {
+        filterBtn.click();
+    });
+});
 </script>
 
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+</a>
 
- <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
-
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
-
 </html>
-
