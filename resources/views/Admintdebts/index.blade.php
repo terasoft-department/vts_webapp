@@ -190,12 +190,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Filter Functionality
     filterBtn.addEventListener('click', function () {
-        // const searchValue = invoiceSearch.value.toLowerCase();
+        const searchValue = invoiceSearch.value.toLowerCase();
         const fromDate = new Date(dateFrom.value);
         const toDate = new Date(dateTo.value);
 
         rows.forEach(row => {
-            // const invoiceNumber = row.querySelector('.invoice-number').textContent.toLowerCase();
+            const invoiceNumber = row.querySelector('.invoice-number').textContent.toLowerCase();
             const invoiceDate = new Date(row.querySelector('.invoice-date').textContent);
 
             let matchesSearch = !searchValue || invoiceNumber.includes(searchValue);
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Clear Filters and Reset Table Functionality
     clearBtn.addEventListener('click', function () {
-        // invoiceSearch.value = '';
+        invoiceSearch.value = '';
         dateFrom.value = '';
         dateTo.value = '';
 
