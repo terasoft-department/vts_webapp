@@ -403,46 +403,16 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                     <!-- Display success message for assignment creation -->
-@if (session('assignment_success'))
-<div class="alert alert-success">
-    {{ session('assignment_success') }}
-</div>
-@endif
-
-<!-- Display success message for email sending -->
-@if (session('email_status'))
-<div class="alert alert-success">
-    {{ session('email_status') }}
-</div>
-@endif
-
-<!-- Display error message -->
-@if (session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
-
-<!-- Display error message for email sending -->
-@if (session('error_email'))
-<div class="alert alert-danger">
-    {{ session('error_email') }}
-</div>
-@endif
-
-<!-- Display validation errors -->
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
-
+                        <div class="modal-body">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
                             <!-- Dynamic Form for Creating/Updating Assignment -->
 <form id="assignmentForm" method="POST" enctype="multipart/form-data">
