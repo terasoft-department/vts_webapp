@@ -12,7 +12,7 @@
 
     <style>
         body {
-            background: url('/images/login-bg-texture.png') no-repeat center center fixed;
+            background: url('/images/bgbg.jpg') no-repeat center center fixed;
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -25,7 +25,7 @@
         .login-card {
             max-width: 400px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.8); /* Reduced opacity for transparency */
+            background-color: rgba(255, 255, 255, 0.064); /* Reduced opacity for transparency */
             border-radius: 15px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -37,7 +37,7 @@
         }
 
         .card-header {
-            background-color: #ffffff;
+            background-color: #ffffff00;
             text-align: center;
             padding: 20px;
         }
@@ -92,7 +92,8 @@
         }
 
         .btn-primary {
-            background-color: rgba(11, 11, 255, 0.638);
+            background-color: #2B547E; /* Solid Light Blue */
+
             border: none;
             border-radius: 8px;
             height: 45px;

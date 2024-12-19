@@ -34,9 +34,9 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
-      <a href="#" class="logo me-auto"><img src="./images/logo.png" alt="" class="img-fluid" style="height:8rem;width:6rem"></a>
+      <a href="#" class="logo me-auto"><img src="./images/logo.png" alt="" class="img-fluid" style="height:14rem;width:5rem"></a>
 
-      <nav id="navbar" class="navbar text-white" style="background-color:#2B547E">
+      <nav id="navbar" class="navbar text-white" style="background-color:#2b547e00">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
@@ -52,24 +52,26 @@
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center" style="background-color:#2B547E">
+  <section id="hero" class="d-flex align-items-center"
+  style="background-image: url('./images/bgbg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-          <h1>Tera Vehicle Tracking System</h1>
-          <h2>Click the button below for start session</h2>
-          <div class="d-flex justify-content-center justify-content-lg-start">
-            <a href="auth/login" class="btn-get-started scrollto">Get Started</a>
-          </div>
-        </div>
-        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-          <img src="./images/home-bg.jpg" class="img-fluid animated" alt="">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+        <h1>Tera Vehicle Tracking System</h1>
+        {{-- <h4>Click the button below to start session</h4> --}}
+        <div class="d-flex justify-content-center justify-content-lg-start">
+          <a href="auth/login" class="btn-get-started scrollto">Get Started</a>
         </div>
       </div>
+      <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+        <img src="./images/home-bg.jpg" class="img-fluid animated" alt="Hero Image">
+      </div>
     </div>
+  </div>
 
-  </section><!-- End Hero -->
+</section><!-- End Hero -->
+
 
   <main id="main">
 
@@ -288,7 +290,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer">
 
-    <div class="footer-newsletter">
+    {{-- <div class="footer-newsletter">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6">
@@ -300,7 +302,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
 
     <div class="footer-top">
       <div class="container">

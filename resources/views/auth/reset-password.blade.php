@@ -13,7 +13,7 @@
     <style>
         /* General body styling */
         body {
-            background: url('/images/reset-password-bg.png') no-repeat center center fixed;
+            background: url('/images/bgbg.jpg') no-repeat center center fixed;
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -27,7 +27,7 @@
         .reset-card {
             max-width: 400px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.064); /* Reduced opacity for transparency */
             border-radius: 15px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -84,7 +84,8 @@
         }
 
         .btn-primary {
-            background-color: rgba(11, 11, 255, 0.638);
+            background-color: #2B547E; /* Solid Light Blue */
+
             border: none;
             border-radius: 8px;
             height: 45px;
@@ -92,11 +93,12 @@
         }
 
         .btn-primary:hover {
-            background-color: rgba(11, 11, 255, 0.638);
+            background-color: #0c50c6dc; /* Solid Light Blue */
+
         }
 
         .text-center a {
-            color: rgba(11, 11, 255, 0.638);
+            color: rgba(226, 226, 244, 0.833);
             text-decoration: none;
         }
 
