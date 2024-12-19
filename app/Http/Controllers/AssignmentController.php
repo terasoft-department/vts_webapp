@@ -105,11 +105,16 @@ class AssignmentController extends Controller
         // Save the assignment
         $assignment->save();
 
-        // Send the email notification
-        $this->sendAssignmentNotification($assignment);
+        // Send the email notification and capture whether it was successful
+        $emailStatus = $this->sendAssignmentNotification($assignment);
 
-        // Store success message in session, combining both actions
-        return redirect()->back()->with('success', 'Assignment registered and email sent successfully!');
+        // Combine success message with email status
+        if ($emailStatus) {
+            return redirect()->back()->with('success', 'Assignment registered and email sent successfully!');
+        } else {
+            return redirect()->back()->with('success', 'Assignment registered, but failed to send email.');
+        }
+
     } catch (Exception $e) {
         Log::error('Error creating assignment: ' . $e->getMessage());
 
@@ -119,16 +124,14 @@ class AssignmentController extends Controller
 }
 
 
- /**
-  * Send email notification to the assigned user.
-  */
-  private function sendAssignmentNotification(Assignment $assignment)
+
+private function sendAssignmentNotification(Assignment $assignment)
 {
     // Find the user to whom the assignment is assigned
     $user = User::find($assignment->user_id);
     if (!$user) {
         Log::error('Assigned user not found.');
-        return;
+        return false; // Return false if the user is not found
     }
 
     // Create the email subject and body with both success message and assignment details
@@ -151,10 +154,13 @@ class AssignmentController extends Controller
         });
 
         Log::info("Assignment email sent to {$user->email}");
+        return true; // Return true if email is sent successfully
     } catch (Exception $e) {
         Log::error('Failed to send email: ' . $e->getMessage());
+        return false; // Return false if email fails
     }
 }
+
 
     public function show($id)
     {
