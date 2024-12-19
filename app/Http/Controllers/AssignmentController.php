@@ -9,9 +9,8 @@ use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;  // Ensure this is imported
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
 
 class AssignmentController extends Controller
  {
@@ -69,61 +68,52 @@ class AssignmentController extends Controller
 
 
  public function store(Request $request)
- {
-     // Validate incoming request
-     $request->validate([
-         'plate_number' => 'required|string|max:255',
-         'customer_id' => 'required|integer|exists:customers,customer_id',
-         'customer_phone' => 'required|string|max:255',
-         'location' => 'required|string|max:255',
-         'user_id' => 'required|string',
-         'case_reported' => 'required|string',
-         'attachment' => 'nullable|file|mimes:pdf|max:2048',
-         'assigned_by'=> 'required|string',
-     ]);
+    {
+        $request->validate([
+            'plate_number' => 'required|string|max:255',
+            'customer_id' => 'required|integer|exists:customers,customer_id',
+            'customer_phone' => 'required|string|max:255',
+            // 'customer_debt' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'user_id' => 'required|string',
+            'case_reported' => 'required|string',
+            'attachment' => 'nullable|file|mimes:pdf|max:2048',
+            'assigned_by'=> 'required|string',
+            // 'status'=> 'required|string',
 
-     try {
-         // Create new assignment
-         $assignment = new Assignment();
-         $assignment->fill($request->only([
-             'plate_number', 'customer_id', 'customer_phone', 'customer_debt',
-             'location', 'user_id', 'case_reported', 'assigned_by'
-         ]));
+        ]);
 
-         // Handle file upload
-         if ($request->hasFile('attachment')) {
-             $file = $request->file('attachment');
-             if ($file->isValid()) {
-                 $fileName = time() . '-' . $file->getClientOriginalName();
-                 $file->move(public_path('uploads'), $fileName);
-                 $assignment->attachment = $fileName;
-             }
-         }
+        $assignment = new Assignment();
+        $assignment->plate_number = $request->plate_number;
+        $assignment->customer_id = $request->customer_id;
+        $assignment->customer_phone = $request->customer_phone;
+        $assignment->customer_debt = $request->customer_debt;
+        $assignment->location = $request->location;
+        $assignment->user_id = $request->user_id;
+        $assignment->case_reported = $request->case_reported;
+        $assignment->assigned_by = $request->assigned_by;
+        // $assignment->status = $request->status;
 
-         // Save assignment
-         $assignment->save();
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            if ($file->isValid()) {
+                // Generate a unique file name with extension
+                $fileName = time() . '-' . $file->getClientOriginalName();
+                // Move the file to public/uploads directory
+                $file->move(public_path('uploads'), $fileName);
+                // Store the file name in the database
+                $assignment->attachment = $fileName;
+            }
+        } else {
+            $assignment->attachment = null;
+        }
 
-         // Send email to the user
-         $user = User::find($request->user_id);
-         if ($user) {
-             $this->sendAssignmentNotificationEmail($user, $assignment);
-             // Success message for email
-             session()->flash('success_email', 'Email sent successfully to the user.');
-         }
+        $assignment->save();
 
-         // Success message for assignment
-         session()->flash('success', 'Assignment registered successfully!');
-     } catch (\Exception $e) {
-         // Error message if assignment or email fails
-         session()->flash('error', 'Failed to register the assignment or send the email. Error: ' . $e->getMessage());
-     }
+        return redirect()->back()->with('success', 'Assignment registered successfully!');
+    }
 
-     return redirect()->back();
- }
-
-
- // Email Notification Logic
- private function sendAssignmentNotificationEmail(User $user, Assignment $assignment)
+    private function sendAssignmentNotificationEmail(User $user, Assignment $assignment)
 {
     $subject = 'New Assignment Assigned';
     $emailBody = "Dear {$user->name},\n\n"
