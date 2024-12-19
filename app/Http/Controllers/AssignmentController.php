@@ -66,8 +66,6 @@ class AssignmentController extends Controller
 
 
  // Display a listing of the resource
-
-
  public function store(Request $request)
 {
     // Validate the request
@@ -115,9 +113,10 @@ class AssignmentController extends Controller
         $assignment->save();
 
         // Fetch the user based on the user_id and send an email
-        $user = User::find($request->user_id);
+        $user = User::find($request->user_id); // Fetch the user from the database
         if ($user) {
             try {
+                // Send the assignment notification email to the user
                 $this->sendAssignmentNotificationEmail($user, $assignment);
                 // Set success email message in session
                 session()->flash('success_email', 'Assignment email sent successfully!');
@@ -160,6 +159,7 @@ private function sendAssignmentNotificationEmail(User $user, Assignment $assignm
         throw $e; // Rethrow the exception to be handled in the store method
     }
 }
+
 
 
 
