@@ -119,9 +119,9 @@
 
         <!-- Filters -->
         <div class="row mb-3">
-            {{-- <div class="col-md-3">
+            <div class="col-md-3">
                 <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
-            </div> --}}
+            </div>
             <div class="col-md-3">
                 <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
             </div>
@@ -146,7 +146,7 @@
                     <th>Customer</th>
                 </tr>
             </thead>
-            <tbody id="tableBody">
+            <tbody>
                 @php
                     $hasUnpaid = $invoices->contains(function($invoice) {
                         return $invoice->status !== 'Paid';
@@ -184,9 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const dateFrom = document.getElementById('dateFrom');
     const dateTo = document.getElementById('dateTo');
     const rows = document.querySelectorAll('.invoice-row');
-    const tableBody = document.getElementById('tableBody');
-
-    const originalRows = Array.from(rows); // Store original rows for resetting the table
 
     // Filter Functionality
     filterBtn.addEventListener('click', function () {
@@ -210,20 +207,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Clear Filters and Reset Table Functionality
+    // Clear Filters Functionality
     clearBtn.addEventListener('click', function () {
         invoiceSearch.value = '';
         dateFrom.value = '';
         dateTo.value = '';
 
-        // Clear the table body or reset the rows
-        tableBody.innerHTML = ''; // Empty table
-
-        // Reload original rows (if needed)
-        originalRows.forEach(row => {
-            tableBody.appendChild(row);
-            row.style.display = ''; // Ensure all rows are visible
+        rows.forEach(row => {
+            row.style.display = '';
         });
+    });
+
+    // Optional: Trigger filtering when typing in the search field
+    invoiceSearch.addEventListener('input', function () {
+        filterBtn.click();
     });
 });
 </script>
