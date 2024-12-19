@@ -12,7 +12,7 @@
 
     <style>
         body {
-            background: url('/images/login-bg.png') no-repeat center center fixed;
+            background: url('/images/login-bg-texture.png') no-repeat center center fixed;
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -28,6 +28,12 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 15px;
         }
 
         .card-header {
@@ -90,6 +96,7 @@
             border: none;
             border-radius: 8px;
             height: 45px;
+            transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
@@ -104,6 +111,22 @@
             .logo {
                 width: 70px;
             }
+        }
+
+        /* Additional Animations for Card */
+        @keyframes cardSlideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-card {
+            animation: cardSlideIn 0.5s ease-out;
         }
     </style>
 </head>
@@ -140,7 +163,8 @@
                 <button type="submit" class="btn btn-primary btn-block">
                     Login
                 </button>
-<br>
+                <br>
+
                 <!-- Forgot Password Link -->
                 <a href="password/reset" class="d-block mt-3 text-center">Forgot password?</a>
             </form>
