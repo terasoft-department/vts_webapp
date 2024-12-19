@@ -404,42 +404,43 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                           <!-- Display success message for Assignment -->
-@if (session('success') || session('success_email'))
-<div class="alert alert-success">
-    @if (session('success'))
-        {{ session('success') }}
-    @endif
-    @if (session('success_email'))
-        {{ session('success_email') }}
-    @endif
-</div>
+
+                            @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 @endif
 
-<!-- Display error message -->
 @if (session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 @endif
 
-<!-- Display error message for email sending -->
+@if (session('success_email'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session('success_email') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 @if (session('error_email'))
-<div class="alert alert-danger">
-    {{ session('error_email') }}
-</div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> {{ session('error_email') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 @endif
 
-<!-- Display validation errors -->
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
 
 
                             <!-- Dynamic Form for Creating/Updating Assignment -->
