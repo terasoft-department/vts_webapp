@@ -119,9 +119,9 @@
 
         <!-- Filters -->
         <div class="row mb-3">
-            {{-- <div class="col-md-3">
+            <div class="col-md-3">
                 <input type="text" id="invoiceSearch" class="form-control" placeholder="Search Invoice Number">
-            </div> --}}
+            </div>
             <div class="col-md-3">
                 <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
             </div>
@@ -134,7 +134,7 @@
             </div>
         </div>
 
-        {{-- @if(request()->has('start_date') || request()->has('end_date') || request()->has('search')) --}}
+        <!-- Table -->
         <table class="table" id="invoiceTable">
             <thead>
                 <tr>
@@ -173,19 +173,6 @@
                 @endforeach
             </tbody>
         </table>
-           {{-- <!-- Pagination -->
-           <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                {{ $invoices->links() }}
-            </ul>
-        </nav>
-
-    @else
-        <div class="text-center">
-            <p class="alert alert-info">Please apply filters to view the invoices.</p>
-        </div>
-    @endif --}}
-</div>
     </div>
 </main>
 
