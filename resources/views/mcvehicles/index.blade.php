@@ -334,7 +334,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('vehicles.update', $vehicle->vehicle_id) }}" method="POST">
+                                        <form action="{{ route('mcvehicles.update', $vehicle->vehicle_id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="form-group">
@@ -380,7 +380,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('vehicles.store') }}" method="POST">
+                    <form action="{{ route('mcvehicles.store') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="vehicle_name">Vehicle Name</label>
