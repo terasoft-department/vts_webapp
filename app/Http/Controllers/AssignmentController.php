@@ -176,24 +176,26 @@ class AssignmentController extends Controller
     }
 }
 // -----------------------------------------NYONGEZA------------------------------------------------
-// public function getCustomerDetails(Request $request)
-// {
-//     $plateNumber = $request->query('plate_number');
+public function getPlateDetails(Request $request)
+{
+    $plateNumber = $request->input('plate_number');
 
-//     // Find the vehicle by plate number (Assuming 'Vehicle' model is available)
-//     $vehicle = Vehicle::where('plate_number', $plateNumber)->first();
+    // Fetch the assignment by plate number
+    $assignment = Assignment::where('plate_number', $plateNumber)->first();
 
-//     if ($vehicle) {
-//         // Fetch customer details associated with the vehicle
-//         $customer = Customer::find($vehicle->customer_id);
-//         return response()->json([
-//             'customer_name' => $customer ? $customer->customername : 'Unknown',
-//             'customer_phone' => $customer ? $customer->phone : 'Unknown',
-//         ]);
-//     }
+    if ($assignment) {
+        // Return customer details and other information
+        return response()->json([
+            'customer_id' => $assignment->customer_id,
+            'customer_phone' => $assignment->customer->customer_phone,
+            'location' => $assignment->location,
+            'customer_debt' => $assignment->customer->customer_debt,
+        ]);
+    }
 
-//     return response()->json(null);
-// }
+    return response()->json(['error' => 'Plate number not found'], 404);
+}
+
 // -----------------------------------------NYONGEZA------------------------------------------------
 
     public function destroy($id)

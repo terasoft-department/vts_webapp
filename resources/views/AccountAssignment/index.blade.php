@@ -254,11 +254,11 @@
             @endif
 
             <!-- Add New Assignment Button -->
-            <div class="text-left mb-2">
+            {{-- <div class="text-left mb-2">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#assignmentModal" onclick="openCreateModal()">
                     <i class="bi bi-plus-circle"></i> Create Assignment
                 </button>
-            </div>
+            </div> --}}
             <br>
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                 <h4 class="m-0">

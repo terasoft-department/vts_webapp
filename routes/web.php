@@ -156,7 +156,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assignmentsv1', [AAssignmentsController::class, 'index1'])->name('assignmentsv1.index1');
     Route::resource('Aassignments', AAssignmentsController::class);
     Route::get('assignmentsv2', [AAssignmentsController::class, 'index2'])->name('assignmentsv2.index2');
-    });
+    Route::get('/assignments/plate-details', [AssignmentController::class, 'getPlateDetails'])->name('assignment.getPlateDetails');
+
+});
 
 
 

@@ -420,13 +420,8 @@
     <input type="hidden" id="assignment_id" name="assignment_id">
 
     <div class="form-group">
-        <label for="customer_id">Customer Name</label>
-        <select class="form-control" id="customer_id" name="customer_id" required>
-            <option value="">Select a customer</option>
-            @foreach($customers as $customer)
-                <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
-            @endforeach
-        </select>
+        <label for="plate_number">Plate Number</label>
+        <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter vehicle plate number" required>
     </div>
 
     <div class="form-group">
@@ -439,10 +434,22 @@
         <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" >
     </div>
 
+
     <div class="form-group">
-        <label for="plate_number">Plate Number</label>
-        <input type="text" class="form-control" id="plate_number" name="plate_number" placeholder="Enter vehicle plate number" required>
+        <label for="customer_id">Customer Name</label>
+        <select class="form-control" id="customer_id" name="customer_id" required>
+            <option value="">Select a customer</option>
+            @foreach($customers as $customer)
+                <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
+            @endforeach
+        </select>
     </div>
+
+    {{-- <div class="form-group">
+        <label for="customer_id">Customer Name</label>
+        <input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="Enter customer name" value="{{ old('customer_id') }}">
+    </div> --}}
+
 
     <div class="form-group">
         <label for="location">Location</label>
@@ -492,7 +499,6 @@
         </div>
     </div>
 
-
         <!-- Include jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -528,6 +534,38 @@
                 $('#assignmentModal').modal('show');
             }
         </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#plate_number').on('input', function() {
+            var plateNumber = $(this).val();
+
+            if (plateNumber.length >= 3) { // Minimum 3 characters for the search
+                $.ajax({
+                    url: "{{ route('assignment.getPlateDetails') }}",
+                    method: 'GET',
+                    data: { plate_number: plateNumber },
+                    success: function(response) {
+                        if (response.error) {
+                            alert(response.error);
+                        } else {
+                            // Autofill the fields if data is found
+                            $('#customer_id').val(response.customer_id);
+                            $('#customer_phone').val(response.customer_phone);
+                            $('#location').val(response.location);
+                            $('#customer_debt').val(response.customer_debt);
+                        }
+                    },
+                    error: function() {
+                        alert('Error fetching plate details');
+                    }
+                });
+            }
+        });
+    });
+</script>
+
     </div>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
