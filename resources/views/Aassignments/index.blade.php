@@ -108,14 +108,13 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container py-4">
-        <h5 class="text-center mb-4">Assignments</h5>
+    <div class="main-content">
+        <div class="container">
+            <h5>Assignments</h5>
 
-        @if (session('success'))
-            <div class="alert alert-success text-center">
-                {{ session('success') }}
-            </div>
-        @endif
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
         <div class="card shadow-sm">
             <div class="card-header bg- text-white text-center">

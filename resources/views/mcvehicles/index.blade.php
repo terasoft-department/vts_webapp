@@ -280,11 +280,11 @@
                 <button type="submit" class="btn btn-primary ml-2"><i class="fas fa-search"></i></button>
             </form> --}}
         </div>
-{{--
+
         <!-- Add New Vehicle Button -->
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#createVehicleModal">
             <i class="fas fa-plus"></i> Add New Vehicle
-        </button> --}}
+        </button>
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show">

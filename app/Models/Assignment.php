@@ -44,9 +44,10 @@ class Assignment extends Model
     }
      // Define the relationship between Assignment and User
      public function user()
-     {
-         return $this->belongsTo(User::class,'user_id');
-     }
+{
+    return $this->belongsTo(User::class, 'user_id', 'user_id');
+}
+
 
      // If there's a relationship to Customer and Vehicle, define them as well
 
