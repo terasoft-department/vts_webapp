@@ -170,48 +170,7 @@
             </div>
         </div>
     </div>
-=======
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-        <ul class="sidebar-nav" id="sidebar-nav">
-            <li class="nav-item"><a class="nav-link" href="admin"><i class="bi bi-grid"></i><span>Dashboard</span></a>
-            </li>
-            {{-- <li class="nav-heading">Control Panel</li> --}}
-            <li class="nav-item"><a class="nav-link collapsed" href="users"><i class="bi bi-person"></i><span>User
-                        Management</span></a></li>
-            <li class="nav-heading">Reports</li>
-            <li class="nav-item"><a class="nav-link collapsed" href="admininvoice"><i class="fas fa-file-invoice"></i>
-                    Invoice</i>
-            <li class="nav-item"><a class="nav-link collapsed" href="Apayment_reports"><i
-                        class="fas fa-credit-card"></i></i><span>Payments</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Aassignments"><i
-                        class="fas fa-file-alt"></i></i><span>Assignments</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i
-                        class="far fa-user"></i></i><span>Customers</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="advehicles"><i
-                        class="fas fa-car"></i></i><span>Vehicle</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i
-                        class="fa fa-chart-line"></i></i><span>Daily&Weekly</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i
-                        class="fa fa-calendar-alt"></i></i><span>Monthly&Yearly</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i
-                        class="fas fa-id-badge"></i></i><span>JobCards</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="new_installations3"><i
-                        class="fas fa-id-badge"></i></i><span>New Installations</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Adminchecklists"><i
-                        class="fa fa-check-square"></i></i><span>Checklists</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Admindevice_requisitions"><i
-                        class="fa fa-share"></i></i><span>Dispatch</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="/dispatched-history1"><i
-                        class="fa fa-share"></i></i><span>Dispatched History</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Admintdebts"><i
-                        class="fa fa-file-invoice-dollar"></i></i><span>Debts</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="Admintrackvehicle"><i
-                        class="fas fa-car"></i></i><span>Trackvehicle</span></a></li>
-            <li class="nav-item"><a class="nav-link collapsed" href="/auth/login"><i
-                        class="bi bi-box-arrow-in-right"></i><span>Logout</span></a></li>
-        </ul>
-    </aside><!-- End Sidebar -->
+
     <!-- Main Content -->
     <main id="main" class="main">
         <div class="container">
@@ -254,7 +213,7 @@
                     </form>
                 </div>
             </div>
->>>>>>> a6706b0dd503cfb2e007dece2084d179ce4bc331
+
 
 
             {{-- <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
