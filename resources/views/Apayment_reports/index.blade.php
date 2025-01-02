@@ -171,51 +171,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main id="main" class="main">
-        <div class="container">
-            <h5>Invoice Payment</h5>
-
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Filter Payments</h5>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('Apayment_reports.index') }}" method="GET"
-                        class="form-inline d-flex justify-content-between align-items-center w-100">
-                        <input type="date" name="start_date" class="form-control rounded-pill mr-2"
-                            placeholder="Date From" value="{{ request()->query('start_date') }}">
-                        <input type="date" name="end_date" class="form-control rounded-pill mr-2"
-                            placeholder="Date To" value="{{ request()->query('end_date') }}">
-
-                        <!-- Filter Button -->
-                        <button type="submit" class="btn btn-light d-flex align-items-center px-3 mr-2">
-                            <i class="fas fa-filter mr-2"></i>
-                            <span> Filter </span>
-                        </button>
-
-                        <!-- Clear Button -->
-                        <a href="{{ route('Apayment_reports.index') }}"
-                            class="btn btn-outline-secondary d-flex align-items-center px-3">
-                            <i class="fas fa-times mr-2"></i>
-                            <span> Clear </span>
-                        </a>
-                        <button type="button" id="printTable"
-                            class="btn btn-outline-success d-flex align-items-center px-3">
-                            <i class="fas fa-print mr-2"></i>
-                            <span> Print </span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-
-
             {{-- <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
             Create Payment
         </button> --}}
