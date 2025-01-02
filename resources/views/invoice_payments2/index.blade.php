@@ -203,7 +203,7 @@
 
         </ul>
     </aside><!-- End Sidebar -->
-        <main id="main" class="main">
+<main id="main" class="main">
 <div class="container mt-5">
     <!-- Success/Error Messages -->
     @if(session('success'))

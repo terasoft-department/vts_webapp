@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\paymentReport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class APaymentController extends Controller
 {
@@ -51,6 +52,47 @@ class APaymentController extends Controller
         return view('Apayment_reports.create'); // Create a view for the invoice creation form
     }
 
+    public function download(Request $request)
+{
+    $start_date = $request->query('start_date');
+    $end_date = $request->query('end_date');
+
+    $invoices = Invoice::query();
+
+    if ($start_date) {
+        $invoices->where('invoice_date', '>=', $start_date);
+    }
+
+    if ($end_date) {
+        $invoices->where('invoice_date', '<=', $end_date);
+    }
+
+    $invoices = $invoices->get();
+
+    $response = new StreamedResponse(function () use ($invoices) {
+        $handle = fopen('php://output', 'w');
+        // Add CSV header
+        fputcsv($handle, ['Invoice Number', 'Invoice Date', 'Grand Total', 'Customer', 'Status']);
+
+        // Add rows
+        foreach ($invoices as $invoice) {
+            fputcsv($handle, [
+                $invoice->invoice_number,
+                $invoice->invoice_date,
+                $invoice->grand_total,
+                $invoice->customername,
+                $invoice->status
+            ]);
+        }
+
+        fclose($handle);
+    });
+
+    $response->headers->set('Content-Type', 'text/csv');
+    $response->headers->set('Content-Disposition', 'attachment; filename="invoice_report.csv"');
+
+    return $response;
+}
     // Store a new invoice
     public function store(Request $request)
     {

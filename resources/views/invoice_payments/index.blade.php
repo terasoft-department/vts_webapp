@@ -290,9 +290,20 @@
                         <div class="modal-body">
                             <!-- 4-row, 4-column grid layout -->
                             <div class="row">
-                                <div class="col-md-3 mb-3">
+                                {{-- <div class="col-md-3 mb-3">
                                     <label for="invoice_number">Invoice Number</label>
                                     <input type="text" name="invoice_number" id="invoice_number" class="form-control" readonly>
+                                </div> --}}
+                                <div class="col-md-3 mb-3">
+                                    <label for="invoice_number">Invoice Number</label>
+                                    <input
+                                        type="text"
+                                        name="invoice_number"
+                                        id="invoice_number"
+                                        class="form-control"
+                                        placeholder="TTEL/YYYY/NNN"
+                                        required
+                                    >
                                 </div>
 
                                 <div class="col-md-3 mb-3">

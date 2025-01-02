@@ -108,37 +108,52 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container">
-        <h5>Invoice Payment</h5>
+    <div class="container py-4">
+        <h5 class="text-center mb-4">Invoice Payment</h5>
 
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="alert alert-success text-center">
                 {{ session('success') }}
             </div>
         @endif
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Filter Payments</h5>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg- text-white text-center">
+                <h5 class="card-title mb-0">Filter Payments</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('Apayment_reports.index') }}" method="GET" class="form-inline d-flex justify-content-between align-items-center w-100">
-                    <input type="date" name="start_date" class="form-control rounded-pill mr-2" placeholder="Date From" value="{{ request()->query('start_date') }}">
-                    <input type="date" name="end_date" class="form-control rounded-pill mr-2" placeholder="Date To" value="{{ request()->query('end_date') }}">
+                <form action="{{ route('Apayment_reports.index') }}" method="GET" class="form-inline d-flex flex-wrap justify-content-between align-items-center">
+                    <!-- Start Date -->
+                    <div class="form-group mb-2 flex-grow-1 mx-2">
+                        <label for="start_date" class="sr-only">Start Date</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control rounded-pill w-100" placeholder="Date From" value="{{ request()->query('start_date') }}">
+                    </div>
+
+                    <!-- End Date -->
+                    <div class="form-group mb-2 flex-grow-1 mx-2">
+                        <label for="end_date" class="sr-only">End Date</label>
+                        <input type="date" name="end_date" id="end_date" class="form-control rounded-pill w-100" placeholder="Date To" value="{{ request()->query('end_date') }}">
+                    </div>
 
                     <!-- Filter Button -->
-                    <button type="submit" class="btn btn-light d-flex align-items-center px-3 mr-2">
-                        <i class="fas fa-filter mr-2"></i>
-                        <span> Filter </span>
-                    </button>
+                    <div class="form-group mb-2 mx-2">
+                        <button type="submit" class="btn btn-light d-flex align-items-center px-4 py-2">
+                            <i class="fas fa-filter mr-2"></i>
+                            <span>Filter</span>
+                        </button>
+                    </div>
 
                     <!-- Clear Button -->
-                    <a href="{{ route('Apayment_reports.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
-                        <i class="fas fa-times mr-2"></i>
-                        <span> Clear </span>
-                    </a>
+                    <div class="form-group mb-2 mx-2">
+                        <a href="{{ route('Apayment_reports.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-4 py-2">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Clear</span>
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
+    </div>
 
 
         {{-- <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">

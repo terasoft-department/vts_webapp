@@ -113,17 +113,41 @@
         @if(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
-    <!-- Add print and download buttons -->
-    <div style="text-align: center; margin-bottom: 20px;">
+   <!-- Add print and download buttons -->
+   <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <button
+        onclick="downloadPDF()"
+        style="
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #175ec1e1;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        "
+        aria-label="Download PDF"
+        onmouseover="this.style.backgroundColor='#144aa1'"
+        onmouseout="this.style.backgroundColor='#175ec1e1'"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            style="margin-right: 8px;"
+            aria-hidden="true"
+        >
+            <path d="M6 2a2 2 0 0 0-2 2v1H2v2h2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5h2V3h-2V2a2 2 0 0 0-2-2H6zm2 0h8v2H8V2zm0 4h8v11H8V6zm1 2v3h2v-3h-2zm3 0v3h2v-3h-2zm3 0v3h2v-3h-2z"/>
+        </svg>
+        Download PDF
+    </button>
+</div>
 
-        <button onclick="downloadPDF()" style="padding: 5px 10px; font-size: 10px; background-color: #175ec1e1; color: white; border: none; cursor: pointer; display: flex; align-items: center;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" style="margin-right: 1px;">
-                <path d="M6 2a2 2 0 0 0-2 2v1H2v2h2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5h2V3h-2V2a2 2 0 0 0-2-2H6zm2 0h8v2H8V2zm0 4h8v11H8V6zm1 2v3h2v-3h-2zm3 0v3h2v-3h-2zm3 0v3h2v-3h-2z"/>
-            </svg>
-            Download PDF
-        </button>
-
-    </div>
     <!-- Invoice Section -->
     <div class="invoice-container" id="invoiceSection" style="display: flex; justify-content: center;">
         <div class="single-invoice" style="width: 100%; padding: 5px; border: 1px solid #dee2e6; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
@@ -233,13 +257,65 @@
     </div>
     </div>
 
-    <style>
-    /* General Styles */
+    {{-- <style> --}}
+    {{-- /* General Styles */ --}}
+    <!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+<style>
     body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        color: #333;
+        font-family: 'Poppins', 'Jost', 'Open Sans', Arial, sans-serif; /* Modern fonts with fallbacks */
+        background-color: #f9fafb; /* Clean and modern light background */
+        color: #333333; /* Deep gray for comfortable readability */
+        margin: 0; /* Reset margin */
+        padding: 0; /* Reset padding */
+        line-height: 1.7; /* Enhanced text readability */
+        display: flex; /* Flexbox for layout control */
+        flex-direction: column; /* Vertical stacking for flexibility */
+        min-height: 100vh; /* Full viewport height */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Jost', sans-serif; /* Headings use Jost for modern look */
+        color: #1a1a1a; /* Darker text for headings */
+        margin: 0; /* Consistent spacing */
+        line-height: 1.5; /* Balanced spacing */
+    }
+
+    p {
+        font-family: 'Open Sans', sans-serif; /* Open Sans for body text */
+        margin: 0 0 1.5em; /* Spacing between paragraphs */
+        color: #555555; /* Softer gray for paragraphs */
+    }
+
+    a {
+        color: #175ec1; /* Link color for visibility */
+        text-decoration: none; /* Remove underline */
+        transition: color 0.3s ease; /* Smooth hover effect */
+    }
+
+    a:hover {
+        color: #0e4ba0; /* Darker shade for hover */
+    }
+
+    button {
+        font-family: 'Poppins', sans-serif; /* Button font for consistency */
+        background-color: #175ec1; /* Primary button color */
+        color: #ffffff; /* White text for contrast */
+        border: none; /* No border */
+        padding: 10px 20px; /* Spacing for comfort */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor for interactivity */
+        transition: background-color 0.3s ease; /* Smooth hover effect */
+    }
+
+    button:hover {
+        background-color: #0e4ba0; /* Darker shade for hover */
+    }
+</style>
+
+<style>
     .invoice-container {
         max-width: 800px;
         margin: 0 auto;
