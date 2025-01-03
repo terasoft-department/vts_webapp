@@ -435,7 +435,7 @@
     </div>
 
 
-    {{-- <div class="form-group">
+    <div class="form-group">
         <label for="customer_id">Customer Name</label>
         <select class="form-control" id="customer_id" name="customer_id" required>
             <option value="">Select a customer</option>
@@ -443,10 +443,7 @@
                 <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
             @endforeach
         </select>
-    </div> --}}
-    <label for="customer_id">Customer ID</label>
-    <input type="text" id="customer_id" name="customer_id" readonly>
-
+    </div>
 
     {{-- <div class="form-group">
         <label for="customer_id">Customer Name</label>
@@ -539,12 +536,12 @@
         </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-{{-- <script>
+<script>
     $(document).ready(function() {
         $('#plate_number').on('input', function() {
             var plateNumber = $(this).val();
 
-            if (plateNumber.length >= 6) { // Minimum 3 characters for the search
+            if (plateNumber.length >= 7) { // Minimum 7 characters for the search
                 $.ajax({
                     url: "{{ route('assignment.getPlateDetails') }}",
                     method: 'GET',
@@ -554,34 +551,6 @@
                             alert(response.error);
                         } else {
                             // Autofill the fields if data is found
-                            $('#customer_id').val(response.customer_id);
-                            $('#customer_phone').val(response.customer_phone);
-                            $('#location').val(response.location);
-                            $('#customer_debt').val(response.customer_debt);
-                        }
-                    },
-                    error: function() {
-                        alert('Error fetching plate details');
-                    }
-                });
-            }
-        });
-    });
-</script> --}}
-<script>
-    $(document).ready(function() {
-        $('#plate_number').on('input', function() {
-            var plateNumber = $(this).val();
-
-            if (plateNumber.length >= 6) {
-                $.ajax({
-                    url: "{{ route('assignment.getPlateDetails') }}",
-                    method: 'GET',
-                    data: { plate_number: plateNumber },
-                    success: function(response) {
-                        if (response.error) {
-                            alert(response.error);
-                        } else {
                             $('#customer_id').val(response.customer_id);
                             $('#customer_phone').val(response.customer_phone);
                             $('#location').val(response.location);
