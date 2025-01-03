@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class AssignmentController extends Controller
  {
 
-    public function index(Request $request)
+    public function index(Request $request) 
     {
         // Retrieve the search term from the request
         $search = $request->get('search');
