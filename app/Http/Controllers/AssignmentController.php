@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class AssignmentController extends Controller
  {
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         // Retrieve the search term from the request
         $search = $request->get('search');
@@ -176,25 +176,25 @@ class AssignmentController extends Controller
     }
 }
 // -----------------------------------------NYONGEZA------------------------------------------------
-public function getPlateDetails(Request $request)
-{
-    $plateNumber = $request->input('plate_number');
+// public function getPlateDetails(Request $request)
+// {
+//     $plateNumber = $request->input('plate_number');
 
-    // Fetch the assignment by plate number
-    $assignment = Assignment::where('plate_number', $plateNumber)->first();
+//     // Fetch the assignment by plate number
+//     $assignment = Assignment::where('plate_number', $plateNumber)->first();
 
-    if ($assignment) {
-        // Return customer details and other information
-        return response()->json([
-            'customer_id' => $assignment->customer_id,
-            'customer_phone' => $assignment->customer->customer_phone,
-            'location' => $assignment->location,
-            'customer_debt' => $assignment->customer->customer_debt,
-        ]);
-    }
+//     if ($assignment) {
+//         // Return customer details and other information
+//         return response()->json([
+//             'customer_id' => $assignment->customer_id,
+//             'customer_phone' => $assignment->customer->customer_phone,
+//             'location' => $assignment->location,
+//             'customer_debt' => $assignment->customer->customer_debt,
+//         ]);
+//     }
 
-    return response()->json(['error' => 'Plate number not found'], 404);
-}
+//     return response()->json(['error' => 'Plate number not found'], 404);
+// }
 
 // -----------------------------------------NYONGEZA------------------------------------------------
 
