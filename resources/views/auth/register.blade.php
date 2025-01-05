@@ -45,7 +45,7 @@
         }
         .required::after {
             content: "*";
-            color: red;
+            color: rgb(239, 4, 4);
             margin-left: 0.2em;
         }
         .logo {
