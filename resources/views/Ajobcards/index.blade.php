@@ -328,7 +328,7 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            {{-- </div> --}}
 
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example">
