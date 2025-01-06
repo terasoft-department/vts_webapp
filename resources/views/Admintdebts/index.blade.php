@@ -171,7 +171,7 @@
                             <th>Invoice Date</th>
                             <th>Grand Total</th>
                             <th>Customer</th>
-                            <th>Action</th>
+                            {{-- <th>Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -189,7 +189,7 @@
                                 <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('m/d/Y') }}</td>
                                 <td>{{ number_format($invoice->grand_total, 0) }}</td>
                                 <td>{{ $invoice->customername }}</td>
-                                <td>
+                                {{-- <td>
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editInvoiceModal"
                                         data-invoice_id="{{ $invoice->invoice_id }}"
@@ -205,7 +205,7 @@
                                     @else
                                         <button class="btn btn-secondary" disabled>Paid</button>
                                     @endif
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
