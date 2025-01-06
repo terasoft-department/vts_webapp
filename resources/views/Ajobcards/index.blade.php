@@ -253,21 +253,14 @@
             <div class="card-body">
                 <!-- Filter Form -->
                 <form id="filterForm" action="{{ route('Ajobcards.index') }}" method="GET" class="row">
-                    {{-- <!-- Search Input -->
-                    <div class="col-md-4 mb-2">
-                        <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search by Client Name, Contact Person, Vehicle Registration No, etc." value="{{ request()->query('search') }}">
-                    </div> --}}
-
                     <!-- From Date -->
                     <div class="col-md-3 mb-2">
                         <input type="date" name="from_date" id="fromDateInput" class="form-control" value="{{ request()->query('from_date') }}">
-                        {{-- <small class="form-text text-muted">From Date</small> --}}
                     </div>
 
                     <!-- To Date -->
                     <div class="col-md-3 mb-2">
                         <input type="date" name="to_date" id="toDateInput" class="form-control" value="{{ request()->query('to_date') }}">
-                        {{-- <small class="form-text text-muted">To Date</small> --}}
                     </div>
 
                     <!-- Filter Button -->
@@ -337,8 +330,8 @@
                 </table>
             </div>
         @else
-            <div class="text-center">
-                <p class="alert alert-info">No job cards found for the applied filters.</p>
+            <div class="text-center mt-3">
+                <p class="alert alert-info">No job cards found for the applied filters. Use the filter above to narrow down your search.</p>
             </div>
         @endif
     </div>
@@ -347,13 +340,25 @@
 <!-- JavaScript -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const tableContainer = document.getElementById('jobCardsTableContainer');
         const filterForm = document.getElementById('filterForm');
+
+        // Hide table initially if there are no filters applied
+        if (!filterForm.from_date.value && !filterForm.to_date.value) {
+            tableContainer.style.display = 'none';
+        }
+
+        // Show table when filters are applied
+        filterForm.addEventListener('submit', function () {
+            tableContainer.style.display = 'block';
+        });
 
         // Clear filters and reset form when "Clear" button is clicked
         const clearButton = document.getElementById('clearFilter');
         if (clearButton) {
             clearButton.addEventListener('click', function () {
                 filterForm.reset();
+                tableContainer.style.display = 'none';
                 window.location.href = "{{ route('Ajobcards.index') }}"; // Redirect to reset filters
             });
         }

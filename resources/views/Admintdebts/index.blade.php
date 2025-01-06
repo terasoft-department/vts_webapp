@@ -108,138 +108,324 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="container">
-        <h5>Track Debts</h5>
+    <div class="container py-4">
+        <h5 class="text-center mb-4">Track Debts</h5>
 
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="alert alert-success text-center">
                 {{ session('success') }}
             </div>
         @endif
-        <div class="card shadow mb-4">
-            <div class="card-header">
-                <h5 class="card-title">Filter Debts</h5>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg- text-white text-center">
+                <h5 class="card-title mb-0">Filter Track Debts</h5>
             </div>
             <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-1">
-                        <input type="text" id="invoiceSearch" class="form-control" placeholder="" readonly>
+                <form action="{{ route('Admintdebts.index') }}" method="GET" class="form-inline d-flex flex-wrap justify-content-between align-items-center">
+                    <!-- Start Date -->
+                    <div class="form-group mb-2 flex-grow-1 mx-2">
+                        <label for="start_date" class="sr-only">Start Date</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control rounded-pill w-100" placeholder="Date From" value="{{ request()->query('start_date') }}">
                     </div>
-                    <div class="col-md-3">
-                        <input type="date" id="dateFrom" class="form-control" placeholder="From Date">
+
+                    <!-- End Date -->
+                    <div class="form-group mb-2 flex-grow-1 mx-2">
+                        <label for="end_date" class="sr-only">End Date</label>
+                        <input type="date" name="end_date" id="end_date" class="form-control rounded-pill w-100" placeholder="Date To" value="{{ request()->query('end_date') }}">
                     </div>
-                    <div class="col-md-3">
-                        <input type="date" id="dateTo" class="form-control" placeholder="To Date">
+
+                    <!-- Filter Button -->
+                    <div class="form-group mb-2 mx-2">
+                        <button type="submit" class="btn btn-light d-flex align-items-center px-4 py-2">
+                            <i class="fas fa-filter mr-2"></i>
+                            <span>Filter</span>
+                        </button>
                     </div>
-                    <div class="col-md-3 d-flex">
-                        <button id="filterBtn" class="btn btn-primary me-2">Filter</button>
-                        <button id="clearBtn" class="btn btn-secondary">Clear</button>
+
+                    <!-- Clear Button -->
+                    <div class="form-group mb-2 mx-2">
+                        <a href="{{ route('Admintdebts.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-4 py-2">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Clear</span>
+                        </a>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+            {{-- <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#createInvoiceModal">
+            Create Payment
+        </button> --}}
+
+            <!-- Table -->
+            <!-- Conditional Check: Only Show Table if Filters are Applied -->
+            @if (request()->has('start_date') || request()->has('end_date') || request()->has('search'))
+                <table class="table" id="invoiceTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Status</th>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date</th>
+                            <th>Grand Total</th>
+                            <th>Customer</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($invoices as $index => $invoice)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>
+                                    @if ($invoice->status == 'Paid')
+                                        <span class="badge bg-success">Paid</span>
+                                    @else
+                                        <span class="badge bg-danger">Not Paid</span>
+                                    @endif
+                                </td>
+                                <td>{{ $invoice->invoice_number }}</td>
+                                <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('m/d/Y') }}</td>
+                                <td>{{ number_format($invoice->grand_total, 0) }}</td>
+                                <td>{{ $invoice->customername }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editInvoiceModal"
+                                        data-invoice_id="{{ $invoice->invoice_id }}"
+                                        data-invoice_number="{{ $invoice->invoice_number }}"
+                                        data-invoice_date="{{ $invoice->invoice_date }}"
+                                        data-grand_total="{{ $invoice->grand_total }}"
+                                        data-customer="{{ $invoice->customername }}">
+                                        Edit
+                                    </button>
+                                    @if ($invoice->status == 'Not Paid')
+                                        <a href="{{ route('invoices.pay', $invoice->invoice_id) }}"
+                                            class="btn btn-primary">Pay</a>
+                                    @else
+                                        <button class="btn btn-secondary" disabled>Paid</button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{ $invoices->links() }}
+                    </ul>
+                </nav>
+            @else
+                <div class="text-center">
+                    <p class="alert alert-info">Please apply filters to view the customer debts.</p>
+                </div>
+            @endif
+        </div>
+        </div>
+
+        <!-- Create Invoice Modal -->
+        <div class="modal fade" id="createInvoiceModal" tabindex="-1" aria-labelledby="createInvoiceModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('invoices.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createInvoiceModalLabel">Create Invoice</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="invoice_number" class="form-label">Invoice Number</label>
+                                <input type="text" class="form-control" id="create_invoice_number"
+                                    name="invoice_number" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="invoice_date" class="form-label">Invoice Date</label>
+                                <input type="date" class="form-control" id="create_invoice_date"
+                                    name="invoice_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="grand_total" class="form-label">Grand Total</label>
+                                <input type="number" class="form-control" id="create_grand_total"
+                                    name="grand_total" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="customername" class="form-label">Customer</label>
+                                <input type="text" class="form-control" id="create_customername"
+                                    name="customername" required>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create Invoice</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
+        <!-- Edit Invoice Modal -->
+        <div class="modal fade" id="editInvoiceModal" tabindex="-1" aria-labelledby="editInvoiceModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="editInvoiceForm" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editInvoiceModalLabel">Edit Invoice</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="invoice_id" id="edit_invoice_id">
+                            <div class="mb-3">
+                                <label for="invoice_number" class="form-label">Invoice Number</label>
+                                <input type="text" class="form-control" id="edit_invoice_number"
+                                    name="invoice_number" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="invoice_date" class="form-label">Invoice Date</label>
+                                <input type="date" class="form-control" id="edit_invoice_date"
+                                    name="invoice_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="grand_total" class="form-label">Grand Total</label>
+                                <input type="number" class="form-control" id="edit_grand_total" name="grand_total"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="customername" class="form-label">Customer</label>
+                                <input type="text" class="form-control" id="edit_customername"
+                                    name="customername" required>
+                            </div>
 
-        <!-- Table -->
-        <table class="table" id="invoiceTable">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Status</th>
-                    <th>Invoice Number</th>
-                    <th>Invoice Date</th>
-                    <th>Grand Total</th>
-                    <th>Customer</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                @php
-                    $hasUnpaid = $invoices->contains(function($invoice) {
-                        return $invoice->status !== 'Paid';
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update Invoice</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript for handling the Edit Modal -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const editInvoiceModal = document.getElementById('editInvoiceModal');
+            editInvoiceModal.addEventListener('show.bs.modal', (event) => {
+                const button = event.relatedTarget; // Button that triggered the modal
+                const invoiceId = button.getAttribute('data-invoice_id'); // Extract info from data-* attributes
+                const invoiceNumber = button.getAttribute('data-invoice_number');
+                const invoiceDate = button.getAttribute('data-invoice_date');
+                const grandTotal = button.getAttribute('data-grand_total');
+                const customer = button.getAttribute('data-customername');
+
+                // Update the modal's content
+                const modalBodyInputId = editInvoiceModal.querySelector('#edit_invoice_id');
+                const modalBodyInputNumber = editInvoiceModal.querySelector('#edit_invoice_number');
+                const modalBodyInputDate = editInvoiceModal.querySelector('#edit_invoice_date');
+                const modalBodyInputTotal = editInvoiceModal.querySelector('#edit_grand_total');
+                const modalBodyInputCustomer = editInvoiceModal.querySelector('#edit_customername');
+
+                modalBodyInputId.value = invoiceId;
+                modalBodyInputNumber.value = invoiceNumber;
+                modalBodyInputDate.value = invoiceDate;
+                modalBodyInputTotal.value = grandTotal;
+                modalBodyInputCustomer.value = customer;
+
+                // Update form action
+                document.getElementById('editInvoiceForm').action = `/invoices/${invoiceId}`;
+            });
+        </script>
+        <!-- Include necessary scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Initialize DataTable with export options
+                var table = $('#invoiceTable').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'excel', 'print'
+                    ]
+                });
+
+                // Filter by search bar
+                $('#invoiceSearch').on('keyup', function() {
+                    table.search(this.value).draw();
+                });
+
+                // Filter by date range
+                $('#filterBtn').on('click', function() {
+                    let fromDate = $('#dateFrom').val();
+                    let toDate = $('#dateTo').val();
+
+                    // Use moment.js for date comparison if necessary
+                    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                        let invoiceDate = data[3]; // Assuming invoice date is in column 3
+                        if ((fromDate === '' && toDate === '') || (fromDate <= invoiceDate && (
+                                toDate === '' || invoiceDate <= toDate))) {
+                            return true;
+                        }
+                        return false;
                     });
-                @endphp
 
-                @foreach($invoices as $index => $invoice)
-                    @if($invoice->status !== 'Paid' || $hasUnpaid)
-                        <tr class="invoice-row">
-                            <td>{{ $index + 1 }}</td>
-                            <td>
-                                @if ($invoice->status == 'Paid')
-                                    <span class="badge bg-success">Paid</span>
-                                @else
-                                    <span class="badge bg-danger">Not Paid</span>
-                                @endif
-                            </td>
-                            <td class="invoice-number">{{ $invoice->invoice_number }}</td>
-                            <td class="invoice-date">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('Y-m-d') }}</td>
-                            <td>{{ number_format($invoice->grand_total, 0) }}</td>
-                            <td>{{ $invoice->customername }}</td>
-                        </tr>
-                    @endif
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</main>
+                    table.draw();
+                });
+            });
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const filterBtn = document.getElementById('filterBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const invoiceSearch = document.getElementById('invoiceSearch');
-    const dateFrom = document.getElementById('dateFrom');
-    const dateTo = document.getElementById('dateTo');
-    const rows = document.querySelectorAll('.invoice-row');
-    const tableBody = document.getElementById('tableBody');
+            // JavaScript for handling the Edit Modal (existing code)
+            const editInvoiceModal = document.getElementById('editInvoiceModal');
+            editInvoiceModal.addEventListener('show.bs.modal', (event) => {
+                const button = event.relatedTarget;
+                const invoiceId = button.getAttribute('data-invoice_id');
+                const invoiceNumber = button.getAttribute('data-invoice_number');
+                const invoiceDate = button.getAttribute('data-invoice_date');
+                const grandTotal = button.getAttribute('data-grand_total');
+                const customer = button.getAttribute('data-customer');
 
-    const originalRows = Array.from(rows); // Store original rows for resetting the table
+                document.getElementById('edit_invoice_id').value = invoiceId;
+                document.getElementById('edit_invoice_number').value = invoiceNumber;
+                document.getElementById('edit_invoice_date').value = invoiceDate;
+                document.getElementById('edit_grand_total').value = grandTotal;
+                document.getElementById('edit_customername').value = customer;
 
-    // Filter Functionality
-    filterBtn.addEventListener('click', function () {
-        const searchValue = invoiceSearch.value.toLowerCase();
-        const fromDate = new Date(dateFrom.value);
-        const toDate = new Date(dateTo.value);
+                document.getElementById('editInvoiceForm').action = `/invoices/${invoiceId}`;
+            });
+        </script>
 
-        rows.forEach(row => {
-            const invoiceNumber = row.querySelector('.invoice-number').textContent.toLowerCase();
-            const invoiceDate = new Date(row.querySelector('.invoice-date').textContent);
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+            <i class="bi bi-arrow-up-short"></i>
+        </a>
 
-            let matchesSearch = !searchValue || invoiceNumber.includes(searchValue);
-            let matchesDateRange = (!dateFrom.value || invoiceDate >= fromDate) &&
-                                   (!dateTo.value || invoiceDate <= toDate);
+        <!-- Vendor JS Files -->
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="assets/vendor/echarts/echarts.min.js"></script>
+        <script src="assets/vendor/quill/quill.js"></script>
+        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
 
-            if (matchesSearch && matchesDateRange) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
+        <!-- Template Main JS File -->
+        <script src="assets/js/main.js"></script>
 
-    // Clear Filters and Reset Table Functionality
-    clearBtn.addEventListener('click', function () {
-        invoiceSearch.value = '';
-        dateFrom.value = '';
-        dateTo.value = '';
-
-        // Reset the table to show all original rows
-        rows.forEach(row => {
-            row.style.display = ''; // Ensure all rows are visible
-        });
-    });
-});
-</script>
-
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-</a>
-
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
 </body>
+
 </html>
