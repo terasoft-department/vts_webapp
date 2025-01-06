@@ -126,42 +126,43 @@
                 </div>
             </div>
 
-         <!-- Filter Card -->
-<div class="card mb-3">
-    <div class="card-header">
-        <h5 class="card-title">Filter Vehicles</h5>
-    </div>
-    <div class="card-body">
-        <!-- Filter Form -->
-        <form id="filterForm" action="{{ route('advehicles.index') }}" method="GET" class="row">
-            <!-- Start Date -->
-            <div class="col-md-3 mb-2">
-                <input type="date" name="start_date" class="form-control" placeholder="Start Date"
-                    value="{{ request()->query('start_date') }}">
+            <!-- Filter Card -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="card-title">Filter Vehicles</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Filter Form -->
+                    <form id="filterForm" action="{{ route('advehicles.index') }}" method="GET" class="row">
+                        <!-- Start Date -->
+                        <div class="col-md-3 mb-2">
+                            <input type="date" name="start_date" class="form-control" placeholder="Start Date"
+                                value="{{ request()->query('start_date') }}">
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="col-md-3 mb-2">
+                            <input type="date" name="end_date" class="form-control" placeholder="End Date"
+                                value="{{ request()->query('end_date') }}">
+                        </div>
+
+                        <!-- Filter Button -->
+                        <div class="col-md-2 mb-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-filter"></i> Filter
+                            </button>
+                        </div>
+
+                        <!-- Clear Button -->
+                        <div class="col-md-2 mb-2">
+                            <a href="{{ route('advehicles.index') }}" id="clearFilter" class="btn btn-outline-secondary w-100">
+                                <i class="fas fa-times"></i> Clear
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
 
-            <!-- End Date -->
-            <div class="col-md-3 mb-2">
-                <input type="date" name="end_date" class="form-control" placeholder="End Date"
-                    value="{{ request()->query('end_date') }}">
-            </div>
-
-            <!-- Filter Button -->
-            <div class="col-md-2 mb-2">
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-filter"></i> Filter
-                </button>
-            </div>
-
-            <!-- Clear Button -->
-            <div class="col-md-2 mb-2">
-                <button type="button" id="clearFilter" class="btn btn-outline-secondary w-100">
-                    <i class="fas fa-times"></i> Clear
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
             <!-- Success Message -->
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show">
@@ -173,7 +174,7 @@
             @endif
 
             <!-- Vehicle Table -->
-            @if($vehicles->count())
+            @if($vehicles->count() && (request()->has('start_date') || request()->has('end_date')))
                 <div class="table-responsive" id="vehicleTableContainer">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -200,8 +201,8 @@
                         </tbody>
                     </table>
                 </div>
-                 <!-- Pagination -->
-                 <nav aria-label="Page navigation example">
+                <!-- Pagination -->
+                <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
                         {{ $vehicles->links() }}
                     </ul>
@@ -219,29 +220,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- JavaScript -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const clearButton = document.getElementById('clearFilter');
-        const filterForm = document.getElementById('filterForm');
-        const vehicleTableContainer = document.getElementById('vehicleTableContainer');
-
-        // Clear input fields and hide table when "Clear" button is clicked
-        clearButton.addEventListener('click', function () {
-            // Clear form inputs
-            filterForm.reset();
-
-            // Hide the table container
-            if (vehicleTableContainer) {
-                vehicleTableContainer.style.display = 'none';
-            }
-
-        });
-    });
-</script>
-
-
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

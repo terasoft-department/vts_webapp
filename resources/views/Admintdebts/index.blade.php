@@ -222,17 +222,14 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFrom.value = '';
         dateTo.value = '';
 
-        // Clear the table body or reset the rows
-        tableBody.innerHTML = ''; // Empty table
-
-        // Reload original rows (if needed)
-        originalRows.forEach(row => {
-            tableBody.appendChild(row);
+        // Reset the table to show all original rows
+        rows.forEach(row => {
             row.style.display = ''; // Ensure all rows are visible
         });
     });
 });
 </script>
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
     <i class="bi bi-arrow-up-short"></i>

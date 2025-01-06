@@ -107,120 +107,256 @@
     </ul>
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
-<main id="main" class="main">
-    <h4 class="page-title mb-1 text-center fw-bold">Job Cards List</h4>
-
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+{{-- <main id="main" class="main">
+    <!-- Page Title -->
+    <h4 class="page-title mb-3 text-center fw-bold">Job Cards List</h4>
 
     <div class="container">
+        <!-- Success Message -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
 
-        <!-- Search bar -->
-        <div class="input-group mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search by Client Name, Contact Person, Vehicle Registration No, etc.">
-            <button class="btn btn-primary" type="button" onclick="filterTable()">Search</button>
+        <!-- Filter Card -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title">Filter Job Cards</h5>
+            </div>
+            <div class="card-body">
+                <!-- Filter Form -->
+                <form id="filterForm" action="{{ route('Ajobcards.index') }}" method="GET" class="row">
+                    <!-- Search Input -->
+                    <div class="col-md-6 mb-2">
+                        <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search by Client Name, Contact Person, Vehicle Registration No, etc." value="{{ request()->query('search') }}">
+                    </div>
+
+                    <!-- Filter Button -->
+                    <div class="col-md-3 mb-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-filter"></i> Filter
+                        </button>
+                    </div>
+
+                    <!-- Clear Button -->
+                    <div class="col-md-3 mb-2">
+                        <button type="button" id="clearFilter" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <!-- Job Cards Table -->
-        <table class="table table-bordered" id="jobCardsTable">
-            <thead>
-                <tr>
-                    <th>C.Name</th>
-                    <th>Tel</th>
-                    <th>C.Person</th>
-                    <th>Title</th>
-                    <th>M.Phone</th>
-                    <th>V.Reg No</th>
-                    <th>P.Location</th>
-                    <th>Device ID</th>
-                    <th>P.Reported</th>
-                    <th>D.Reported</th>
-                    <th>D.Attended</th>
-                    <th>N.Problem</th>
-                    <th>Created At</th>
-                    <th>W.Done</th>
-                    <th>C.Comment</th>
-                    <th>S.Type</th>
-                    <th>Technician</th>
-
-                </tr>
-            </thead>
-            <tbody id="jobCardTableBody">
-                @foreach($jobCards as $jobCard)
-                    <tr>
-                        <td>{{ $jobCard->Clientname }}</td>
-                        <td>{{ $jobCard->Tel }}</td>
-                        <td>{{ $jobCard->ContactPerson }}</td>
-                        <td>{{ $jobCard->title }}</td>
-                        <td>{{ $jobCard->mobilePhone }}</td>
-                        <td>{{ $jobCard->VehicleRegNo }}</td>
-                        <td>{{ $jobCard->physicalLocation }}</td>
-                        <td>{{ $jobCard->deviceID }}</td>
-                        <td>{{ $jobCard->problemReported }}</td>
-                        <td>{{ $jobCard->DateReported }}</td>
-                        <td>{{ $jobCard->DateAttended }}</td>
-                        <td>{{ $jobCard->natureOfProblem }}</td>
-                        <td>
-                            @php
-                                // Convert the created_at time to Nairobi local time
-                                $nairobiTime = $jobCard->created_at->setTimezone('Africa/Nairobi');
-                            @endphp
-                            {{ $nairobiTime->format('H:i:s') }}
-
-                            @php
-                                $hour = $nairobiTime->format('H');
-                            @endphp
-                            @if ($hour >= 5 && $hour < 12)
-                                <span>Morning</span>
-                            @elseif ($hour >= 12 && $hour < 17)
-                                <span>Afternoon</span>
-                            @elseif ($hour >= 17 && $hour < 21)
-                                <span>Evening</span>
-                            @else
-                                <span>Night</span>
-                            @endif
-                        </td>
-                        <td>{{ $jobCard->workDone }}</td>
-                        <td>{{ $jobCard->clientComment }}</td>
-                        <td>{{ $jobCard->service_type }}</td>
-                        <td>{{ $jobCard->user ? $jobCard->user->name : 'N/A' }}</td>
-
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        @if($jobCards->count())
+            <div class="table-responsive" id="jobCardsTableContainer">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>C.Name</th>
+                            <th>Tel</th>
+                            <th>C.Person</th>
+                            <th>Title</th>
+                            <th>M.Phone</th>
+                            <th>V.Reg No</th>
+                            <th>P.Location</th>
+                            <th>Device ID</th>
+                            <th>P.Reported</th>
+                            <th>D.Reported</th>
+                            <th>D.Attended</th>
+                            <th>N.Problem</th>
+                            <th>Created At</th>
+                            <th>W.Done</th>
+                            <th>C.Comment</th>
+                            <th>S.Type</th>
+                            <th>Technician</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($jobCards as $jobCard)
+                            <tr>
+                                <td>{{ $jobCard->Clientname }}</td>
+                                <td>{{ $jobCard->Tel }}</td>
+                                <td>{{ $jobCard->ContactPerson }}</td>
+                                <td>{{ $jobCard->title }}</td>
+                                <td>{{ $jobCard->mobilePhone }}</td>
+                                <td>{{ $jobCard->VehicleRegNo }}</td>
+                                <td>{{ $jobCard->physicalLocation }}</td>
+                                <td>{{ $jobCard->deviceID }}</td>
+                                <td>{{ $jobCard->problemReported }}</td>
+                                <td>{{ $jobCard->DateReported }}</td>
+                                <td>{{ $jobCard->DateAttended }}</td>
+                                <td>{{ $jobCard->natureOfProblem }}</td>
+                                <td>{{ \Carbon\Carbon::parse($jobCard->created_at)->setTimezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+                                <td>{{ $jobCard->workDone }}</td>
+                                <td>{{ $jobCard->clientComment }}</td>
+                                <td>{{ $jobCard->service_type }}</td>
+                                <td>{{ $jobCard->user ? $jobCard->user->name : 'N/A' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="text-center">
+                <p class="alert alert-info">Please apply filters to view the job cards.</p>
+            </div>
+        @endif
     </div>
 </main>
 
-
+<!-- JavaScript -->
 <script>
-    // Function to filter table rows based on search input
-    function filterTable() {
-        const filter = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#jobCardTableBody tr');
+    document.addEventListener('DOMContentLoaded', function () {
+        const clearButton = document.getElementById('clearFilter');
+        const filterForm = document.getElementById('filterForm');
+        const jobCardsTableContainer = document.getElementById('jobCardsTableContainer');
 
-        rows.forEach(row => {
-            const cells = Array.from(row.querySelectorAll('td'));
-            const rowVisible = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
-            row.style.display = rowVisible ? '' : 'none';
+        // Clear input fields and hide table when "Clear" button is clicked
+        clearButton.addEventListener('click', function () {
+            // Clear form inputs
+            filterForm.reset();
+
+            // Hide the table container
+            if (jobCardsTableContainer) {
+                jobCardsTableContainer.style.display = 'none';
+            }
         });
-    }
-
-    // Event listener for search input to trigger filtering on "Enter" key
-    document.getElementById('searchInput').addEventListener('keyup', function(event) {
-        if (event.key === 'Enter') {
-            filterTable();
-        }
     });
+</script> --}}
 
-    // Image Preview Functionality
-    document.querySelectorAll('.view-image').forEach(image => {
-        image.addEventListener('click', function() {
-            const imgSrc = this.getAttribute('data-image');
-            document.getElementById('modalImage').src = imgSrc;
-            new bootstrap.Modal(document.getElementById('imageModal')).show();
-        });
+<main id="main" class="main">
+    <!-- Page Title -->
+    <h4 class="page-title mb-3 text-center fw-bold">Job Cards List</h4>
+
+    <div class="container">
+        <!-- Success Message -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        <!-- Filter Card -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title">Filter Job Cards</h5>
+            </div>
+            <div class="card-body">
+                <!-- Filter Form -->
+                <form id="filterForm" action="{{ route('Ajobcards.index') }}" method="GET" class="row">
+                    {{-- <!-- Search Input -->
+                    <div class="col-md-4 mb-2">
+                        <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search by Client Name, Contact Person, Vehicle Registration No, etc." value="{{ request()->query('search') }}">
+                    </div> --}}
+
+                    <!-- From Date -->
+                    <div class="col-md-3 mb-2">
+                        <input type="date" name="from_date" id="fromDateInput" class="form-control" value="{{ request()->query('from_date') }}">
+                        {{-- <small class="form-text text-muted">From Date</small> --}}
+                    </div>
+
+                    <!-- To Date -->
+                    <div class="col-md-3 mb-2">
+                        <input type="date" name="to_date" id="toDateInput" class="form-control" value="{{ request()->query('to_date') }}">
+                        {{-- <small class="form-text text-muted">To Date</small> --}}
+                    </div>
+
+                    <!-- Filter Button -->
+                    <div class="col-md-2 mb-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-filter"></i> Filter
+                        </button>
+                    </div>
+                    <!-- Clear Button -->
+                    <div class="col-md-2 mb-2">
+                        <a href="{{ route('Ajobcards.index') }}" id="clearFilter" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times"></i> Clear
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Job Cards Table -->
+        @if($jobCards->count())
+            <div class="table-responsive" id="jobCardsTableContainer">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>C.Name</th>
+                            <th>Tel</th>
+                            <th>C.Person</th>
+                            <th>Title</th>
+                            <th>M.Phone</th>
+                            <th>V.Reg No</th>
+                            <th>P.Location</th>
+                            <th>Device ID</th>
+                            <th>P.Reported</th>
+                            <th>D.Reported</th>
+                            <th>D.Attended</th>
+                            <th>N.Problem</th>
+                            <th>Created At</th>
+                            <th>W.Done</th>
+                            <th>C.Comment</th>
+                            <th>S.Type</th>
+                            <th>Technician</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($jobCards as $jobCard)
+                            <tr>
+                                <td>{{ $jobCard->Clientname }}</td>
+                                <td>{{ $jobCard->Tel }}</td>
+                                <td>{{ $jobCard->ContactPerson }}</td>
+                                <td>{{ $jobCard->title }}</td>
+                                <td>{{ $jobCard->mobilePhone }}</td>
+                                <td>{{ $jobCard->VehicleRegNo }}</td>
+                                <td>{{ $jobCard->physicalLocation }}</td>
+                                <td>{{ $jobCard->deviceID }}</td>
+                                <td>{{ $jobCard->problemReported }}</td>
+                                <td>{{ $jobCard->DateReported }}</td>
+                                <td>{{ $jobCard->DateAttended }}</td>
+                                <td>{{ $jobCard->natureOfProblem }}</td>
+                                <td>{{ \Carbon\Carbon::parse($jobCard->created_at)->setTimezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
+                                <td>{{ $jobCard->workDone }}</td>
+                                <td>{{ $jobCard->clientComment }}</td>
+                                <td>{{ $jobCard->service_type }}</td>
+                                <td>{{ $jobCard->user ? $jobCard->user->name : 'N/A' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="text-center">
+                <p class="alert alert-info">No job cards found for the applied filters.</p>
+            </div>
+        @endif
+    </div>
+</main>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterForm = document.getElementById('filterForm');
+
+        // Clear filters and reset form when "Clear" button is clicked
+        const clearButton = document.getElementById('clearFilter');
+        if (clearButton) {
+            clearButton.addEventListener('click', function () {
+                filterForm.reset();
+                window.location.href = "{{ route('Ajobcards.index') }}"; // Redirect to reset filters
+            });
+        }
     });
 </script>
 

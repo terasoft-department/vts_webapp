@@ -14,6 +14,8 @@
             background-color: #f4f4f4;
             padding: 20px;
         }
+
+
         .container {
             background-color: white;
             padding: 30px;
@@ -53,24 +55,31 @@
     </style>
 </head>
 <body>
+    
+<!-- Search Form Section -->
+<div id="search-form" class="container mt-2">
+    <h4 class="mb-4 text-center">Search CheckLists</h4>
+    <form action="{{ route('Adminchecklists.search') }}" method="POST">
+        @csrf
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <label for="from_date" class="form-label mb-0">From Date:</label>
+                <input type="date" class="form-control form-control-sm" name="from_date" required>
+            </div>
+            <div class="col-auto">
+                <label for="to_date" class="form-label mb-0">To Date:</label>
+                <input type="date" class="form-control form-control-sm" name="to_date" required>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="window.history.back();">Back</button>
+            </div>
+        </div>
+    </form>
+</div>
 
-    <!-- Search Form Section -->
-    <div id="search-form" class="container mt-5">
-        <h4 class="mb-4 text-center">Search CheckLists</h4>
-        <form action="{{ route('checklists.search') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="from_date">From Date:</label>
-                <input type="date" class="form-control" name="from_date" required>
-            </div>
-            <div class="form-group">
-                <label for="to_date">To Date:</label>
-                <input type="date" class="form-control" name="to_date" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
-        </form>
-    </div>
 
     <!-- Results Section -->
     @if(isset($results))

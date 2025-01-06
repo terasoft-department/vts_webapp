@@ -433,7 +433,7 @@
 
     <div class="form-group">
         <label for="customer_debt">Customer Debt (TZS)</label>
-        <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" required>
+        <input type="text" class="form-control" id="customer_debt" name="customer_debt" placeholder="Enter customer's debt amount" >
     </div>
 
     <div class="form-group">
