@@ -329,11 +329,6 @@
                     </tbody>
                 </table>
                  <!-- Pagination -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        {{ $Ajobcards->links() }}
-                    </ul>
-                </nav>
                 @else
                 <div class="text-center">
                     <p class="alert alert-info">Please apply filters to view the JobcardLists.</p>
