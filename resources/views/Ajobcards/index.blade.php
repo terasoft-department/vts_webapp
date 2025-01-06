@@ -329,9 +329,16 @@
                     </tbody>
                 </table>
             </div>
-        @else
-            <div class="text-center mt-3">
-                <p class="alert alert-info">No job cards found for the applied filters. Use the filter above to narrow down your search.</p>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{ $jobcards->links() }}
+                    </ul>
+                </nav>
+            @else
+            <div class="text-center">
+                <p class="alert alert-info">Please apply filters to view the JobcardLists.</p>
             </div>
         @endif
     </div>
