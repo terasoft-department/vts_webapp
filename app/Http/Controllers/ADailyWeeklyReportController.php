@@ -9,9 +9,23 @@ use Illuminate\Http\Request;
 class ADailyWeeklyReportController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::all();
+        $query = DailyWeeklyReport::query();
+
+    if ($request->has('date_from') && $request->date_from) {
+        $query->where('reported_date', '>=', $request->date_from);
+    }
+
+    if ($request->has('date_to') && $request->date_to) {
+        $query->where('reported_date', '<=', $request->date_to);
+    }
+
+    $reports = $query->get();
+    $customers = Customer::all();
+
+    // return view('Adaily_weekly_reports.index', compact('reports', 'customers'));
+    //     $customers = Customer::all();
         $reports = DailyWeeklyReport::all();
         return view('Adaily_weekly_reports.index', compact('customers','reports'));
     }

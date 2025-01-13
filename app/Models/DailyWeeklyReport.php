@@ -11,7 +11,7 @@ class DailyWeeklyReport extends Model
 protected $primarykey ='daily_id';
     protected $fillable = [
         'reported_date',
-        'customer_id',
+        'customername',
         'bus_plate_number',
         'contact',
         'reported_by',

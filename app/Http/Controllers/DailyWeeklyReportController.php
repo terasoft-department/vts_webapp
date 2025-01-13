@@ -35,7 +35,7 @@ public function uploadReport(Request $request)
     // Save report details with the PDF path
     DailyWeeklyReport::create([
         'reported_date' => $request->reported_date,
-        'customer_id' => $request->customer_id,
+        'customername' => $request->customername,
         'bus_plate_number' => $request->bus_plate_number,
         'contact' => $request->contact,
         'reported_by' => $request->reported_by,
@@ -67,7 +67,7 @@ public function viewReport($id)
 {
     $request->validate([
         'reported_date' => 'required|date',
-        'customer_id' => 'required|exists:customers,customer_id', // Ensure customer exists
+        'customername' => 'required|exists:customers,customername', // Ensure customer exists
         'bus_plate_number' => 'required|string|max:255',
         'contact' => 'required|string|max:255',
         'reported_by' => 'required|string|max:255',
@@ -80,7 +80,7 @@ public function viewReport($id)
 
     $report = new DailyWeeklyReport();
     $report->reported_date = $request->reported_date;
-    $report->customer_id = $request->customer_id;
+    $report->customername = $request->customername;
     $report->bus_plate_number = $request->bus_plate_number;
     $report->contact = $request->contact;
     $report->reported_by = $request->reported_by;
@@ -111,7 +111,7 @@ public function viewReport($id)
 {
     $request->validate([
         'reported_date' => 'required|date',
-        'customer_id' => 'required|exists:customers,customer_id', // Ensure customer exists
+        'customername' => 'required|exists:customers,customername', // Ensure customer exists
         'bus_plate_number' => 'required|string|max:255',
         'contact' => 'required|string|max:255',
         'reported_by' => 'required|string|max:255',
@@ -124,7 +124,7 @@ public function viewReport($id)
 
     $report = DailyWeeklyReport::findOrFail($id);
     $report->reported_date = $request->reported_date;
-    $report->customer_id = $request->customer_id;
+    $report->customername = $request->customername;
     $report->bus_plate_number = $request->bus_plate_number;
     $report->contact = $request->contact;
     $report->reported_by = $request->reported_by;

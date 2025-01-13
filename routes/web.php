@@ -170,6 +170,9 @@ Route::resource('assignments', AssignmentController::class);
 Route::get('assignmentsv2', [AssignmentController::class, 'index2'])->name('assignmentsv2.index2');
 Route::get('/api/get-customer-details', [AssignmentController::class, 'getCustomerDetails']);
 
+Route::get('/assignments/filter', [AssignmentController::class, 'filterAssignments'])->name('assignments.filter');
+Route::get('/assignments/export', [AssignmentController::class, 'exportAssignments'])->name('assignments.export');
+
 
 });
 //return device routes

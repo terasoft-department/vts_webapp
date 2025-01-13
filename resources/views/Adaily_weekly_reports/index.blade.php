@@ -127,8 +127,34 @@
             <button class="btn btn-primary" data-toggle="modal" data-target="#createReportModal">
                 <i class="fas fa-plus-circle"></i> Create
             </button>
-        </div>
-        <br> --}}
+        </div> --}}
+
+      <!-- Date Filters -->
+<form method="GET" action="{{ route('Adaily_weekly_reports.index') }}" class="mb-3">
+    <div class="d-flex gap-2">
+        <input
+            type="date"
+            id="date_from"
+            name="date_from"
+            class="form-control"
+            placeholder="From"
+            value="{{ request('date_from') }}"
+            aria-label="From Date"
+        >
+        <input
+            type="date"
+            id="date_to"
+            name="date_to"
+            class="form-control"
+            placeholder="To"
+            value="{{ request('date_to') }}"
+            aria-label="To Date"
+        >
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+
+        <br>
 
         <div class="table-container">
             <br>
@@ -137,16 +163,16 @@
                     <tr>
                         <th>S/N</th>
                         <th>R.Date</th>
-                        <th>CustName</th>
-                        <th>PlateNumber</th>
+                        <th>Bus Company</th>
+                        <th>Bus Number</th>
                         <th>Contact</th>
                         <th>Reported By</th>
                         <th>Reported Case</th>
                         <th>Assigned Techn</th>
-                        <th>Inspection reports</th>
+                        <th>Findings</th>
                         <th>Response Status</th>
                         <th>Response Date</th>
-                        {{-- <th>Actions</th> --}}
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -154,40 +180,31 @@
                     <tr>
                         <td>{{ $report->id }}</td>
                         <td>{{ $report->reported_date }}</td>
-                        <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}</td>
-                        {{-- <td>{{ $report->customername }}</td> --}}
+                        {{-- <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}</td> --}}
+                        <td>{{ $report->customername }}</td>
                         <td>{{ $report->bus_plate_number }}</td>
                         <td>{{ $report->contact }}</td>
                         <td>{{ $report->reported_by }}</td>
                         <td>{{ $report->reported_case }}</td>
                         <td>{{ $report->assigned_technician }}</td>
-                        <td>
-                            @if ($report->findings)
-                                <a href="{{ asset('uploads/' . $report->findings) }}" target="_blank">
-                                    <i class="fas fa-file-pdf text-danger"></i> View Inspection Report
-                                </a>
-                            @else
-                                N/A
-                            @endif
-                        </td>
-
+                        <td>{{ $report->findings }}</td>
                         <td>{{ $report->response_status }}</td>
                         <td>{{ $report->response_date }}</td>
-                        {{-- <td class="action-icons">
+                        <td class="action-icons">
                             <!-- Trigger modal for editing -->
                             <span class="icon" data-toggle="modal" data-target="#editReportModal{{ $report->id }}">
                                 <i class="fas fa-edit"></i>
                             </span>
 
                             <!-- Delete form -->
-                            <form action="{{ route('daily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('Adaily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <span class="icon" onclick="if(confirm('Are you sure you want to delete this report?')) { this.closest('form').submit(); }">
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </form>
-                        </td> --}}
+                        </td>
                     </tr>
 
                     <!-- Edit Modal -->
@@ -199,7 +216,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('daily_weekly_reports.update', $report->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('Adaily_weekly_reports.update', $report->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
 
@@ -207,7 +224,7 @@
                                             <label for="reported_date">Reported Date</label>
                                             <input type="date" class="form-control" id="reported_date" name="reported_date" value="{{ old('reported_date', $report->reported_date) }}" required>
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="customer_id">Customer Name</label>
                                             <select class="form-control" id="customer_id" name="customer_id" required>
                                                 <option value="">Select a customer</option>
@@ -215,7 +232,13 @@
                                                     <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
                                                 @endforeach
                                             </select>
+                                        </div> --}}
+
+                                        <div class="form-group">
+                                            <label for="customername">Customer Name</label>
+                                            <input type="text" class="form-control" id="customername" name="customername" required>
                                         </div>
+
 
                                         <div class="form-group">
                                             <label for="bus_plate_number">Bus Plate Number</label>
@@ -243,9 +266,11 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="findings">Inspection report (PDF, Word, Excel)</label>
-                                            <input type="file" name="findings" class="form-control-file" accept=".pdf, .docx, .xlsx" required>
+                                            <label for="findings">Findings</label>
+                                            <input type="text" name="findings" class="form-control" required>
                                         </div>
+
+
 
                                         <div class="form-group">
                                             <label for="response_status">Response Status</label>
@@ -281,7 +306,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('daily_weekly_reports.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('Adaily_weekly_reports.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="container">
 
@@ -291,7 +316,7 @@
                         </div>
 
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="customer_id">Customer Name</label>
                             <select class="form-control" id="customer_id" name="customer_id" required>
                                 <option value="">Select a customer</option>
@@ -299,7 +324,13 @@
                                     <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
                                 @endforeach
                             </select>
+                        </div> --}}
+
+                        <div class="form-group">
+                            <label for="customername">Customer Name</label>
+                            <input type="text" class="form-control" id="customername" name="customername" required>
                         </div>
+
 
 
                         <div class="form-group">
@@ -328,9 +359,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="findings">Inspection report (PDF, Word, Excel)</label>
-                            <input type="file" name="findings" class="form-control-file" accept=".pdf, .docx, .xlsx" required>
+                            <label for="findings">Findings</label>
+                            <input type="text" name="findings" class="form-control" required>
                         </div>
+
 
                         <div class="form-group">
                             <label for="response_status">Response Status</label>
@@ -367,7 +399,6 @@
         $('#trackDebtsForm').attr('action', '/daily_weekly_reports/' + report.id);
         $('#trackDebtsForm').append('<input type="hidden" name="_method" value="PUT">');
         $('#createReportModal .modal-title').text('Edit Report');
-
         // Populate the form fields with existing data
         $('#reported_date').val(report.reported_date);
         $('#customer_id').val(report.customer_id);
@@ -378,15 +409,9 @@
         $('#assigned_technician').val(report.assigned_technician);
         $('#response_status').val(report.response_status);
         $('#response_date').val(report.response_date);
-        // If report findings PDF exists
-        if (report.findings) {
-            $('#findingsLink').html(`<a href="${report.findings}" target="_blank"><i class="fas fa-file-pdf text-danger"></i></a>`);
-        } else {
-            $('#findingsLink').html('No file');
-        }
+        $('#assigned_technician').val(report.assigned_technician);
 
-        $('#createReportModal').modal('show');
-    }
+        }
 
     // Reset the modal form and title when closed
     $('#createReportModal').on('hidden.bs.modal', function () {
