@@ -235,16 +235,7 @@
                             <i class="bi bi-circle"></i><span>Daily</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="reports">
-                            <i class="bi bi-circle"></i><span>Monthly</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tampering">
-                            <i class="bi bi-circle"></i><span>Tampering</span>
-                        </a>
-                    </li>
+
                 </ul>
             </li><!-- End Icons Nav -->
 
@@ -270,6 +261,8 @@
                     </ul>
                 </div>
             @endif
+
+            <!-- Filter Form -->
             <form method="GET" action="{{ route('daily_weekly_reports.index') }}" class="mb-3">
                 <div class="d-flex gap-2">
                     <input
@@ -294,16 +287,17 @@
                 </div>
             </form>
 
+            <!-- Create Report Button -->
             <div class="btn-group">
-                <!-- Trigger modal for creating a new report -->
                 <button class="btn btn-primary" data-toggle="modal" data-target="#createReportModal">
                     <i class="fas fa-plus-circle"></i> Create
                 </button>
             </div>
-            <br>
 
+            <br>
+            <br>
+            <!-- Reports Table -->
             <div class="table-container">
-                <br>
                 <table id="dailyWeeklyReports" class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -326,10 +320,8 @@
                             <tr>
                                 <td>{{ $report->id }}</td>
                                 <td>{{ $report->reported_date }}</td>
-                                {{-- <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}
-                                </td> --}}
-                                <td>{{ $report->customername }}</td>
-                                <td>{{ $report->bus_plate_number }}</td>
+                                <td>{{ $report->bus_company }}</td>
+                                <td>{{ $report->bus_number }}</td>
                                 <td>{{ $report->contact }}</td>
                                 <td>{{ $report->reported_by }}</td>
                                 <td>{{ $report->reported_case }}</td>
@@ -338,133 +330,87 @@
                                 <td>{{ $report->response_status }}</td>
                                 <td>{{ $report->response_date }}</td>
                                 <td class="action-icons">
-                                    <!-- Trigger modal for editing -->
-                                    <span class="icon" data-toggle="modal"
-                                        data-target="#editReportModal{{ $report->id }}">
+                                    <!-- Edit and Delete Actions -->
+                                    <span class="icon" data-toggle="modal" data-target="#editReportModal{{ $report->id }}">
                                         <i class="fas fa-edit"></i>
                                     </span>
 
-                                    <!-- Delete form -->
-                                    <form action="{{ route('daily_weekly_reports.destroy', $report->id) }}"
-                                        method="POST" style="display:inline;">
+                                    <form action="{{ route('daily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <span class="icon"
-                                            onclick="if(confirm('Are you sure you want to delete this report?')) { this.closest('form').submit(); }">
+                                        <span class="icon" onclick="if(confirm('Are you sure you want to delete this report?')) { this.closest('form').submit(); }">
                                             <i class="fas fa-trash"></i>
                                         </span>
                                     </form>
                                 </td>
                             </tr>
 
-                            <!-- Edit Modal -->
-                            <div class="modal fade" id="editReportModal{{ $report->id }}" tabindex="-1"
-                                role="dialog" aria-labelledby="editReportModalLabel" aria-hidden="true">
+                            <!-- Edit Report Modal -->
+                            <div class="modal fade" id="editReportModal{{ $report->id }}" tabindex="-1" role="dialog" aria-labelledby="editReportModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Edit Report</h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('daily_weekly_reports.update', $report->id) }}"
-                                                method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('daily_weekly_reports.update', $report->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
 
                                                 <div class="form-group">
                                                     <label for="reported_date">Reported Date</label>
-                                                    <input type="date" class="form-control" id="reported_date"
-                                                        name="reported_date"
-                                                        value="{{ old('reported_date', $report->reported_date) }}"
-                                                        required>
-                                                </div>
-                                                {{-- <div class="form-group">
-                                                    <label for="customer_id">Customer Name</label>
-                                                    <select class="form-control" id="customer_id" name="customer_id"
-                                                        required>
-                                                        <option value="">Select a customer</option>
-                                                        @foreach ($customers as $customer)
-                                                            <option value="{{ $customer->customer_id }}">
-                                                                {{ $customer->customername }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div> --}}
-
-                                                <div class="form-group">
-                                                    <label for="customername">Customer Name</label>
-                                                    <input type="text" class="form-control" id="customername" name="customername" required>
+                                                    <input type="date" class="form-control" id="reported_date" name="reported_date" value="{{ old('reported_date', $report->reported_date) }}" required>
                                                 </div>
 
+                                                <div class="form-group">
+                                                    <label for="bus_company">Bus Company</label>
+                                                    <input type="text" class="form-control" id="bus_company" name="bus_company" value="{{ old('bus_company', $report->bus_company) }}" required>
+                                                </div>
 
                                                 <div class="form-group">
-                                                    <label for="bus_plate_number">Bus Plate Number</label>
-                                                    <input type="text" class="form-control" id="bus_plate_number"
-                                                        name="bus_plate_number"
-                                                        value="{{ old('bus_plate_number', $report->bus_plate_number) }}"
-                                                        required>
+                                                    <label for="bus_number">Bus Number</label>
+                                                    <input type="text" class="form-control" id="bus_number" name="bus_number" value="{{ old('bus_number', $report->bus_number) }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="contact">Contact</label>
-                                                    <input type="text" class="form-control" id="contact"
-                                                        name="contact" value="{{ old('contact', $report->contact) }}"
-                                                        required>
+                                                    <input type="text" class="form-control" id="contact" name="contact" value="{{ old('contact', $report->contact) }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="reported_by">Reported By</label>
-                                                    <input type="text" class="form-control" id="reported_by"
-                                                        name="reported_by"
-                                                        value="{{ old('reported_by', $report->reported_by) }}"
-                                                        required>
+                                                    <input type="text" class="form-control" id="reported_by" name="reported_by" value="{{ old('reported_by', $report->reported_by) }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="reported_case">Reported Case</label>
-                                                    <input type="text" class="form-control" id="reported_case"
-                                                        name="reported_case"
-                                                        value="{{ old('reported_case', $report->reported_case) }}"
-                                                        required>
+                                                    <input type="text" class="form-control" id="reported_case" name="reported_case" value="{{ old('reported_case', $report->reported_case) }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="assigned_technician">Assigned Technician</label>
-                                                    <input type="text" class="form-control"
-                                                        id="assigned_technician" name="assigned_technician"
-                                                        value="{{ old('assigned_technician', $report->assigned_technician) }}"
-                                                        required>
+                                                    <input type="text" class="form-control" id="assigned_technician" name="assigned_technician" value="{{ old('assigned_technician', $report->assigned_technician) }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="findings">Findings</label>
-                                                    <input type="text" class="form-control" id="findings"
-                                                        name="findings"
-                                                        value="{{ old('findings', $report->findings) }}" required>
+                                                    <input type="text" class="form-control" id="findings" name="findings" value="{{ old('findings', $report->findings) }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="response_status">Response Status</label>
-                                                    <input type="text" class="form-control" id="response_status"
-                                                        name="response_status"
-                                                        value="{{ old('response_status', $report->response_status) }}"
-                                                        required>
+                                                    <input type="text" class="form-control" id="response_status" name="response_status" value="{{ old('response_status', $report->response_status) }}" required>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="response_date">Response Date</label>
-                                                    <input type="date" class="form-control" id="response_date"
-                                                        name="response_date"
-                                                        value="{{ old('response_date', $report->response_date) }}"
-                                                        required>
+                                                    <input type="date" class="form-control" id="response_date" name="response_date" value="{{ old('response_date', $report->response_date) }}" required>
                                                 </div>
 
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Save
-                                                        changes</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -478,18 +424,15 @@
         </div>
 
         <!-- Create Report Modal -->
-        <div class="modal fade" id="createReportModal" tabindex="-1" role="dialog"
-            aria-labelledby="createReportModalLabel" aria-hidden="true">
+        <div class="modal fade" id="createReportModal" tabindex="-1" role="dialog" aria-labelledby="createReportModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">New Report</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{ route('daily_weekly_reports.store') }}"
-                            enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('daily_weekly_reports.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="container">
 
@@ -498,28 +441,14 @@
                                     <input type="date" name="reported_date" class="form-control" required>
                                 </div>
 
-{{--
                                 <div class="form-group">
-                                    <label for="customer_id">Customer Name</label>
-                                    <select class="form-control" id="customer_id" name="customer_id" required>
-                                        <option value="">Select a customer</option>
-                                        @foreach ($customers as $customer)
-                                            <option value="{{ $customer->customer_id }}">
-                                                {{ $customer->customername }}</option>
-                                        @endforeach
-                                    </select>
-                                </div> --}}
-
-                                <div class="form-group">
-                                    <label for="customername">Customer Name</label>
-                                    <input type="text" class="form-control" id="customername" name="customername" required>
+                                    <label for="bus_company">Bus Company</label>
+                                    <input type="text" name="bus_company" class="form-control" required>
                                 </div>
 
-
-
                                 <div class="form-group">
-                                    <label for="bus_plate_number">Bus Plate Number</label>
-                                    <input type="text" name="bus_plate_number" class="form-control" required>
+                                    <label for="bus_number">Bus Number</label>
+                                    <input type="text" name="bus_number" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
@@ -558,104 +487,58 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save Report</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Create Report</button>
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-
-    <script>
-        // Open the modal to create a new report
-        function openCreateReportModal() {
-            $('#trackDebtsForm').attr('action', '{{ route('daily_weekly_reports.store') }}');
-            $('#trackDebtsForm').attr('method', 'POST');
-            $('#createReportModal').modal('show');
-        }
-
-        // Open the modal to edit an existing report
-        function openEditReportModal(report) {
-            // Set form action for update with PUT method
-            $('#trackDebtsForm').attr('action', '/daily_weekly_reports/' + report.id);
-            $('#trackDebtsForm').append('<input type="hidden" name="_method" value="PUT">');
-            $('#createReportModal .modal-title').text('Edit Report');
-
-            // Populate the form fields with existing data
-            $('#reported_date').val(report.reported_date);
-            $('#customer_id').val(report.customer_id);
-            $('#bus_plate_number').val(report.bus_plate_number);
-            $('#contact').val(report.contact);
-            $('#reported_by').val(report.reported_by);
-            $('#reported_case').val(report.reported_case);
-            $('#assigned_technician').val(report.assigned_technician);
-            $('#response_status').val(report.response_status);
-            $('#response_date').val(report.response_date);
-            // If report findings PDF exists
-            if (report.findings) {
-                $('#findingsLink').html(
-                    `<a href="${report.findings}" target="_blank"><i class="fas fa-file-pdf text-danger"></i></a>`);
-            } else {
-                $('#findingsLink').html('No file');
-            }
-
-            $('#createReportModal').modal('show');
-        }
-
-        // Reset the modal form and title when closed
-        $('#createReportModal').on('hidden.bs.modal', function() {
-            $('#trackDebtsForm').trigger('reset'); // Reset the form
-            $('#createReportModal .modal-title').text('New Report');
-            $('#trackDebtsForm').find('input[name="_method"]').remove(); // Remove PUT method if exists
-            $('#findingsLink').html(''); // Clear findings link
-        });
-    </script>
 
 
-    <!-- JS and dependencies -->
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+        <!-- JS and dependencies -->
+        <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
 
     <br>
-    <script>
-        $(document).ready(function() {
-            $('#dailyWeeklyReports').DataTable({
-                dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'print'],
-                responsive: true
+        <script>
+
+            $(document).ready(function() {
+                $('#dailyWeeklyReports').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'csv', 'excel', 'print'],
+                    responsive: true
+                });
             });
-        });
-    </script>
+        </script>
 
-    <br>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+        <br>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+        <!-- Vendor JS Files -->
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="assets/vendor/echarts/echarts.min.js"></script>
+        <script src="assets/vendor/quill/quill.js"></script>
+        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+        <!-- Template Main JS File -->
+        <script src="assets/js/main.js"></script>
 
 
-</body>
-
-</html>
+    </body>
+    </html>

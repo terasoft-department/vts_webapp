@@ -146,16 +146,7 @@
                 <i class="bi bi-circle"></i><span>Daily</span>
               </a>
             </li>
-            <li>
-              <a href="reports">
-                <i class="bi bi-circle"></i><span>Monthly</span>
-              </a>
-            </li>
-            <li>
-              <a href="tampering">
-                <i class="bi bi-circle"></i><span>Tampering</span>
-              </a>
-            </li>
+
           </ul>
       </li><!-- End Icons Nav -->
 

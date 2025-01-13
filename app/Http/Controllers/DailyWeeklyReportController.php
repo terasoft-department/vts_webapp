@@ -7,99 +7,49 @@ use Illuminate\Http\Request;
 
 class DailyWeeklyReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = DailyWeeklyReport::query();
+
+        if ($request->has('date_from') && $request->date_from) {
+            $query->where('reported_date', '>=', $request->date_from);
+        }
+
+        if ($request->has('date_to') && $request->date_to) {
+            $query->where('reported_date', '<=', $request->date_to);
+        }
+
+        $reports = $query->get();
         $customers = Customer::all();
-        $reports = DailyWeeklyReport::all();
-        return view('daily_weekly_reports.index', compact('customers','reports'));
+
+        return view('daily_weekly_reports.index', compact('customers', 'reports'));
     }
 
     public function create()
     {
         $customers = Customer::all(); // Retrieve all customers
-        $reports = DailyWeeklyReport::all();
-        return view('daily_weekly_reports.create', compact('customers','reports'));
+        return view('daily_weekly_reports.create', compact('customers'));
     }
-
-
-public function uploadReport(Request $request)
-{
-    // Validate the file (ensure it's a PDF)
-    $request->validate([
-        'pdf' => 'required|mimes:pdf|max:10240', // max 10MB
-    ]);
-
-    // Store the uploaded PDF file
-    $pdfPath = $request->file('pdf')->store('public/reports'); // Store in storage/app/public/reports
-
-    // Save report details with the PDF path
-    DailyWeeklyReport::create([
-        'reported_date' => $request->reported_date,
-        'customername' => $request->customername,
-        'bus_plate_number' => $request->bus_plate_number,
-        'contact' => $request->contact,
-        'reported_by' => $request->reported_by,
-        'reported_case' => $request->reported_case,
-        'assigned_technician' => $request->assigned_technician,
-        'findings' => $request->findings,
-        'response_status' => $request->response_status,
-        'response_date' => $request->response_date,
-        'pdf_path' => $pdfPath, // Store the path of the uploaded PDF
-    ]);
-
-    return back()->with('success', 'Report uploaded successfully!');
-}
-
-public function viewReport($id)
-{
-    $report = DailyWeeklyReport::findOrFail($id);
-
-    // Ensure the PDF file exists before attempting to serve it
-    if (file_exists(storage_path('app/' . $report->pdf_path))) {
-        return response()->file(storage_path('app/' . $report->pdf_path));
-    }
-
-    return abort(404, 'PDF not found');
-}
-
 
     public function store(Request $request)
-{
-    $request->validate([
-        'reported_date' => 'required|date',
-        'customername' => 'required|exists:customers,customername', // Ensure customer exists
-        'bus_plate_number' => 'required|string|max:255',
-        'contact' => 'required|string|max:255',
-        'reported_by' => 'required|string|max:255',
-        'reported_case' => 'required|string|max:255',
-        'assigned_technician' => 'required|string|max:255',
-        'findings' => 'nullable|file|mimes:pdf|max:10240',
-        'response_status' => 'required|string|max:255',
-        'response_date' => 'required|date',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'reported_date' => 'required|date',
+            'bus_company' => 'required|string|max:255',
+            'bus_number' => 'required|string|max:255',
+            'contact' => 'required|string|max:255',
+            'reported_by' => 'required|string|max:255',
+            'reported_case' => 'required|string|max:255',
+            'assigned_technician' => 'required|string|max:255',
+            'findings' => 'nullable|string',
+            'response_status' => 'required|string|max:255',
+            'response_date' => 'nullable|date',
+        ]);
 
-    $report = new DailyWeeklyReport();
-    $report->reported_date = $request->reported_date;
-    $report->customername = $request->customername;
-    $report->bus_plate_number = $request->bus_plate_number;
-    $report->contact = $request->contact;
-    $report->reported_by = $request->reported_by;
-    $report->reported_case = $request->reported_case;
-    $report->assigned_technician = $request->assigned_technician;
-    $report->response_status = $request->response_status;
-    $report->response_date = $request->response_date;
+        DailyWeeklyReport::create($validatedData);
 
-    // Handle file upload for findings
-    if ($request->hasFile('findings')) {
-        $file = $request->file('findings');
-        $filePath = $file->store('uploads', 'public');
-        $report->findings = $filePath;
+        return redirect()->route('daily_weekly_reports.index')->with('success', 'Report created successfully.');
     }
-
-    $report->save();
-
-    return redirect()->route('daily_weekly_reports.index')->with('success', 'Report created successfully.');
-}
 
     public function edit(DailyWeeklyReport $dailyWeeklyReport)
     {
@@ -107,43 +57,25 @@ public function viewReport($id)
         return view('daily_weekly_reports.edit', compact('dailyWeeklyReport', 'customers'));
     }
 
-    public function update(Request $request, $id)
-{
-    $request->validate([
-        'reported_date' => 'required|date',
-        'customername' => 'required|exists:customers,customername', // Ensure customer exists
-        'bus_plate_number' => 'required|string|max:255',
-        'contact' => 'required|string|max:255',
-        'reported_by' => 'required|string|max:255',
-        'reported_case' => 'required|string|max:255',
-        'assigned_technician' => 'required|string|max:255',
-        'findings' => 'nullable|file|mimes:pdf|max:10240',
-        'response_status' => 'required|string|max:255',
-        'response_date' => 'required|date',
-    ]);
+    public function update(Request $request, DailyWeeklyReport $dailyWeeklyReport)
+    {
+        $validatedData = $request->validate([
+            'reported_date' => 'required|date',
+            'bus_company' => 'required|string|max:255',
+            'bus_number' => 'required|string|max:255',
+            'contact' => 'required|string|max:255',
+            'reported_by' => 'required|string|max:255',
+            'reported_case' => 'required|string|max:255',
+            'assigned_technician' => 'required|string|max:255',
+            'findings' => 'nullable|string',
+            'response_status' => 'required|string|max:255',
+            'response_date' => 'nullable|date',
+        ]);
 
-    $report = DailyWeeklyReport::findOrFail($id);
-    $report->reported_date = $request->reported_date;
-    $report->customername = $request->customername;
-    $report->bus_plate_number = $request->bus_plate_number;
-    $report->contact = $request->contact;
-    $report->reported_by = $request->reported_by;
-    $report->reported_case = $request->reported_case;
-    $report->assigned_technician = $request->assigned_technician;
-    $report->response_status = $request->response_status;
-    $report->response_date = $request->response_date;
+        $dailyWeeklyReport->update($validatedData);
 
-    // Handle file upload for findings
-    if ($request->hasFile('findings')) {
-        $file = $request->file('findings');
-        $filePath = $file->store('uploads', 'public');
-        $report->findings = $filePath;
+        return redirect()->route('daily_weekly_reports.index')->with('success', 'Report updated successfully.');
     }
-
-    $report->save();
-
-    return redirect()->route('daily_weekly_reports.index')->with('success', 'Report updated successfully.');
-}
 
     public function destroy(DailyWeeklyReport $dailyWeeklyReport)
     {

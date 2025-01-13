@@ -95,7 +95,7 @@
         <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="advehicles"><i class="fas fa-car"></i></i><span>Vehicle</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fa fa-chart-line"></i></i><span>Daily&Weekly</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fa fa-calendar-alt"></i></i><span>Monthly&Yearly</span></a></li>
+        {{-- <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fa fa-calendar-alt"></i></i><span>Monthly&Yearly</span></a></li> --}}
         <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-id-badge"></i></i><span>JobCards</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="new_installations3"><i class="fas fa-id-badge"></i></i><span>New Installations</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Adminchecklists"><i class="fa fa-check-square"></i></i><span>Checklists</span></a></li>
@@ -113,51 +113,51 @@
         <br>
 
         @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        {{-- <div class="btn-group">
-            <!-- Trigger modal for creating a new report -->
+        <!-- Filter Form -->
+        <form method="GET" action="{{ route('Adaily_weekly_reports.index') }}" class="mb-3">
+            <div class="d-flex gap-2">
+                <input
+                    type="date"
+                    id="date_from"
+                    name="date_from"
+                    class="form-control"
+                    placeholder="From"
+                    value="{{ request('date_from') }}"
+                    aria-label="From Date"
+                >
+                <input
+                    type="date"
+                    id="date_to"
+                    name="date_to"
+                    class="form-control"
+                    placeholder="To"
+                    value="{{ request('date_to') }}"
+                    aria-label="To Date"
+                >
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </form>
+{{--
+        <!-- Create Report Button -->
+        <div class="btn-group">
             <button class="btn btn-primary" data-toggle="modal" data-target="#createReportModal">
                 <i class="fas fa-plus-circle"></i> Create
             </button>
         </div> --}}
 
-      <!-- Date Filters -->
-<form method="GET" action="{{ route('Adaily_weekly_reports.index') }}" class="mb-3">
-    <div class="d-flex gap-2">
-        <input
-            type="date"
-            id="date_from"
-            name="date_from"
-            class="form-control"
-            placeholder="From"
-            value="{{ request('date_from') }}"
-            aria-label="From Date"
-        >
-        <input
-            type="date"
-            id="date_to"
-            name="date_to"
-            class="form-control"
-            placeholder="To"
-            value="{{ request('date_to') }}"
-            aria-label="To Date"
-        >
-        <button type="submit" class="btn btn-primary">Filter</button>
-    </div>
-</form>
-
         <br>
-
+        <br>
+        <!-- Reports Table -->
         <div class="table-container">
-            <br>
             <table id="dailyWeeklyReports" class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -176,121 +176,107 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($reports as $report)
-                    <tr>
-                        <td>{{ $report->id }}</td>
-                        <td>{{ $report->reported_date }}</td>
-                        {{-- <td>{{ optional($customers->find($report->customer_id))->customername ?? 'Unknown' }}</td> --}}
-                        <td>{{ $report->customername }}</td>
-                        <td>{{ $report->bus_plate_number }}</td>
-                        <td>{{ $report->contact }}</td>
-                        <td>{{ $report->reported_by }}</td>
-                        <td>{{ $report->reported_case }}</td>
-                        <td>{{ $report->assigned_technician }}</td>
-                        <td>{{ $report->findings }}</td>
-                        <td>{{ $report->response_status }}</td>
-                        <td>{{ $report->response_date }}</td>
-                        <td class="action-icons">
-                            <!-- Trigger modal for editing -->
-                            <span class="icon" data-toggle="modal" data-target="#editReportModal{{ $report->id }}">
-                                <i class="fas fa-edit"></i>
-                            </span>
-
-                            <!-- Delete form -->
-                            <form action="{{ route('Adaily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <span class="icon" onclick="if(confirm('Are you sure you want to delete this report?')) { this.closest('form').submit(); }">
-                                    <i class="fas fa-trash"></i>
+                    @foreach ($reports as $report)
+                        <tr>
+                            <td>{{ $report->id }}</td>
+                            <td>{{ $report->reported_date }}</td>
+                            <td>{{ $report->bus_company }}</td>
+                            <td>{{ $report->bus_number }}</td>
+                            <td>{{ $report->contact }}</td>
+                            <td>{{ $report->reported_by }}</td>
+                            <td>{{ $report->reported_case }}</td>
+                            <td>{{ $report->assigned_technician }}</td>
+                            <td>{{ $report->findings }}</td>
+                            <td>{{ $report->response_status }}</td>
+                            <td>{{ $report->response_date }}</td>
+                            <td class="action-icons">
+                                <!-- Edit and Delete Actions -->
+                                <span class="icon" data-toggle="modal" data-target="#editReportModal{{ $report->id }}">
+                                    <i class="fas fa-edit"></i>
                                 </span>
-                            </form>
-                        </td>
-                    </tr>
 
-                    <!-- Edit Modal -->
-                    <div class="modal fade" id="editReportModal{{ $report->id }}" tabindex="-1" role="dialog" aria-labelledby="editReportModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Edit Report</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('Adaily_weekly_reports.update', $report->id) }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
+                                <form action="{{ route('Adaily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <span class="icon" onclick="if(confirm('Are you sure you want to delete this report?')) { this.closest('form').submit(); }">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                </form>
+                            </td>
+                        </tr>
 
-                                        <div class="form-group">
-                                            <label for="reported_date">Reported Date</label>
-                                            <input type="date" class="form-control" id="reported_date" name="reported_date" value="{{ old('reported_date', $report->reported_date) }}" required>
-                                        </div>
-                                        {{-- <div class="form-group">
-                                            <label for="customer_id">Customer Name</label>
-                                            <select class="form-control" id="customer_id" name="customer_id" required>
-                                                <option value="">Select a customer</option>
-                                                @foreach($customers as $customer)
-                                                    <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div> --}}
+                        <!-- Edit Report Modal -->
+                        <div class="modal fade" id="editReportModal{{ $report->id }}" tabindex="-1" role="dialog" aria-labelledby="editReportModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Report</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('Adaily_weekly_reports.update', $report->id) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
 
-                                        <div class="form-group">
-                                            <label for="customername">Customer Name</label>
-                                            <input type="text" class="form-control" id="customername" name="customername" required>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="reported_date">Reported Date</label>
+                                                <input type="date" class="form-control" id="reported_date" name="reported_date" value="{{ old('reported_date', $report->reported_date) }}" required>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label for="bus_company">Bus Company</label>
+                                                <input type="text" class="form-control" id="bus_company" name="bus_company" value="{{ old('bus_company', $report->bus_company) }}" required>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="bus_plate_number">Bus Plate Number</label>
-                                            <input type="text" class="form-control" id="bus_plate_number" name="bus_plate_number" value="{{ old('bus_plate_number', $report->bus_plate_number) }}" required>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="bus_number">Bus Number</label>
+                                                <input type="text" class="form-control" id="bus_number" name="bus_number" value="{{ old('bus_number', $report->bus_number) }}" required>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="contact">Contact</label>
-                                            <input type="text" class="form-control" id="contact" name="contact" value="{{ old('contact', $report->contact) }}" required>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="contact">Contact</label>
+                                                <input type="text" class="form-control" id="contact" name="contact" value="{{ old('contact', $report->contact) }}" required>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="reported_by">Reported By</label>
-                                            <input type="text" class="form-control" id="reported_by" name="reported_by" value="{{ old('reported_by', $report->reported_by) }}" required>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="reported_by">Reported By</label>
+                                                <input type="text" class="form-control" id="reported_by" name="reported_by" value="{{ old('reported_by', $report->reported_by) }}" required>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="reported_case">Reported Case</label>
-                                            <input type="text" class="form-control" id="reported_case" name="reported_case" value="{{ old('reported_case', $report->reported_case) }}" required>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="reported_case">Reported Case</label>
+                                                <input type="text" class="form-control" id="reported_case" name="reported_case" value="{{ old('reported_case', $report->reported_case) }}" required>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="assigned_technician">Assigned Technician</label>
-                                            <input type="text" class="form-control" id="assigned_technician" name="assigned_technician" value="{{ old('assigned_technician', $report->assigned_technician) }}" required>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="assigned_technician">Assigned Technician</label>
+                                                <input type="text" class="form-control" id="assigned_technician" name="assigned_technician" value="{{ old('assigned_technician', $report->assigned_technician) }}" required>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="findings">Findings</label>
-                                            <input type="text" name="findings" class="form-control" required>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="findings">Findings</label>
+                                                <input type="text" class="form-control" id="findings" name="findings" value="{{ old('findings', $report->findings) }}" required>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label for="response_status">Response Status</label>
+                                                <input type="text" class="form-control" id="response_status" name="response_status" value="{{ old('response_status', $report->response_status) }}" required>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label for="response_date">Response Date</label>
+                                                <input type="date" class="form-control" id="response_date" name="response_date" value="{{ old('response_date', $report->response_date) }}" required>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="response_status">Response Status</label>
-                                            <input type="text" class="form-control" id="response_status" name="response_status" value="{{ old('response_status', $report->response_status) }}" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="response_date">Response Date</label>
-                                            <input type="date" class="form-control" id="response_date" name="response_date" value="{{ old('response_date', $report->response_date) }}" required>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </tbody>
             </table>
@@ -310,117 +296,67 @@
                         @csrf
                         <div class="container">
 
-                                    <div class="form-group">
-                            <label for="reported_date">Reported Date</label>
-                            <input type="date" name="reported_date" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="reported_date">Reported Date</label>
+                                <input type="date" name="reported_date" class="form-control" required>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="bus_company">Bus Company</label>
+                                <input type="text" name="bus_company" class="form-control" required>
+                            </div>
 
-                        {{-- <div class="form-group">
-                            <label for="customer_id">Customer Name</label>
-                            <select class="form-control" id="customer_id" name="customer_id" required>
-                                <option value="">Select a customer</option>
-                                @foreach($customers as $customer)
-                                    <option value="{{ $customer->customer_id }}">{{ $customer->customername }}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
+                            <div class="form-group">
+                                <label for="bus_number">Bus Number</label>
+                                <input type="text" name="bus_number" class="form-control" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="customername">Customer Name</label>
-                            <input type="text" class="form-control" id="customername" name="customername" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="contact">Contact</label>
+                                <input type="text" name="contact" class="form-control" required>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="reported_by">Reported By</label>
+                                <input type="text" name="reported_by" class="form-control" required>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="reported_case">Reported Case</label>
+                                <input type="text" name="reported_case" class="form-control" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="bus_plate_number">Bus Plate Number</label>
-                            <input type="text" name="bus_plate_number" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="assigned_technician">Assigned Technician</label>
+                                <input type="text" name="assigned_technician" class="form-control" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="contact">Contact</label>
-                            <input type="text" name="contact" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="findings">Findings</label>
+                                <input type="text" name="findings" class="form-control" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="reported_by">Reported By</label>
-                            <input type="text" name="reported_by" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="response_status">Response Status</label>
+                                <input type="text" name="response_status" class="form-control" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="reported_case">Reported Case</label>
-                            <input type="text" name="reported_case" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="response_date">Response Date</label>
+                                <input type="date" name="response_date" class="form-control" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="assigned_technician">Assigned Technician</label>
-                            <input type="text" name="assigned_technician" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="findings">Findings</label>
-                            <input type="text" name="findings" class="form-control" required>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="response_status">Response Status</label>
-                            <input type="text" name="response_status" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="response_date">Response Date</label>
-                            <input type="date" name="response_date" class="form-control" required>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save Report</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Create Report</button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</main>
 
-<script>
-    // Open the modal to create a new report
-    function openCreateReportModal() {
-        $('#trackDebtsForm').attr('action', '{{ route('daily_weekly_reports.store') }}');
-        $('#trackDebtsForm').attr('method', 'POST');
-        $('#createReportModal').modal('show');
-    }
-
-    // Open the modal to edit an existing report
-    function openEditReportModal(report) {
-        // Set form action for update with PUT method
-        $('#trackDebtsForm').attr('action', '/daily_weekly_reports/' + report.id);
-        $('#trackDebtsForm').append('<input type="hidden" name="_method" value="PUT">');
-        $('#createReportModal .modal-title').text('Edit Report');
-        // Populate the form fields with existing data
-        $('#reported_date').val(report.reported_date);
-        $('#customer_id').val(report.customer_id);
-        $('#bus_plate_number').val(report.bus_plate_number);
-        $('#contact').val(report.contact);
-        $('#reported_by').val(report.reported_by);
-        $('#reported_case').val(report.reported_case);
-        $('#assigned_technician').val(report.assigned_technician);
-        $('#response_status').val(report.response_status);
-        $('#response_date').val(report.response_date);
-        $('#assigned_technician').val(report.assigned_technician);
-
-        }
-
-    // Reset the modal form and title when closed
-    $('#createReportModal').on('hidden.bs.modal', function () {
-        $('#trackDebtsForm').trigger('reset'); // Reset the form
-        $('#createReportModal .modal-title').text('New Report');
-        $('#trackDebtsForm').find('input[name="_method"]').remove(); // Remove PUT method if exists
-        $('#findingsLink').html(''); // Clear findings link
-    });
-</script>
 
 
     <!-- JS and dependencies -->

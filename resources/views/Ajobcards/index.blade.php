@@ -95,7 +95,6 @@
         <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="advehicles"><i class="fas fa-car"></i></i><span>Vehicle</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fa fa-chart-line"></i></i><span>Daily&Weekly</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fa fa-calendar-alt"></i></i><span>Monthly&Yearly</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-id-badge"></i></i><span>JobCards</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="new_installations3"><i class="fas fa-id-badge"></i></i><span>New Installations</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Adminchecklists"><i class="fa fa-check-square"></i></i><span>Checklists</span></a></li>
@@ -107,129 +106,6 @@
     </ul>
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
-{{-- <main id="main" class="main">
-    <!-- Page Title -->
-    <h4 class="page-title mb-3 text-center fw-bold">Job Cards List</h4>
-
-    <div class="container">
-        <!-- Success Message -->
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show">
-                {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-
-        <!-- Filter Card -->
-        <div class="card mb-3">
-            <div class="card-header">
-                <h5 class="card-title">Filter Job Cards</h5>
-            </div>
-            <div class="card-body">
-                <!-- Filter Form -->
-                <form id="filterForm" action="{{ route('Ajobcards.index') }}" method="GET" class="row">
-                    <!-- Search Input -->
-                    <div class="col-md-6 mb-2">
-                        <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search by Client Name, Contact Person, Vehicle Registration No, etc." value="{{ request()->query('search') }}">
-                    </div>
-
-                    <!-- Filter Button -->
-                    <div class="col-md-3 mb-2">
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-filter"></i> Filter
-                        </button>
-                    </div>
-
-                    <!-- Clear Button -->
-                    <div class="col-md-3 mb-2">
-                        <button type="button" id="clearFilter" class="btn btn-outline-secondary w-100">
-                            <i class="fas fa-times"></i> Clear
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Job Cards Table -->
-        @if($jobCards->count())
-            <div class="table-responsive" id="jobCardsTableContainer">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>C.Name</th>
-                            <th>Tel</th>
-                            <th>C.Person</th>
-                            <th>Title</th>
-                            <th>M.Phone</th>
-                            <th>V.Reg No</th>
-                            <th>P.Location</th>
-                            <th>Device ID</th>
-                            <th>P.Reported</th>
-                            <th>D.Reported</th>
-                            <th>D.Attended</th>
-                            <th>N.Problem</th>
-                            <th>Created At</th>
-                            <th>W.Done</th>
-                            <th>C.Comment</th>
-                            <th>S.Type</th>
-                            <th>Technician</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($jobCards as $jobCard)
-                            <tr>
-                                <td>{{ $jobCard->Clientname }}</td>
-                                <td>{{ $jobCard->Tel }}</td>
-                                <td>{{ $jobCard->ContactPerson }}</td>
-                                <td>{{ $jobCard->title }}</td>
-                                <td>{{ $jobCard->mobilePhone }}</td>
-                                <td>{{ $jobCard->VehicleRegNo }}</td>
-                                <td>{{ $jobCard->physicalLocation }}</td>
-                                <td>{{ $jobCard->deviceID }}</td>
-                                <td>{{ $jobCard->problemReported }}</td>
-                                <td>{{ $jobCard->DateReported }}</td>
-                                <td>{{ $jobCard->DateAttended }}</td>
-                                <td>{{ $jobCard->natureOfProblem }}</td>
-                                <td>{{ \Carbon\Carbon::parse($jobCard->created_at)->setTimezone('Africa/Nairobi')->format('l, F j, Y g:i A') }}</td>
-                                <td>{{ $jobCard->workDone }}</td>
-                                <td>{{ $jobCard->clientComment }}</td>
-                                <td>{{ $jobCard->service_type }}</td>
-                                <td>{{ $jobCard->user ? $jobCard->user->name : 'N/A' }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @else
-            <div class="text-center">
-                <p class="alert alert-info">Please apply filters to view the job cards.</p>
-            </div>
-        @endif
-    </div>
-</main>
-
-<!-- JavaScript -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const clearButton = document.getElementById('clearFilter');
-        const filterForm = document.getElementById('filterForm');
-        const jobCardsTableContainer = document.getElementById('jobCardsTableContainer');
-
-        // Clear input fields and hide table when "Clear" button is clicked
-        clearButton.addEventListener('click', function () {
-            // Clear form inputs
-            filterForm.reset();
-
-            // Hide the table container
-            if (jobCardsTableContainer) {
-                jobCardsTableContainer.style.display = 'none';
-            }
-        });
-    });
-</script> --}}
-
 <main id="main" class="main">
     <!-- Page Title -->
     <h4 class="page-title mb-3 text-center fw-bold">Job Cards List</h4>

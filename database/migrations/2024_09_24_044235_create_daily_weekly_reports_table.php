@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('daily_weekly_reports', function (Blueprint $table) {
             $table->id();
             $table->date('reported_date')->nullable();
-            $table->string('customer_id')->nullable();
-            $table->string('bus_plate_number')->nullable();
+            $table->string('bus_company')->nullable();
+            $table->string('bus_number')->nullable();
             $table->string('contact')->nullable();
             $table->string('reported_by')->nullable();
             $table->string('reported_case')->nullable();

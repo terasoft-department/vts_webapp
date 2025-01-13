@@ -11,8 +11,8 @@ class DailyWeeklyReport extends Model
 protected $primarykey ='daily_id';
     protected $fillable = [
         'reported_date',
-        'customername',
-        'bus_plate_number',
+        'bus_company',
+        'bus_number',
         'contact',
         'reported_by',
         'reported_case',
@@ -27,9 +27,13 @@ protected $primarykey ='daily_id';
     {
         return $query->whereBetween('reported_date', [$startDate, $endDate]);
     }
+    // public function customer()
+    // {
+    //     return $this->belongsTo(Customer::class, 'customer_id');
+    // }
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id');
+        return $this->belongsTo(Customer::class);
     }
 }
 

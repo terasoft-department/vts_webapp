@@ -15,9 +15,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -55,9 +53,7 @@
                     </a> --}}
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">You have 4 new notifications</li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li class="notification-item">
                             <i class="bi bi-exclamation-circle text-warning"></i>
                             <div>
@@ -65,39 +61,27 @@
                                 <p>Check out Procedures</p>
                             </div>
                         </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li class="dropdown-footer"><a href="#">Show all notifications</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item dropdown pe-3">
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
-                        data-bs-toggle="dropdown">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/apple-touch-icon.png" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">Welcome, {{ auth()->user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>Welcome, {{ auth()->user()->name }}</h6>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i
-                                    class="bi bi-person"></i><span>My Profile</span></a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="/auth/login"><i
-                                    class="bi bi-box-arrow-right"></i><span>Sign Out</span></a></li>
+                        <li class="dropdown-header"><h6>Welcome, {{ auth()->user()->name }}</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="bi bi-person"></i><span>My Profile</span></a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="/auth/login"><i class="bi bi-box-arrow-right"></i><span>Sign Out</span></a></li>
                     </ul>
                 </li>
             </ul>
         </nav><!-- End Icons Navigation -->
     </header><!-- End Header -->
-<<<<<<< HEAD
    <!-- ======= Sidebar ======= -->
    <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -111,7 +95,6 @@
         <li class="nav-item"><a class="nav-link collapsed" href="Admincustomers"><i class="far fa-user"></i></i><span>Customers</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="advehicles"><i class="fas fa-car"></i></i><span>Vehicle</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Adaily_weekly_reports"><i class="fa fa-chart-line"></i></i><span>Daily&Weekly</span></a></li>
-        <li class="nav-item"><a class="nav-link collapsed" href="Adminreports"><i class="fa fa-calendar-alt"></i></i><span>Monthly&Yearly</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Ajobcards"><i class="fas fa-id-badge"></i></i><span>JobCards</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="new_installations3"><i class="fas fa-id-badge"></i></i><span>New Installations</span></a></li>
         <li class="nav-item"><a class="nav-link collapsed" href="Adminchecklists"><i class="fa fa-check-square"></i></i><span>Checklists</span></a></li>

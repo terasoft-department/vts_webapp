@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,14 +67,9 @@
                 </div>
             </div>
 
-            <!-- Buttons Row -->
-            <div class="row mb-3">
-                <div class="col-md-6 text-right">
-                    <button type="submit" class="btn btn-primary">Track</button>
-                </div>
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
-                </div>
+            <!-- Date Range Toggle Button -->
+            <div class="form-group text-center">
+                <button type="button" class="btn btn-secondary" id="filterByDateBtn">Filter by Date</button>
             </div>
 
             <!-- Date Range Row (Initially Hidden) -->
@@ -93,7 +87,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Buttons Row -->
+            <div class="row mb-3">
+                <div class="col-md-6 text-right">
+                    <button type="submit" class="btn btn-primary">Track</button>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
+                </div>
+            </div>
         </form>
+
         <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">VTS RealTime</h5>
@@ -118,14 +123,14 @@
                     <tbody>
                         @if($results->isEmpty())
                             <tr>
-                                <td colspan="7" class="text-center">No Platenumber or vehicle found</td>
+                                <td colspan="7" class="text-center">No Plate Number or Vehicle found</td>
                             </tr>
                         @else
                             @foreach($results as $checklist)
                                 <tr>
-                                    <td>{{ $checklist->user->name ?? 'N/A' }}</td>
-                                    <td>{{ $checklist->vehicle->vehicle_name ?? 'N/A' }}</td>
-                                    <td>{{ $checklist->customer->customername ?? 'N/A' }}</td>
+                                    <td>{{ $checklist->user ? $checklist->user->name : 'N/A' }}</td>
+                                    <td>{{ $checklist->vehicle ? $checklist->vehicle->vehicle_name : 'N/A' }}</td>
+                                    <td>{{ $checklist->customer ? $checklist->customer->customername : 'N/A' }}</td>
                                     <td>{{ $checklist->plate_number }}</td>
                                     <td>{{ $checklist->rbt_status }}</td>
                                     <td>{{ $checklist->batt_status }}</td>
@@ -155,10 +160,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(document).ready(function() {
-            // On form submission, show the date range section
-            $('#trackForm').on('submit', function(event) {
-                // Display the date range section
-                $('#date-range-section').slideDown();
+            // Toggle Date Range Section on Button Click
+            $('#filterByDateBtn').click(function() {
+                $('#date-range-section').slideToggle();
             });
 
             // Data for charts will be calculated from filtered results
