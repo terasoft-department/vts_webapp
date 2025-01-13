@@ -335,13 +335,13 @@
                                         <i class="fas fa-edit"></i>
                                     </span>
 
-                                    <form action="{{ route('daily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
+                                    {{-- <form action="{{ route('daily_weekly_reports.destroy', $report->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <span class="icon" onclick="if(confirm('Are you sure you want to delete this report?')) { this.closest('form').submit(); }">
                                             <i class="fas fa-trash"></i>
                                         </span>
-                                    </form>
+                                    </form> --}}
                                 </td>
                             </tr>
 
