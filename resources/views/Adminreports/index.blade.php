@@ -140,7 +140,7 @@
                     <th>Reported By</th>
                     <th>Reported Case</th>
                     <th>Assigned Techn</th>
-                    <th>Inspection report</th>
+                    <th>Findings</th>
                     <th>Response Status</th>
                     <th>Response Date</th>
                 </tr>
@@ -156,16 +156,7 @@
                         <td>{{ $report->reported_by }}</td>
                         <td>{{ $report->reported_case }}</td>
                         <td>{{ $report->assigned_technician }}</td>
-                        <td>
-                            @if ($report->findings)
-                                <a href="{{ asset('uploads/' . $report->findings) }}" target="_blank">
-                                    <i class="fas fa-file-pdf text-danger"></i> View Inspection Report
-                                </a>
-                            @else
-                                N/A
-                            @endif
-                        </td>
-
+                        <td>{{ $report->findings }}</td>
                         <td>{{ $report->response_status }}</td>
                         <td>{{ $report->response_date }}</td>
                     </tr>
