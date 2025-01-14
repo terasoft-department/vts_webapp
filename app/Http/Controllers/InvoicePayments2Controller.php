@@ -66,20 +66,20 @@ public function show($id)
     {
         // Validate incoming request data
         $request->validate([
-            'status'=>'required',
+            // 'status'=>'required',
             'customer_id' => 'required', // Ensure customer_id is provided
             'due_date' => 'required|date',
             'prepared_by' => 'required',
             'plate_number' => 'required',
             'tin_number' => 'required',
             'descriptions' => 'required',
-           'num_cars' => 'required|integer|min:1',
-            'periods' => 'required|integer|min:1',
+        //    'num_cars' => 'required|integer|min:1',
+        //     'periods' => 'required|integer|min:1',
             'from' => 'required|date',
             'to' => 'required|date',
             'payment_type' => 'required',
-            'debt' => 'required|numeric',
-            'unit_price' => 'required|numeric',
+            // 'debt' => 'required|numeric',
+            // 'unit_price' => 'required|numeric',
         ]);
 
         // Generate the next invoice number

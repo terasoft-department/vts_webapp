@@ -217,24 +217,25 @@
             <!-- Button to Open Modal for Creating Invoice -->
             <button class="btn btn-primary mb-3" onclick="createInvoice()">Create Invoice</button>
 
-
+            <!-- Invoice Payments Table -->
            <!-- Invoice Payments Table -->
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead class="thead-dark">
                     <tr>
                         <th>Invoice Number</th>
+                        {{-- <th>Status</th> --}}
                         <th>Customer</th>
                         <th>Invoice Date</th>
-                        <th>Prepared By</th>
+                        {{-- <th>Prepared By</th>
                         <th>Plate Number</th>
-                        <th>TIN Number</th>
+                        <th>TIN Number</th> --}}
                         <th>Description</th>
                         <th>Number of Cars</th>
                         <th>Periods</th>
                         <th>From</th>
                         <th>To</th>
-                        <th>Payment Type</th>
+                        {{-- <th>Payment Type</th> --}}
                         <th>Debt</th>
                         <th>Unit Price</th>
                         <th>Gross Value</th>
@@ -248,17 +249,18 @@
                     @foreach($invoicePayments as $invoice)
                     <tr id="invoice-row-{{ $invoice->id }}">
                         <td>{{ $invoice->invoice_number }}</td>
+                        {{-- <td>{{ $invoice->status }}</td> --}}
                         <td>{{ $invoice->customer->customername }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->due_date)->format('Y-m-d') }}</td>
-                        <td>{{ $invoice->prepared_by }}</td>
+                        {{-- <td>{{ $invoice->prepared_by }}</td>
                         <td>{{ $invoice->plate_number }}</td>
-                        <td>{{ $invoice->tin_number }}</td>
+                        <td>{{ $invoice->tin_number }}</td> --}}
                         <td>{{ $invoice->descriptions }}</td>
                         <td>{{ $invoice->num_cars }}</td>
                         <td>{{ $invoice->periods }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->from)->format('Y-m-d') }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->to)->format('Y-m-d') }}</td>
-                        <td>{{ $invoice->payment_type }}</td>
+                        {{-- <td>{{ $invoice->payment_type }}</td> --}}
                         <td>{{ number_format($invoice->debt, 2) }}</td>
                         <td>{{ number_format($invoice->unit_price, 2) }}</td>
                         <td>{{ number_format($invoice->gross_value, 2) }}</td>
@@ -290,22 +292,18 @@
                         <div class="modal-body">
                             <!-- 4-row, 4-column grid layout -->
                             <div class="row">
-                                {{-- <div class="col-md-3 mb-3">
-                                    <label for="invoice_number">Invoice Number</label>
-                                    <input type="text" name="invoice_number" id="invoice_number" class="form-control" readonly>
-                                </div> --}}
                                 <div class="col-md-3 mb-3">
                                     <label for="invoice_number">Invoice Number</label>
-                                    <input
-                                        type="text"
-                                        name="invoice_number"
-                                        id="invoice_number"
-                                        class="form-control"
-                                        placeholder="TTEL/YYYY/NNN"
-                                        required
-                                    >
+                                    <input type="text" name="invoice_number" id="invoice_number" class="form-control" readonly>
                                 </div>
-
+                                {{-- <div class="col-md-3 mb-3">
+                                    <label for="status">status</label>
+                                    <select name="status" id="status" class="form-control" required>
+                                        <option value="">Select</option>
+                                        <option value="paid">paid</option>
+                                        <option value="unpaid">unpaid</option>
+                                    </select>
+                                </div> --}}
                                 <div class="col-md-3 mb-3">
                                     <label for="customer_id">Customer</label>
                                     <select name="customer_id" id="customer_id" class="form-control" required>
@@ -417,6 +415,7 @@
                 $.get('/invoice_payments/' + id + '/edit', function(data) {
                     $('#invoiceModalLabel').text("Edit Invoice");
                     $('#invoice_number').val(data.invoice_number);
+                    // $('#status').val(data.status);
                     $('#customer_id').val(data.customer_id);
                     $('#due_date').val(data.due_date);
                     $('#prepared_by').val(data.prepared_by);
@@ -443,6 +442,7 @@
                 $.get('/invoice_payments/' + id, function(data) {
                     $('#invoiceModalLabel').text("View Invoice");
                     $('#invoice_number').val(data.invoice_number).attr('readonly', true);
+                    // $('#status').val(data.status).attr('disabled', true);
                     $('#customer_id').val(data.customer_id).attr('disabled', true);
                     $('#due_date').val(data.due_date).attr('readonly', true);
                     $('#prepared_by').val(data.prepared_by).attr('readonly', true);
@@ -478,31 +478,6 @@
                 }
             }
         </script>
-
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-            <i class="bi bi-arrow-up-short"></i>
-        </a>
-
-        <!-- Vendor JS Files -->
-        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/vendor/chart.js/chart.umd.js"></script>
-        <script src="assets/vendor/echarts/echarts.min.js"></script>
-        <script src="assets/vendor/quill/quill.js"></script>
-        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-        <script src="assets/vendor/php-email-form/validate.js"></script>
-
-        <!-- Template Main JS File -->
-        <script src="assets/js/main.js"></script>
-
-        </body>
-
-        </html>
-
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

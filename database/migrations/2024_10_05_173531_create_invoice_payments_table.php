@@ -23,12 +23,12 @@ class CreateInvoicePaymentsTable extends Migration
             $table->date('from')->nullable();
             $table->date('to')->nullable();
             $table->string('payment_type')->nullable();
-            $table->decimal('debt', 10, 2)->nullable();
-            $table->decimal('unit_price', 10, 2)->nullable();
-            $table->decimal('gross_value', 10, 2)->nullable();
-            $table->decimal('vat_value', 10, 2)->nullable();
-            $table->decimal('vat_Inclusive', 10, 2)->nullable();
-            $table->decimal('total_value', 10, 2)->nullable();
+            $table->decimal('debt', 15, 2)->nullable();
+            $table->decimal('unit_price', 15, 2)->nullable();
+            $table->decimal('gross_value', 15, 2)->nullable();
+            $table->decimal('vat_value', 15, 2)->nullable();
+            $table->decimal('vat_Inclusive', 15, 2)->nullable();
+            $table->decimal('total_value', 15, 2)->nullable();
             $table->timestamps();
         });
 
