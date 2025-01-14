@@ -222,7 +222,7 @@
             onclick="downloadPDF()"
             style="
                 padding: 8px 16px;
-                font-size: 14px;
+                font-size: 10px;
                 background-color: #175ec1e1;
                 color: white;
                 border: none;
@@ -238,11 +238,11 @@
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="10"
+                height="10"
                 fill="currentColor"
                 viewBox="0 0 24 24"
-                style="margin-right: 8px;"
+                style="margin-right: 4px;"
                 aria-hidden="true"
             >
                 <path d="M6 2a2 2 0 0 0-2 2v1H2v2h2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5h2V3h-2V2a2 2 0 0 0-2-2H6zm2 0h8v2H8V2zm0 4h8v11H8V6zm1 2v3h2v-3h-2zm3 0v3h2v-3h-2zm3 0v3h2v-3h-2z"/>
@@ -250,7 +250,6 @@
             Download PDF
         </button>
     </div>
-
         <!-- Invoice Section -->
         <div class="invoice-container" id="invoiceSection" style="display: flex; justify-content: center;">
             <div class="single-invoice" style="width: 100%; padding: 5px; border: 1px solid #dee2e6; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
@@ -258,7 +257,7 @@
                 <header style="text-align: center;">
                     <img src="/images/logo.png" alt="Logo" class="logo" style="width: 40px; height: auto; margin-bottom: 5px;">
                     {{-- <h5 style="font-size: 20px; margin: 0;">TERA TECHNOLOGIES AND ENGINEERING LIMITED</h5> --}}
-                    <b><h4 style="text-align: center; margin-bottom: 20px; font-weight: bold; color: #175ec1e1;">TERA TECHNOLOGIES AND ENGINEERING LIMITED</h4></b>
+                    <b><h5 style="text-align: center; margin-bottom: 15px; font-weight: bold; color: #175ec1e1;">TERA TECHNOLOGIES AND ENGINEERING LIMITED</h5></b>
                     <p style="margin: 0; font-size: 10px;  color: rgba(177, 6, 29, 0.86);"><b>REGISTERED CONTRACTOR IN ELECTRICAL (CLASS THREE), TELECOMMS, ICT AND SECURITY SYSTEMS</p></b>
                     <p style="margin: 0; font-size: 10px;color: rgba(177, 6, 29, 0.86);"><b>Office: Mbezi Beach Africana, Plot No. 2283, Block H, Taaringer Street, Bagamoyo Road, Dar es Salaam, Tanzania</p></b>
                     <p style="margin: 0; font-size: 10px;color: rgba(177, 6, 29, 0.86);"><b>Tel: +255 22 2701611, Cell: +255 713 899 309, +255 767 598691</p></b>
@@ -269,11 +268,11 @@
 
                 <hr style="border: 1px solid #000; margin: 20px 0;">
 
-                <h5 style="text-align: center; margin-bottom: 20px; font-weight: bold; text-decoration: underline;">TAX INVOICE FOR VEHICLE TRACKER INSTALLATION</h5>
+                <h6 style="text-align: center; margin-bottom: 20px; font-weight: bold; text-decoration: underline;">TAX INVOICE FOR VEHICLE TRACKER INSTALLATION</h6>
 
                 <section class="invoice-details" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                     <div class="bill-to" style="width: 25%;">
-                        <h5 style="font-weight: bold;">Bill to:</h5>
+                        <h7 style="font-weight: bold;">Bill to:</h7>
                         <p style="margin: 0; font-size: 13px;"><b>{{ $invoice->customer->customername }}</b></p>
                         <p style="margin: 0; font-size: 13px;">P.O BOX <b>{{ $invoice->customer->address }}</b></p>
                         <p style="margin: 0; font-size: 13px;">TIN: <b>{{ $invoice->customer->tin_number }}</b></p>
@@ -289,68 +288,69 @@
                 </section>
 
                 <table class="invoice-table" style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
-                    <thead style="background-color: #175ec1e1; color: white;">
+                    <thead style="background-color: #175ec1e1; color: white;font-size: 10px;">
                         <tr>
-                            <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">Item</th>
-                            <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">Description</th>
-                            <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">No. of Cars</th>
-                            <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">Period (Months)</th>
-                            <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">UOM</th>
-                            <th style="padding: 1px; border: 1px solid #000 font-size: 13px;;">Unit Price (TZS)</th>
-                            <th style="padding: 1px; border: 1px solid #000 font-size: 13px;">Gross Value (TZS)</th>
+                            <th style="padding: 1px; border: 1px solid #000 font-size: 10px;;">Item</th>
+                            <th style="padding: 1px; border: 1px solid #000 font-size: 10px;;">Description</th>
+                            <th style="padding: 1px; border: 1px solid #000 font-size: 10px;;">No. of Cars</th>
+                            <th style="padding: 1px; border: 1px solid #000 font-size: 10px;;">Period (Months)</th>
+                            <th style="padding: 1px; border: 1px solid #000 font-size: 10px;;">UOM</th>
+                            <th style="padding: 1px; border: 1px solid #000 font-size: 10px;;">Unit Price (TZS)</th>
+                            <th style="padding: 1px; border: 1px solid #000 font-size: 10px;">Gross Value (TZS)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 10px;">1</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ $invoice->descriptions }}</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ $invoice->num_cars }}</td>
-                            <td style="border: 1px solid #000; padding: 10px;">12</td>
-                            <td style="border: 1px solid #000; padding: 10px;">Each</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ number_format($invoice->unit_price, 2) }}</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ number_format($invoice->gross_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">1</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->descriptions }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->num_cars }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">12</td>
+                            <td style="border: 1px solid #000; padding: 2px;">Each</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->unit_price, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->gross_value, 2) }}</td>
                         </tr>
+
                     </tbody>
                 </table>
 
-                <section class="bank-details" style="margin-bottom: 20px;">
-                    <h5 style="font-weight: bold;">BANK ACCOUNT DETAILS</h5>
-                    <p style="margin: 0; font-size: 13px;">Account Name: TERA TECHNOLOGIES AND ENGINEERING LIMITED</p>
-                    <p style="margin: 0; font-size: 13px;">Bank Name: CRDB BANK PLC</p>
-                    <p style="margin: 0; font-size: 13px;">Account Number: 015029553801</p>
-                    <p style="margin: 0; font-size: 13px;">Branch: Mlimani City</p>
-                    <p style="margin: 0; font-size: 13px;">Swift Code: CORUTZTZ</p>
+                <section class="bank-details" style="margin-bottom: 2px;">
+                    <p style="font-weight: bold;">BANK ACCOUNT DETAILS</p>
+                    <p style="margin: 0; font-size: 10px;">Account Name: TERA TECHNOLOGIES AND ENGINEERING LIMITED</p>
+                    <p style="margin: 0; font-size: 10px;">Bank Name: CRDB BANK PLC</p>
+                    <p style="margin: 0; font-size: 10px;">Account Number: 015029553801</p>
+                    <p style="margin: 0; font-size: 10px;">Branch: Mlimani City</p>
+                    <p style="margin: 0; font-size: 10px;">Swift Code: CORUTZTZ</p>
                 </section>
 
-                <table class="invoice-summary" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <table class="invoice-summary" style="width: 100%; border-collapse: collapse; margin-bottom: 2px;">
                     <tbody>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 10px;">Sub - Total before VAT</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ number_format($invoice->gross_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">Sub - Total before VAT</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->gross_value, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 10px;">Add 18% VAT</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ number_format($invoice->vat_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">Add 18% VAT</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->vat_value, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 10px;">Total Amount Inclusive of VAT</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ number_format($invoice->vat_Inclusive, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">Total Amount Inclusive of VAT</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->vat_Inclusive, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 10px;">PLUS PREVIOUS DEBT</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ number_format($invoice->debt, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">PLUS PREVIOUS DEBT</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->debt, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 10px;">TOTAL DEBT INCLUSIVE OF VAT</td>
-                            <td style="border: 1px solid #000; padding: 10px;">{{ number_format($invoice->total_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 2px;">TOTAL DEBT INCLUSIVE OF VAT</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->total_value, 2) }}</td>
                         </tr>
                     </tbody>
                 </table>
-                <footer style="text-align: right; margin-top: 20px;">
+                <footer style="text-align: right; margin-top: 2px;">
                     <p>Signature & Official Stamp</p>
             <img src="/images/stamp.jpg" alt="Logo" class="logo" style="width: 150px;">
                 </footer>
-                <footer style="text-align: left; margin-top: 10px;">
+                <footer style="text-align: left; margin-top: 2px;">
                     <p>Prepared By: <b>{{ $invoice->prepared_by }}</b></p>
                     <p>For: TTEL</p>
                 </footer>
@@ -360,7 +360,7 @@
         </div>
         </div>
 
-        {{-- <style> --}}
+          {{-- <style> --}}
         {{-- /* General Styles */ --}}
         <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">

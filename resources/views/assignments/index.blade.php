@@ -393,57 +393,46 @@
     </div>
 
 
-        <!-- Include jQuery and Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- JS and dependencies -->
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
-        <script>
-            // Open the modal to create a new assignment
-            function openCreateModal() {
-                $('#assignmentForm').attr('action', '{{ route('assignments.store') }}');
-                $('#assignmentForm').attr('method', 'POST');
-                $('#modalTitle').text('Create Assignment');
-                $('#assignmentForm').trigger('reset'); // Reset the form
-                $('#assignmentModal').modal('show');
-            }
 
-            // Open the modal to edit an existing assignment
-            function openEditModal(assignment) {
-                // Set form action for update with PUT method
-                $('#assignmentForm').attr('action', '/assignments/' + assignment.assignment_id);
-                $('#assignmentForm').append('<input type="hidden" name="_method" value="PUT">');
-                $('#modalTitle').text('Edit Assignment');
+<br>
+    <script>
 
-                // Populate the form fields with existing data
-                $('#assignment_id').val(assignment.assignment_id);
-                $('#customer_id').val(assignment.customer_id);
-                $('#customer_phone').val(assignment.customer_phone);
-                $('#customer_debt').val(assignment.customer_debt);
-                $('#plate_number').val(assignment.plate_number);
-                $('#location').val(assignment.location);
-                $('#user_id').val(assignment.user_id);
-                $('#case_reported').val(assignment.case_reported);
-                $('#assigned_by').val(assignment.assigned_by);
-                $('#status').val(assignment.status);
-                $('#assignmentModal').modal('show');
-            }
-        </script>
-    </div>
+        $(document).ready(function() {
+            $('#dailyWeeklyReports').DataTable({
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', 'print'],
+                responsive: true
+            });
+        });
+    </script>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <br>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-</main>
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+
 </body>
 </html>

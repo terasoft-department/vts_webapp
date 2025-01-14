@@ -302,8 +302,6 @@ Route::get('/Apayment_reports', [APaymentController::class, 'index'])->name('Apa
 
 // routes/web.php
 
-Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-
 //jobcards for ProjectManager
 Route::prefix('jobcards')->group(function () {
     Route::get('/', [JobcardController::class, 'index'])->name('jobcards.index');
