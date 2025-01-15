@@ -35,6 +35,7 @@ class InvoiceController extends Controller
 
         $customers = Customer::all();
         $invoices = Invoice::all();
+        $invoicePayments = InvoicePayment::all();
 
         $query = Customer::query();
 
