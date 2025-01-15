@@ -359,6 +359,7 @@
                                     <label for="payment_type">Payment Type</label>
                                     <select name="payment_type" id="payment_type" class="form-control" required>
                                         <option value="">Select</option>
+                                        <option value="both">both lease & purchase</option>
                                         <option value="Lease">Lease</option>
                                         <option value="Purchase">Purchase</option>
                                     </select>
