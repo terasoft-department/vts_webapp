@@ -53,4 +53,9 @@ class Customer extends Model
         return $this->hasMany(Assignment::class, 'customer_id');
     }
 
+    public function invoicePayments()
+    {
+        return $this->hasMany(InvoicePayment::class, 'customer_id', 'customer_id');
+    }
+
 }
