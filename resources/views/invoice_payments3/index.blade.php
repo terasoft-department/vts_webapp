@@ -272,7 +272,7 @@
 
                 <section class="invoice-details" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                     <div class="bill-to" style="width: 25%;">
-                        <h7 style="font-weight: bold;">Bill to:</h7>
+                        <h7 style="font-weight:">Bill to:</h7>
                         <p style="margin: 0; font-size: 13px;"><b>{{ $invoice->customer->customername }}</b></p>
                         <p style="margin: 0; font-size: 13px;">P.O BOX <b>{{ $invoice->address }}</b></p>
                         <p style="margin: 0; font-size: 13px;">TIN: <b>{{ $invoice->tin_number }}</b></p>
@@ -301,14 +301,15 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 2px;">1</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->descriptions }}</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->num_cars }}</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->periods }}</td>
-                            <td style="border: 1px solid #000; padding: 2px;">Each</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->unit_price, 2) }}</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->gross_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;"></td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ $invoice->descriptions }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ $invoice->num_cars }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ $invoice->periods }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">Each</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ number_format($invoice->unit_price, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ number_format($invoice->gross_value, 2) }}</td>
                         </tr>
+
 
                     </tbody>
                 </table>
@@ -325,35 +326,37 @@
                 <table class="invoice-summary" style="width: 100%; border-collapse: collapse; margin-bottom: 2px;">
                     <tbody>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 2px;">Sub - Total before VAT</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->gross_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">Sub - Total before VAT</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ number_format($invoice->gross_value, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 2px;">Add 18% VAT</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->vat_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">Add 18% VAT</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ number_format($invoice->vat_value, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 2px;">Total Amount Inclusive of VAT</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->vat_Inclusive, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">Total Amount Inclusive of VAT</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ number_format($invoice->vat_Inclusive, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 2px;">PLUS PREVIOUS DEBT</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->debt, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">PLUS PREVIOUS DEBT</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ number_format($invoice->debt, 2) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; padding: 2px;">TOTAL DEBT INCLUSIVE OF VAT</td>
-                            <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->total_value, 2) }}</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">TOTAL DEBT INCLUSIVE OF VAT</td>
+                            <td style="border: 1px solid #000; padding: 1px; font-size: 10px;">{{ number_format($invoice->total_value, 2) }}</td>
                         </tr>
+
                     </tbody>
                 </table>
-                <footer style="text-align: right; margin-top: 2px;">
+                <footer style="text-align: right; margin-top: 2px; font-size: small;">
                     <p>Signature & Official Stamp</p>
             <img src="/images/stamp.jpg" alt="Logo" class="logo" style="width: 150px;">
                 </footer>
-                <footer style="text-align: left; margin-top: 2px;">
-                    <p>Prepared By: <b>{{ $invoice->prepared_by }}</b></p>
-                    <p>For: TTEL</p>
+                <footer style="text-align: left; margin-top: 2px; font-size: small;">
+                    <p style="margin: 0;">Prepared By: <b>{{ $invoice->prepared_by }}</b></p>
+                    <p style="margin: 0;">For: TTEL</p>
                 </footer>
+
 
                 @endforeach
             </div>
