@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\InvoicePayment;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -34,8 +35,9 @@ class CustomerController extends Controller
         $customers = Customer::all();
         $users = User::all();
         $vehicles = Vehicle::all();
+        $InvoicePayment = InvoicePayment::all();
 
-        return view('customers.index', compact('customers', 'CustomersCount', 'VehiclesCount','customers', 'users', 'vehicles'));
+        return view('customers.index', compact('customers', 'CustomersCount', 'VehiclesCount','customers', 'users', 'vehicles','InvoicePayment'));
     }
 
     public function search(Request $request)
