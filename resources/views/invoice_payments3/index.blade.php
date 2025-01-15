@@ -274,9 +274,9 @@
                     <div class="bill-to" style="width: 25%;">
                         <h7 style="font-weight: bold;">Bill to:</h7>
                         <p style="margin: 0; font-size: 13px;"><b>{{ $invoice->customer->customername }}</b></p>
-                        <p style="margin: 0; font-size: 13px;">P.O BOX <b>{{ $invoice->customer->address }}</b></p>
-                        <p style="margin: 0; font-size: 13px;">TIN: <b>{{ $invoice->customer->tin_number }}</b></p>
-                        <p style="margin: 0; font-size: 13px;">Phone: <b>{{ $invoice->customer->customer_phone }}</b></p>
+                        <p style="margin: 0; font-size: 13px;">P.O BOX <b>{{ $invoice->address }}</b></p>
+                        <p style="margin: 0; font-size: 13px;">TIN: <b>{{ $invoice->tin_number }}</b></p>
+                        <p style="margin: 0; font-size: 13px;">Phone: <b>{{ $invoice->customer_phone }}</b></p>
                         {{-- <p style="margin: 0; font-size: 13px;">VRN: {{ $invoice->device_id->imei_number }}</p> --}}
                     </div>
 
@@ -304,7 +304,7 @@
                             <td style="border: 1px solid #000; padding: 2px;">1</td>
                             <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->descriptions }}</td>
                             <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->num_cars }}</td>
-                            <td style="border: 1px solid #000; padding: 2px;">12</td>
+                            <td style="border: 1px solid #000; padding: 2px;">{{ $invoice->periods }}</td>
                             <td style="border: 1px solid #000; padding: 2px;">Each</td>
                             <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->unit_price, 2) }}</td>
                             <td style="border: 1px solid #000; padding: 2px;">{{ number_format($invoice->gross_value, 2) }}</td>
