@@ -273,10 +273,10 @@
                 <section class="invoice-details" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                     <div class="bill-to" style="width: 25%;">
                         <h7 style="font-weight:">Bill to:</h7>
-                        <p style="margin: 0; font-size: 13px;"><b>{{ $invoice->customer->customername }}</b></p>
-                        <p style="margin: 0; font-size: 13px;">P.O BOX <b>{{ $invoice->address }}</b></p>
-                        <p style="margin: 0; font-size: 13px;">TIN: <b>{{ $invoice->tin_number }}</b></p>
-                        <p style="margin: 0; font-size: 13px;">Phone: <b>{{ $invoice->customer_phone }}</b></p>
+                        <p style="margin: 0;"><b>{{ $invoice->customer->customername ?? 'N/A' }}</b></p>
+    <p style="margin: 0;">P.O BOX <b>{{ $invoice->customer->address ?? 'N/A' }}</b></p>
+    <p style="margin: 0;">TIN: <b>{{ $invoice->tin_number ?? 'N/A' }}</b></p>
+    <p style="margin: 0;">Phone: <b>{{ $invoice->customer->customer_phone ?? 'N/A' }}</b></p>
                         {{-- <p style="margin: 0; font-size: 13px;">VRN: {{ $invoice->device_id->imei_number }}</p> --}}
                     </div>
 
