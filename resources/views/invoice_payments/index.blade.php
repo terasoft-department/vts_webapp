@@ -260,7 +260,7 @@
                         <td>{{ $invoice->periods }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->from)->format('Y-m-d') }}</td>
                         <td>{{ \Carbon\Carbon::parse($invoice->to)->format('Y-m-d') }}</td>
-                        {{-- <td>{{ $invoice->payment_type }}</td> --}}
+                        <td>{{ $invoice->payment_type }}</td>
                         <td>{{ number_format($invoice->debt, 2) }}</td>
                         <td>{{ number_format($invoice->unit_price, 2) }}</td>
                         <td>{{ number_format($invoice->gross_value, 2) }}</td>
