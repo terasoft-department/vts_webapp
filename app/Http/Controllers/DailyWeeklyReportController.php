@@ -7,22 +7,44 @@ use Illuminate\Http\Request;
 
 class DailyWeeklyReportController extends Controller
 {
+    // public function index(Request $request)
+    // {
+    //     $query = DailyWeeklyReport::query();
+
+    //     if ($request->has('date_from') && $request->date_from) {
+    //         $query->where('reported_date', '>=', $request->date_from);
+    //     }
+
+    //     if ($request->has('date_to') && $request->date_to) {
+    //         $query->where('reported_date', '<=', $request->date_to);
+    //     }
+
+    //     $reports = $query->get();
+    //     $customers = Customer::all();
+
+    //     return view('daily_weekly_reports.index', compact('customers', 'reports'));
+    // }
+
+
     public function index(Request $request)
     {
+        // Query to fetch reports
         $query = DailyWeeklyReport::query();
 
-        if ($request->has('date_from') && $request->date_from) {
-            $query->where('reported_date', '>=', $request->date_from);
+        // Apply date filters if provided
+        if ($request->has('date_from') && $request->has('date_to')) {
+            $query->whereBetween('reported_date', [$request->date_from, $request->date_to]);
         }
 
-        if ($request->has('date_to') && $request->date_to) {
-            $query->where('reported_date', '<=', $request->date_to);
-        }
-
+        // Get the filtered reports
         $reports = $query->get();
-        $customers = Customer::all();
 
-        return view('daily_weekly_reports.index', compact('customers', 'reports'));
+        // Return to the view with reports and current filter values
+        return view('daily_weekly_reports.index', [
+            'reports' => $reports,
+            'date_from' => $request->date_from,
+            'date_to' => $request->date_to,
+        ]);
     }
 
     public function create()

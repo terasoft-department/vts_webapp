@@ -262,7 +262,6 @@
                 </div>
             @endif
 
-            <!-- Filter Form -->
             <form method="GET" action="{{ route('daily_weekly_reports.index') }}" class="mb-3">
                 <div class="d-flex gap-2">
                     <input
@@ -271,7 +270,7 @@
                         name="date_from"
                         class="form-control"
                         placeholder="From"
-                        value="{{ request('date_from') }}"
+                        value="{{ old('date_from', $date_from ?? '') }}"
                         aria-label="From Date"
                     >
                     <input
@@ -280,12 +279,13 @@
                         name="date_to"
                         class="form-control"
                         placeholder="To"
-                        value="{{ request('date_to') }}"
+                        value="{{ old('date_to', $date_to ?? '') }}"
                         aria-label="To Date"
                     >
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
             </form>
+
 
             <!-- Create Report Button -->
             <div class="btn-group">
@@ -522,7 +522,17 @@
                 });
             });
         </script>
+        <script>
+document.querySelector('form').addEventListener('submit', function (e) {
+    const dateFrom = document.getElementById('date_from').value;
+    const dateTo = document.getElementById('date_to').value;
 
+    if (dateFrom && dateTo && dateFrom > dateTo) {
+        e.preventDefault();
+        alert('The "From" date cannot be greater than the "To" date.');
+    }
+});
+</script>
         <br>
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

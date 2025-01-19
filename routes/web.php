@@ -219,6 +219,8 @@ Route::resource('sdevice_requisitions', StDeviceRequisitions::class);
 
 
    // Define routes for daily report
+   Route::get('/daily_weekly_reports', [DailyWeeklyReportController::class, 'index'])->name('daily_weekly_reports.index');
+
    Route::resource('daily_weekly_reports', DailyWeeklyReportController::class);
    Route::get('/daily_weekly_reports/{id}', [DailyWeeklyReportController::class, 'show'])->name('daily_weekly_reports.show');
 
