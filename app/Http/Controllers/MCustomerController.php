@@ -28,7 +28,7 @@ class MCustomerController extends Controller
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
                             ->orWhere('address', 'like', "%{$query}%")
                             ->orWhere('start_date', 'like', "%{$query}%")
-                             ->paginate(10);
+                             ->paginate(10000);
 
         return response()->json(['Mcustomers' => $customers]);
     }

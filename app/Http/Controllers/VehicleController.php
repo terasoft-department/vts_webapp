@@ -103,7 +103,7 @@ class VehicleController extends Controller
 
 public function index(Request $request)
 {
-    ini_set('memory_limit', '256M'); // Increase memory to 256 MB
+    ini_set('memory_limit', '512M'); // Increase memory to 256 MB
     $query = Vehicle::query();
 
     // Filter by start date if provided
