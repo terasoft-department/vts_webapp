@@ -12,6 +12,7 @@ class MCustomerController extends Controller
     public function index()
     {
         // Fetch customers with pagination (e.g., 10 customers per page)
+        ini_set('memory_limit', '2048M'); // Increase to 2GB
         $customers = Customer::all();
         $customers = Customer::paginate(10000);
         $CustomersCount = Customer::count();

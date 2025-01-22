@@ -9,47 +9,36 @@ use Illuminate\Http\Request;
 class MonitoringVehicleController extends Controller
 {
      // Display a listing of the vehicles with search and filters
-    public function index(Request $request)
-    {
-        ini_set('memory_limit', '1024M'); // Increase to 1GB
-        // Define base query with eager loading of related 'customer'
-        $vehicles = Vehicle::with('customer');
-        $CustomersCount = Customer::count();
-        $VehiclesCount = Vehicle::count();
-        // Store search parameters in session
-        session([
-            'search' => $request->search,
-            'customer_id' => $request->customer_id,
-            'from_date' => $request->from_date,
-            'to_date' => $request->to_date
-        ]);
+     public function index(Request $request)
+     {
+         ini_set('memory_limit', '2048M'); // Increase to 2GB
 
-        // Apply search filter
-        if ($request->filled('search')) {
-            $vehicles = $vehicles->where(function ($query) use ($request) {
-                $query->where('vehicle_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('plate_number', 'like', '%' . $request->search . '%');
-            });
-        }
+         $query = Vehicle::query();
 
-        // Apply customer filter
-        if ($request->filled('customer_id')) {
-            $vehicles = $vehicles->where('customer_id', $request->customer_id);
-        }
+         // Filter by start date if provided
+         if ($request->has('start_date')) {
+             $query->where('created_at', '>=', $request->input('start_date'));
+         }
 
-        // Apply date range filter
-        if ($request->filled('from_date') && $request->filled('to_date')) {
-            $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
-        }
+         // Filter by end date if provided
+         if ($request->has('end_date')) {
+             $query->where('created_at', '<=', $request->input('end_date'));
+         }
 
-        // Paginate the results to get 10 per page
-        $vehicles = $vehicles->paginate(10000);
+         // Get all vehicles with the applied filters
+         $vehicles = $query->paginate(10000);
 
-        // Fetch customers for the filter dropdown
-        $customers = Customer::all();
+         // Retrieve all customers for the "Add Vehicle" modal
+         $customers = Customer::all();
 
-        return view('mcvehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
-    }
+         // Count the number of customers and vehicles for the operation summary
+         $CustomersCount = Customer::count();
+         $VehiclesCount = Vehicle::count();
+
+         // Pass the data to the view
+         return view('mcvehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
+     }
+
 
 //     public function index(Request $request)
 //     {
@@ -148,7 +137,7 @@ class MonitoringVehicleController extends Controller
         //     'customer_id' => 'required|exists:customers,customer_id',
         //     'plate_number' => 'required|string',
         // ]);
-        ini_set('memory_limit', '1024M'); // Increase to 1GB
+        ini_set('memory_limit', '2048M'); // Increase to 2GB
         Vehicle::create($request->all());
 
         return redirect()->route('mcvehicles.index')->with('success', 'Vehicle created successfully.');
