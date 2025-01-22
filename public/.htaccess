@@ -21,4 +21,4 @@
 
 </IfModule>
 # Adjust PHP Memory Allocation
-php_value memory_limit 1024M
+php_value memory_limit 512M
