@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
 {
     // Display a listing of the vehicles
     public function index(Request $request)
-    {
+{
+    // Increase memory limit for this script
+    ini_set('memory_limit', '2048M'); // Set to a higher value if needed
+
+    try {
+        // Build the query for filtering
         $query = Vehicle::query();
 
         if ($request->has('start_date') && $request->start_date) {
@@ -20,17 +26,33 @@ class VehicleController extends Controller
         if ($request->has('end_date') && $request->end_date) {
             $query->whereDate('created_at', '<=', $request->end_date);
         }
-        $vehicles = Vehicle::with('customer')->paginate(10000); // 10 items per page
-        $vehicles = $query->with('customer')->get();
+
+        // Paginate the results to avoid loading all records into memory
+        $vehicles = $query->with('customer')->paginate(10); // 10 items per page
+
+        // Fetch all customers and counts (if needed separately)
         $customers = Customer::all();
+        $customersCount = Customer::count();
+        $vehiclesCount = Vehicle::count();
 
         return view('vehicles.index', [
             'vehicles' => $vehicles,
             'customers' => $customers,
-            'CustomersCount' => Customer::count(),
-            'VehiclesCount' => Vehicle::count(),
+            'CustomersCount' => $customersCount,
+            'VehiclesCount' => $vehiclesCount,
         ]);
+    } catch (\Exception $e) {
+        // Log the error for debugging
+        Log::error('Error fetching vehicles: ' . $e->getMessage());
+
+        // Return an error response or view
+        return response()->json([
+            'status' => 'error',
+            'message' => 'An error occurred. Please try again later.',
+        ], 500);
     }
+}
+
 
     // Store a newly created vehicle in the database
     public function store(Request $request)
