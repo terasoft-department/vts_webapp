@@ -130,6 +130,7 @@ public function index(Request $request)
     return view('mcvehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
 }
 
+
     // Show the form for creating a new vehicle
     public function create()
     {

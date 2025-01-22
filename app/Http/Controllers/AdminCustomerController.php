@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\InvoicePayment;
+use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
@@ -12,29 +14,52 @@ class AdminCustomerController extends Controller
 
     public function index(Request $request)
     {
-        // Fetch customers with pagination (e.g., 10 customers per page)
+        // Initialize the base query for customers
+        $query = Customer::query();
 
-        $customers = Customer::paginate(10000);
+        // Filter by start date if provided
+        if ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->input('from_date'));
+        }
+
+        // Filter by end date if provided
+        if ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->input('to_date'));
+        }
+
+        // Apply search filter
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($query) use ($search) {
+                $query->where('customername', 'like', "%{$search}%")
+                    ->orWhere('customer_phone', 'like', "%{$search}%")
+                    ->orWhere('address', 'like', "%{$search}%")
+                    ->orWhere('start_date', 'like', "%{$search}%");
+            });
+        }
+
+        // Pagination
+        $pageSize = $request->input('page_size', 10);
+        $customers = $query->paginate($pageSize);
+
+        // Counts for related data
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
-// Query to fetch customers
-$query = Customer::query();
 
-// Filter by start date
-if ($request->has('start_date') && $request->start_date) {
-    $query->where('start_date', '>=', $request->start_date);
-}
+        // Retrieve related data for dropdowns or summaries
+        $users = User::all();
+        $vehicles = Vehicle::all();
+        $InvoicePayment = InvoicePayment::all();
 
-// Filter by end date
-if ($request->has('end_date') && $request->end_date) {
-    $query->where('start_date', '<=', $request->end_date);
-}
-
-// Paginate results
-$customers = $query->orderBy('start_date', 'asc')->paginate(10000);
-
-// Return view with filtered customers
-        return view('Admincustomers.index', compact('customers', 'CustomersCount', 'VehiclesCount'));
+        // Pass the data to the view
+        return view('customers.index', compact(
+            'customers',
+            'CustomersCount',
+            'VehiclesCount',
+            'users',
+            'vehicles',
+            'InvoicePayment'
+        ));
     }
 
     public function search(Request $request)
@@ -42,7 +67,7 @@ $customers = $query->orderBy('start_date', 'asc')->paginate(10000);
         $query = $request->get('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
-                            ->paginate(10000);
+                            ->paginate(10);
 
         return response()->json(['Admincustomers' => $customers]);
     }
