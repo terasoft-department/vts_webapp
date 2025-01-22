@@ -8,47 +8,47 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-    // Display a listing of the vehicles with search and filters
-    // public function index(Request $request)
-    // {
-    //     // Define base query with eager loading of related 'customer'
-    //     $vehicles = Vehicle::with('customer');
-    //     $CustomersCount = Customer::count();
-    //     $VehiclesCount = Vehicle::count();
-    //     // Store search parameters in session
-    //     session([
-    //         'search' => $request->search,
-    //         'customer_id' => $request->customer_id,
-    //         'from_date' => $request->from_date,
-    //         'to_date' => $request->to_date
-    //     ]);
+    //Display a listing of the vehicles with search and filters
+    public function index(Request $request)
+    {
+        // Define base query with eager loading of related 'customer'
+        $vehicles = Vehicle::with('customer');
+        $CustomersCount = Customer::count();
+        $VehiclesCount = Vehicle::count();
+        // Store search parameters in session
+        session([
+            'search' => $request->search,
+            'customer_id' => $request->customer_id,
+            'from_date' => $request->from_date,
+            'to_date' => $request->to_date
+        ]);
 
-    //     // Apply search filter
-    //     if ($request->filled('search')) {
-    //         $vehicles = $vehicles->where(function ($query) use ($request) {
-    //             $query->where('vehicle_name', 'like', '%' . $request->search . '%')
-    //                 ->orWhere('plate_number', 'like', '%' . $request->search . '%');
-    //         });
-    //     }
+        // Apply search filter
+        if ($request->filled('search')) {
+            $vehicles = $vehicles->where(function ($query) use ($request) {
+                $query->where('vehicle_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('plate_number', 'like', '%' . $request->search . '%');
+            });
+        }
 
-    //     // Apply customer filter
-    //     if ($request->filled('customer_id')) {
-    //         $vehicles = $vehicles->where('customer_id', $request->customer_id);
-    //     }
+        // Apply customer filter
+        if ($request->filled('customer_id')) {
+            $vehicles = $vehicles->where('customer_id', $request->customer_id);
+        }
 
-    //     // Apply date range filter
-    //     if ($request->filled('from_date') && $request->filled('to_date')) {
-    //         $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
-    //     }
+        // Apply date range filter
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
+        }
 
-    //     // Paginate the results to get 10 per page
-    //     $vehicles = $vehicles->paginate(10);
+        // Paginate the results to get 10 per page
+        $vehicles = $vehicles->paginate(10);
 
-    //     // Fetch customers for the filter dropdown
-    //     $customers = Customer::all();
+        // Fetch customers for the filter dropdown
+        $customers = Customer::all();
 
-    //     return view('vehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
-    // }
+        return view('vehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
+    }
 
 //     public function index(Request $request)
 //     {
@@ -101,34 +101,35 @@ class VehicleController extends Controller
 
 // }
 
-public function index(Request $request)
-{
-    ini_set('memory_limit', '512M'); // Increase memory to 256 MB
-    $query = Vehicle::query();
+// public function index(Request $request)
+// {
+//     ini_set('memory_limit', '1024M'); // Increase to 1GB
 
-    // Filter by start date if provided
-    if ($request->has('start_date')) {
-        $query->where('created_at', '>=', $request->input('start_date'));
-    }
+//     $query = Vehicle::query();
 
-    // Filter by end date if provided
-    if ($request->has('end_date')) {
-        $query->where('created_at', '<=', $request->input('end_date'));
-    }
+//     // Filter by start date if provided
+//     if ($request->has('start_date')) {
+//         $query->where('created_at', '>=', $request->input('start_date'));
+//     }
 
-    // Get all vehicles with the applied filters
-    $vehicles = $query->paginate(10000);
+//     // Filter by end date if provided
+//     if ($request->has('end_date')) {
+//         $query->where('created_at', '<=', $request->input('end_date'));
+//     }
 
-    // Retrieve all customers for the "Add Vehicle" modal
-    $customers = Customer::all();
+//     // Get all vehicles with the applied filters
+//     $vehicles = $query->paginate(10000);
 
-    // Count the number of customers and vehicles for the operation summary
-    $CustomersCount = Customer::count();
-    $VehiclesCount = Vehicle::count();
+//     // Retrieve all customers for the "Add Vehicle" modal
+//     $customers = Customer::all();
 
-    // Pass the data to the view
-    return view('vehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
-}
+//     // Count the number of customers and vehicles for the operation summary
+//     $CustomersCount = Customer::count();
+//     $VehiclesCount = Vehicle::count();
+
+//     // Pass the data to the view
+//     return view('vehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
+// }
 
     // Show the form for creating a new vehicle
     public function create()
