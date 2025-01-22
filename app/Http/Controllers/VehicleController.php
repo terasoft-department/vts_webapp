@@ -17,7 +17,7 @@ class VehicleController extends Controller
         // Get count of customers and vehicles
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
-
+//finish
         // Store search parameters in session for easy access
         session([
             'search' => $request->search,
