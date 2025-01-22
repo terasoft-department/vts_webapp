@@ -117,7 +117,7 @@ public function index(Request $request)
     }
 
     // Get all vehicles with the applied filters
-    $vehicles = $query->paginate(10);
+    $vehicles = $query->paginate(10000);
 
     // Retrieve all customers for the "Add Vehicle" modal
     $customers = Customer::all();
