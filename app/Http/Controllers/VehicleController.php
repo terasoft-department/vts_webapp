@@ -21,7 +21,7 @@ class VehicleController extends Controller
             $query->whereDate('created_at', '<=', $request->end_date);
         }
 
-        $vehicles = $query->with('customer')->get();
+        $vehicles = $query->with('customer')->pagination();
         $customers = Customer::all();
 
         return view('vehicles.index', [
