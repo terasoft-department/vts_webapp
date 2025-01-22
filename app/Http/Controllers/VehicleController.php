@@ -28,7 +28,7 @@ class VehicleController extends Controller
         }
 
         // Paginate the results to avoid loading all records into memory
-        $vehicles = $query->with('customer')->paginate(10); // 10 items per page
+        $vehicles = $query->with('customer')->paginate(10000); // 10 items per page
 
         // Fetch all customers and counts (if needed separately)
         $customers = Customer::all();
