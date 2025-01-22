@@ -26,6 +26,8 @@ class MCustomerController extends Controller
         $query = $request->input('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
+                            ->orWhere('address', 'like', "%{$query}%")
+                            ->orWhere('start_date', 'like', "%{$query}%")
                              ->paginate(10000);
 
         return response()->json(['Mcustomers' => $customers]);

@@ -108,87 +108,144 @@
 </aside><!-- End Sidebar -->
 <!-- Main Content -->
 <main id="main" class="main">
-    <div class="main-content">
-        <div class="container">
-            <h5>Customer Management</h5>
+    <div class="container mt-4">
         <!-- Operation Summary Card -->
-        <div class="row mb-4">
-            <div class="col-md-3 mb-2">
-                <div class="card text-center border-primary shadow-sm">
-                    <div class="card-header text-dark bg-light">
-                        Operation Summary
+        <div class="row mb-3">
+            <div class="col-12">
+                {{-- <div class="card border-primary shadow-sm"> --}}
+
+                    <div class="card text-center border-primary shadow-sm" style="max-width: 18rem; margin: auto;">
+                        <div class="card-header text-dark bg-light" id="alignment-header">
+                            Operation Summary
+                        </div>
+                        <div class="card-body bg-white text-center" id="alignment-body" style="padding: 0.5rem;">
+                            <p class="card-text mb-2" style="font-size: 0.9rem;">
+                                Customers: <strong>{{ $CustomersCount ?? 0 }}</strong>
+                            </p>
+                            <p class="card-text" style="font-size: 0.9rem;">
+                                Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </div>
-                    <div class="card-body bg-white">
-                        <p class="card-text">Customers: <strong>{{ $CustomersCount ?? 0 }}</strong></p>
-                        <p class="card-text">Vehicles: <strong>{{ $VehiclesCount ?? 0 }}</strong></p>
-                    </div>
-                </div>
+
+                {{-- </div> --}}
             </div>
         </div>
+    </div>
 
+        <!-- Customer Management Section -->
+        <h4 class="text-center mt-3">Customer Management</h4>
 
         <!-- Error Handling -->
         @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div class="alert alert-danger mt-3">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
 
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Filter Customers</h5>
+        {{-- <!-- Search Bar, Filter, and Add Button -->
+        <div class="row mb-3">
+            <!-- Search Input and Button -->
+            <div class="col-12 d-flex flex-column flex-md-row gap-2">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search customers by name or phone">
+                <button class="btn btn-primary w-100 w-md-auto" onclick="searchCustomer()">
+                    <i class="bi bi-search"></i> Search
+                </button>
             </div>
-            <div class="card-body">
-                <!-- Filter Form -->
-                <form action="{{ route('Admincustomers.index') }}" method="GET" class="form-inline d-flex align-items-center mb-4">
-                    <div class="row w-100">
-                        <!-- Start Date -->
-                        <div class="col-md-3 mb-2">
-                            <input type="date" name="start_date" class="form-control" placeholder="Start Date" value="{{ request()->query('start_date') }}">
+        </div> --}}
+
+        {{-- <!-- Date Filter -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <form method="GET" action="{{ route('customers.index') }}">
+                    <div class="row g-3">
+                        <!-- From Date -->
+                        <div class="col-6 col-md-4">
+                            <label for="from_date" class="form-label">From</label>
+                            <input type="date" id="from_date" name="from_date" class="form-control" value="{{ request('from_date') }}">
                         </div>
 
-                        <!-- End Date -->
-                        <div class="col-md-3 mb-2">
-                            <input type="date" name="end_date" class="form-control" placeholder="End Date" value="{{ request()->query('end_date') }}">
+                        <!-- To Date -->
+                        <div class="col-6 col-md-4">
+                            <label for="to_date" class="form-label">To</label>
+                            <input type="date" id="to_date" name="to_date" class="form-control" value="{{ request('to_date') }}">
                         </div>
 
                         <!-- Filter Button -->
-                        <div class="col-md-2 mb-2">
+                        <div class="col-12 col-md-4 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-filter"></i> Filter
+                                Filter
                             </button>
-                        </div>
-
-                        <!-- Clear Button -->
-                        <div class="col-md-2 mb-2">
-                            <a href="{{ route('Admincustomers.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-3">
-                                <i class="fas fa-times mr-2"></i><span> Clear </span>
-                            </a>
                         </div>
                     </div>
                 </form>
             </div>
+        </div> --}}
+        <div class="card shadow-sm">
+            <div class="card-header bg- text-white text-center">
+                <h5 class="card-title mb-0">Filter Customers</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('Admincustomers.index') }}" method="GET" class="form-inline d-flex flex-wrap justify-content-between align-items-center">
+                    <!-- Start Date -->
+                    <div class="form-group mb-2 flex-grow-1 mx-2">
+                        <label for="start_date" class="sr-only">Start Date</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control rounded-pill w-100" placeholder="Date From" value="{{ request()->query('start_date') }}">
+                    </div>
+
+                    <!-- End Date -->
+                    <div class="form-group mb-2 flex-grow-1 mx-2">
+                        <label for="end_date" class="sr-only">End Date</label>
+                        <input type="date" name="end_date" id="end_date" class="form-control rounded-pill w-100" placeholder="Date To" value="{{ request()->query('end_date') }}">
+                    </div>
+
+                    <!-- Filter Button -->
+                    <div class="form-group mb-2 mx-2">
+                        <button type="submit" class="btn btn-light d-flex align-items-center px-4 py-2">
+                            <i class="fas fa-filter mr-2"></i>
+                            <span>Filter</span>
+                        </button>
+                    </div>
+
+                    <!-- Clear Button -->
+                    <div class="form-group mb-2 mx-2">
+                        <a href="{{ route('Admincustomers.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-4 py-2">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Clear</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
+        <!-- Add Customer Button -->
+        {{-- <div class="row-5 text-end">
+            <div class="col-5 text-end">
+                <button class="btn btn-primary w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                    <i class="bi bi-plus-circle"></i> Add Customer
+                </button>
+            </div>
+        </div> --}}
+    </div>
 
 
+<br><br>
         <!-- Customer Table -->
-  <!-- Conditional Check: Only Show Table if Filters are Applied -->
-  @if(request()->has('start_date') || request()->has('end_date') || request()->has('search'))
-
         <div class="table-responsive">
             <table id="customers" class="table table-bordered table-striped">
                 <thead>
+                    NB: search by name,address,phone,start date
+                    <br><br>
                     <tr>
                         <th>S/No</th>
                         <th>Name</th>
                         <th>Address</th>
                         <th>Phone</th>
                         <th>Start Date</th>
-                        {{-- <th>Actions</th> --}}
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="customerTableBody">
@@ -199,12 +256,28 @@
                         <td>{{ $customer->address }}</td>
                         <td>{{ $customer->customer_phone }}</td>
                         <td>{{ $customer->start_date }}</td>
-                        {{-- <td>
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
+                        <td>
+                            <button class="btn btn-sm btn-" data-bs-toggle="modal" data-bs-target="#editCustomerModal-{{ $customer->customer_id }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                        </td> --}}
+                        </td>
                     </tr>
+
+                    {{-- @if($customers->isNotEmpty())
+                    <!-- Display users table -->
+                @endif --}}
+{{--
+                @if($vehicles->isNotEmpty())
+                    <!-- Display vehicles table -->
+                @endif --}}
+
+                {{-- @if($InvoicePayment->isNotEmpty())
+                    <!-- Display InvoicePayment table -->
+                @endif --}}
+
+                {{-- <div class="d-flex justify-content-center">
+                    {{ $customers->appends(request()->except('page'))->links() }}
+                </div> --}}
 
                     <!-- Edit Customer Modal -->
                     <div class="modal fade" id="editCustomerModal-{{ $customer->customer_id }}" tabindex="-1" aria-labelledby="editCustomerLabel-{{ $customer->customer_id }}" aria-hidden="true">
@@ -230,10 +303,10 @@
                                             <label for="customer_phone">Phone</label>
                                             <input type="text" name="customer_phone" class="form-control" value="{{ $customer->customer_phone }}" required>
                                         </div>
-                                        <div class="form-group mb-3">
+                                        {{-- <div class="form-group mb-3">
                                             <label for="email">Email</label>
                                             <input type="email" name="email" class="form-control" value="{{ $customer->email ?? '' }}" required>
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group mb-3">
                                             <label for="start_date">Start Date</label>
                                             <input type="date" name="start_date" class="form-control" value="{{ $customer->start_date }}" required>
@@ -250,35 +323,97 @@
                     @endforeach
                 </tbody>
             </table>
-
-
-        <!-- Pagination Links -->
-        <div class="d-flex justify-content-center">
-            {{ $customers->links() }}
         </div>
-        @else
-        <div class="text-center">
-            <p class="alert alert-info">Please apply filters to view the customers.</p>
+
+        <!-- Add Customer Modal -->
+        <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCustomerLabel">Add Customer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('Admincustomers.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+                                <label for="customername">Customer Name</label>
+                                <input type="text" name="customername" class="form-control" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="address">Address</label>
+                                <input type="text" name="address" class="form-control" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="customer_phone">Phone</label>
+                                <input type="text" name="customer_phone" class="form-control" required>
+                            </div>
+                            {{-- <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div> --}}
+                            <div class="form-group mb-3">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add Customer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    @endif
     </div>
 </main>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+<!-- Include jQuery and DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/vfs_fonts.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-</main>
+<!-- Initialize DataTables -->
+<script>
+    $(document).ready(function () {
+        $('#customers').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            paging: true,
+            searching: true,
+            order: [[0, 'asc']], // Order by the first column (S/No)
+            columnDefs: [
+                { orderable: false, targets: 5 } // Disable ordering on the Actions column
+            ]
+        });
+    });
+</script>
+
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a> --}}
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+
 </body>
 </html>
-

@@ -67,7 +67,9 @@
                 <label for="to_date">To Date:</label>
                 <input type="date" class="form-control" name="to_date" required>
             </div>
+            <br><br>
             <button type="submit" class="btn btn-primary">Search</button>
+            <br>
             <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
         </form>
     </div>

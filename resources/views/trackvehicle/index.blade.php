@@ -142,7 +142,7 @@
                 </table>
             </div>
 
-            <div class="chart-container">
+            {{-- <div class="chart-container">
                 <!-- Pie Chart for RBT Status -->
                 <canvas id="rbtStatusChart"></canvas>
 
@@ -151,7 +151,7 @@
 
                 <!-- Bar Chart for Vehicles, Customers, Incidents -->
                 <canvas id="countsChart"></canvas>
-            </div>
+            </div> --}}
         @endif
     </div>
 

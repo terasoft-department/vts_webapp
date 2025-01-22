@@ -14,8 +14,11 @@ class Customer extends Model
     // Pass the $customers data to the view
     return view('invoice_payments.index', compact('customers'));
 }
-
-
+public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+   
     // Set the primary key
     protected $table = 'customers'; // Specify the table name if it's different
     protected $primaryKey = 'customer_id'; // Specify the primary key if it's different

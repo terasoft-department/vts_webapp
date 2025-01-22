@@ -13,6 +13,19 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
     {
+
+        $query = Customer::query();
+
+        if ($request->has('from_date') && $request->filled('from_date')) {
+            $query->whereDate('start_date','created_at','updated_at','>=', $request->input('from_date'));
+        }
+
+        if ($request->has('to_date') && $request->filled('to_date')) {
+            $query->whereDate('start_date','created_at','updated_at', '<=', $request->input('to_date'));
+        }
+
+        $customers = $query->paginate(10000);
+
         // Get search term from request
         $search = $request->get('search');
 
@@ -22,11 +35,12 @@ class CustomerController extends Controller
             // Apply search filter on 'case_reported', 'location', and 'customer_phone'
             $query->where('customername', 'like', "%{$search}%")
                   ->orWhere('customer_phone', 'like', "%{$search}%")
-                  ->orWhere('address', 'like', "%{$search}%");
+                  ->orWhere('address', 'like', "%{$search}%")
+                  ->orWhere('start_date', 'like', "%{$search}%");
         });
 
             // ->paginate($request->input('page_size', 10000)); // Default to 10,000 per page
-            $pageSize = $request->input('page_size', 10);
+            $pageSize = $request->input('page_size', 10000);
         // Count related data for stats
           // Fetch paginated results
         //   $customers = $customers->paginate($pageSize);
@@ -46,6 +60,7 @@ class CustomerController extends Controller
 
         $customers = Customer::where('customername', 'like', "%{$query}%")
                              ->orWhere('customer_phone', 'like', "%{$query}%")
+                             ->orWhere('start_date', 'like', "%{$query}%")
                              ->paginate(10); // Optional: Adjust pagination limit as needed
 
         return response()->json(['customers' => $customers]);
@@ -75,7 +90,7 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'customername' => 'required|string|max:255',
+        'customername' => 'required|string|max:255',
         'address' => 'required|string|max:500',
         'customer_phone' => 'required|string|max:15',
         'tin_number' => 'nullable|string|max:20',
@@ -92,6 +107,7 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors('Failed to update customer.')->withInput();
         }
     }
+
     public function show($id)
     {
         try {

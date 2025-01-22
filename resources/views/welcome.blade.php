@@ -325,7 +325,12 @@ function showSlides() {
                 <p>Give us a call 255 22 2701612,+255713899309.</p>
               </div>
 
-            <p  style="margin-top:90px;font-size:15px"><a href="https://www.tanzapages.com/company/15563/Tera_Technologies_and_Engineering_Limited">Click to view location here</a><p>
+            {{-- <p  style="margin-top:90px;font-size:15px"><a href="https://www.tanzapages.com/company/15563/Tera_Technologies_and_Engineering_Limited">Click to view location here</a><p>--}}
+              <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d39.212183!3d-6.701036!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c51d6a41cd1c5%3A0x947c008fbb9d80fd!2sTera%20Technologies%20and%20Engineering%20Ltd%20HQ%2C%20Dar%20es%20Salaam!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus"
+              frameborder="0" style="border:0; width: 100%; height: 270px;" allowfullscreen=""
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
             </div>
 
           </div>
@@ -388,7 +393,7 @@ function showSlides() {
         <div class="row">
 
           <div class=" col-md-4 footer-contact">
-            <h3>Teratech</h3>
+            <h4>Teratech</h4>
             <p>
              Mbezi beach Africana<br> Plot No. 2283, Block H Tarangire Street,<br> Africana Drive, P.O. Box 31257, Dar es Salaam, Tanzania.<br>
             </p>

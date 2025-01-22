@@ -262,37 +262,67 @@
                 </div>
             @endif
 
-            <form method="GET" action="{{ route('daily_weekly_reports.index') }}" class="mb-3">
-                <div class="d-flex gap-2">
-                    <input
-                        type="date"
-                        id="date_from"
-                        name="date_from"
-                        class="form-control"
-                        placeholder="From"
-                        value="{{ old('date_from', $date_from ?? '') }}"
-                        aria-label="From Date"
-                    >
-                    <input
-                        type="date"
-                        id="date_to"
-                        name="date_to"
-                        class="form-control"
-                        placeholder="To"
-                        value="{{ old('date_to', $date_to ?? '') }}"
-                        aria-label="To Date"
-                    >
-                    <button type="submit" class="btn btn-primary">Filter</button>
+            <div class="card shadow-sm">
+                <div class="card-header bg- text-white text-center">
+                    <h5 class="card-title mb-0">Filter Reports</h5>
                 </div>
-            </form>
+                <div class="card-body">
+                    <form method="GET" action="{{ route('daily_weekly_reports.index') }}" class="form-inline d-flex flex-wrap justify-content-between align-items-center">
+                        <!-- Start Date -->
+                        <div class="form-group mb-2 flex-grow-1 mx-2">
+                            <label for="date_from" class="sr-only">From Date</label>
+                            <input
+                                type="date"
+                                id="date_from"
+                                name="date_from"
+                                class="form-control rounded-pill w-100"
+                                placeholder="From"
+                                value="{{ request('date_from') }}"
+                                aria-label="From Date"
+                            >
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="form-group mb-2 flex-grow-1 mx-2">
+                            <label for="date_to" class="sr-only">To Date</label>
+                            <input
+                                type="date"
+                                id="date_to"
+                                name="date_to"
+                                class="form-control rounded-pill w-100"
+                                placeholder="To"
+                                value="{{ request('date_to') }}"
+                                aria-label="To Date"
+                            >
+                        </div>
+
+                        <!-- Filter Button -->
+                        <div class="form-group mb-2 mx-2">
+                            <button type="submit" class="btn btn-light d-flex align-items-center px-4 py-2">
+                                <i class="fas fa-filter mr-2"></i>
+                                <span>Filter</span>
+                            </button>
+                        </div>
+
+                        <!-- Clear Button -->
+                        <div class="form-group mb-2 mx-2">
+                            <a href="{{ route('daily_weekly_reports.index') }}" class="btn btn-outline-secondary d-flex align-items-center px-4 py-2">
+                                <i class="fas fa-times mr-2"></i>
+                                <span>Clear</span>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
 
+{{--
             <!-- Create Report Button -->
             <div class="btn-group">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#createReportModal">
                     <i class="fas fa-plus-circle"></i> Create
                 </button>
-            </div>
+            </div> --}}
 
             <br>
             <br>

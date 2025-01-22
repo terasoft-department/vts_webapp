@@ -347,17 +347,8 @@
                             <i class="bi bi-pencil"></i>
                             Edit
                         </button>
-                        {{-- <form action="{{ route('devices.destroy', $device->device_id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-">
-                                <i class="bi bi-box-arrow-up"></i> <!-- Change the icon here to represent dispatch -->
-                                Dispatch
-                            </button>
-                        </form> --}}
                     </td>
                 </tr>
-
 
                 <!-- Edit Device Modal -->
                 <div class="modal fade" id="editDeviceModal-{{ $device->device_id }}" tabindex="-1" aria-labelledby="editDeviceLabel" aria-hidden="true">
@@ -397,6 +388,11 @@
             </tbody>
         </table>
 
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center mt-3">
+            {{ $devices->links() }}
+        </div>
+
         <!-- Add Device Modal -->
         <div class="modal fade" id="addDeviceModal" tabindex="-1" aria-labelledby="addDeviceLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -431,6 +427,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- JavaScript for Bar Chart -->
 <script>
