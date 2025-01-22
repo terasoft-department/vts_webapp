@@ -11,6 +11,7 @@ class MonitoringVehicleController extends Controller
      // Display a listing of the vehicles with search and filters
     public function index(Request $request)
     {
+        ini_set('memory_limit', '1024M'); // Increase to 1GB
         // Define base query with eager loading of related 'customer'
         $vehicles = Vehicle::with('customer');
         $CustomersCount = Customer::count();
@@ -47,7 +48,7 @@ class MonitoringVehicleController extends Controller
         // Fetch customers for the filter dropdown
         $customers = Customer::all();
 
-        return view('vehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
+        return view('mcvehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
     }
 
 //     public function index(Request $request)
@@ -147,7 +148,7 @@ class MonitoringVehicleController extends Controller
         //     'customer_id' => 'required|exists:customers,customer_id',
         //     'plate_number' => 'required|string',
         // ]);
-
+        ini_set('memory_limit', '1024M'); // Increase to 1GB
         Vehicle::create($request->all());
 
         return redirect()->route('mcvehicles.index')->with('success', 'Vehicle created successfully.');
