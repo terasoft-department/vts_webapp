@@ -41,8 +41,8 @@ class MonitoringVehicleController extends Controller
             $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
         }
 
-        // Paginate the results to get 10 per page
-        $vehicles = $vehicles->paginate(10000);
+        // // Paginate the results to get 10 per page
+        // $vehicles = $vehicles->paginate(10000);
 
         // Fetch customers for the filter dropdown
         $customers = Customer::all();
