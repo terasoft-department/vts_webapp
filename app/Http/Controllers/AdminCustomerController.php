@@ -12,62 +12,27 @@ class AdminCustomerController extends Controller
 {
 
 
-    public function index(Request $request)
+    public function index()
     {
-        // Initialize the base query for customers
-        $query = Customer::query();
-
-        // Filter by start date if provided
-        if ($request->filled('from_date')) {
-            $query->whereDate('created_at', '>=', $request->input('from_date'));
-        }
-
-        // Filter by end date if provided
-        if ($request->filled('to_date')) {
-            $query->whereDate('created_at', '<=', $request->input('to_date'));
-        }
-
-        // Apply search filter
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($query) use ($search) {
-                $query->where('customername', 'like', "%{$search}%")
-                    ->orWhere('customer_phone', 'like', "%{$search}%")
-                    ->orWhere('address', 'like', "%{$search}%")
-                    ->orWhere('start_date', 'like', "%{$search}%");
-            });
-        }
-
-        // Pagination
-        $pageSize = $request->input('page_size', 10);
-        $customers = $query->paginate($pageSize);
-
-        // Counts for related data
+        // Fetch customers with pagination (e.g., 10 customers per page)
+        ini_set('memory_limit', '2048M'); // Increase to 2GB
+        $customers = Customer::all();
+        $customers = Customer::paginate(10000);
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
 
-        // Retrieve related data for dropdowns or summaries
-        $users = User::all();
-        $vehicles = Vehicle::all();
-        $InvoicePayment = InvoicePayment::all();
-
-        // Pass the data to the view
-        return view('customers.index', compact(
-            'customers',
-            'CustomersCount',
-            'VehiclesCount',
-            'users',
-            'vehicles',
-            'InvoicePayment'
-        ));
+        return view('Admincustomers.index', compact('customers', 'CustomersCount', 'VehiclesCount'));
     }
 
     public function search(Request $request)
     {
-        $query = $request->get('query');
+        $customers = Customer::all();
+        $query = $request->input('query');
         $customers = Customer::where('customername', 'like', '%' . $query . '%')
                             ->orWhere('customer_phone', 'like', '%' . $query . '%')
-                            ->paginate(10);
+                            ->orWhere('address', 'like', "%{$query}%")
+                            ->orWhere('start_date', 'like', "%{$query}%")
+                             ->paginate(10000);
 
         return response()->json(['Admincustomers' => $customers]);
     }
@@ -84,6 +49,7 @@ class AdminCustomerController extends Controller
         $customer->update($request->all());
         return redirect()->route('Admincustomers.index')->with('success', 'Customer updated successfully.');
     }
+
 
     public function destroy($id)
     {

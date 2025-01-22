@@ -8,13 +8,17 @@ use Illuminate\Http\Request;
 
 class AccountantVehicleController extends Controller
 {// Display a listing of the vehicles with search and filters
+
     public function index(Request $request)
     {
-        // Define base query with eager loading of related 'customer'
+        // Initialize the base query with eager loading for related 'customer' data
         $vehicles = Vehicle::with('customer');
+
+        // Get count of customers and vehicles
         $CustomersCount = Customer::count();
         $VehiclesCount = Vehicle::count();
-        // Store search parameters in session
+
+        // Store search parameters in session for easy access
         session([
             'search' => $request->search,
             'customer_id' => $request->customer_id,
@@ -22,51 +26,46 @@ class AccountantVehicleController extends Controller
             'to_date' => $request->to_date
         ]);
 
-        // Apply search filter
+        // Apply search filters
         if ($request->filled('search')) {
-            $vehicles = $vehicles->where(function ($query) use ($request) {
+            $vehicles->where(function ($query) use ($request) {
                 $query->where('vehicle_name', 'like', '%' . $request->search . '%')
                     ->orWhere('plate_number', 'like', '%' . $request->search . '%');
             });
         }
 
-        // Apply customer filter
+        // Filter by customer ID
         if ($request->filled('customer_id')) {
-            $vehicles = $vehicles->where('customer_id', $request->customer_id);
+            $vehicles->where('customer_id', $request->customer_id);
         }
 
         // Apply date range filter
         if ($request->filled('from_date') && $request->filled('to_date')) {
-            $vehicles = $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
+            $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
         }
 
-        // Paginate the results to get 10 per page
-        $vehicles = $vehicles->paginate(10);
+        // Paginate or fetch all records based on the request
+        $vehicles = $request->input('show_all')
+            ? $vehicles->get()
+            : $vehicles->paginate($request->input('page_size', 10000)); // Default to 10 per page
 
         // Fetch customers for the filter dropdown
         $customers = Customer::all();
 
-        return view('acvehicles.index', compact('vehicles', 'customers','CustomersCount','VehiclesCount'));
+        return view('acvehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
     }
 
     // Show the form for creating a new vehicle
     public function create()
     {
         $customers = Customer::all();
-
         return view('acvehicles.create', compact('customers'));
     }
 
     // Store a newly created vehicle in the database
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'vehicle_name' => 'required|string',
-        //     'category' => 'required|string',
-        //     'customer_id' => 'required|exists:customers,customer_id',
-        //     'plate_number' => 'required|string',
-        // ]);
-
+        // Create the vehicle
         Vehicle::create($request->all());
 
         return redirect()->route('acvehicles.index')->with('success', 'Vehicle created successfully.');
@@ -85,22 +84,15 @@ class AccountantVehicleController extends Controller
         return view('acvehicles.edit', compact('vehicle', 'customers'));
     }
 
-    // Update the specified vehicle
+    // Update the specified vehicle in the database
     public function update(Request $request, Vehicle $vehicle)
     {
-        // $request->validate([
-        //     'vehicle_name' => 'required|string',
-        //     'category' => 'required|string',
-        //     'customer_id' => 'required|exists:customers,customer_id',
-        //     'plate_number' => 'required|string',
-        // ]);
-
         $vehicle->update($request->all());
 
         return redirect()->route('acvehicles.index')->with('success', 'Vehicle updated successfully.');
     }
 
-    // Remove the specified vehicle
+    // Remove the specified vehicle from the database
     public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();

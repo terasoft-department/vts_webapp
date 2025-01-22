@@ -8,70 +8,64 @@ use Illuminate\Http\Request;
 
 class AdminVehicleController extends Controller
 {
-    // Display a listing of the vehicles with search and filters
+
     public function index(Request $request)
-{
-    // Initialize query for vehicles
-    $query = Vehicle::query();
+    {
+        // Initialize the base query with eager loading for related 'customer' data
+        $vehicles = Vehicle::with('customer');
 
-    // Apply date filters if provided
-    if ($request->filled('start_date') && $request->filled('end_date')) {
-        // Ensure the dates are formatted properly for the query (optional depending on the input format)
-        $startDate = \Carbon\Carbon::parse($request->start_date)->startOfDay();
-        $endDate = \Carbon\Carbon::parse($request->end_date)->endOfDay();
+        // Get count of customers and vehicles
+        $CustomersCount = Customer::count();
+        $VehiclesCount = Vehicle::count();
 
-        // Apply the date range filter to the query
-        $query->whereBetween('created_at', [$startDate, $endDate]);
+        // Store search parameters in session for easy access
+        session([
+            'search' => $request->search,
+            'customer_id' => $request->customer_id,
+            'from_date' => $request->from_date,
+            'to_date' => $request->to_date
+        ]);
+
+        // Apply search filters
+        if ($request->filled('search')) {
+            $vehicles->where(function ($query) use ($request) {
+                $query->where('vehicle_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('plate_number', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Filter by customer ID
+        if ($request->filled('customer_id')) {
+            $vehicles->where('customer_id', $request->customer_id);
+        }
+
+        // Apply date range filter
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $vehicles->whereBetween('created_at', [$request->from_date, $request->to_date]);
+        }
+
+        // Paginate or fetch all records based on the request
+        $vehicles = $request->input('show_all')
+            ? $vehicles->get()
+            : $vehicles->paginate($request->input('page_size', 10000)); // Default to 10 per page
+
+        // Fetch customers for the filter dropdown
+        $customers = Customer::all();
+
+        return view('advehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
     }
-
-    // Get filtered vehicles with pagination
-    $vehicles = $query->paginate(10000);
-
-    // Get the count of customers and vehicles
-    $CustomersCount = Customer::count();
-    $VehiclesCount = Vehicle::count();
-
-    // Get all customers for the dropdown in the filter modal
-    $customers = Customer::all();
-    // Query to fetch customers
-$query = Customer::query();
-
-// // Filter by start date
-// if ($request->has('start_date') && $request->start_date) {
-//     $query->where('start_date', '>=', $request->start_date);
-// }
-
-// Filter by end date
-if ($request->has('end_date') && $request->end_date) {
-    $query->where('start_date', '<=', $request->end_date);
-}
-
-// Paginate results
-$customers = $query->orderBy('start_date', 'asc')->paginate(10000);
-
-
-    return view('advehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
-}
-
 
     // Show the form for creating a new vehicle
     public function create()
     {
         $customers = Customer::all();
-
         return view('advehicles.create', compact('customers'));
     }
 
     // Store a newly created vehicle in the database
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'vehicle_name' => 'required|string',
-        //     'category' => 'required|string',
-        //     'customer_id' => 'required|exists:customers,customer_id',
-        //     'plate_number' => 'required|string',
-        // ]);
-
+        // Create the vehicle
         Vehicle::create($request->all());
 
         return redirect()->route('advehicles.index')->with('success', 'Vehicle created successfully.');
@@ -90,22 +84,15 @@ $customers = $query->orderBy('start_date', 'asc')->paginate(10000);
         return view('advehicles.edit', compact('vehicle', 'customers'));
     }
 
-    // Update the specified vehicle
+    // Update the specified vehicle in the database
     public function update(Request $request, Vehicle $vehicle)
     {
-        // $request->validate([
-        //     'vehicle_name' => 'required|string',
-        //     'category' => 'required|string',
-        //     'customer_id' => 'required|exists:customers,customer_id',
-        //     'plate_number' => 'required|string',
-        // ]);
-
         $vehicle->update($request->all());
 
         return redirect()->route('advehicles.index')->with('success', 'Vehicle updated successfully.');
     }
 
-    // Remove the specified vehicle
+    // Remove the specified vehicle from the database
     public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();
