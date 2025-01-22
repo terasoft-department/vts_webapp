@@ -10,172 +10,66 @@ class MonitoringVehicleController extends Controller
 {
      // Display a listing of the vehicles with search and filters
      public function index(Request $request)
-     {
-         ini_set('memory_limit', '2048M'); // Increase to 2GB
 
-         $query = Vehicle::query();
+        {
+            $query = Vehicle::query();
 
-         // Filter by start date if provided
-         if ($request->has('start_date')) {
-             $query->where('created_at', '>=', $request->input('start_date'));
-         }
+            if ($request->has('start_date') && $request->start_date) {
+                $query->whereDate('created_at', '>=', $request->start_date);
+            }
 
-         // Filter by end date if provided
-         if ($request->has('end_date')) {
-             $query->where('created_at', '<=', $request->input('end_date'));
-         }
+            if ($request->has('end_date') && $request->end_date) {
+                $query->whereDate('created_at', '<=', $request->end_date);
+            }
 
-         // Get all vehicles with the applied filters
-         $vehicles = $query->paginate(10000);
+            $vehicles = $query->with('customer')->get();
+            $customers = Customer::all();
 
-         // Retrieve all customers for the "Add Vehicle" modal
-         $customers = Customer::all();
+            return view('mcvehicles.index', [
+                'vehicles' => $vehicles,
+                'customers' => $customers,
+                'CustomersCount' => Customer::count(),
+                'VehiclesCount' => Vehicle::count(),
+            ]);
+        }
 
-         // Count the number of customers and vehicles for the operation summary
-         $CustomersCount = Customer::count();
-         $VehiclesCount = Vehicle::count();
+        // Store a newly created vehicle in the database
+        public function store(Request $request)
+        {
+            $request->validate([
+                'vehicle_name' => 'required|string|max:255',
+                'category' => 'required|string|max:255',
+                'customer_id' => 'required|exists:customers,id',
+                'plate_number' => 'required|string|unique:vehicles,plate_number|max:10',
+            ]);
 
-         // Pass the data to the view
-         return view('mcvehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
-     }
+            Vehicle::create($request->all());
 
+            return redirect()->route('mcvehicles.index')->with('success', 'Vehicle added successfully!');
+        }
 
-//     public function index(Request $request)
-//     {
-//  // Initialize the base query with eager loading for related 'customer' data
-// $vehicles = Vehicle::with('customer');
+        // Update the specified vehicle in the database
+        public function update(Request $request, $id)
+        {
+            $request->validate([
+                'vehicle_name' => 'required|string|max:255',
+                'category' => 'required|string|max:255',
+                'customer_id' => 'required|exists:customers,id',
+                'plate_number' => 'required|string|max:10|unique:vehicles,plate_number,' . $id,
+            ]);
 
-// // Get counts for customers and vehicles
-// $CustomersCount = Customer::count();
-// $VehiclesCount = Vehicle::count();
+            $vehicle = Vehicle::findOrFail($id);
+            $vehicle->update($request->all());
 
-// // Store search parameters in session for easy access
-// session([
-//     'search' => $request->input('search'),
-//     'customer_id' => $request->input('customer_id'),
-//     'from_date' => $request->input('from_date'),
-//     'to_date' => $request->input('to_date'),
-// ]);
+            return redirect()->route('mcvehicles.index')->with('success', 'Vehicle updated successfully!');
+        }
 
-// // Apply search filters
-// if ($request->filled('search')) {
-//     $vehicles->where(function ($query) use ($request) {
-//         $query->where('vehicle_name', 'like', '%' . $request->input('search') . '%')
-//               ->orWhere('plate_number', 'like', '%' . $request->input('search') . '%');
-//     });
-// }
+        // Remove the specified vehicle from the database
+        public function destroy($id)
+        {
+            $vehicle = Vehicle::findOrFail($id);
+            $vehicle->delete();
 
-// // Filter by customer ID
-// if ($request->filled('customer_id')) {
-//     $vehicles->where('customer_id', $request->input('customer_id'));
-// }
-
-// // Apply date range filter
-// if ($request->filled('from_date') && $request->filled('to_date')) {
-//     $vehicles->whereBetween('created_at', [$request->input('from_date'), $request->input('to_date')]);
-// }
-
-// // Determine page size and "Show All" option
-// if ($request->input('show_all')) {
-//     $vehicles = $vehicles->get(); // Fetch all records without pagination
-// } else {
-//     $pageSize = $request->input('page_size', 10000); // Default to 10 items per page if not specified
-//     $vehicles = $vehicles->paginate($pageSize);
-// }
-
-// // Fetch all customers for the filter dropdown
-// $customers = Customer::all();
-
-
-//  return view('vehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
-
-// }
-
-// public function index(Request $request)
-// {
-//     ini_set('memory_limit', '512M'); // Increase memory to 256 MB
-//     $query = Vehicle::query();
-
-//     // Filter by start date if provided
-//     if ($request->has('start_date')) {
-//         $query->where('created_at', '>=', $request->input('start_date'));
-//     }
-
-//     // Filter by end date if provided
-//     if ($request->has('end_date')) {
-//         $query->where('created_at', '<=', $request->input('end_date'));
-//     }
-
-//     // Get all vehicles with the applied filters
-//     $vehicles = $query->paginate(10000);
-
-//     // Retrieve all customers for the "Add Vehicle" modal
-//     $customers = Customer::all();
-
-//     // Count the number of customers and vehicles for the operation summary
-//     $CustomersCount = Customer::count();
-//     $VehiclesCount = Vehicle::count();
-
-//     // Pass the data to the view
-//     return view('mcvehicles.index', compact('vehicles', 'customers', 'CustomersCount', 'VehiclesCount'));
-// }
-
-
-    // Show the form for creating a new vehicle
-    public function create()
-    {
-        $customers = Customer::all();
-        return view('mcvehicles.create', compact('customers'));
+            return redirect()->route('mcvehicles.index')->with('success', 'Vehicle deleted successfully!');
+        }
     }
-
-    // Store a newly created vehicle in the database
-    public function store(Request $request)
-    {
-        // $request->validate([
-        //     'vehicle_name' => 'required|string',
-        //     'category' => 'required|string',
-        //     'customer_id' => 'required|exists:customers,customer_id',
-        //     'plate_number' => 'required|string',
-        // ]);
-        ini_set('memory_limit', '2048M'); // Increase to 2GB
-        Vehicle::create($request->all());
-
-        return redirect()->route('mcvehicles.index')->with('success', 'Vehicle created successfully.');
-    }
-
-    // Show the details of a single vehicle
-    public function show(Vehicle $vehicle)
-    {
-        return view('mcvehicles.show', compact('vehicle'));
-    }
-
-    // Show the form for editing a vehicle
-    public function edit(Vehicle $vehicle)
-    {
-        $customers = Customer::all();
-        return view('mcvehicles.edit', compact('vehicle', 'customers'));
-    }
-
-    // Update the specified vehicle
-    public function update(Request $request, Vehicle $vehicle)
-    {
-        // $request->validate([
-        //     'vehicle_name' => 'required|string',
-        //     'category' => 'required|string',
-        //     'customer_id' => 'required|exists:customers,customer_id',
-        //     'plate_number' => 'required|string',
-        // ]);
-
-        $vehicle->update($request->all());
-
-        return redirect()->route('mcvehicles.index')->with('success', 'Vehicle updated successfully.');
-    }
-
-    // Remove the specified vehicle
-    public function destroy(Vehicle $vehicle)
-    {
-        $vehicle->delete();
-
-        return redirect()->route('mcvehicles.index')->with('success', 'Vehicle deleted successfully.');
-    }
-}
